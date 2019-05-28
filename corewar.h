@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/28 19:26:41 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/28 22:07:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-//macro for representation of arg type ?
-/*
- * #define T_DIR 0x01
- * #define T_IND 0x02
- * #define T_REG 0x03
- *
- * */
 typedef	unsigned long long t_ull;
 typedef	unsigned long long t_uc;
 
@@ -51,9 +44,9 @@ typedef struct	s_process
 enum	e_argtype
 {
 	// if we want to represent this by 3 bit, change to defined T_DIR/T_IND/T_REG
-	reg;
-	dir;
-	ind;
+	reg = T_REG;
+	dir = T_DIR;
+	ind = T_IND;
 };
 
 typedef struct	s_arg
@@ -66,13 +59,10 @@ typedef struct	s_op
 {
 	char		opcode;
 	int			n_args; //nbr of args
-	int			*args;
+	int			*args; 
 	int			carry; //can modify the carry or not
 	int			wait;
 	int			rstrct; //if %mod should be aplied or not, memory restriction
-
-	//probably need more like "what arg type is allowed"
-	//maybe a nbr to represent (3 bit for types and check by &)
 }				t_op;
 
 typedef struct	s_inst;
