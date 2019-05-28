@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/27 23:26:59 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/28 17:59:56 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	process(t_game *game)
 	{
 		p = (t_process *)(cur->content);
 		if (!p->wait_c)
-			exec_inst(game, champ);
+			prcs_inst(game, champ);
 		else
 			p->wait_c -= 1;
 		cur = cur->next;

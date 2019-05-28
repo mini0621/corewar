@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/28 19:06:45 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/05/28 19:25:09 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/05/28 19:26:29 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int	main(int argc, char **argv)
+void	free_game(t_game *game)
 {
-	t_game	game;
-	int		end;
-
-	if (!init_corewar(&game, argc, argv))
-		return (0);
-	while (!game->end)
-	{
-		process(&game);
-	}
-	//some output in the end of the game
-	output();
-	free_game(&game);
-	return (0);
+	//free all the prcs
+	//free all the champs
 }
