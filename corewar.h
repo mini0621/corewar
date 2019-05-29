@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/28 22:07:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/29 17:56:36 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,30 @@ typedef struct	s_process
 enum	e_argtype
 {
 	// if we want to represent this by 3 bit, change to defined T_DIR/T_IND/T_REG
-	reg = T_REG;
-	dir = T_DIR;
-	ind = T_IND;
+	reg = T_REG,
+	dir = T_DIR,
+	ind = T_IND,
+};
+
+enum	e_opcode
+{
+	err,
+	live,
+	ld,
+	st,
+	add,
+	sub,
+	and,
+	or,
+	xor,
+	zjmp,
+	ldi,
+	sti,
+	fork,
+	lld,
+	lldi,
+	lfork,
+	aff,
 };
 
 typedef struct	s_arg
@@ -57,12 +78,13 @@ typedef struct	s_arg
 
 typedef struct	s_op
 {
-	char		opcode;
+	e_opcode	opcode;
 	int			n_args; //nbr of args
 	int			*args; 
-	int			carry; //can modify the carry or not
 	int			wait;
+	int			ocp;
 	int			rstrct; //if %mod should be aplied or not, memory restriction
+	int			carry; //can modify the carry or not
 }				t_op;
 
 typedef struct	s_inst;
@@ -75,13 +97,12 @@ typedef struct	s_inst;
 
 typedef struct	s_game;
 {
-	int			end;
-	t_champs	champs[MAX_PLAYERS];
-	t_list		*prcs; //cache coherence and use t_list?
+	t_champs	champs[MAX_PLAYERS + 1];
+	t_list		*prcs; //cache coherence and use t_list? young prcs is top
 	t_ull		nbr_cycle;
 	int			nbr_champs;
 	t_ull		cycle;
-	long long	cycle_d;
+	t_ull		cycle_d;
 	t_ull		c_checked;
 	t_ull		cycle_to_die;
 	t_uc		memdump[MEM_SIZE];

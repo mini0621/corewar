@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/28 17:59:56 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/29 17:32:35 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,17 @@
 //cycle_d = cycle_to_die (reset)
 static int	init_cycle()
 {
-	
+	return (1);	
 }
 
-void	process(t_game *game)
+//return 1 if the game is ended (no champ is alive)
+int		process(t_game *game)
 {
 	t_list		*cur;
 	t_process	*p;	
 
-	if (!game->cycle_d && (game->end = init_cycle()))
-		return ;
+	if (!game->cycle_d && init_cycle())
+		return (1);
 	//for every procss which is alive,
 	cur = game->prcs;
 	while (cur)
@@ -45,4 +46,5 @@ void	process(t_game *game)
 	}
 	game->cycle += 1;
 	game->cycle_d -= 1;
+	return (0);
 }

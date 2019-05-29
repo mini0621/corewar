@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/27 22:24:45 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/28 22:23:37 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	read_champs(t_game *game, char **arg)
 {
 	t_champ	*tmp;
 	int		nbr_champs;
+	//set the r0 register as champ id
 }
 
 //read all the options, store champs, init game and read infos

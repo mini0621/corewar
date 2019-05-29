@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/28 19:06:45 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/29 17:31:38 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ int	main(int argc, char **argv)
 
 	if (!init_corewar(&game, argc, argv))
 		return (0);
-	while (!game->end)
-	{
-		process(&game);
-	}
+	end = 0;
+	while (!end)
+		end = process(&game);
 	//some output in the end of the game
-	output();
+	//output();
 	free_game(&game);
 	return (0);
 }
