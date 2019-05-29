@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 21:34:04 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/28 22:10:55 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/29 20:50:53 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@ void	update_caller(t_process *caller, t_op *op)
 
 }
 
+
+
 static void	exec_inst(t_game *game, t_process *caller, t_inst *inst)
 {
 	//read op->opcode and call the right asm_fucntion
+	e_opcode	c;
+	if (!(c = inst->op->opcode))
+		return ;
+	else if (c == live)
+		inst_01(game, caller, inst);
+
 }
 
 //decode, excute, update pc

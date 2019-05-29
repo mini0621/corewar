@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/29 18:04:54 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 00:39:20 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-typedef	unsigned long long t_ull;
-typedef	unsigned long long t_uc;
+typedef	unsigned long long	t_ull;
+typedef	unsigned long long	t_uc;
+typedef	uint8_t				t_reg_type;
+typedef uint16_t			t_ind_type;
+typedef uint32_t			t_dir_type;
+typedef	uint8_t				t_ocp;
+typedef	void (*func)(t_game *, t_process *, t_inst *)	t_inst_func;
 
 typedef struct	s_champ;
 {
@@ -41,63 +46,70 @@ typedef struct	s_process
 	int		carry;
 }				t_process;
 
-enum	e_argtype
+typedef enum	e_argtype
 {
 	// if we want to represent this by 3 bit, change to defined T_DIR/T_IND/T_REG
-	reg = T_REG,
-	dir = T_DIR,
-	ind = T_IND,
-};
+	e_reg = T_REG,
+	e_dir = T_DIR,
+	e_ind = T_IND,
+}				t_argtype;
 
-enum	e_opcode
+typedef union	u_argval
 {
-	err,
-	live,
-	ld,
-	st,
-	add,
-	sub,
-	and,
-	or,
-	xor,
-	zjmp,
-	ldi,
-	sti,
-	fork,
-	lld,
-	lldi,
-	lfork,
-	aff,
-};
+	t_reg_type	reg_val;
+	t_ind_type	ind_val;
+	t_dir_type	dir_val;
+}				t_argval;
+
+typedef enum	e_opcode
+{
+	e_err,
+	e_live,
+	e_ld,
+	e_st,
+	e_add,
+	e_sub,
+	e_and,
+	e_or,
+	e_xor,
+	e_zjmp,
+	e_ldi,
+	e_sti,
+	e_fork,
+	e_lld,
+	e_lldi,
+	e_lfork,
+	e_aff,
+}				t_opcode;
 
 typedef struct	s_arg
 {
-	e_argtype	type;
-	t_ull		value;
+	t_argtype	type;
+	t_argval	value;
 }				t_arg;
 
 typedef struct	s_op
 {
-	e_opcode	opcode;
+	t_opcode	opcode;
 	int			n_args; //nbr of args
 	int			*args; 
 	int			wait;
 	int			ocp;
 	int			rstrct; //if %mod should be aplied or not, memory restriction
 	int			carry; //can modify the carry or not
+	int			dir_bytes;
+	t_inst_func	function;
 }				t_op;
 
 typedef struct	s_inst;
 {
 	t_op	*op;
-	t_arg	arg1;
-	t_arg	arg2;
-	t_arg	arg3;
+	t_arg	*arg[MAX_ARGS_NUMBER];
 }				t_inst;
 
 typedef struct	s_game;
 {
-	t_champs	champs[MAX_PLAYERS + 1];
+	t_champs	champs[MAX_PLAYERS + 1]; // the last ptr is NULL
 	t_list		*prcs; //cache coherence and use t_list? young prcs is top
 	t_ull		nbr_cycle;
 	int			nbr_champs;
