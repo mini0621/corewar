@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 18:51:09 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 23:09:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void	update_caller(t_process *caller, t_op *op);
 /*
  * decode.c
  * */
-int		decode(t_uc *dump, t_uc *pc, t_inst *inst);
+t_uc	*decode(t_uc *dump, t_uc *pc, t_inst *inst);
 
 
 /*
