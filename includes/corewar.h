@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 18:12:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 18:51:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct	s_op
 {
 	t_opcode	opcode;
 	int			n_args; //nbr of args
-	int			*args; 
+	int			args[MAX_ARGS_NUMBER];
 	int			wait;
 	int			ocp;
 	int			rstrct; //if %mod should be aplied or not, memory restriction
@@ -162,4 +162,24 @@ t_op	*get_op(t_inst *inst);
  * lst_util.c
  * */
 void	del_lstprcs(void *cnt, size_t size);
+
+/*
+ * instruction functions
+ * */
+void	inst_live(t_game *game, t_process *caller, t_inst *inst);
+void	inst_ld(t_game *game, t_process *caller, t_inst *inst);
+void	inst_st(t_game *game, t_process *caller, t_inst *inst);
+void	inst_add(t_game *game, t_process *caller, t_inst *inst);
+void	inst_sub(t_game *game, t_process *caller, t_inst *inst);
+void	inst_and(t_game *game, t_process *caller, t_inst *inst);
+void	inst_or(t_game *game, t_process *caller, t_inst *inst);
+void	inst_xor(t_game *game, t_process *caller, t_inst *inst);
+void	inst_zjmp(t_game *game, t_process *caller, t_inst *inst);
+void	inst_ldi(t_game *game, t_process *caller, t_inst *inst);
+void	inst_sti(t_game *game, t_process *caller, t_inst *inst);
+void	inst_fork(t_game *game, t_process *caller, t_inst *inst);
+void	inst_lld(t_game *game, t_process *caller, t_inst *inst);
+void	inst_lldi(t_game *game, t_process *caller, t_inst *inst);
+void	inst_lfork(t_game *game, t_process *caller, t_inst *inst);
+void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
 #endif
