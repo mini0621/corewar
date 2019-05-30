@@ -6,36 +6,31 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 21:34:04 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/29 20:50:53 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 15:12:02 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.c"
+#include "corewar.h"
 
 
 //updating caller pc and wait_c
 void	update_caller(t_process *caller, t_op *op)
 {
-
+	//update caller->pc  and caller->wait_c by reffering op = op_tab[inst->op_index]
 }
-
-
 
 static void	exec_inst(t_game *game, t_process *caller, t_inst *inst)
 {
 	//read op->opcode and call the right asm_fucntion
-	e_opcode	c;
-	if (!(c = inst->op->opcode))
+	t_opcode	c;
+	if (!(c = ((t_op *)(inst->op))->opcode))
 		return ;
-	else if (c == live)
-		inst_01(game, caller, inst);
-
 }
 
 //decode, excute, update pc
 void	prcs_inst(t_game *game, t_process *caller)
 {
-	t_ut	*dump;
+	t_uc	*dump;
 	t_inst	inst;
 
 	dump = game->memdump;
@@ -43,8 +38,6 @@ void	prcs_inst(t_game *game, t_process *caller)
 	//read all the info needed for exec
 	if (!decode(dump, caller->pc, &inst))
 		return ;
-	//exec
 	exec_inst(game, caller, &inst);
-	//update caller->pc  and caller->wait_c by reffering op = op_tab[inst->op_index]
-	update_caller(caller, op_tab[inst->op_index]);	
+	update_caller(caller, (t_op *)(inst.op));	
 }

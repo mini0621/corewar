@@ -1,17 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inst01_live.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 00:48:42 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/05/30 13:42:29 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	inst_01(t_game *game, t_process *caller, t_inst *inst)
+int	main(int argc, char **argv)
 {
+	t_game	game;
+	int		end;
+
+	if (!init_corewar(&game, argc, argv))
+		return (0);
+	end = 0;
+	while (!end)
+		end = process(&game);
+	//some output in the end of the game
+	//output();
+	free_game(&game);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/28 22:23:37 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 14:30:45 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ static char	**get_options(char **av)
 {
 	char	**arg;
 	arg = av + 1;
+
+	return (NULL);
 }
 
 //creates process
-t_process	init_prcs(int id, t_uc *pc)
+t_process	*init_prcs(int id, t_uc *pc)
 {
-
+	return (NULL);
 }
 
 //malloc all the champs and copy the instructions into memdump
@@ -35,6 +37,7 @@ static int	read_champs(t_game *game, char **arg)
 	t_champ	*tmp;
 	int		nbr_champs;
 	//set the r0 register as champ id
+	return (1);
 }
 
 //read all the options, store champs, init game and read infos
@@ -44,8 +47,11 @@ int			init_corewar(t_game *game, int ac, char **av)
 	char	**arg;
 
 	//bzero everything
+	/*
 	if (ac < 2 || !(arg = get_options(av)))
 		return (0);
 	if (!read_champs(game, arg))
 		return (0);
+	*/
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 00:39:20 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 15:52:19 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ typedef	uint8_t				t_reg_type;
 typedef uint16_t			t_ind_type;
 typedef uint32_t			t_dir_type;
 typedef	uint8_t				t_ocp;
-typedef	void (*func)(t_game *, t_process *, t_inst *)	t_inst_func;
 
-typedef struct	s_champ;
+typedef struct	s_champ
 {
 	char	name[PROG_NAME_LENGTH + 1];
 	char	comment[COMMENT_LENGTH + 1];
@@ -88,6 +87,27 @@ typedef struct	s_arg
 	t_argval	value;
 }				t_arg;
 
+typedef struct	s_game
+{
+	t_champ		*champs[MAX_PLAYERS + 1]; // the last ptr is NULL
+	t_list		*prcs; //cache coherence and use t_list? young prcs is top
+	t_ull		nbr_cycle;
+	int			nbr_champs;
+	t_ull		cycle;
+	t_ull		cycle_d;
+	t_ull		c_checked;
+	t_ull		cycle_to_die;
+	t_uc		memdump[MEM_SIZE];
+}				t_game;
+
+typedef struct	s_inst
+{
+	void	*op;
+	t_arg	*arg[MAX_ARGS_NUMBER];
+}				t_inst;
+
+typedef	void (*t_inst_func)(t_game *, t_process *, t_inst *);
+
 typedef struct	s_op
 {
 	t_opcode	opcode;
@@ -101,23 +121,40 @@ typedef struct	s_op
 	t_inst_func	function;
 }				t_op;
 
-typedef struct	s_inst;
-{
-	t_op	*op;
-	t_arg	*arg[MAX_ARGS_NUMBER];
-}				t_inst;
+/*
+ * init_corewar.c
+ * */
+int		init_corewar(t_game *game, int ac, char **av);
 
-typedef struct	s_game;
-{
-	t_champs	champs[MAX_PLAYERS + 1]; // the last ptr is NULL
-	t_list		*prcs; //cache coherence and use t_list? young prcs is top
-	t_ull		nbr_cycle;
-	int			nbr_champs;
-	t_ull		cycle;
-	t_ull		cycle_d;
-	t_ull		c_checked;
-	t_ull		cycle_to_die;
-	t_uc		memdump[MEM_SIZE];
-}				t_game;
+/*
+ * process.c
+ * */
+int		process(t_game *game);
 
+/*
+ * instructions.c
+ * */
+void	prcs_inst(t_game *game, t_process *caller);
+void	update_caller(t_process *caller, t_op *op);
+
+/*
+ * decode.c
+ * */
+int		decode(t_uc *dump, t_uc *pc, t_inst *inst);
+
+
+/*
+ * ocp.c
+ * */
+int		decode_ocp(t_uc *addr, t_inst *inst);
+
+/*
+ * free.c
+ * */
+void	free_game(t_game *game);
+
+/*
+ * lst_util.c
+ * */
+void	del_lstprcs(void *cnt, size_t size);
 #endif

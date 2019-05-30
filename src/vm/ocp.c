@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inst01_live.c                                     :+:      :+:    :+:   */
+/*   ocp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 00:48:36 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/05/30 15:14:58 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-void	inst_01(t_game *game, t_process *caller, t_inst *inst)
+//return (0) for an error
+int		decode_ocp(t_uc *addr, t_inst *inst)
 {
-	
+	t_ocp	ocp;
+	int		i;
+
+	i = MAX_ARGS_NUMBER - 1;
+	ocp = *((t_ocp *)addr);
+	while (i > 0)
+	{
+		//get each args type and check if it is right
+		//and store the type in inst
+	}
+	return (1);
 }

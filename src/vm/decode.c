@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 00:48:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 15:14:47 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //return -1 for error
 static t_op	*decode_op(t_uc *pc)
 {
-	
+	return (NULL);
 }
 
 //store all the args required,
@@ -27,6 +27,7 @@ static int	decode_args(t_ull *dump, t_inst *inst, t_uc *addr)
 {
 	//read according to type and dir_size in op
 	//here probably better to do mem restrictions and mem cycling adjustment
+	return (1);
 }
 
 //decode the inst and store it into t_inst, 
@@ -36,12 +37,12 @@ int			decode(t_uc *dump, t_uc *pc, t_inst *inst)
 	t_uc	*addr;
 
 	addr = pc;
-	if (!(inst->op = decode_opindex(pc)))
+	if (!(inst->op = (void *)decode_op(pc)))
 		return (0);
 	//read for argments
-	if (inst->op->ocp && !decode_ocp(++addr, inst))
+	if (((t_op *)(inst->op))->ocp && !decode_ocp(++addr, inst))
 		return (0);
-	if (!decode_args(inst, ++addr))
+	if (!decode_args(dump, inst, ++addr))
 		return (0);
 	return (1);
 }
