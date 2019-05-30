@@ -6,7 +6,7 @@
 #    By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/05/30 15:51:46 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/05/30 17:22:39 by mnishimo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ INCLUDES = -I includes/  -I libftprintf/includes
 HEADER =  $(addprefix includes/, corewar.h op.h)
 
 VM_SRC = $(addprefix src/vm/, main.c init_corewar.c process.c instructions.c \
-		 decode.c ocp.c free.c lst_util.c) \
+		 decode.c ocp.c free.c lst_util.c util.c) \
 		 #$(addprefix src/vm/instructions/, inst_live.c inst_ld.c inst_.c inst_.c inst_.c inst_.c inst_.c inst_.c inst_.c inst_.c inst_.c inst_.c inst_.c)
 
 VM_OBJ = $(VM_SRC:src/vm/%.c=obj/%.o)

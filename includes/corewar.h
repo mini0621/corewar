@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 15:52:19 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 18:12:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct	s_game
 typedef struct	s_inst
 {
 	void	*op;
-	t_arg	*arg[MAX_ARGS_NUMBER];
+	t_arg	args[MAX_ARGS_NUMBER];
 }				t_inst;
 
 typedef	void (*t_inst_func)(t_game *, t_process *, t_inst *);
@@ -152,6 +152,11 @@ int		decode_ocp(t_uc *addr, t_inst *inst);
  * free.c
  * */
 void	free_game(t_game *game);
+
+/*
+ * util.c
+ * */
+t_op	*get_op(t_inst *inst);
 
 /*
  * lst_util.c

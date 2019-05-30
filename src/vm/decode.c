@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 15:14:47 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/30 18:03:20 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@
 //return -1 for error
 static t_op	*decode_op(t_uc *pc)
 {
-	return (NULL);
+	t_opcode	code;
+
+	if (*pc > 0x0f)
+		return (NULL);
+	code = (t_opcode)(*pc);
+	return (&(g_op_tab[(int)code]));
 }
 
 //store all the args required,
