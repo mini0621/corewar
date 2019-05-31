@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 23:09:09 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/31 23:46:49 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ typedef struct	s_champ
 {
 	char	name[PROG_NAME_LENGTH + 1];
 	char	comment[COMMENT_LENGTH + 1];
-	int		id; // this should be created in init and copied in r0
+	t_dir_type		id; // this should be created in init and copied in r0
 	int		prcs_c;
 	int		live_c;
 }				t_champ;
 
 typedef struct	s_process
 {
-	int		id;
-	int		prcs_id;
-	t_uc	*regs[REG_NUMBER];
-	int		wait_c;
-	int		is_alive;
-	t_uc	*pc;
-	int		carry;
+	int			c_id;
+	int			p_id;
+	t_dir_type	regs[REG_NUMBER];
+	int			wait_c;
+	int			is_alive;
+	t_uc		*pc;
+	int			carry;
 }				t_process;
 
 typedef enum	e_argtype
@@ -55,9 +55,9 @@ typedef enum	e_argtype
 
 typedef union	u_argval
 {
-	t_reg_type	reg_val;
-	t_ind_type	ind_val;
-	t_dir_type	dir_val;
+	t_reg_type	u_reg_val;
+	t_ind_type	u_ind_val;
+	t_dir_type	u_dir_val;
 }				t_argval;
 
 typedef enum	e_opcode
@@ -157,6 +157,14 @@ void	free_game(t_game *game);
  * util.c
  * */
 t_op	*get_op(t_inst *inst);
+
+/*
+ * memory_utils.c
+ * */
+t_uc	*access_ptr(t_uc *dump, t_uc *pc, size_t offset);
+void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size);
+void	write_dump(t_uc *dump, void *src, t_uc *dst, size_t size);
+t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr);
 
 /*
  * lst_util.c

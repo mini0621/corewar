@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 23:08:42 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/05/31 22:53:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,6 @@ static t_op	*decode_op(t_uc *pc)
 	code = (t_opcode)(*pc);
 	return (&(g_op_tab[(int)code]));
 }
-//reading ind is always 2 bytes?
-static t_uc	*read_morebytes(t_uc *dump, t_uc *ptr, t_op *op, t_arg *arg)
-{
-	int	size;
-	int	wr;
-
-	wr = 0;
-	size = (op->dir_bytes) ? 4 : 2;
-	if (ptr - dump + size < MEM_SIZE)
-		arg->value.dir_val = (op->dir_bytes) ? *((uint32_t *)ptr) : *((uint16_t *)ptr);
-	else if (ptr - dump < MEM_SIZE)
-	{
-		wr = MEM_SIZE - (ptr - dump);
-		ft_memcpy(&(arg->value.dir_val), ptr, sizeof(t_uc) * wr);
-		ft_memcpy(&(arg->value.dir_val) + sizeof(t_uc) * wr, ptr, sizeof(t_uc) * (size - wr));
-	}
-	if (wr)
-		return (dump + (size - wr));
-	return (ptr + size);
-}
 
 //store all the args required,
 //check with inst->op if args are correct and callable
@@ -82,6 +62,7 @@ static t_uc	*decode_args(t_ull *dump, t_inst *inst, t_uc *addr)
 	int	l;
 	t_uc	*ptr;
 	t_op	*op;
+	size_t	size;
 
 	i = 0;
 	op = get_op(inst);
@@ -90,13 +71,11 @@ static t_uc	*decode_args(t_ull *dump, t_inst *inst, t_uc *addr)
 	//read according to type and dir_size in op
 	while (i < l)
 	{
-		if (inst->args[i].type != e_reg)
-			ptr = read_morebytes(dump, ptr, get_op(inst), &(inst->args[i]));
-		else
-		{
-			inst->args[i].value.reg_val = *ptr;
-			ptr = (ptr - dump == MEM_SIZE) ? dump : ptr + 1;
-		}
+		size = (inst->args[i].type != e_reg) ? 1 : 4;
+		if (size == 4 && !op->dir_bytes)
+			size = 2;
+		read_dump(dump, ptr, (void *)&(inst->args[i].value.u_dir_val), size);
+		ptr = access_ptr(dump, ptr, size);
 		i++;
 	}
 	return (ptr);
@@ -111,15 +90,14 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 
 	addr = pc;
 	if (!(inst->op = (void *)decode_op(pc)))
-		return ((pc - dump == MEM_SIZE) ? pc + 1 : dump);
+		return (access_ptr(dump, pc, 1));
 	//read for argments
-	if (addr - dump > MEM_SIZE - 1)
-		addr = dump;
+	addr = access_ptr(dump, pc, 1);
 	if ((get_op(inst))->ocp)
 	{
 		if (!decode_ocp(addr, inst))
-			return ((pc - dump == MEM_SIZE) ? pc + 1 : dump);
-		addr++;
+			return (access_ptr(dump, addr, 1));
+		addr = access_ptr(dump, pc, 1);
 	}
 	addr = decode_args(dump, inst, addr);
 	return (addr);
