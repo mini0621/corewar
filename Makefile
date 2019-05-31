@@ -6,19 +6,20 @@
 #    By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/05/31 20:07:17 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/05/31 20:38:54 by mnishimo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 VM_NAME = corewar
 LIBFT = libftprintf.a
+OBJ_DIR = obj
 
 CC = gcc -g
 #CFLAGS = -Wall -Werror -Wextra
 #CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 CFLAGS = -g -fsanitize=address
 
-RM = rm -f
+RM = rm -rf
 LDIR = -L libftprintf/ -lftprintf
 INCLUDES = -I includes/  -I libftprintf/includes
 
@@ -41,14 +42,17 @@ all: $(VM_NAME)
 $(LIBFT):
 	make -C libftprintf/
 
-obj/%.o: src/vm/%.c $(HEADER)
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)
+
+obj/%.o: src/vm/%.c $(HEADER) $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(VM_NAME): $(LIBFT) $(VM_OBJ) $(VM_INST_OBJ)
 	$(CC) $(CFLAGS)  -o $(VM_NAME) $(VM_OBJ) $(VM_INST_OBJ) $(LDIR) $(INCLUDES)
 
 clean:
-	$(RM) $(VM_OBJ)
+	$(RM) $(OBJ_DIR)
 	make -C libftprintf/ clean
 
 fclean: clean
