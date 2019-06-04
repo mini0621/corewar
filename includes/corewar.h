@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/31 23:46:49 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/04 18:51:51 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,12 @@ int		init_corewar(t_game *game, int ac, char **av);
  * process.c
  * */
 int		process(t_game *game);
+
+/*
+ * prcs_util.c
+ * */
+t_list	*prcs_new(int c_id);
+void	prcs_cpy(t_process *dst, t_process *src, t_uc *addr);
 
 /*
  * instructions.c
