@@ -6,7 +6,7 @@
 /*   By: mnishimo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 16:28:33 by mnishimo          #+#    #+#             */
-/*   Updated: 2018/11/29 10:16:49 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/04 20:45:15 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	size_t			i;
 
 	i = 0;
+	if (!dst || !src || !n)
+		return (dst);
 	pd = (unsigned char *)dst;
 	ps = (unsigned char *)src;
 	while (i < n)
