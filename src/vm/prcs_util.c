@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:30:30 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 18:56:44 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/04 21:36:55 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_list	*prcs_new(int c_id)
 
 	ft_bzero(&prcs, sizeof(t_process));
 	prcs.c_id = c_id;
+	//this is doubtfull
+	prcs.regs[0] = c_id;
 	if (!(lst = ft_lstnew(&prcs, sizeof(t_process))))
 		return (NULL);
 	return (lst);
