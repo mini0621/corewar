@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 18:51:51 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/04 21:12:10 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_champ
 {
 	char	name[PROG_NAME_LENGTH + 1];
 	char	comment[COMMENT_LENGTH + 1];
-	t_dir_type		id; // this should be created in init and copied in r0
+	t_dir_type		id; // this should be created as -1 to -4 as a player nbr
 	int		prcs_c;
 	int		live_c;
 }				t_champ;
@@ -37,7 +37,7 @@ typedef struct	s_champ
 typedef struct	s_process
 {
 	int			c_id;
-	int			p_id;
+	int			p_id; // this might be useless
 	t_dir_type	regs[REG_NUMBER];
 	int			wait_c;
 	int			is_alive;

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 20:46:11 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/04 21:12:27 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr)
 	if (arg->type == e_reg)
 	{
 		i = (int)(arg->value.u_reg_val);
-		return ((i >= 0 && i < REG_NUMBER) ? &(caller->regs[i]) : NULL);
+		return ((i > 0 && i < REG_NUMBER) ? &(caller->regs[i - 1]) : NULL);
 	}
 	else if (arg->type == e_dir)
 		return (&(arg->value.u_dir_val));
