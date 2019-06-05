@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/05 14:45:08 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/05 21:34:02 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,33 +135,35 @@ void	tkn_carr_ret(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 
 void	tkn_dir_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
 {
-	char	*dir;
-	int		nbr;
+	int			nbr;
+	long int	long_nbr;
+	short		sh_nbr;
 
-	dir = ft_strndup(buff + tkn->buff_start + 1, tkn->buff_end - tkn->buff_start + 1);
-	nbr = ft_atoi(dir);  // bigger than int?
+	tkn->mem_size = pos->op->dir_bytes;
+	nbr = ft_atolong(buff + tkn->buff_start + 1);
+	if (nbr > 2147483647 || nbr < -2147483648)
+		ERROR
+	else
+	{
+		if (tkn->mem_size == 4)
+			tkn->value = (int)long_nbr;
+		else if (tkn->mem_size == 2)
+		{
+			sh_nbr = ft_atos(buff + tkn->buff_start + 1);
+			tkn->value = sh_nbr;
+		}
+	}
 	tkn->type = e_dir_value;
-	tkn->mem_size = 4;
 	tkn->value = nbr;
 }
 
 void	tkn_ind_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
 {
-	char	*ind;
 	int		nbr;
 
-	ind = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start + 1);
-	nbr = ft_atoi(ind);  // bigger than int?
+	nbr = ft_atoi(buff + tkn->buff_start);  // bigger than int?
 	tkn->type = e_ind_value;
 	tkn->mem_size = 2;
 	tkn->value = nbr;
 }
 
-void	tkn_dir_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
-{
-	char	*dir;
-	int		nbr;
-
-	dir = ft_strndup(buff + tkn->buff_start + 1, tkn->buff_end - tkn->buff_start + 1);
-
-}
