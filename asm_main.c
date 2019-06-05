@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/04 15:20:01 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/04 17:15:15 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,13 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn *tkn, t_lbl *lbls)
 	int	j;
 
 	pos->state_l = 0;
-	tkn = (t_tkn*)malloc(sizeof(t_tkn));
-	tkn->start_buff = pos->col;
+	if (!(tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
+		return (0);
+	tkn->buff_start = pos->col; // 1
 	while (pos->state_l != -1)  // except every finals and err
 	{
 		j = 0;
-		while (j < NB_LSM_COLUMN && !ft_strchr(lsm_col[j], buff[pos->col]))
+		while (j < NB_LSM_COLUMN(14) && !ft_strchr(lsm_col[j], buff[pos->col]))
 			j++;
 		pos->state_l = lex_sm[pos->state_l][j];
 		if (pos->state_l == -1)
@@ -152,7 +153,7 @@ void	syntactic_analysis(t_lbl *lbls, t_pos *pos, char *byte_buff, char *line)
 {
 	t_tkn	*token;
 
-	while (pos->state_s != -1)
+	while (pos->state_s != -1) //err 아닌경우
 	{
 		if (!lexical_analysis(&read_buff, &token, &position, &lbls))
 			return ;
@@ -185,7 +186,7 @@ void	main_loop(void)
 	ft_init_main(&lbls, &byte_buff, &line, &pos);
 	while ((MODIFIED_GNL(0, &read_buffer) == 1) && ERROR == 0) // line per line but should return the \n as well
 	{
-		ft_syntactic_analysis(lbls, &pos, byte_buff, line);
+		syntactic_analysis(lbls, &pos, byte_buff, line);
 		pos->col = 1;
 		pos->line++;
 	}

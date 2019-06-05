@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 18:14:13 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/05 14:29:33 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,31 +206,34 @@ typedef enum	e_tkn_type
 	e_eof,
 }				t_tkn_type;
 
-typedef	struct	s_tkn
+typedef	struct	s_tkn // put in the content of the t_list
 {
 	int			lc_instruction;
 	int			lc_token;
 	int			buff_start;
 	int			buff_end;
 	int			mem_size;
-	void		*value;
+	void		*value; //case of indirect | direct
 	t_tkn_type	type;
-	s_token		*next;
+	s_token		*next; //list
 }				t_tkn;
 
-typedef	struct	s_lbl
+typedef	struct	s_lbl  // put in the content of the t_list
 {
 	char		*name;
 	char		type // D - Defined or U - Undefined
 	int			lc_label;
 	t_token		*params;
+<<<<<<< HEAD
 	s_labels	*next;
+=======
+>>>>>>> 3951f0501a3dc45dd9f734b8cf908e407989973e
 }				t_lbl;
 
 typedef struct	s_pos
 {
 	int			line;
-	int			col;
+	int			col; // char?
 	int			lc_instruction;
 	int			lc_token;
 	int			state_l;
