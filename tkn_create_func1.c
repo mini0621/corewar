@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/05 14:41:42 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/05 14:45:08 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 
 	tmp_l = labels;
 	name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start);
+	tkn->type = e_label;
 	while (tmp_l != NULL && !ft_strequ(tmp_l->name, name))
 		tmp_l = tmp_l->next;
 	if (tmp_l != NULL)
@@ -83,8 +84,42 @@ void	tkn_register(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
 
 void	tkn_op(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 {
-	IF LOOKUP TABLE FOR OP_CODES = TRUE
-		THEN : CREATE TOKEN WITH OPTYPE / VALUE OP CODE / LC_INST / LC_TOKEN / SIZE
+	int		i;
+	char	*name;
+
+	name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start);
+	i = 0;
+	while (i < OP_TAB_SIZE && !ft_strequ(name, op_tab[i][0]))
+		i++;
+	if (i == OP_TAB_SIZE)
+		ERROR();
+	tkn->type = e_op;
+	(t_op)tkn->value = op_tab[i];
+}
+
+void	tkn_cmd(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
+{
+	if (ft_strnequ(buff + tkn->buff_start, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
+		tkn->type = e_cmd_name;
+	else if (ft_strnequ(buff + tkn->buff_start, COMMENT_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
+		tkn->type = e_cmd_comment;
+	else
+	{
+		ERROR();
+		return ;
+	}
+	while (!isspace(buff + tkn->buff_start))
+		tkn->buff_start++;
+	while (isspace(buff + tkn->buff_start))
+		tkn->buff_start++;
+	tkn->buff_start++;
+	(char*)tkn->value = ft_strndup(buff + tkn->buff_start, ft_strchr(buff + tkn->buff_start, '\"'));
+	if (tkn->type == e_cmd_name
+		&& ft_strlen((char*)tkn->value) > PROG_NAME_LENGTH)
+		ERROR();
+	else if (tkn->type == e_cmd_comment
+		&& ft_strlen((char*)tkn->value) > COMMENT_LENGTH)
+		ERROR();
 }
 
 
