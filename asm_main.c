@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/04 17:15:15 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/05 12:55:40 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * checks on lexical analysis result
  * */
 
-
+/*
 void	COMPLETE_CHECK_TOKEN()
 {
 	if (TOKEN == DIR_LABEL | IND_LABEL)
@@ -50,7 +50,7 @@ void	COMPLETE_CHECK_TOKEN()
 	TOKEN.ADDRESS = Location_Counter
 }
 
-
+*/
 
 
 
@@ -136,7 +136,7 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn *tkn, t_lbl *lbls)
 			if (lex_sm[pos->state_l][0] == -3)
 				pos->col--;
 			tkn->buff_end = pos->col;
-			tkn_create(buff, pos, labels, token);
+			tkn_create(buff, pos, labels, token);  //**
 			return (1);
 		}
 		pos->col++;
