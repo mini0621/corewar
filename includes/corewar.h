@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 17:06:44 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/05 11:36:11 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ typedef enum	e_tkn_type
 	e_eof,
 }				t_tkn_type;
 
-typedef	struct	s_tkn
+typedef	struct	s_tkn // put in the content of the t_list
 {
 	int			lc_instruction;
 	int			lc_token;
@@ -218,13 +218,12 @@ typedef	struct	s_tkn
 	s_token		*next; //list
 }				t_tkn;
 
-typedef	struct	s_lbl
+typedef	struct	s_lbl  // put in the content of the t_list
 {
 	char		*name;
 	char		type // D - Defined or U - Undefined
 	int			lc_label;
-	t_token		*param_list;
-	s_labels	*next;
+	t_token		*params;
 }				t_lbl;
 
 typedef struct	s_pos
