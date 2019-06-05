@@ -6,7 +6,11 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/06/05 11:36:11 by sunakim          ###   ########.fr       */
+=======
+/*   Updated: 2019/06/04 18:14:13 by allefebv         ###   ########.fr       */
+>>>>>>> origin/asm_alban
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +228,10 @@ typedef	struct	s_lbl  // put in the content of the t_list
 	char		type // D - Defined or U - Undefined
 	int			lc_label;
 	t_token		*params;
+<<<<<<< HEAD
+=======
+	s_labels	*next;
+>>>>>>> origin/asm_alban
 }				t_lbl;
 
 typedef struct	s_pos

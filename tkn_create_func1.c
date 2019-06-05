@@ -6,7 +6,11 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/06/05 14:33:23 by sunakim          ###   ########.fr       */
+=======
+/*   Updated: 2019/06/04 18:14:18 by allefebv         ###   ########.fr       */
+>>>>>>> origin/asm_alban
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +22,10 @@ void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 	t_tkn	*tmp_t;
 	char	*name;
 
+<<<<<<< HEAD
+=======
+	tmp_l = labels;
+>>>>>>> origin/asm_alban
 	name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start);
 	while (tmp_l != NULL && !ft_strequ(tmp_l->name, name))
 		tmp_l = tmp_l->next;
@@ -39,6 +47,7 @@ void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 	}
 	else
 	{
+<<<<<<< HEAD
 		tmp_l = (t_lbl *)ft_memalloc(sizeof(t_lbl));
 		tmp_l->name = name;
 		tmp_l->type = 'D';
@@ -54,6 +63,19 @@ void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 //			THEN : PARSE LINKED LIST AND CALCULATE VALUES + PUT THEM IN THE BYTECODE BUFFER
 //	ELSE
 //		THEN : CREATE ENTRY
+=======
+
+	}
+
+
+	IF LABEL EXISTS IN SYMBOL TABLE
+		IF LABEL HAS TYPE DEFINED
+			THEN : ERROR
+		ELSE
+			THEN : PARSE LINKED LIST AND CALCULATE VALUES + PUT THEM IN THE BYTECODE BUFFER
+	ELSE
+		THEN : CREATE ENTRY
+>>>>>>> origin/asm_alban
 }
 
 void	tkn_register(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
