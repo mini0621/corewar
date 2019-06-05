@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 15:20:22 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/04 17:06:44 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,9 +213,9 @@ typedef	struct	s_tkn
 	int			buff_start;
 	int			buff_end;
 	int			mem_size;
-	void		*value;
+	void		*value; //case of indirect | direct
 	t_tkn_type	type;
-	s_token		*next;
+	s_token		*next; //list
 }				t_tkn;
 
 typedef	struct	s_lbl
@@ -230,7 +230,7 @@ typedef	struct	s_lbl
 typedef struct	s_pos
 {
 	int			line;
-	int			col;
+	int			col; // char?
 	int			lc_instruction;
 	int			lc_token;
 	int			state_l;
