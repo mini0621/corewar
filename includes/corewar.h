@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 17:06:44 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/05 10:48:34 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ typedef	struct	s_lbl
 	char		*name;
 	char		type // D - Defined or U - Undefined
 	int			lc_label;
-	t_token		*param_list;
+	t_token		*params;
 	s_labels	*next;
 }				t_lbl;
 
