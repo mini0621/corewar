@@ -6,55 +6,11 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/05 14:28:17 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:54:59 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-/*
- * checks on lexical analysis result
- * */
-
-
-void	COMPLETE_CHECK_TOKEN()
-{
-	if (TOKEN == DIR_LABEL | IND_LABEL)
-	{
-		if (LABEL ISNT IN LABEL_TABLE)
-		{
-			LABEL_TABLE[LAST].NAME = LABEL;
-			LABEL_TABLE[LAST].VALUE = UNDEFINED;
-			LABEL_TABLE[LAST].REFERENCES = TOKEN_START_ADDRESS (linked list)
-		}
-	}
-	if (TOKEN == LABEL_DECLARATION)
-	{
-		if (LABEL IS IN LABEL_TABLE)
-		{
-			if (TYPE == UNDEFINED)
-				calcultate value of every previous reference to this label (follow the linked list)
-			else
-				ERROR (label declared twice)
-		}
-	}
-	if (TOKEN == OP_CODE)
-		check_op_codes() // strequ on a table with OP_CODES names...
-	if (TOKEN == REGISTER)
-		check_register() // MAX_REG size (available in .h)
-	if (TOKEN == COMMAND)
-		check_commands(); // length of string, strequ on .command & .name
-						// move pointers to the name  or comments value
-	if (TOKEN == DIR_VALUE | IND_VALUE)
-		check_values(); // int max
-	TOKEN.ADDRESS = Location_Counter
-}
-
-
-
-
-
-
 
 /*
  * translates into bytecode
@@ -74,12 +30,6 @@ void	REG_IND_DIR()
 	OCP
 }
 
-
-
-
-
-
-
 /*
  * LEXICAL ANALYSIS
  * */
@@ -89,9 +39,9 @@ void	ft_lexical_error(char *buff, t_position *position)
 
 }
 
-t_token	*tkn_create(char *buff, t_pos *pos, t_lbl *lbls, t_tkn *tkn)
+t_tkn	*tkn_create(char *buff, t_pos *pos, t_lbl *lbls, t_tkn *tkn)
 {
-	tkn_create_func	tab[NB_TOKEN_TYPES];
+	tkn_create_func	tab[NB_tkn_TYPES];
 
 	tab[0] = tkn_label;
 	tab[1] = tkn_register;
@@ -105,23 +55,27 @@ t_token	*tkn_create(char *buff, t_pos *pos, t_lbl *lbls, t_tkn *tkn)
 	tab[9] = tkn_carriage_ret;
 
 	j = 0;
-	while (j < NB_TOKEN_TYPES)
+	while (j < NB_tkn_TYPES)
 	{
 		if (j == lexical_sm[state_l][1])
-			tab[j](buff, position, i, token);
+			tab[j](buff, position, i, tkn);
 		j++;
 	}
-	return (token);
+	return (tkn);
 }
 
-int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_lbl *lbls)
+void	tkn_initialize(t_tkn *tkn)
+{
+	tkn->buff_start = pos->col; // 1
+	tkn->value = NULL;
+	tkn->mem_size = 0;
+}
+
+int		lexical_analysis(char *line, t_pos *pos, t_tkn *tkn, t_list *lbls)
 {
 	int	i;
 
 	pos->state_l = 0;
-	if (!(*tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
-		return (0);
-	*(tkn->buff_start) = pos->col; // 1
 	while (pos->state_l != -1)  // except every finals and err
 	{
 		i = 0;
@@ -148,36 +102,46 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_lbl *lbls)
  * syntactic analysis
  * */
 
-void	syntactic_analysis(t_lbl *lbls, t_pos *pos, char *byte_buff, char *line)
+void	syntactic_analysis(t_list *lbls, t_pos *pos, char *byte_buff, char *line)
 {
-	t_tkn	*token;
+	t_tkn	*tkn;
 
 	while (pos->state_s != -1) //err 아닌경우
 	{
-		if (!lexical_analysis(&read_buff, &token, &position, &lbls))
+		if (!(tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
+			return (0);
+		if (!lexical_analysis(line, tkn, pos, lbls))
 			return ;
-		pos->state_s = syntactic_sm[pos->state_s][token->type];
-		if (token)
-		bytecode_translation(token, byte_buff, pos, lbls); // translate the token we just read in bytecode
+		pos->state_s = syntactic_sm[pos->state_s][tkn->type];
+		if (pos->state_s == -1)
+		{
+			ERROR();
+			break ;
+		}
+		if (tkn->mem_size != 0 && tkn->value != NULL)
+			bytecode_translation(tkn, byte_buff, pos, lbls); // translate the tkn we just read in bytecode
+		if ((tkn->type == e_ind_label || tkn->type == e_dir_label)
+			&& tkn->value == NULL)
+			continue ;
+		free(tkn);
 	}
-	pos->lc_instruction = pos.lc_token + token.mem_size;
+	pos->lc_instruction = pos.lc_tkn + ;
 }
 
-void	ft_init_main(t_lbl **lbls, char **byte_buff, char **line, t_pos *pos)
+void	ft_init_main(t_list **lbls, char **byte_buff, char **line, t_pos *pos)
 {
-	*lbls = (t_lbl*)malloc(sizeof(t_lbl));
-	*lbls->next = NULL;
 	*byte_buff = ft_strnew(BUFF_SIZE);
 	*line = NULL;
 	pos->line = 1;
 	pos->lc_instruction = 0;
-	pos->lc_token = 0;
+	pos->lc_tkn = 0;
 	pos->state_s = 0;
+	*lbls = NULL;
 }
 
 void	main_loop(void)
 {
-	t_lbl	*lbls;
+	t_list	*lbls;
 	t_pos	pos; // line number and column number
 	char	*byte_buff;
 	char	*line;

@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/05 14:32:44 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:59:09 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # define BUFF_SIZE 2048
 # define OP_TAB_SIZE 17
-# define NB_TOKEN_TYPES 10
+# define NB_tkn_TYPES 10
+# define SPACE_CHAR " \n\v\f\n\r"
 
 #include "libftprintf.h"
 #include "op.h"
@@ -210,14 +211,13 @@ typedef enum	e_tkn_type
 
 typedef	struct	s_tkn // put in the content of the t_list
 {
+	t_tkn_type	type;
 	int			lc_instruction;
-	int			lc_token;
+	int			lc_tkn;
 	int			buff_start;
 	int			buff_end;
 	int			mem_size;
-	t_tkn_type	type;
 	void		*value; //case of indirect | direct
-	s_token		*next; //list
 }				t_tkn;
 
 typedef	struct	s_lbl  // put in the content of the t_list
@@ -225,7 +225,7 @@ typedef	struct	s_lbl  // put in the content of the t_list
 	char		*name;
 	char		type // D - Defined or U - Undefined
 	int			lc_label;
-	t_token		*params;
+	t_list		**frwd;
 }				t_lbl;
 
 typedef struct	s_pos
@@ -233,22 +233,23 @@ typedef struct	s_pos
 	int			line;
 	int			col; // char?
 	int			lc_instruction;
-	int			lc_token;
+	int			lc_tkn;
 	int			state_l;
 	int			state_s;
+	t_op		*op;
 }				t_pos;
 
 typedef void (*tkn_create_func)(char *, t_position *, int);
 
-void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
-void	tkn_register(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
-void	tkn_op(char *buff, t_pos *position, t_lbl *labels, t_tkn *token);
-void	tkn_dir_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
-void	tkn_dir_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
-void	tkn_ind_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
-void	tkn_ind_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
-void	tkn_cmd(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
-void	tkn_separator(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
-void	tkn_carr_ret(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token);
+void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_register(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_op(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_dir_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_dir_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_ind_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_ind_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_cmd(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_separator(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	tkn_carr_ret(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
 
 #endif
