@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/05 21:34:02 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/05 22:20:50 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,6 @@ void	tkn_register(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
 		tkn->value = nbr;
 		tkn->mem_size = 1;
 	}
-
-	IF LENGTH OF NUM CHARS > 2
-		THEN : ERROR
-	ELSE
-		THEN : CREATE TOKEN WITH TYPE REGISTER / VALUE = NUMERIC / SIZE
 }
 
 void	tkn_op(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
@@ -140,30 +135,38 @@ void	tkn_dir_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
 	short		sh_nbr;
 
 	tkn->mem_size = pos->op->dir_bytes;
-	nbr = ft_atolong(buff + tkn->buff_start + 1);
-	if (nbr > 2147483647 || nbr < -2147483648)
-		ERROR
+	//length of the numbers > max
+	long_nbr = ft_atolong(buff + tkn->buff_start + 1);
+	if (long_nbr > 2147483647 || long_nbr < -2147483648)
+		ERROR();
 	else
 	{
 		if (tkn->mem_size == 4)
-			tkn->value = (int)long_nbr;
+			tkn->value = (void *)long_nbr;
 		else if (tkn->mem_size == 2)
 		{
 			sh_nbr = ft_atos(buff + tkn->buff_start + 1);
-			tkn->value = sh_nbr;
+			tkn->value = (void *)sh_nbr;
 		}
 	}
 	tkn->type = e_dir_value;
-	tkn->value = nbr;
 }
 
 void	tkn_ind_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
 {
-	int		nbr;
+	long int	long_nbr;
 
-	nbr = ft_atoi(buff + tkn->buff_start);  // bigger than int?
+	long_nbr = ft_atolong(buff + tkn->buff_start);
+	if (long_nbr > 2147483647 || long_nbr < -2147483648)
+		ERROR();
+	else
+	{
+		if (long_nbr > 32767 || long_nbr < -32767)
+			tkn->value = (short)long_nbr >> 48;// 6 * 8
+		else
+			tkn->value = (short)long_nbr;
+	}
 	tkn->type = e_ind_value;
 	tkn->mem_size = 2;
-	tkn->value = nbr;
 }
 
