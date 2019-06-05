@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/04 15:20:01 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/05 14:28:17 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,24 +89,23 @@ void	ft_lexical_error(char *buff, t_position *position)
 
 }
 
-t_token	*tkn_create(char *buff, t_position *position, int i, int state_l)
+t_token	*tkn_create(char *buff, t_pos *pos, t_lbl *lbls, t_tkn *tkn)
 {
-	tkn_create_func	tab[10];
-	t_token			*token;
+	tkn_create_func	tab[NB_TOKEN_TYPES];
 
-	tab[0] = tkn_create_label;
-	tab[1] = tkn_create_register;
-	tab[2] = tkn_create_op;
-	tab[3] = tkn_create_dir_value;
-	tab[4] = tkn_create_dir_label;
-	tab[5] = tkn_create_ind_value;
-	tab[6] = tkn_create_ind_label;
-	tab[7] = tkn_create_cmd;
-	tab[8] = tkn_create_separator;
-	tab[9] = tkn_create_carriage_ret;
+	tab[0] = tkn_label;
+	tab[1] = tkn_register;
+	tab[2] = tkn_op;
+	tab[3] = tkn_dir_value;
+	tab[4] = tkn_dir_label;
+	tab[5] = tkn_ind_value;
+	tab[6] = tkn_ind_label;
+	tab[7] = tkn_cmd;
+	tab[8] = tkn_separator;
+	tab[9] = tkn_carriage_ret;
 
 	j = 0;
-	while (j < 9)
+	while (j < NB_TOKEN_TYPES)
 	{
 		if (j == lexical_sm[state_l][1])
 			tab[j](buff, position, i, token);
@@ -115,32 +114,33 @@ t_token	*tkn_create(char *buff, t_position *position, int i, int state_l)
 	return (token);
 }
 
-int	lexical_analysis(char *buff, t_pos *pos, t_tkn *tkn, t_lbl *lbls)
+int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_lbl *lbls)
 {
-	int	j;
+	int	i;
 
 	pos->state_l = 0;
-	tkn = (t_tkn*)malloc(sizeof(t_tkn));
-	tkn->start_buff = pos->col;
+	if (!(*tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
+		return (0);
+	*(tkn->buff_start) = pos->col; // 1
 	while (pos->state_l != -1)  // except every finals and err
 	{
-		j = 0;
-		while (j < NB_LSM_COLUMN && !ft_strchr(lsm_col[j], buff[pos->col]))
-			j++;
-		pos->state_l = lex_sm[pos->state_l][j];
+		i = 0;
+		while (i < NB_LSM_COLUMN(14) && !ft_strchr(lsm_col[i], buff[pos->col]))
+			i++;
+		pos->state_l = lex_sm[pos->state_l][i];
 		if (pos->state_l == -1)
 			break;
 		if (lex_sm[pos->state_l][0] == -2 || lex_sm[pos->state_l][0] == -3)
 		{
 			if (lex_sm[pos->state_l][0] == -3)
 				pos->col--;
-			tkn->buff_end = pos->col;
-			tkn_create(buff, pos, labels, token);
+			*(tkn->buff_end) = pos->col;
+			tkn_create(buff, pos, lbls, *tkn);
 			return (1);
 		}
 		pos->col++;
 	}
-	ft_lexical_error(buff, position);
+	LEXICAL_ERROR(buff, pos);
 	return (0);
 }
 
@@ -152,7 +152,7 @@ void	syntactic_analysis(t_lbl *lbls, t_pos *pos, char *byte_buff, char *line)
 {
 	t_tkn	*token;
 
-	while (pos->state_s != -1)
+	while (pos->state_s != -1) //err 아닌경우
 	{
 		if (!lexical_analysis(&read_buff, &token, &position, &lbls))
 			return ;
@@ -185,7 +185,7 @@ void	main_loop(void)
 	ft_init_main(&lbls, &byte_buff, &line, &pos);
 	while ((MODIFIED_GNL(0, &read_buffer) == 1) && ERROR == 0) // line per line but should return the \n as well
 	{
-		ft_syntactic_analysis(lbls, &pos, byte_buff, line);
+		syntactic_analysis(lbls, &pos, byte_buff, line);
 		pos->col = 1;
 		pos->line++;
 	}

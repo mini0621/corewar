@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 18:14:13 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/05 14:28:09 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define COREWAR_H
 
 # define BUFF_SIZE 2048
+# define OP_TAB_SIZE 17
+# define NB_TOKEN_TYPES 10
 
 #include "libftprintf.h"
 #include "op.h"
@@ -213,9 +215,9 @@ typedef	struct	s_tkn
 	int			buff_start;
 	int			buff_end;
 	int			mem_size;
-	void		*value;
 	t_tkn_type	type;
-	s_token		*next;
+	void		*value; //case of indirect | direct
+	s_token		*next; //list
 }				t_tkn;
 
 typedef	struct	s_lbl
@@ -230,7 +232,7 @@ typedef	struct	s_lbl
 typedef struct	s_pos
 {
 	int			line;
-	int			col;
+	int			col; // char?
 	int			lc_instruction;
 	int			lc_token;
 	int			state_l;
