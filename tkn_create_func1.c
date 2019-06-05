@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_func1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/05 14:28:15 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/05 14:32:13 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "corewar.h"
 
 void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 {
@@ -39,17 +41,13 @@ void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 	}
 	else
 	{
-
+		tmp_l = (t_lbl *)ft_memalloc(sizeof(t_lbl));
+		tmp_l->name = name;
+		tmp_l->type = 'D';
+		tmp_l->lc_label = pos->lc_instruction; // not sure about the pos->lc_instruction
+		tmp_l->params = NULL;
+		ft_lstadd(&labels, ft_lstnew(tmp_l, sizeof(t_lbl)));
 	}
-
-
-	IF LABEL EXISTS IN SYMBOL TABLE
-		IF LABEL HAS TYPE DEFINED
-			THEN : ERROR
-		ELSE
-			THEN : PARSE LINKED LIST AND CALCULATE VALUES + PUT THEM IN THE BYTECODE BUFFER
-	ELSE
-		THEN : CREATE ENTRY
 }
 
 void	tkn_register(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
