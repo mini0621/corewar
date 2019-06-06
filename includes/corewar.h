@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/06 15:26:40 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:30:32 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,5 +251,6 @@ void	tkn_ind_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
 void	tkn_cmd(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
 void	tkn_separator(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
 void	tkn_carr_ret(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+int		read_line_asm(char **line, int *end, int check);
 
 #endif

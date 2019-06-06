@@ -6,9 +6,11 @@
 /*   By: allefebv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/06 21:23:12 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:29:50 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "corewar.h"
 
 static int	ft_end(int value, char **tmp)
 {
