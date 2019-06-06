@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/05 20:54:59 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/06 15:26:37 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	REG_IND_DIR()
 
 void	ft_lexical_error(char *buff, t_position *position)
 {
-
+	
 }
 
 t_tkn	*tkn_create(char *buff, t_pos *pos, t_lbl *lbls, t_tkn *tkn)
@@ -102,7 +102,67 @@ int		lexical_analysis(char *line, t_pos *pos, t_tkn *tkn, t_list *lbls)
  * syntactic analysis
  * */
 
-void	syntactic_analysis(t_list *lbls, t_pos *pos, char *byte_buff, char *line)
+void	gaps_fill(char *bytebuf, t_tkn *tkn)
+{
+	t_list	*t1;
+	t_list	*t2;
+	t_lbl	*lbl;
+	int		ref_int;
+	short	ref_sht;
+
+	lbl = (t_lbl*)tkn->value;
+	t1 = (t_list*)lbl->frwd;
+	t2 = (t_list*)lbl->frwd;
+	while (t1 != NULL)
+	{
+		if (t1->content->mem_size == 2)
+		{
+			ref_sht = (short)lbl->lc_label - (short)t1->lc_instruction;
+			ft_memcpy(bytebuf + tkn->lc_tkn, ref_sht + 1, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 1, ref_sht, 1);
+		}
+		else if (t1->content->mem_size == 4)
+		{
+			ref_int = lbl->lc_label - t1->lc_instruction;
+			ft_memcpy(bytebuf + tkn->lc_tkn, ref_int + 3, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 1, ref_int + 2, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 2, ref_int + 1, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 3, ref_int, 1);
+		}
+		t2 = t2->next;
+		free(t1->content);
+		free(t1);
+		t1 = t2;
+	}
+}
+
+void	bytecode_gen(t_tkn *tkn, char *bytebuf, t_pos *pos, t_list *lbls)
+{
+	if (tkn->type == e_label)
+	{
+		gaps_fill(bytebuf, tkn)
+		tkn->value->type = 'D';
+	}
+	else
+	{
+		if (tkn->mem_size == 1)
+			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value, 1);
+		else if (tkn->mem_size == 2)
+		{
+			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value + 1, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 1, tkn->value, 1);
+		}
+		else if (tkn->mem_size == 4)
+		{
+			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value + 3, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 1, tkn->value + 2, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 2, tkn->value + 1, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 3, tkn->value, 1);
+		}
+	}
+}
+
+void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
 {
 	t_tkn	*tkn;
 
@@ -118,19 +178,20 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char *byte_buff, char *line)
 			ERROR();
 			break ;
 		}
-		if (tkn->mem_size != 0 && tkn->value != NULL)
-			bytecode_translation(tkn, byte_buff, pos, lbls); // translate the tkn we just read in bytecode
+		if ((tkn->mem_size != 0 && tkn->value != NULL)
+			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U')
+			bytecode_gen(tkn, bytebuf, pos, lbls); // translate the tkn we just read in bytecode
 		if ((tkn->type == e_ind_label || tkn->type == e_dir_label)
 			&& tkn->value == NULL)
 			continue ;
 		free(tkn);
 	}
-	pos->lc_instruction = pos.lc_tkn + ;
+	pos->lc_instruction = pos.l
 }
 
-void	ft_init_main(t_list **lbls, char **byte_buff, char **line, t_pos *pos)
+void	ft_init_main(t_list **lbls, char **bytebuf, char **line, t_pos *pos)
 {
-	*byte_buff = ft_strnew(BUFF_SIZE);
+	*bytebuf = ft_strnew(BUFF_SIZE);
 	*line = NULL;
 	pos->line = 1;
 	pos->lc_instruction = 0;
@@ -143,13 +204,13 @@ void	main_loop(void)
 {
 	t_list	*lbls;
 	t_pos	pos; // line number and column number
-	char	*byte_buff;
+	char	*bytebuf;
 	char	*line;
 
-	ft_init_main(&lbls, &byte_buff, &line, &pos);
+	ft_init_main(&lbls, &bytebuf, &line, &pos);
 	while ((MODIFIED_GNL(0, &read_buffer) == 1) && ERROR == 0) // line per line but should return the \n as well
 	{
-		syntactic_analysis(lbls, &pos, byte_buff, line);
+		syntactic_analysis(lbls, &pos, bytebuf, line);
 		pos->col = 1;
 		pos->line++;
 	}

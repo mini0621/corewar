@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/05 20:59:09 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/06 15:26:40 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ typedef struct	s_pos
 	int			lc_tkn;
 	int			state_l;
 	int			state_s;
-	t_op		*op;
+	int			dir_bytes;
 }				t_pos;
 
 typedef void (*tkn_create_func)(char *, t_position *, int);
