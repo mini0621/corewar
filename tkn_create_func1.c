@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/06 10:41:32 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/06 10:45:18 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
 	t_tkn	*tmp_t;
 	char	*name;
 
-	tmp_l = labels;
+	tmp_l = labels; //
 	name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start);
 	tkn->type = e_label;
 	while (tmp_l != NULL && !ft_strequ(tmp_l->name, name))
