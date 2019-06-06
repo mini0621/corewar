@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 21:12:10 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:27:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "libftprintf.h"
 #include "op.h"
+#include "visu.h"
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -97,6 +98,7 @@ typedef struct	s_game
 	t_ull		cycle_d;
 	t_ull		c_checked;
 	t_ull		cycle_to_die;
+	t_visu		*visu;
 	t_uc		memdump[MEM_SIZE];
 }				t_game;
 
@@ -167,7 +169,7 @@ t_op	*get_op(t_inst *inst);
 /*
  * memory_utils.c
  * */
-t_uc	*access_ptr(t_uc *dump, t_uc *pc, size_t offset);
+t_uc	*access_ptr(t_uc *dump, t_uc *pc, int offset);
 void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size);
 void	write_dump(t_uc *dump, void *src, t_uc *dst, size_t size);
 t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr);
@@ -196,4 +198,16 @@ void	inst_lld(t_game *game, t_process *caller, t_inst *inst);
 void	inst_lldi(t_game *game, t_process *caller, t_inst *inst);
 void	inst_lfork(t_game *game, t_process *caller, t_inst *inst);
 void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
+
+/*
+ * visu
+*/
+void	end_visu(t_visu *visu);
+void	init_visu(t_game *game, t_visu *visu);
+void	restart_all(t_game *game, int *pause);
+void	update_all(t_game *game, t_visu *visu, int pause);
+void	output(t_game *game, int *pause);
+void	print_menu(WINDOW *win, t_game *game, int pause);
+void print_dump(WINDOW *win, t_uc *dump);
+
 #endif

@@ -6,14 +6,18 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 21:12:27 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/06 19:39:43 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_uc	*access_ptr(t_uc *dump, t_uc *pc, size_t offset)
+t_uc	*access_ptr(t_uc *dump, t_uc *pc, int offset)
 {
+	while (offset / MEM_SIZE)
+		offset %= MEM_SIZE;
+	if (offset < 0)
+		offset = MEM_SIZE + offset; 
 	if (pc - dump + offset < MEM_SIZE)
 		return (pc + offset);
 	return (dump + ((pc - dump + offset) % MEM_SIZE));

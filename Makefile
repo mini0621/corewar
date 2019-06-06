@@ -6,7 +6,7 @@
 #    By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/04 18:56:25 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/06/06 21:20:04 by mnishimo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ INCLUDES = -I includes/  -I libftprintf/includes
 HEADER =  $(addprefix includes/, corewar.h op.h)
 
 VM_SRC = $(addprefix src/vm/, main.c init_corewar.c process.c instructions.c \
-		 decode.c ocp.c free.c lst_util.c util.c memory_util.c prcs_util.c) 
+		 decode.c ocp.c free.c lst_util.c util.c memory_util.c prcs_util.c \
+		 output.c visu.c) 
 VM_INST_SRC = $(addprefix src/vm/instructions/, inst01_live.c inst02_ld.c \
 		inst03_st.c inst04_add.c inst05_sub.c inst06_and.c inst07_or.c \
 		inst08_xor.c inst09_zjmp.c inst0a_ldi.c inst0b_sti.c inst0c_fork.c \
@@ -49,7 +50,7 @@ obj/%.o: src/vm/%.c $(HEADER) $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(VM_NAME): $(LIBFT) $(VM_OBJ) $(VM_INST_OBJ)
-	$(CC) $(CFLAGS)  -o $(VM_NAME) $(VM_OBJ) $(VM_INST_OBJ) $(LDIR) $(INCLUDES)
+	$(CC) $(CFLAGS)  -o $(VM_NAME) $(VM_OBJ) $(VM_INST_OBJ) $(LDIR) $(INCLUDES) -lncurses
 
 clean:
 	$(RM) $(OBJ_DIR)

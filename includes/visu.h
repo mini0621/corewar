@@ -1,37 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   visu.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/06 21:31:06 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/05 18:47:54 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/06 21:27:31 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#ifndef VISU_H
+#define VISU_H
 
-int	main(int argc, char **argv)
+#include <ncurses.h>
+
+# define CLR_P1 1
+# define CLR_P2 2
+# define CLR_P3 3
+# define CLR_P4 4
+
+
+typedef struct	t_visu
 {
-	t_game	game;
-	int		end;
-	int		pause;
+	WINDOW	*dump_win;
+	WINDOW	*menu_win;
+}				t_visu;
 
-	if (!init_corewar(&game, argc, argv))
-		return (0);
-	if (game.visu)
-		init_visu(&game, game.visu);
-	end = 0;
-	pause = (game.visu) ?  1 : 0;
-	while (!end)
-	{
-		if (!pause)
-			end = process(&game);
-		if (game.visu)
-			output(&game, &pause);
-	}
-	end_visu(game.visu);
-	free_game(&game);
-	return (0);
-}
+#endif
