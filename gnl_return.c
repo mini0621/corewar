@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 16:55:00 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/06 14:01:57 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/06 15:19:35 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	read_newline(char **line, char *str, const int fd, ssize_t ret)
 		i++;
 	if (str[i] == '\n')
 	{
-		if (!(*line = ft_strndup(str, i)))
+		if (!(*line = ft_strndup(str, i + 1)))
 			return (-1);
 		if (!(tmp = ft_strdup(str + i + 1)))
 			return (-1);
