@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/05 22:20:50 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/06 10:41:32 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,8 @@ void	tkn_dir_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
 	short		sh_nbr;
 
 	tkn->mem_size = pos->op->dir_bytes;
-	//length of the numbers > max
+	if (tkn->buff_start - tkn->buff_end + 1 > 19)
+		ERROR();
 	long_nbr = ft_atolong(buff + tkn->buff_start + 1);
 	if (long_nbr > 2147483647 || long_nbr < -2147483648)
 		ERROR();
@@ -156,6 +157,9 @@ void	tkn_ind_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
 {
 	long int	long_nbr;
 
+
+	if (tkn->buff_start - tkn->buff_end + 1 > 19)
+		ERROR();
 	long_nbr = ft_atolong(buff + tkn->buff_start);
 	if (long_nbr > 2147483647 || long_nbr < -2147483648)
 		ERROR();
