@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/06 15:26:42 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/06 18:22:47 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,27 @@ void	tkn_ind_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 
 void	tkn_register(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 {
-	IF LENGTH OF NUM CHARS > 2
-		THEN : ERROR
-	ELSE
-		THEN : CREATE tkn WITH TYPE REGISTER / VALUE = NUMERIC / LC_INST / LC_tkn / SIZE
+	int	i;
+	char nbr_char;
+	char	*nbr_str;
+
+	i = tkn->buff_start + 1;
+	while (buff[i] == '0')
+		i++;
+	if (i == tkn->buff_end)
+		ERROR(); // 0 ?
+	nbr_str = ft_strndup(buff + i, tkn->buff_end - i + 1);
+	if (ft_strlen(nbr_str) > 2)
+		ERROR;
+	nbr = ft_atochar(nbr_str); //create "ft_atochar"
+	if (nbr > 16)  // 0?
+		ERROR;
+	else
+	{
+		tkn->type = e_register;
+		tkn->value = nbr;
+		tkn->mem_size = 1;
+	}
 }
 
 void	tkn_op(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
@@ -156,13 +173,76 @@ void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		tkn->buff_start++;
 	tkn->buff_start++;
 	(char*)tkn->value = ft_strndup(buff + tkn->buff_start,
-		ft_strchr(buff + tkn->buff_start, '\"') - (buff + tkn->buff_start) + 1);
+		ft_strchr(buff + tkn->buff_start, '\"') - (buff + tkn->buff_start) + 1); //WONT COPY THE \0 CHARS ...
 	if (tkn->type == e_cmd_name
-		&& ft_strlen((char*)tkn->value) > PROG_NAME_LENGTH)
+		&& ft_strlen((char*)tkn->value) > PROG_NAME_LENGTH) //WONT GO TO THE END OF COMMENT IF \0
 		ERROR();
 	else if (tkn->type == e_cmd_comment
-		&& ft_strlen((char*)tkn->value) > COMMENT_LENGTH)
+		&& ft_strlen((char*)tkn->value) > COMMENT_LENGTH) //WONT GO TO THE END OF COMMENT IF \0
 		ERROR();
 }
 
+void	tkn_separator(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
+{
+	tkn->type = e_separator;
+}
 
+void	tkn_carr_ret(char *buff, t_pos *pos, t_lbl *labels, t_tkn *token)
+{
+	token->type = e_carriage_return;
+}
+
+void	tkn_dir_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
+{
+	long int	long_nbr;
+	int			nbr;
+	short		sh_nbr;
+
+	tkn->mem_size = pos->op->dir_bytes;
+	if (tkn->buff_start - tkn->buff_end + 1 > 10)
+		ERROR();
+	long_nbr = ft_atolong(buff + tkn->buff_start + 1);
+	else
+	{
+		if (tkn->mem_size == 4)
+		{
+			if (long_nbr > 2147483647 || long_nbr < -2147483648)
+				ERROR();
+			else
+			{
+				nbr = ft_atoi(buff + tkn->buff_start + 1);
+				tkn->value = (void*)(&nbr);
+			}
+		}
+		else if (tkn->mem_size == 2)
+		{
+			if (long_nbr > 32767 || long_nbr < -32767)
+				ERROR();
+			else
+			{
+				sh_nbr = ft_atos(buff + tkn->buff_start + 1);
+				tkn->value = (void*)(&sh_nbr);
+			}
+		}
+		tkn->type = e_dir_value;
+	}
+}
+
+void	tkn_ind_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn)
+{
+	long int	long_nbr;
+	short		sh_nbr;
+
+	if (tkn->buff_start - tkn->buff_end + 1 > 10)
+		ERROR();
+	long_nbr = ft_atolong(buff + tkn->buff_start);
+	if (long_nbr > 32767 || long_nbr < -32767)
+		ERROR();
+	else
+	{
+		sh_nbr = ft_atos(buff + tkn->buff_start + 1);
+		tkn->value = (void*)&sh_nbr;
+	}
+	tkn->type = e_ind_value;
+	tkn->mem_size = 2;
+}

@@ -6,29 +6,11 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/06 15:26:37 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/06 17:14:38 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-/*
- * translates into bytecode
- * */
-
-void	BYTECODE_TRANSLATION // should move the location counter forward
-{
-	OP_CODE();
-	OCP();
-	REG_IND_DIR();
-}
-
-void	REG_IND_DIR()
-{
-	LABEL_MANAGEMENT(); // if forward label, saves room for the value (2 bytes if label is indirect, 2 or 4 if label is direct, depending on OP Code)
-	// if label already declared, make computations using the table of symbols to replace the label by the good value;
-	OCP
-}
 
 /*
  * LEXICAL ANALYSIS
@@ -88,8 +70,8 @@ int		lexical_analysis(char *line, t_pos *pos, t_tkn *tkn, t_list *lbls)
 		{
 			if (lex_sm[pos->state_l][0] == -3)
 				pos->col--;
-			*(tkn->buff_end) = pos->col;
-			tkn_create(buff, pos, lbls, *tkn);
+			tkn->buff_end = pos->col;
+			tkn_create(buff, pos, labels, token);  //**
 			return (1);
 		}
 		pos->col++;
