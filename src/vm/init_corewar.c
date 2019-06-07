@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 14:30:45 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/07 12:02:27 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void		vm_store_instr(t_game *game, unsigned char *instr
 	if (id == 0)
 		id++;
 	dif = id * (MEM_SIZE / nbr_champs);
-	ft_memcpy(game->memdump[dif], instr, size);
+	ft_memcpy(&(game->memdump[dif]), instr, size);
 }
 
 //malloc all the champs and copy the instructions into memdump
@@ -68,9 +68,7 @@ static int		read_champs(t_game *game)
 	nbr_champs = game->nbr_champs;
 	while (index < nbr_champs)
 	{
-		if (!vm_store_instr(game, game->champs[index]->instr
-		, index, game->champs[index]->prog_size))
-			return (0);
+		vm_store_instr(game, game->champs[index]->instr, index, game->champs[index]->prog_size);
 		index++;
 	}
 	return (1);
