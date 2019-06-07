@@ -6,16 +6,16 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 15:45:39 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/07 16:38:26 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COREWAR_H
 # define COREWAR_H
 
-# define BUFF_SIZE 2048
+# define BUFF_SIZE_COR 2048
 # define OP_TAB_SIZE 17
-# define NB_tkn_TYPES 10
+# define NB_TKN_TYPES 10
 # define SPACE_CHAR " \n\v\f\n\r"
 
 #include "libftprintf.h"
@@ -140,7 +140,7 @@ int		process(t_game *game);
  * instructions.c
  * */
 void	prcs_inst(t_game *game, t_process *caller);
-void	update_caller(t_process *caller, t_op *op)
+void	update_caller(t_process *caller, t_op *op);
 /*
  * decode.c
  * */
@@ -212,8 +212,8 @@ typedef enum	e_tkn_type
 typedef	struct	s_tkn // put in the content of the t_list
 {
 	t_tkn_type	type;
-	int			lc_instruction;
-	int			lc_tkn;
+	char		*lc_instruction;
+	char		*lc_tkn;
 	int			buff_start;
 	int			buff_end;
 	int			mem_size;
@@ -223,8 +223,8 @@ typedef	struct	s_tkn // put in the content of the t_list
 typedef	struct	s_lbl  // put in the content of the t_list
 {
 	char		*name;
-	char		type // D - Defined or U - Undefined
-	int			lc_label;
+	char		type; // D - Defined or U - Undefined
+	char		*lc_label;
 	t_list		**frwd;
 }				t_lbl;
 
@@ -233,14 +233,15 @@ typedef struct	s_pos
 	int			line;
 	int			col; // char?
 	int			ocp_nbr;
-	int			lc_instruction;
-	int			lc_tkn;
+	char		*lc_instruction;
+	char		*lc_tkn;
 	int			state_l;
 	int			state_s;
+	int			size_line;
 	int			dir_bytes;
 }				t_pos;
 
-typedef void (*tkn_create_func)(char *, t_position *, int);
+typedef void *(tkn_create_func)(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
 
 void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
 void	tkn_register(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
@@ -252,6 +253,8 @@ void	tkn_ind_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
 void	tkn_cmd(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
 void	tkn_separator(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
 void	tkn_carr_ret(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-int		read_line_asm(char **line, int *end, int check);
+int		read_bytes(char **line, int error, const int fd);
+void	ocp_modify(t_pos *pos);
+void	ocp_create(t_tkn *tkn, t_pos *pos);
 
 #endif

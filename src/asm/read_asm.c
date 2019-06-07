@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_asm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/07 15:26:51 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:32:50 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ static int	ft_return_rf(int ret, int size_tmp)
 
 static int	read_file(char **tmp, int *size_tmp, char **line, int *size_line, const int fd)
 {
-	char	buf[BUFF_SIZE];
+	char	buf[BUFF_SIZE_COR];
 	int		ret;
 	int		i;
-	
+
 	i = 0;
-	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
+	while ((ret = read(fd, buf, BUFF_SIZE_COR)) > 0)
 	{
-		while (i < BUFF_SIZE - 1 && buf[i] != '\n')
+		while (i < BUFF_SIZE_COR - 1 && buf[i] != '\n')
 			i++;
 		if (buf[i] == '\n')
 		{
@@ -52,7 +52,7 @@ static int	read_file(char **tmp, int *size_tmp, char **line, int *size_line, con
 		if (!(*line = realloc(*line, ret)))
 			return (-1);
 		ft_memcpy(*line + *size_line, buf, ret);
-		ft_bzero(buf, BUFF_SIZE);
+		ft_bzero(buf, BUFF_SIZE_COR);
 	}
 	return (ft_return_rf(ret, *size_tmp));
 }
@@ -63,7 +63,7 @@ static int	read_tmp(char **tmp, int *size_tmp, char **line, int *size_line)
 
 	flag = 0;
 	if (*tmp == NULL)
-		if (!(*tmp = ft_memalloc(BUFF_SIZE)))
+		if (!(*tmp = ft_memalloc(BUFF_SIZE_COR)))
 			return (-1);
 	while (*size_line < *size_tmp && tmp[0][*size_line] != '\n') // size = nb chars
 	{
@@ -85,7 +85,7 @@ static int	read_tmp(char **tmp, int *size_tmp, char **line, int *size_line)
 	return (flag);
 }
 
-int			read_line_asm(char **line, int error, const int fd)
+int			read_bytes(char **line, int error, const int fd)
 {
 	static char	*tmp;
 	static int	size_tmp;
@@ -93,12 +93,12 @@ int			read_line_asm(char **line, int error, const int fd)
 	char		buf[1];
 	int			ret;
 
-	if (!line || fd < 0 || read(fd, buf, 0) < 0 || BUFF_SIZE <= 0)
+	if (!line || fd < 0 || read(fd, buf, 0) < 0 || BUFF_SIZE_COR <= 0)
 		return (-1);
 	size_line = 0;
 	if (!error)
 	{
-		if (!(*line = ft_memalloc(BUFF_SIZE)))
+		if (!(*line = ft_memalloc(BUFF_SIZE_COR)))
 			return (ft_end(-1, &tmp));
 		if ((ret = read_tmp(&tmp, &size_tmp, line, &size_line)) == 1) // 1 = \n - 0 = no \n - -1 error
 			return (size_line);
