@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 21:12:10 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:43:23 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,17 @@
 #include "libftprintf.h"
 #include "op.h"
 #include <unistd.h>
+#include <unistd.h>
 #include <stdlib.h>
-
+#include <fcntl.h>
+#include <limits.h>
+# define IO_ERROR 1
+# define OPT_ERROR 2
+# define ML_ERROR 3
+# define US_ERROR 0
+# define COLOR_RED  "\x1b[31m"
+# define COLOR_GREEN  "\x1b[32m"
+# define COLOR_YEL  "\x1b[33m"
 typedef	unsigned long long	t_ull;
 typedef	unsigned long long	t_uc;
 typedef	uint8_t				t_reg_type;
@@ -29,6 +38,8 @@ typedef struct	s_champ
 {
 	char	name[PROG_NAME_LENGTH + 1];
 	char	comment[COMMENT_LENGTH + 1];
+	unsigned char	*instr;
+	unsigned int	prog_size;
 	t_dir_type		id; // this should be created as -1 to -4 as a player nbr
 	int		prcs_c;
 	int		live_c;
@@ -87,12 +98,29 @@ typedef struct	s_arg
 	t_argval	value;
 }				t_arg;
 
+typedef struct  s_option
+{
+        char    option[3];
+        int     (*f)();
+}               t_option;
+
 typedef struct	s_game
 {
 	t_champ		*champs[MAX_PLAYERS + 1]; // the last ptr is NULL
 	t_list		*prcs; //cache coherence and use t_list? young prcs is top
 	t_ull		nbr_cycle;
 	int			nbr_champs;
+	t_ull		nbr_s_cycle; //-s option
+	int			d_state;//parser option flags start
+	int			n_state;
+	int			s_state;
+	int			a_state;
+	int			pl_state;
+	t_ull		pl_number;
+	int			deb_state;
+	int			v_state;
+	int			pv_number;
+	int			fl_error;//end of parser option flag
 	t_ull		cycle;
 	t_ull		cycle_d;
 	t_ull		c_checked;
@@ -176,6 +204,23 @@ t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr);
  * lst_util.c
  * */
 void	del_lstprcs(void *cnt, size_t size);
+
+/*
+ *	Parser utility functions
+ * */
+void            		vm_init_flags(t_game *game);
+t_ull               	vm_get_value(char *sval);
+int                     vm_catch_error(int flag, char *av);
+int                     vm_file_reader(char *file, t_game *game);
+void                	vm_debug(int flag, int ac, char **av, t_game *game);
+unsigned int			vm_endian_conversion(unsigned int val);
+int	                    vm_opt_reader(int ac, char **av, t_game *game);
+int                     vm_opt_dump(int index, char **av, t_game *game);
+int                     vm_opt_debug(int index, char **av, t_game *game);
+int                     vm_opt_aff(int index, char **av, t_game *game);
+int                     vm_opt_n(int index, char **av, t_game *game);
+int                     vm_opt_soption(int index, char **av, t_game *game);
+int                 	vm_primary_parser(int fd, t_game *game);
 
 /*
  * instruction functions

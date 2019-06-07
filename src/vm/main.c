@@ -15,15 +15,18 @@
 int	main(int argc, char **argv)
 {
 	t_game	game;
-	int		end;
 
+
+	if (argc < 2)
+		return (vm_catch_error(US_ERROR, NULL));
+	vm_init_flags(&game);
 	if (!init_corewar(&game, argc, argv))
 		return (0);
-	end = 0;
-	while (!end)
-		end = process(&game);
-	//some output in the end of the game
-	//output();
-	free_game(&game);
+	// end = 0;
+	// while (!end)
+	// 	end = process(&game);
+	// //some output in the end of the game
+	// //output();
+	// free_game(&game);
 	return (0);
 }

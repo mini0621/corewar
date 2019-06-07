@@ -12,16 +12,22 @@
 
 #include "corewar.h"
 
-//get "-dump nbr_cycle" part.
-//read and update arg ptr
-//if it doesn't exist return av+1
-//if error return NULL
-static char	**get_options(char **av)
+static int				vm_init_parser(int ac, char **av, t_game *game)
 {
-	char	**arg;
-	arg = av + 1;
+	int			index;
 
-	return (NULL);
+	index = 1;
+	while (index < ac)
+	{
+		if (!vm_opt_reader(index, av, game))
+			return (0);
+		if (!vm_file_reader(av[index], game))
+			return (0);
+		index++;
+	}
+	if (game->deb_state)
+		vm_debug(1, ac, av, game);
+	return (1);
 }
 
 //creates process
@@ -30,13 +36,43 @@ t_process	*init_prcs(int id, t_uc *pc)
 	return (NULL);
 }
 
-//malloc all the champs and copy the instructions into memdump
-//create the first prcs then store them in game->prcs
-static int	read_champs(t_game *game, char **arg)
+
+//can you please verify that I am storing the instructions in the way
+//you want them. I quite understood the logic but did not find
+//a better way of placing the instructions to memory
+static void		vm_store_instr(t_game *game, unsigned char *instr
+				, int flag, unsigned int size)
 {
-	t_champ	*tmp;
-	int		nbr_champs;
-	//set the r0 register as champ id
+	int			dif;
+	int			index;
+	unsigned int	prog_size;
+	int			id;
+	int			nbr_champs;
+
+	nbr_champs = game->nbr_champs;
+	id = (int) game->champs[flag]->id;
+	if (id == 0)
+		id++;
+	dif = id * (MEM_SIZE / nbr_champs);
+	ft_memcpy(game->memdump[dif], instr, size);
+}
+
+//malloc all the champs and copy the instructions into memdump
+static int		read_champs(t_game *game)
+{
+	int			index;
+	int			nbr_champs;
+
+
+	index = 0;
+	nbr_champs = game->nbr_champs;
+	while (index < nbr_champs)
+	{
+		if (!vm_store_instr(game, game->champs[index]->instr
+		, index, game->champs[index]->prog_size))
+			return (0);
+		index++;
+	}
 	return (1);
 }
 
@@ -44,9 +80,13 @@ static int	read_champs(t_game *game, char **arg)
 //if error, return 0
 int			init_corewar(t_game *game, int ac, char **av)
 {
-	char	**arg;
+	int		index;
 
-	//bzero everything
+	if (!vm_init_parser(ac, av, game))
+		return (0);
+	if (!read_champs(game))
+		return (0);
+	//create the first prcs then store them in game->prcs
 	/*
 	if (ac < 2 || !(arg = get_options(av)))
 		return (0);

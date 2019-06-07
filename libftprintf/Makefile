@@ -23,6 +23,7 @@ FTSRC = ft_lstiter.c    ft_putchar.c    ft_strdel.c     ft_strnew.c  ft_lstlast.
 		ft_power.c      ft_strcpy.c     ft_strnequ.c ft_lstpushback.c ft_lstfind.c \
 		ft_lstdelof.c ft_strjoinfree.c ft_strupper.c ft_strndup.c ft_strsubfree.c \
 		ft_atozu.c		ft_max.c ft_deltab.c get_next_line.c ft_min.c ft_lstsort.c \
+		ft_isnumeric.c 	ft_atoill.c \
 		ft_atollu.c ft_qappend.c ft_qnew.c ft_qpop.c ft_qdel.c  \
 		ft_qpush.c ft_lstsub.c ft_lstinsert.c ft_qclear.c ft_lstnomallocnew.c
 
