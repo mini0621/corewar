@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/06 17:14:38 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:28:08 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,34 +173,46 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
 
 void	ft_init_main(t_list **lbls, char **bytebuf, char **line, t_pos *pos)
 {
-	*bytebuf = ft_strnew(BUFF_SIZE);
+	bytebuf = (char*)ft_memalloc(BUFF_SIZE);
 	*line = NULL;
-	pos->line = 1;
+	*lbls = NULL;
+	pos->line = 0;
 	pos->lc_instruction = 0;
 	pos->lc_tkn = 0;
 	pos->state_s = 0;
-	*lbls = NULL;
 }
 
-void	main_loop(void)
+void	main_loop(int fd)
 {
-	t_list	*lbls;
-	t_pos	pos; // line number and column number
 	char	*bytebuf;
 	char	*line;
+	t_list	*lbls;
+	t_pos	pos; // line number and column number
 
 	ft_init_main(&lbls, &bytebuf, &line, &pos);
-	while ((MODIFIED_GNL(0, &read_buffer) == 1) && ERROR == 0) // line per line but should return the \n as well
+	while ((pos->size_line = read_asm(&line, error, fd) > 0) && ERROR == 0) // line per line but should return the \n as well
 	{
-		syntactic_analysis(lbls, &pos, bytebuf, line);
 		pos->col = 1;
 		pos->line++;
+		syntactic_analysis(lbls, &pos, bytebuf, line);
+		if (line)
+			free(line);
 	}
 	END_FUNCTION(SYMBOLS_TABLE); // checks if all label used have been created effectively. If Undefined values still il symbol table, return error
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	main_loop();
+	int	fd;
+
+	if (argc != 2)
+		return (0);
+	end = 0;
+	if (fd = open(argv[1], O_RDONLY) < 0)
+	{
+		ERROR();
+		return (0);
+	}
+	main_loop(fd);
 	return (0);
 }
