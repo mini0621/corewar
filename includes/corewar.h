@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/06 21:30:32 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:45:39 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,7 @@ typedef struct	s_pos
 {
 	int			line;
 	int			col; // char?
+	int			ocp_nbr;
 	int			lc_instruction;
 	int			lc_tkn;
 	int			state_l;

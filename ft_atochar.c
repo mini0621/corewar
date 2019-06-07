@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atolong.c                                       :+:      :+:    :+:   */
+/*   ft_atochar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/05 21:26:54 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/07 15:34:36 by sunakim          ###   ########.fr       */
+/*   Created: 2019/06/07 15:34:09 by sunakim           #+#    #+#             */
+/*   Updated: 2019/06/07 15:35:17 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //include
 
-long	ft_atolong(char *str)
+long	ft_atochar(char *str)
 {
 	int		i;
-	long	ret;
-	long	neg;
+	char	ret;
+	char	neg;
 
 	i = 0;
 	neg = 1;

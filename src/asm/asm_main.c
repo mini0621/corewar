@@ -6,11 +6,33 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/07 15:28:08 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:45:39 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+/*
+ * checks on lexical analysis result
+ * */
+
+/*
+ * translates into bytecode
+ * */
+
+void	BYTECODE_TRANSLATION // should move the location counter forward
+{
+	OP_CODE();
+	OCP();
+	REG_IND_DIR();
+}
+
+void	REG_IND_DIR()
+{
+	LABEL_MANAGEMENT(); // if forward label, saves room for the value (2 bytes if label is indirect, 2 or 4 if label is direct, depending on OP Code)
+	// if label already declared, make computations using the table of symbols to replace the label by the good value;
+	OCP
+}
 
 /*
  * LEXICAL ANALYSIS
@@ -18,12 +40,12 @@
 
 void	ft_lexical_error(char *buff, t_position *position)
 {
-	
+
 }
 
-t_tkn	*tkn_create(char *buff, t_pos *pos, t_lbl *lbls, t_tkn *tkn)
+t_token	*tkn_create(char *buff, t_pos *pos, t_lbl *lbls, t_tkn *tkn)
 {
-	tkn_create_func	tab[NB_tkn_TYPES];
+	tkn_create_func	tab[NB_TOKEN_TYPES];
 
 	tab[0] = tkn_label;
 	tab[1] = tkn_register;
@@ -37,27 +59,23 @@ t_tkn	*tkn_create(char *buff, t_pos *pos, t_lbl *lbls, t_tkn *tkn)
 	tab[9] = tkn_carriage_ret;
 
 	j = 0;
-	while (j < NB_tkn_TYPES)
+	while (j < NB_TOKEN_TYPES)
 	{
 		if (j == lexical_sm[state_l][1])
-			tab[j](buff, position, i, tkn);
+			tab[j](buff, position, i, token);
 		j++;
 	}
-	return (tkn);
+	return (token);
 }
 
-void	tkn_initialize(t_tkn *tkn)
-{
-	tkn->buff_start = pos->col; // 1
-	tkn->value = NULL;
-	tkn->mem_size = 0;
-}
-
-int		lexical_analysis(char *line, t_pos *pos, t_tkn *tkn, t_list *lbls)
+int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_lbl *lbls)
 {
 	int	i;
 
 	pos->state_l = 0;
+	if (!(*tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
+		return (0);
+	*(tkn->buff_start) = pos->col; // 1
 	while (pos->state_l != -1)  // except every finals and err
 	{
 		i = 0;
@@ -84,102 +102,70 @@ int		lexical_analysis(char *line, t_pos *pos, t_tkn *tkn, t_list *lbls)
  * syntactic analysis
  * */
 
-void	gaps_fill(char *bytebuf, t_tkn *tkn)
+void ocp_create(t_tkn *tkn, t_pos *pos)
 {
-	t_list	*t1;
-	t_list	*t2;
-	t_lbl	*lbl;
-	int		ref_int;
-	short	ref_sht;
+	char a;
 
-	lbl = (t_lbl*)tkn->value;
-	t1 = (t_list*)lbl->frwd;
-	t2 = (t_list*)lbl->frwd;
-	while (t1 != NULL)
+	a = (tkn->type == e_register) ? 0b00000001 : 0;
+	if (tkn->type == e_dir_label || tkn->type == e_dir_value)
+		a = 0b00000010;
+	if (tkn->type == e_ind_label || tkn->type == e_ind_value)
+		a = 0b00000011;
+	if (tkn->type == e_register || tkn->type == e_ind_label || tkn->type == e_ind_value
+		|| tkn->type == e_dir_label || tkn->type == e_dir_value) // pos->ocp_nbr >= 1
 	{
-		if (t1->content->mem_size == 2)
+		if (*(pos->lc_instruction + 1) == '\0')
+			*(pos->lc_instruction + 1) = a;
+		else if (*(pos->lc_instruction + 1) > 0 && *(pos->lc_instruction + 1) < 4)
 		{
-			ref_sht = (short)lbl->lc_label - (short)t1->lc_instruction;
-			ft_memcpy(bytebuf + tkn->lc_tkn, ref_sht + 1, 1);
-			ft_memcpy(bytebuf + tkn->lc_tkn + 1, ref_sht, 1);
+			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 2;
+			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) | a;
 		}
-		else if (t1->content->mem_size == 4)
+		else if (*(pos->lc_instruction + 1) > 3)
 		{
-			ref_int = lbl->lc_label - t1->lc_instruction;
-			ft_memcpy(bytebuf + tkn->lc_tkn, ref_int + 3, 1);
-			ft_memcpy(bytebuf + tkn->lc_tkn + 1, ref_int + 2, 1);
-			ft_memcpy(bytebuf + tkn->lc_tkn + 2, ref_int + 1, 1);
-			ft_memcpy(bytebuf + tkn->lc_tkn + 3, ref_int, 1);
-		}
-		t2 = t2->next;
-		free(t1->content);
-		free(t1);
-		t1 = t2;
-	}
-}
-
-void	bytecode_gen(t_tkn *tkn, char *bytebuf, t_pos *pos, t_list *lbls)
-{
-	if (tkn->type == e_label)
-	{
-		gaps_fill(bytebuf, tkn)
-		tkn->value->type = 'D';
-	}
-	else
-	{
-		if (tkn->mem_size == 1)
-			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value, 1);
-		else if (tkn->mem_size == 2)
-		{
-			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value + 1, 1);
-			ft_memcpy(bytebuf + tkn->lc_tkn + 1, tkn->value, 1);
-		}
-		else if (tkn->mem_size == 4)
-		{
-			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value + 3, 1);
-			ft_memcpy(bytebuf + tkn->lc_tkn + 1, tkn->value + 2, 1);
-			ft_memcpy(bytebuf + tkn->lc_tkn + 2, tkn->value + 1, 1);
-			ft_memcpy(bytebuf + tkn->lc_tkn + 3, tkn->value, 1);
+			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 2;
+			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) | a;
 		}
 	}
 }
 
-void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
+void	syntactic_analysis(t_lbl *lbls, t_pos *pos, char *byte_buff, char *line)
 {
-	t_tkn	*tkn;
+	t_tkn	*token;
 
 	while (pos->state_s != -1) //err 아닌경우
 	{
-		if (!(tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
-			return (0);
-		if (!lexical_analysis(line, tkn, pos, lbls))
+		if (!lexical_analysis(&read_buff, &token, &position, &lbls))
 			return ;
-		pos->state_s = syntactic_sm[pos->state_s][tkn->type];
-		if (pos->state_s == -1)
-		{
-			ERROR();
-			break ;
-		}
-		if ((tkn->mem_size != 0 && tkn->value != NULL)
-			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U')
-			bytecode_gen(tkn, bytebuf, pos, lbls); // translate the tkn we just read in bytecode
-		if ((tkn->type == e_ind_label || tkn->type == e_dir_label)
-			&& tkn->value == NULL)
-			continue ;
-		free(tkn);
+		pos->state_s = syntactic_sm[pos->state_s][token->type];
+		if (token)
+			ocp_create(token, pos);
+		if (token)
+		bytecode_translation(token, byte_buff, pos, lbls); // translate the token we just read in bytecode
 	}
-	pos->lc_instruction = pos.l
+	pos->lc_instruction = pos.lc_token + token.mem_size;
 }
 
-void	ft_init_main(t_list **lbls, char **bytebuf, char **line, t_pos *pos)
+void	ft_init_main(t_lbl **lbls, char **byte_buff, char **line, t_pos *pos)
 {
 	bytebuf = (char*)ft_memalloc(BUFF_SIZE);
 	*line = NULL;
 	*lbls = NULL;
 	pos->line = 0;
 	pos->lc_instruction = 0;
-	pos->lc_tkn = 0;
+	pos->lc_token = 0;
 	pos->state_s = 0;
+}
+
+void ocp_modify(t_op *pos)
+{
+	if (pos->ocp_nbr == 1)
+		*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 6;
+	else if (pos->ocp_nbr == 2)
+		*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 4;
+	else if (pos->ocp_nbr == 3)
+		*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 2;
+	//variable nbr error? already before in syntactic
 }
 
 void	main_loop(int fd)
@@ -195,6 +181,7 @@ void	main_loop(int fd)
 		pos->col = 1;
 		pos->line++;
 		syntactic_analysis(lbls, &pos, bytebuf, line);
+		ocp_modify(&pos);
 		if (line)
 			free(line);
 	}
