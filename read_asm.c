@@ -6,7 +6,7 @@
 /*   By: allefebv <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/06 22:21:38 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:26:51 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,13 @@ static int	read_file(char **tmp, int *size_tmp, char **line, int *size_line, con
 	i = 0;
 	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		while (i < BUFF_SIZE && buf[i] != '\n')
+		while (i < BUFF_SIZE - 1 && buf[i] != '\n')
 			i++;
 		if (buf[i] == '\n')
 		{
-			ft_printf("%d\n%d\n%c", *size_line, i, buf[1]);
 			if (!(*line = realloc(*line, *size_line + i + 1)))
 				return (-1);
 			ft_memcpy(*line + *size_line, buf, i + 1);
-			ft_printf("\n\n%c\n\n", **line + 1);
 			ft_memcpy(*tmp, buf + i + 1, ret - i - 1);
 			*size_tmp = ret - i - 1;
 			*size_line = *size_line + i + 1;
@@ -64,7 +62,6 @@ static int	read_tmp(char **tmp, int *size_tmp, char **line, int *size_line)
 	int		flag;
 
 	flag = 0;
-	*size_line = 0;
 	if (*tmp == NULL)
 		if (!(*tmp = ft_memalloc(BUFF_SIZE)))
 			return (-1);
@@ -88,7 +85,7 @@ static int	read_tmp(char **tmp, int *size_tmp, char **line, int *size_line)
 	return (flag);
 }
 
-int			read_line_asm(char **line, int *end, int check, const int fd)
+int			read_line_asm(char **line, int error, const int fd)
 {
 	static char	*tmp;
 	static int	size_tmp;
@@ -98,7 +95,8 @@ int			read_line_asm(char **line, int *end, int check, const int fd)
 
 	if (!line || fd < 0 || read(fd, buf, 0) < 0 || BUFF_SIZE <= 0)
 		return (-1);
-	if (check)
+	size_line = 0;
+	if (!error)
 	{
 		if (!(*line = ft_memalloc(BUFF_SIZE)))
 			return (ft_end(-1, &tmp));
@@ -107,12 +105,8 @@ int			read_line_asm(char **line, int *end, int check, const int fd)
 		else if (ret == -1
 			|| (ret = read_file(&tmp, &size_tmp, line, &size_line, fd)) == -1) // -1 if error, 0 if EOF
 			return (ft_end(-1, &tmp));
-		else if (ret == 0)
-		{
-			*end = 1;
-			return (ft_end(size_line, &tmp));
-		}
-		return (size_line);
+		if (size_line || size_tmp)
+			return (size_line);
 	}
 	return (ft_end(0, &tmp));
 }
