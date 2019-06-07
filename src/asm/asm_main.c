@@ -12,17 +12,6 @@
 
 #include "corewar.h"
 #include <fcntl.h>
-/*
- * checks on lexical analysis result
- * */
-
-/*
- * translates into bytecode
- * */
-
-/*
- * LEXICAL ANALYSIS
- * */
 
 /*
 void	ft_lexical_error(char *buff, t_pos *position)
@@ -116,6 +105,66 @@ void ocp_create(t_tkn *tkn, t_pos *pos)
 		{
 			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 2;
 			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) | a;
+		}
+	}
+}
+
+void	gaps_fill(char *bytebuf, t_tkn *tkn)
+{
+	t_list	*t1;
+	t_list	*t2;
+	t_lbl	*lbl;
+	int		ref_int;
+	short	ref_sht;
+
+	lbl = (t_lbl*)tkn->value;
+	t1 = (t_list*)lbl->frwd;
+	t2 = (t_list*)lbl->frwd;
+	while (t1 != NULL)
+	{
+		if (t1->content->mem_size == 2)
+		{
+			ref_sht = (short)lbl->lc_label - (short)t1->lc_instruction;
+			ft_memcpy(bytebuf + tkn->lc_tkn, ref_sht + 1, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 1, ref_sht, 1);
+		}
+		else if (t1->content->mem_size == 4)
+		{
+			ref_int = lbl->lc_label - t1->lc_instruction;
+			ft_memcpy(bytebuf + tkn->lc_tkn, ref_int + 3, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 1, ref_int + 2, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 2, ref_int + 1, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 3, ref_int, 1);
+		}
+		t2 = t2->next;
+		free(t1->content);
+		free(t1);
+		t1 = t2;
+	}
+}
+
+void	bytecode_gen(t_tkn *tkn, char *bytebuf, t_pos *pos, t_list *lbls)
+{
+	if (tkn->type == e_label)
+	{
+		gaps_fill(bytebuf, tkn)
+		tkn->value->type = 'D';
+	}
+	else
+	{
+		if (tkn->mem_size == 1)
+			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value, 1);
+		else if (tkn->mem_size == 2)
+		{
+			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value + 1, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 1, tkn->value, 1);
+		}
+		else if (tkn->mem_size == 4)
+		{
+			ft_memcpy(bytebuf + tkn->lc_tkn, tkn->value + 3, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 1, tkn->value + 2, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 2, tkn->value + 1, 1);
+			ft_memcpy(bytebuf + tkn->lc_tkn + 3, tkn->value, 1);
 		}
 	}
 }
