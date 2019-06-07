@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 11:57:46 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/07 14:18:57 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	main(int argc, char **argv)
 {
 	t_game	game;
+	int		end;
+	int		pause;
 
 
 	if (argc < 2)
@@ -22,11 +24,18 @@ int	main(int argc, char **argv)
 	vm_init_flags(&game);
 	if (!init_corewar(&game, argc, argv))
 		return (0);
-	// end = 0;
-	// while (!end)
-	// 	end = process(&game);
-	// //some output in the end of the game
-	// //output();
-	// free_game(&game);
+	if (game.visu)
+		init_visu(&game, game.visu);
+	end = 0;
+	pause = (game.visu) ?  1 : 0;
+	while (!end)
+	{
+		if (!pause)
+			end = process(&game);
+		if (game.visu)
+			output(&game, &pause);
+	}
+	end_visu(game.visu);
+	free_game(&game);
 	return (0);
 }

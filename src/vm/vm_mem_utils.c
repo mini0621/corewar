@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 15:36:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/05/30 15:37:07 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/07 14:41:21 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void            vm_init_flags(t_game *game)
     game->nbr_s_cycle = 0;
     game->nbr_champs = 0;
     game->cycle = 0;
-    game->cycle_d = 0;
+    game->cycle_d = CYCLE_TO_DIE;
     game->c_checked = 0;
-    game->cycle_to_die = 0;
+    game->cycle_to_die = CYCLE_TO_DIE;
     game->d_state = 0;
     game->n_state = 0;
     game->a_state = 0;
@@ -29,4 +29,6 @@ void            vm_init_flags(t_game *game)
     game->pl_state = 0;
     game->pv_number = 0;
     game->pl_number = 0;
+    game->visu = 0;
+    ft_bzero(&(game->memdump[0]), MEM_SIZE * sizeof(t_uc));
 }

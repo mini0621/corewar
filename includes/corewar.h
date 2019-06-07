@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/06 21:43:23 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/07 14:44:19 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "libftprintf.h"
 #include "op.h"
+#include "visu.h"
 #include <unistd.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -24,11 +25,11 @@
 # define OPT_ERROR 2
 # define ML_ERROR 3
 # define US_ERROR 0
-# define COLOR_RED  "\x1b[31m"
-# define COLOR_GREEN  "\x1b[32m"
-# define COLOR_YEL  "\x1b[33m"
+# define CLR_RED  "\x1b[31m"
+# define CLR_GREEN  "\x1b[32m"
+# define CLR_YEL  "\x1b[33m"
 typedef	unsigned long long	t_ull;
-typedef	unsigned long long	t_uc;
+typedef	unsigned char	t_uc;
 typedef	uint8_t				t_reg_type;
 typedef uint16_t			t_ind_type;
 typedef uint32_t			t_dir_type;
@@ -40,7 +41,7 @@ typedef struct	s_champ
 	char	comment[COMMENT_LENGTH + 1];
 	unsigned char	*instr;
 	unsigned int	prog_size;
-	t_dir_type		id; // this should be created as -1 to -4 as a player nbr
+	short		id; // this should be created as -1 to -4 as a player nbr
 	int		prcs_c;
 	int		live_c;
 }				t_champ;
@@ -125,6 +126,7 @@ typedef struct	s_game
 	t_ull		cycle_d;
 	t_ull		c_checked;
 	t_ull		cycle_to_die;
+	t_visu		*visu;
 	t_uc		memdump[MEM_SIZE];
 }				t_game;
 
@@ -195,7 +197,7 @@ t_op	*get_op(t_inst *inst);
 /*
  * memory_utils.c
  * */
-t_uc	*access_ptr(t_uc *dump, t_uc *pc, size_t offset);
+t_uc	*access_ptr(t_uc *dump, t_uc *pc, int offset);
 void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size);
 void	write_dump(t_uc *dump, void *src, t_uc *dst, size_t size);
 t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr);
@@ -217,6 +219,7 @@ unsigned int			vm_endian_conversion(unsigned int val);
 int	                    vm_opt_reader(int ac, char **av, t_game *game);
 int                     vm_opt_dump(int index, char **av, t_game *game);
 int                     vm_opt_debug(int index, char **av, t_game *game);
+int                     vm_opt_visu(int index, char **av, t_game *game);
 int                     vm_opt_aff(int index, char **av, t_game *game);
 int                     vm_opt_n(int index, char **av, t_game *game);
 int                     vm_opt_soption(int index, char **av, t_game *game);
@@ -241,4 +244,16 @@ void	inst_lld(t_game *game, t_process *caller, t_inst *inst);
 void	inst_lldi(t_game *game, t_process *caller, t_inst *inst);
 void	inst_lfork(t_game *game, t_process *caller, t_inst *inst);
 void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
+
+/*
+ * visu
+*/
+void	end_visu(t_visu *visu);
+void	init_visu(t_game *game, t_visu *visu);
+void	restart_all(t_game *game, int *pause);
+void	update_all(t_game *game, t_visu *visu, int pause);
+void	output(t_game *game, int *pause);
+void	print_menu(WINDOW *win, t_game *game, int pause);
+void print_dump(WINDOW *win, t_uc *dump);
+
 #endif

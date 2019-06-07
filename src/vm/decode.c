@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/31 22:53:46 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:28:42 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,10 @@ static t_op	*decode_op(t_uc *pc)
 	if (*pc > 0x0f)
 		return (NULL);
 	code = (t_opcode)(*pc);
-	return (&(g_op_tab[(int)code]));
+	return (&(g_op_tab[(int)code -1]));
 }
 
-//store all the args required,
-//check with inst->op if args are correct and callable
-//if not callable return 0
-//this is just READING and it wont restrict/reffer the args
-static t_uc	*decode_args(t_ull *dump, t_inst *inst, t_uc *addr)
+static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
 {
 	int	i;
 	int	l;
@@ -68,7 +64,8 @@ static t_uc	*decode_args(t_ull *dump, t_inst *inst, t_uc *addr)
 	op = get_op(inst);
 	l = op->n_args;
 	ptr = addr;
-	//read according to type and dir_size in op
+	ft_printf("op is %i\n", op->opcode);
+	ft_printf("l is %i\n", l);
 	while (i < l)
 	{
 		size = (inst->args[i].type != e_reg) ? 1 : 4;

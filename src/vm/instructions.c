@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 21:34:04 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/31 21:03:28 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/07 13:51:17 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	prcs_inst(t_game *game, t_process *caller)
 
 	dump = game->memdump;
 	ft_bzero(&inst, sizeof(t_inst));
-	//read all the info needed for exec
 	newpc = decode(dump, caller->pc, &inst);
 	if (inst.op)
 		(get_op(&inst))->function(game, caller, &inst);
