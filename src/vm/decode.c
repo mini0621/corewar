@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 15:28:42 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:53:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ t_op    g_op_tab[17] =
 	{e_aff, 1, {T_REG}, 2, 1, 0, 1, 0, &inst_aff}
 };
 
-//search for the inst i
-//return -1 for error
 static t_op	*decode_op(t_uc *pc)
 {
 	t_opcode	code;
@@ -49,7 +47,7 @@ static t_op	*decode_op(t_uc *pc)
 	if (*pc > 0x0f)
 		return (NULL);
 	code = (t_opcode)(*pc);
-	return (&(g_op_tab[(int)code -1]));
+	return (&(g_op_tab[(int)code]));
 }
 
 static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
@@ -66,11 +64,14 @@ static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
 	ptr = addr;
 	ft_printf("op is %i\n", op->opcode);
 	ft_printf("l is %i\n", l);
+	ft_printf("addr is %hhx\n", *ptr);
 	while (i < l)
 	{
-		size = (inst->args[i].type != e_reg) ? 1 : 4;
+		size = (inst->args[i].type != e_reg) ? 4 : 1;
 		if (size == 4 && !op->dir_bytes)
 			size = 2;
+		ft_printf("size? %u\n", size);
+		ft_printf("size? hre %x\n", *ptr);
 		read_dump(dump, ptr, (void *)&(inst->args[i].value.u_dir_val), size);
 		ptr = access_ptr(dump, ptr, size);
 		i++;
@@ -86,16 +87,18 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 	t_uc	*addr;
 
 	addr = pc;
+	ft_printf("addr1 is %hhx\n", *addr);
 	if (!(inst->op = (void *)decode_op(pc)))
 		return (access_ptr(dump, pc, 1));
-	//read for argments
-	addr = access_ptr(dump, pc, 1);
+	addr = access_ptr(dump, addr, 1);
 	if ((get_op(inst))->ocp)
 	{
 		if (!decode_ocp(addr, inst))
 			return (access_ptr(dump, addr, 1));
-		addr = access_ptr(dump, pc, 1);
+		addr = access_ptr(dump, addr, 1);
 	}
+	ft_printf("addr3 is %hhx\n", *addr);
 	addr = decode_args(dump, inst, addr);
+	ft_printf("addr4 is %hhx\n", *addr);
 	return (addr);
 }

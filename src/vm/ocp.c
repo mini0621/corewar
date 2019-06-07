@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 23:03:50 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:32:54 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ t_ocp	ocp_nargshift(t_ocp ocp, int n_args)
 	i = MAX_ARGS_NUMBER - n_args - 1;
 	while (i >= 0)
 	{
-		ft_printf("count\n");
+		ft_printf("arg count\n");
 		ocp = ocp >> 2;
 		i--;
-
 	}
 	return (ocp);
 }
@@ -51,17 +50,17 @@ int		decode_ocp(t_uc *addr, t_inst *inst)
 	if (op->n_args > MAX_ARGS_NUMBER)
 		return (0);
 	ocp = ocp_nargshift(ocp, op->n_args);
-	ocp = ocp_nargshift(ocp, 3);
 	i = op->n_args - 1;
 	while (i >= 0)
 	{
 		//get each args type 
 		type = get_typefromcode(0x03 & ocp);
 		//and check if it is right
+		ft_printf("this %i %x\n",i, op->args[i]);
 		if (!(type & op->args[i]))
 			return (0);
 		//and store the type in inst
-		ft_printf("i L %i type %x \n",i, type);
+		ft_printf("arg %i is type %x \n",i, type);
 		inst->args[i].type = type;
 		i--;
 		ocp = ocp >> 2;
