@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 16:38:42 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 23:06:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	inst_live(t_game *game, t_process *caller, t_inst *inst)
 	inst->args[0].type = e_dir;
 	id = *(int *)get_arg(caller, game->memdump, &(inst->args[0]), 0);
 	i = 0;
-	ft_printf("live! %i\n", id);
+	if (game->deb_state)
+		ft_printf("live! %i\n", id);
 	while (game->champs[i])
 	{
 		if (game->champs[i]->id == id)

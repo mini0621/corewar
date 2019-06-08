@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 22:47:33 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 23:13:14 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 	i = 0;
 	while (i < game->nbr_champs)
 	{
-		ft_printf("checking champ\n");
+//		ft_printf("checking champ\n");
 		if ((*champs + i)->live_c)
 		{
 			end++;
@@ -74,7 +74,7 @@ int process(t_game *game)
 	t_list *cur;
 	t_process *p;
 
-	ft_printf("cycle %i\n", game->cycle);
+//	ft_printf("cycle %i\n", game->cycle);
 	if (!game->cycle_d && is_end(game, &(game->champs[0]), &(game->prcs)))
 		return (1);
 	cur = game->prcs;

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 22:18:33 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 23:13:27 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size)
 {
 	size_t	wr;
 	
-	ft_printf("read src-dump %llu\n", src -dump);
+//	ft_printf("read src-dump %llu\n", src -dump);
 	if (src - dump + size > MEM_SIZE)
 	{
 		wr = MEM_SIZE - (src - dump);
@@ -52,7 +52,7 @@ void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size)
 	else
 		ft_memcpy(dst, src, size);
 	endian_conv(dst, size);
-	ft_printf("read %x\n", *(int *)dst);
+//	ft_printf("read %x\n", *(int *)dst);
 }
 
 void	write_dump(t_uc *dump, void *src, t_uc *dst, size_t size)

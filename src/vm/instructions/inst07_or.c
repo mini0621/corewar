@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/04 20:50:19 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 23:10:56 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	inst_or(t_game *game, t_process *caller, t_inst *inst)
 {
 	t_dir_type	res;
 
-	ft_printf("or!\n");
+	if (game->deb_state)
+		ft_printf("or!\n");
 	if (!game || !caller || !inst)
 		return ;
 	res = (*get_arg(caller, game->memdump, &(inst->args[0]), 1)
