@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/08 17:27:36 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/08 18:02:50 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ void	main_loop(int fd)
 	ft_init_main(&lbls, &bytebuf, &line, &pos);
 	while ((pos.size_line = read_bytes(&line, error, fd) > 0)) // line per line but should return the \n as well
 	{
-		pos.col = 1;
+		pos.col = 0;
 		pos.line++;
 		syntactic_analysis(lbls, &pos, bytebuf, line);
 		ocp_modify(&pos);
