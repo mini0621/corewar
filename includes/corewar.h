@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 16:11:14 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 17:09:03 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,9 +251,9 @@ void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
 void	end_visu(t_visu *visu);
 void	init_visu(t_game *game, t_visu *visu);
 void	restart_all(t_game *game, int *pause);
-void	update_all(t_game *game, t_visu *visu, int pause);
+void	update_all(t_game *game, t_visu *visu, int pause, int c);
 void	output(t_game *game, int *pause);
-void	print_menu(WINDOW *win, t_game *game, int pause);
+void	print_menu(WINDOW *win, t_game *game, int pause, int c);
 void print_dump(WINDOW *win, t_uc *dump);
 
 #endif

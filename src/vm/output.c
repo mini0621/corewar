@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 18:42:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 15:02:52 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 18:49:03 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void print_dump(WINDOW *win, t_uc *dump)
 	}
 }
 
-void	print_menu(WINDOW *win, t_game *game, int pause)
+void	print_menu(WINDOW *win, t_game *game, int pause, int c)
 {
 	mvwprintw(game->visu->menu_win, 2, 5, "COREWAR");
 	if (pause)
@@ -38,7 +38,7 @@ void	print_menu(WINDOW *win, t_game *game, int pause)
 	else
 		mvwprintw(game->visu->menu_win, 3, 5, "PRESS SPACE to PAUSE");	
 	wattron(win, A_BOLD | COLOR_PAIR(1));
-	mvwprintw(game->visu->menu_win, 5, 5, "P1: hey");
+	mvwprintw(game->visu->menu_win, 5, 5, "P1: hey %d", c);
 	wattroff(win, A_BOLD | COLOR_PAIR(1));
 	wattron(win, CLR_P2);
 	mvwprintw(game->visu->menu_win, 8, 5, "P2: yay");
@@ -49,10 +49,12 @@ void	output(t_game *game, int *pause)
 {
 	int	c;
 
-	c = '\0';
-	if ((c = getch()) == ' ')
+	c = getch();
+	if (c == 32)
+	{
 		*pause = (*pause) ? 1 : 0;
+	}
 	else if (c == KEY_RESIZE)
 		return (restart_all(game, pause));
-	update_all(game, game->visu, *pause);
+	update_all(game, game->visu, *pause, c);
 }

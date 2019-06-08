@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 16:53:46 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 16:56:15 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,16 @@ static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
 	op = get_op(inst);
 	l = op->n_args;
 	ptr = addr;
-	ft_printf("op is %i\n", op->opcode);
-	ft_printf("l is %i\n", l);
-	ft_printf("addr is %hhx\n", *ptr);
+	//ft_printf("op is %i\n", op->opcode);
+	//ft_printf("l is %i\n", l);
+	//ft_printf("addr is %hhx\n", *ptr);
 	while (i < l)
 	{
 		size = (inst->args[i].type != e_reg) ? 4 : 1;
 		if (size == 4 && !op->dir_bytes)
 			size = 2;
 		ft_printf("size? %u\n", size);
-		ft_printf("size? hre %x\n", *ptr);
+		ft_printf("content %x\n", *ptr);
 		read_dump(dump, ptr, (void *)&(inst->args[i].value.u_dir_val), size);
 		ptr = access_ptr(dump, ptr, size);
 		i++;
