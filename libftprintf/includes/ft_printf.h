@@ -14,6 +14,7 @@
 # define FT_PRINTF_H
 
 # include "libftprintf.h"
+# include <stdint.h>
 
 typedef enum		e_lm
 {

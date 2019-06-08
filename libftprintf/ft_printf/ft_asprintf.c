@@ -42,5 +42,6 @@ int		ft_asprintf(char **ret, const char *fmt, ...)
 int		asprinterror(char **ret)
 {
 	ret = NULL;
+	(void)ret;
 	return (-1);
 }

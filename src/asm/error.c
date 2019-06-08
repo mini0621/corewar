@@ -14,12 +14,11 @@
 
 void	error(t_pos *pos, int i, t_tkn *tkn)
 {
-	if (i == 1)
+	if (i == 1 && tkn)
 		ft_printf("Lexical error at [%d : %d]\n", pos->line, tkn->buff_start);
-	else if (i == 2)
+	else if (i == 2 && tkn)
 		ft_printf("Syntactic error at [%d : %d]\n", pos->line, tkn->buff_start);
 	else
 		ft_printf("Error\n");
 	//free
-	exit(1);
 }

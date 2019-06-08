@@ -36,7 +36,7 @@ VM_OBJ = $(VM_SRC:src/vm/%.c=obj/%.o)
 VM_INST_OBJ = $(VM_INST_SRC:src/vm/instruction/%.c=obj/%.o)
 
 ASM_SRC = $(addprefix src/asm/, asm_main.c error.c finished_state_machines.c \
-		  read_asm.c tkn_create_func1.c)
+		  read_asm.c tkn_create_func1.c ft_memrev.c ft_isspace.c)
 
 ASM_OBJ	=	$(ASM_SRC:src/asm/%.c=obj/%.o)
 

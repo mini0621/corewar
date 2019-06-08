@@ -57,9 +57,7 @@ unsigned long long	get_mincarry(unsigned long long *a,
 void				add_frac(unsigned long long *a, unsigned long long **b)
 {
 	int	i;
-	int e;
 
-	e = 0;
 	i = 0;
 	while (i < 101)
 	{

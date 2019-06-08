@@ -17,6 +17,7 @@
 # define OP_TAB_SIZE 17
 # define NB_TKN_TYPES 10
 # define SPACE_CHAR " \n\v\f\n\r"
+# define NB_LSM_COL 14
 
 #include "libftprintf.h"
 #include "op.h"
@@ -241,20 +242,27 @@ typedef struct	s_pos
 	int			dir_bytes;
 }				t_pos;
 
-typedef void *(tkn_create_func)(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+extern char	lsm_col[13][25];
+extern int	lex_sm[29][14];
+extern int	syntactic_sm[57][14];
 
-void	tkn_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_register(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_op(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_dir_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_dir_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_ind_value(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_ind_label(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_cmd(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_separator(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
-void	tkn_carr_ret(char *buff, t_pos *pos, t_lbl *labels, t_tkn *tkn);
+void	(*tkn_fptr[NB_TKN_TYPES])(char *buff, t_pos *pos, t_list *lbl, t_tkn *tkn);
+
+void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_register(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_op(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_dir_value(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_dir_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_ind_value(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_ind_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_separator(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_carr_ret(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
 int		read_bytes(char **line, int error, const int fd);
 void	ocp_modify(t_pos *pos);
 void	ocp_create(t_tkn *tkn, t_pos *pos);
+void	ft_memrev(void *buf, size_t len);
+void	error(t_pos *pos, int i, t_tkn *tkn);
+int		ft_isspace(char c);
 
 #endif

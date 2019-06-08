@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "corewar.h"
 #include <stdlib.h>
 
 static int	ft_end(int value, char **tmp)
