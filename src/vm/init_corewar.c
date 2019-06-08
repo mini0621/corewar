@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 19:02:12 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 19:09:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int		read_champs(t_game *game)
 	ft_printf("death cycle %i\n", game->cycle_d);
 	while (i < nbr_champs)
 	{
+		ft_printf("this?\n");
 		vm_store_instr(game, game->champs[i]->instr, i, game->champs[i]->prog_size);
 		n = prcs_new(-i - 1);
 		((t_process *)(n->content))->pc = &(game->memdump[0]) + i * (MEM_SIZE / game->nbr_champs); 

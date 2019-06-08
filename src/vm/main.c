@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 17:08:05 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 19:11:38 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int		main(int argc, char **argv)
 	pause = (game.visu) ?  1 : 0;
 	while (!end || pause)
 	{
-		ft_printf("pause is %i", pause);
 		if (!pause)
 			end = process(&game);
 		if (game.visu)
