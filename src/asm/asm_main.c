@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/07 16:49:27 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/08 14:39:19 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (0);
 	end = 0;
-	if (fd = open(argv[1], O_RDONLY) < 0)
+	if ((fd = open(argv[1], O_RDONLY)) < 0)
 	{
 		ft_printf("error\n"); // handle more properly
 		return (0);

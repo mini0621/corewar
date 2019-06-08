@@ -6,11 +6,12 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 15:34:09 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/07 15:35:17 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/08 14:41:33 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//include
+#include "corewar.h"
+//libft
 
 long	ft_atochar(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 16:38:26 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/08 15:52:09 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,5 +264,10 @@ void	ocp_create(t_tkn *tkn, t_pos *pos);
 void	ft_memrev(void *buf, size_t len);
 void	error(t_pos *pos, int i, t_tkn *tkn);
 int		ft_isspace(char c);
-
+//libft
+long	ft_atochar(char *str);
+long	ft_atolong(char *str);
+short	ft_atos(char *str);
+//need to fix
+void	error(t_pos *pos, int i, t_tkn *tkn);
 #endif
