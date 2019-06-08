@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 16:56:15 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 22:24:28 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static t_op	*decode_op(t_uc *pc)
 {
 	t_opcode	code;
 
-	if (*pc > 0x0f)
+	if (!(*pc) || *pc > 0x0f)
 		return (NULL);
 	code = (t_opcode)(*pc);
 	return (&(g_op_tab[(int)code]));
@@ -87,9 +87,9 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 	t_uc	*addr;
 
 	addr = pc;
-	ft_printf("addr1 is %hhx\n", *addr);
-	if (!(inst->op = (void *)decode_op(pc)))
-		return (access_ptr(dump, pc, 1));
+	ft_printf("addr1 is %i\n", addr - dump);
+	while (!(inst->op = (void *)decode_op(addr)))
+		addr = access_ptr(dump, addr, 1);
 	addr = access_ptr(dump, addr, 1);
 	if ((get_op(inst))->ocp)
 	{
@@ -97,8 +97,8 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 			return (access_ptr(dump, addr, 1));
 		addr = access_ptr(dump, addr, 1);
 	}
-	ft_printf("addr3 is %hhx\n", *addr);
+	ft_printf("addr2 is %i\n", addr - dump);
 	addr = decode_args(dump, inst, addr);
-	ft_printf("addr4 is %hhx\n", *addr);
+	ft_printf("addr3 is %i\n", addr - dump);
 	return (addr);
 }

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 16:04:04 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 22:18:33 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_uc	*access_ptr(t_uc *dump, t_uc *pc, int offset)
 		offset %= MEM_SIZE;
 	if (offset < 0)
 		offset = MEM_SIZE + offset; 
-	if (pc - dump + offset <= MEM_SIZE)
+	if (pc - dump + offset < MEM_SIZE)
 		return (pc + offset);
 	return (dump + ((pc - dump + offset) % MEM_SIZE));
 }

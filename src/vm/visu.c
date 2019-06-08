@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 18:42:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 18:49:05 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 22:07:56 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ void	init_visu(t_game *game, t_visu *visu)
 	initscr();
 	visu_color();
 	cbreak();
-	scrollok(stdscr, TRUE);
+	//scrollok(stdscr, TRUE);
 	keypad(stdscr, TRUE);
 	noecho();
 	curs_set(0);
 	keypad(stdscr, TRUE);
-	nodelay(stdscr,TRUE);
+	nodelay(stdscr, TRUE);
 	visu->dump_win = newwin(MEM_SIZE / 64 + 2, 64 * 3 + 9, 0, 0);
 	visu->menu_win = newwin(MEM_SIZE / 64 + 2, 100, 0, 64 * 3 + 8);
-	scrollok(visu->dump_win, TRUE);
+	//scrollok(visu->dump_win, TRUE);
 	update_all(game, game->visu, 1, 0);
 }
 
