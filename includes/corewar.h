@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 15:52:09 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/08 17:18:15 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define COREWAR_H
 
 # define BUFF_SIZE_COR 2048
-# define OP_TAB_SIZE 17
+# define OP_TAB_ASM_SIZE 16
 # define NB_TKN_TYPES 10
 # define SPACE_CHAR " \n\v\f\n\r"
 # define NB_LSM_COL 14
@@ -210,6 +210,15 @@ typedef enum	e_tkn_type
 	e_eof,
 }				t_tkn_type;
 
+typedef struct	s_op_asm
+{
+	int			n_args; //nbr of args
+	int			ocp;
+	int			dir_bytes;
+	char		*name;
+}				t_op_asm;
+
+
 typedef	struct	s_tkn // put in the content of the t_list
 {
 	t_tkn_type	type;
@@ -242,9 +251,10 @@ typedef struct	s_pos
 	int			dir_bytes;
 }				t_pos;
 
-extern char	lsm_col[13][25];
-extern int	lex_sm[29][14];
-extern int	syntactic_sm[57][14];
+extern char		lsm_col[13][25];
+extern int		lex_sm[29][14];
+extern int		syntactic_sm[57][14];
+extern t_op_asm	g_op_tab_asm[16];
 
 void	(*tkn_fptr[NB_TKN_TYPES])(char *buff, t_pos *pos, t_list *lbl, t_tkn *tkn);
 

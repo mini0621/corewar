@@ -6,16 +6,11 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/08 16:01:47 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/08 17:20:33 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-
-//char a;
-//a = 0b11100100;
-
 
 void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 {
@@ -175,13 +170,13 @@ void	tkn_op(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 	tkn->type = e_op;
 	name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start + 1);
 	i = 0;
-	while (i < OP_TAB_SIZE && !ft_strequ(name, op_tab[i].name))
+	while (i < OP_TAB_ASM_SIZE && !ft_strequ(name, g_op_tab_asm[i].name))
 		i++;
-	if (i == OP_TAB_SIZE)
+	if (i == OP_TAB_ASM_SIZE)
 		ft_printf("invalide op_code\n"); // handle more properly
-	(t_op *)tkn->value = op_tab[i];
-	pos->ocp_nbr = op_tab[i].n_args;
-	pos->dir_bytes = op_tab[i].dir_bytes; // changed the name of op_tab
+	tkn->value = g_op_tab_asm + i;
+	pos->ocp_nbr = g_op_tab_asm[i].n_args;
+	pos->dir_bytes = g_op_tab_asm[i].dir_bytes; // changed the name of op_tab_asm
 }
 
 void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
