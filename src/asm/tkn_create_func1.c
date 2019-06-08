@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/07 15:26:41 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/08 16:01:47 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	tkn_op(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		i++;
 	if (i == OP_TAB_SIZE)
 		ft_printf("invalide op_code\n"); // handle more properly
-	(t_op)tkn->value = op_tab[i];
+	(t_op *)tkn->value = op_tab[i];
 	pos->ocp_nbr = op_tab[i].n_args;
 	pos->dir_bytes = op_tab[i].dir_bytes; // changed the name of op_tab
 }
@@ -192,7 +192,7 @@ void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		tkn->type = e_cmd_comment;
 	else
 	{
-		ERROR();
+		error(pos, 1, tkn);  //fix
 		return ;
 	}
 	while (!ft_isspace(tkn->buff_start))
@@ -204,10 +204,10 @@ void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		ft_strchr(buff + tkn->buff_start, '\"') - (buff + tkn->buff_start) + 1); //WONT COPY THE \0 CHARS ...
 	if (tkn->type == e_cmd_name
 		&& ft_strlen((char*)tkn->value) > PROG_NAME_LENGTH) //WONT GO TO THE END OF COMMENT IF \0
-		ERROR();
+		error(pos, 1, tkn);  //fix
 	else if (tkn->type == e_cmd_comment
 		&& ft_strlen((char*)tkn->value) > COMMENT_LENGTH) //WONT GO TO THE END OF COMMENT IF \0
-		ERROR();
+		error(pos, 1, tkn);  //fix
 }
 
 void	tkn_separator(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
@@ -228,12 +228,12 @@ void	tkn_dir_value(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
 
 	tkn->mem_size = pos->dir_bytes;
 	if (tkn->buff_start - tkn->buff_end + 1 > 10)
-		ERROR();
+		error(pos, 1, tkn);  //fix
 	long_nbr = ft_atolong(buff + tkn->buff_start + 1);
 	if (tkn->mem_size == 4)
 	{
 		if (long_nbr > 2147483647 || long_nbr < -2147483648)
-			ERROR();
+			error(pos, 1, tkn);  //fix
 		else
 		{
 			nbr = ft_atoi(buff + tkn->buff_start + 1);
@@ -243,7 +243,7 @@ void	tkn_dir_value(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
 	else if (tkn->mem_size == 2)
 	{
 		if (long_nbr > 32767 || long_nbr < -32767)
-			ERROR();
+			error(pos, 1, tkn);  //fix
 		else
 		{
 			sh_nbr = ft_atos(buff + tkn->buff_start + 1);
@@ -259,10 +259,10 @@ void	tkn_ind_value(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
 	short		sh_nbr;
 
 	if (tkn->buff_start - tkn->buff_end + 1 > 10)
-		ERROR();
+		error(pos, 1, tkn);  //fix
 	long_nbr = ft_atolong(buff + tkn->buff_start);
 	if (long_nbr > 32767 || long_nbr < -32767)
-		ERROR();
+		error(pos, 1, tkn);  //fix
 	else
 	{
 		sh_nbr = ft_atos(buff + tkn->buff_start + 1);

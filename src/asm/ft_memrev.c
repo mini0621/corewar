@@ -1,3 +1,5 @@
+#include "corewar.h"
+
 char	*ft_memrev(void *str, size_t len)
 {
 	int		i;
