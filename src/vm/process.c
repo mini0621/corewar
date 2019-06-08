@@ -6,27 +6,32 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 13:35:08 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 16:56:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int	count_alivechamps(t_game *game, t_champ **champs)
+static int count_alivechamps(t_game *game, t_champ **champs)
 {
-	int	i;
-	int	end;
+	int i;
+	int end;
+	int win;
 
+	win = 1;
 	end = 0;
 	i = 0;
 	while ((*champs + i))
 	{
 		if ((*champs + i)->live_c)
+		{
 			end++;
+			win = (*champs + i)->id;
+		}
 		i++;
 	}
 	if (!end || end == 1)
-		return (1);
+		return (win);
 	i = 0;
 	while ((*champs + i))
 	{
@@ -37,10 +42,10 @@ static int	count_alivechamps(t_game *game, t_champ **champs)
 	return (0);
 }
 
-static int	is_end(t_game *game, t_champ **champs, t_list *prcs)
+static int is_end(t_game *game, t_champ **champs, t_list *prcs)
 {
-	t_list	*cur;
-	t_list	*pre;
+	t_list *cur;
+	t_list *pre;
 
 	cur = prcs;
 	pre = NULL;
@@ -49,7 +54,7 @@ static int	is_end(t_game *game, t_champ **champs, t_list *prcs)
 		if (((t_process *)(cur->content))->is_alive)
 		{
 			((t_process *)(cur->content))->is_alive = 0;
-			continue ;
+			continue;
 		}
 		ft_lstsub(&prcs, cur);
 		ft_lstdel(&cur, &del_lstprcs);
@@ -58,13 +63,13 @@ static int	is_end(t_game *game, t_champ **champs, t_list *prcs)
 	}
 	game->cycle_to_die -= CYCLE_DELTA;
 	game->cycle_d = game->cycle_to_die;
-	return (count_alivechamps(game, champs));	
+	return (count_alivechamps(game, champs));
 }
 
-int		process(t_game *game)
+int process(t_game *game)
 {
-	t_list		*cur;
-	t_process	*p;	
+	t_list *cur;
+	t_process *p;
 
 	if (!game->cycle_d && is_end(game, &(game->champs[0]), game->prcs))
 		return (1);
