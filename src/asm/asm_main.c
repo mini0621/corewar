@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/08 18:02:50 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/09 18:37:50 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,13 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char *byte_buff, char *line)
 		pos->state_s = syntactic_sm[pos->state_s][tkn->type];
 		if (tkn)
 			ocp_create(tkn, pos);
-		if (tkn)
-		bytecode_gen(tkn, byte_buff, pos, lbls); // translate the token we just read in bytecode
+		if ((tkn->mem_size != 0 && tkn->value != NULL)
+			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U')
+			bytecode_gen(tkn, bytebuf, pos, lbls); // translate the tkn we just read in bytecode
+		if ((tkn->type == e_ind_label || tkn->type == e_dir_label)
+			&& tkn->value == NULL) // test
+			continue ;
+		free(tkn);
 	}
 	pos->lc_instruction = pos->lc_tkn + tkn->mem_size;
 }
