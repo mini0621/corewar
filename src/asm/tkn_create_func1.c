@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_func1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/09 18:43:49 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/09 18:49:50 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		error(pos, 1, tkn);  //fix
 		return ;
 	}
-	while (!ft_isspace(tkn->buff_start))
+	while (!ft_isspace(*(buff + tkn->buff_start)))
 		tkn->buff_start++;
 	while (ft_isspace(*(buff + tkn->buff_start)))
 		tkn->buff_start++;

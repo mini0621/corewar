@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/09 18:41:34 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/09 18:57:10 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define BUFF_SIZE_COR 2048
 # define OP_TAB_ASM_SIZE 16
 # define NB_TKN_TYPES 10
-# define SPACE_CHAR " \n\v\f\n\r"
+# define SPACE_CHAR " \t\v\f\r"
 # define NB_LSM_COL 13
 
 #include "libftprintf.h"
