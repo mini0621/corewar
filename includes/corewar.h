@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 17:58:51 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/09 18:41:34 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ typedef enum	e_tkn_type
 	e_cmd_name,
 	e_cmd_comment,
 	e_op,
-	e_label,
+	e_lbl,
 	e_register,
 	e_ind_label,
 	e_ind_value,
@@ -234,7 +234,7 @@ typedef	struct	s_lbl  // put in the content of the t_list
 {
 	char		*name;
 	char		type; // D - Defined or U - Undefined
-	char		*lc_label;
+	char		*lc_lbl;
 	t_list		**frwd;
 }				t_lbl;
 

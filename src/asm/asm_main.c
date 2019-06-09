@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/09 18:37:50 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/09 18:43:07 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_list **lbls)
 			break;
 		if (lex_sm[pos->state_l][0] == -2 || lex_sm[pos->state_l][0] == -3)
 		{
-			if (lex_sm[pos->state_l][0] == -3)
-				pos->col--;
 			(*tkn)->buff_end = pos->col;
 			tkn_create(buff, pos, *lbls, *tkn);  //**
+			if (lex_sm[pos->state_l][0] == -2)
+				pos->col++;
 			return (1);
 		}
 		pos->col++;
@@ -130,13 +130,13 @@ void	gaps_fill(char *bytebuf, t_tkn *tkn)
 	{
 		if (((t_tkn*)(t1->content))->mem_size == 2)
 		{
-			ref_sht = lbl->lc_label - ((t_tkn*)(t1->content))->lc_instruction;
+			ref_sht = lbl->lc_lbl - ((t_tkn*)(t1->content))->lc_instruction;
 			ft_memcpy(tkn->lc_tkn, &ref_sht, 2);
 			ft_memrev(tkn->lc_tkn, 2);
 		}
 		else if (((t_tkn*)(t1->content))->mem_size == 4)
 		{
-			ref_int = lbl->lc_label - ((t_tkn*)(t1->content))->lc_instruction;
+			ref_int = lbl->lc_lbl - ((t_tkn*)(t1->content))->lc_instruction;
 			ft_memcpy(tkn->lc_tkn, &ref_int, 4);
 			ft_memrev(tkn->lc_tkn, 4);
 		}
@@ -146,7 +146,7 @@ void	gaps_fill(char *bytebuf, t_tkn *tkn)
 
 void	bytecode_gen(t_tkn *tkn, char *bytebuf, t_pos *pos, t_list *lbls)
 {
-	if (tkn->type == e_label)
+	if (tkn->type == e_lbl)
 	{
 		gaps_fill(bytebuf, tkn);
 		((t_lbl*)(tkn->value))->type = 'D';
@@ -168,7 +168,7 @@ void	bytecode_gen(t_tkn *tkn, char *bytebuf, t_pos *pos, t_list *lbls)
 	}
 }
 
-void	syntactic_analysis(t_list *lbls, t_pos *pos, char *byte_buff, char *line)
+void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
 {
 	t_tkn	*tkn;
 
@@ -180,10 +180,10 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char *byte_buff, char *line)
 		if (tkn)
 			ocp_create(tkn, pos);
 		if ((tkn->mem_size != 0 && tkn->value != NULL)
-			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U')
-			bytecode_gen(tkn, bytebuf, pos, lbls); // translate the tkn we just read in bytecode
+			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U'))
+			bytecode_gen(tkn, bytebuf, pos, lbls);
 		if ((tkn->type == e_ind_label || tkn->type == e_dir_label)
-			&& tkn->value == NULL) // test
+			&& tkn->value == NULL)
 			continue ;
 		free(tkn);
 	}

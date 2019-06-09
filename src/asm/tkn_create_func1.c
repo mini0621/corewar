@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/08 17:20:33 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/09 18:43:49 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 	t_list	*tmp_l;
 	t_lbl	*new;
 
-	tkn->type = e_label;
+	tkn->type = e_lbl;
 	tmp_l = lbls;
 	name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start);
 	while (tmp_l != NULL && !ft_strequ(((t_lbl*)(tmp_l->content))->name, name))
@@ -30,7 +30,7 @@ void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		else
 		{
 			tkn->value = tmp_l->content;
-			((t_lbl*)(tmp_l->content))->lc_label = pos->lc_instruction;
+			((t_lbl*)(tmp_l->content))->lc_lbl = pos->lc_instruction;
 			//((t_lbl*)(tmp_l->content))->type = 'D'; // Move this in bytecode_translation function.
 			//verify that the LC points to where the label we just received is pointing to
 		}
@@ -41,7 +41,7 @@ void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		tkn->value = new;
 		new->name = name;
 		new->type = 'D';
-		new->lc_label = pos->lc_instruction; // Check if on good instruction (the one after the label, not before)
+		new->lc_lbl = pos->lc_instruction; // Check if on good instruction (the one after the label, not before)
 		new->frwd = NULL;
 		ft_lstadd(&lbls, ft_lstnew(new, sizeof(t_lbl)));
 	}
@@ -67,12 +67,12 @@ void	tkn_dir_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 			if (pos->dir_bytes == 2)
 			{
 				tkn->value = (short*)malloc(sizeof(short));
-				*((short*)tkn->value) = ((t_lbl*)(tmp_l->content))->lc_label - pos->lc_instruction;
+				*((short*)tkn->value) = ((t_lbl*)(tmp_l->content))->lc_lbl - pos->lc_instruction;
 			}
 			else
 			{
 				tkn->value = (int*)malloc(sizeof(int));
-				*((int*)tkn->value) = ((t_lbl*)(tmp_l->content))->lc_label - pos->lc_instruction;
+				*((int*)tkn->value) = ((t_lbl*)(tmp_l->content))->lc_lbl - pos->lc_instruction;
 			}
 		}
 		else
@@ -112,12 +112,12 @@ void	tkn_ind_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 			if (pos->dir_bytes == 2)
 			{
 				tkn->value = (short*)malloc(sizeof(short));
-				*((short*)tkn->value) = ((t_lbl*)(tmp_l->content))->lc_label - pos->lc_instruction;
+				*((short*)tkn->value) = ((t_lbl*)(tmp_l->content))->lc_lbl - pos->lc_instruction;
 			}
 			else
 			{
 				tkn->value = (int*)malloc(sizeof(int));
-				*((int*)tkn->value) = ((t_lbl*)(tmp_l->content))->lc_label - pos->lc_instruction;
+				*((int*)tkn->value) = ((t_lbl*)(tmp_l->content))->lc_lbl - pos->lc_instruction;
 			}
 		}
 		else
