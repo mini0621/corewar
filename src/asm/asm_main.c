@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/09 18:43:07 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/09 22:41:36 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ t_tkn	*tkn_create(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 	while (j < NB_TKN_TYPES)
 	{
 		if (j == lex_sm[pos->state_l][1])
+		{
 			tkn_fptr[j](buff, pos, lbls, tkn);
+			break ;
+		}
 		j++;
 	}
 	return (tkn);
@@ -64,10 +67,11 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_list **lbls)
 			break;
 		if (lex_sm[pos->state_l][0] == -2 || lex_sm[pos->state_l][0] == -3)
 		{
+			if (lex_sm[pos->state_l][0] == -3)
+				pos->col--;
 			(*tkn)->buff_end = pos->col;
 			tkn_create(buff, pos, *lbls, *tkn);  //**
-			if (lex_sm[pos->state_l][0] == -2)
-				pos->col++;
+			pos->col++;
 			return (1);
 		}
 		pos->col++;
@@ -154,16 +158,21 @@ void	bytecode_gen(t_tkn *tkn, char *bytebuf, t_pos *pos, t_list *lbls)
 	else
 	{
 		if (tkn->mem_size == 1)
+		{
 			ft_memcpy(tkn->lc_tkn, tkn->value, 1);
+			pos->lc_tkn = pos->lc_tkn + 1;
+		}
 		else if (tkn->mem_size == 2)
 		{
 			ft_memcpy(tkn->lc_tkn, tkn->value, 2);
 			ft_memrev(tkn->lc_tkn, 2);
+			pos->lc_tkn = pos->lc_tkn + 2;
 		}
 		else if (tkn->mem_size == 4)
 		{
 			ft_memcpy(tkn->lc_tkn, tkn->value, 4);
 			ft_memrev(tkn->lc_tkn, 4);
+			pos->lc_tkn = pos->lc_tkn + 4;
 		}
 	}
 }
@@ -172,11 +181,13 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
 {
 	t_tkn	*tkn;
 
-	while (pos->state_s != -1) //err 아닌경우
+	while (pos->state_s != -1 && pos->col < pos->size_line) //err 아닌경우
 	{
 		if (!lexical_analysis(line, pos, &tkn, &lbls))
 			return ;
 		pos->state_s = syntactic_sm[pos->state_s][tkn->type];
+		if (syntactic_sm[pos->state_s][0] < -1)
+			check_state_s(pos, tkn);
 		if (tkn)
 			ocp_create(tkn, pos);
 		if ((tkn->mem_size != 0 && tkn->value != NULL)
@@ -187,7 +198,6 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
 			continue ;
 		free(tkn);
 	}
-	pos->lc_instruction = pos->lc_tkn + tkn->mem_size;
 }
 
 void	ft_init_main(t_list **lbls, char **bytebuf, char **line, t_pos *pos)
@@ -196,7 +206,7 @@ void	ft_init_main(t_list **lbls, char **bytebuf, char **line, t_pos *pos)
 	*line = NULL;
 	*lbls = NULL;
 	pos->line = 0;
-	pos->lc_instruction = 0;
+	pos->lc_instruction = *bytebuf;
 	pos->lc_tkn = 0;
 	pos->state_s = 0;
 }
@@ -222,7 +232,7 @@ void	main_loop(int fd)
 
 	error = 0;
 	ft_init_main(&lbls, &bytebuf, &line, &pos);
-	while ((pos.size_line = read_bytes(&line, error, fd) > 0)) // line per line but should return the \n as well
+	while ((pos.size_line = read_bytes(&line, error, fd)) > 0) // line per line but should return the \n as well
 	{
 		pos.col = 0;
 		pos.line++;

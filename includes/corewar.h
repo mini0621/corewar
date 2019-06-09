@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/09 18:57:10 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/09 22:58:45 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ typedef struct	s_op_asm
 	int			ocp;
 	int			dir_bytes;
 	char		*name;
+	int			op_state_s;
 }				t_op_asm;
 
 
@@ -253,7 +254,7 @@ typedef struct	s_pos
 
 extern char		lsm_col[13][25];
 extern int		lex_sm[29][14];
-extern int		syntactic_sm[57][14];
+extern int		syntactic_sm[56][14];
 extern t_op_asm	g_op_tab_asm[16];
 
 void	(*tkn_fptr[NB_TKN_TYPES])(char *buff, t_pos *pos, t_list *lbl, t_tkn *tkn);
@@ -280,4 +281,5 @@ long	ft_atolong(char *str);
 short	ft_atos(char *str);
 //need to fix
 void	error(t_pos *pos, int i, t_tkn *tkn);
+void	check_state_s(t_pos *pos, t_tkn *tkn);
 #endif
