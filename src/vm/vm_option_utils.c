@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:28 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/07 14:57:11 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/09 22:55:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,14 @@ int                     vm_opt_n(int pos
 int                     vm_opt_debug(int pos
 		, char **av, t_game *game)
 {
+	t_ull               value;
+
 	if (av[pos] && !game->deb_state)
-		game->deb_state = 1;
+	{
+		if ((value = vm_get_value(av[pos + 1])) == (t_ull) -1)
+			return (0);
+		game->deb_state = (int)value;
+	}
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 17:09:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/10 03:01:55 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ typedef struct	s_game
 	int			pl_state;
 	t_ull		pl_number;
 	int			deb_state;
+	char		*logs;
+	size_t		logs_len;
 	int			v_state;
 	int			pv_number;
 	int			fl_error;//end of parser option flag
@@ -193,6 +195,7 @@ void	free_game(t_game *game);
  * util.c
  * */
 t_op	*get_op(t_inst *inst);
+void	update_logs(t_game *game, char **new, size_t l);
 
 /*
  * memory_utils.c
@@ -256,4 +259,11 @@ void	output(t_game *game, int *pause);
 void	print_menu(WINDOW *win, t_game *game, int pause, int c);
 void print_dump(WINDOW *win, t_uc *dump);
 
+/*
+ *debug
+ * */
+void	print_inst(t_game *game, t_inst *inst, t_process *caller, t_opcode opcode);
+void	get_debug(t_game *game, t_inst *inst, t_process *caller, t_champ *champ);
+void	reset_debug(t_game *game);
+void	print_debug(t_game *game);
 #endif

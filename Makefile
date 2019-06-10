@@ -6,7 +6,7 @@
 #    By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/08 22:19:03 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/06/10 02:55:17 by mnishimo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,8 @@ VM_SRC = $(addprefix src/vm/, main.c init_corewar.c process.c instructions.c \
 		 decode.c ocp.c free.c lst_util.c util.c memory_util.c prcs_util.c \
 		 vm_error_utils.c vm_file_reader.c vm_mem_utils.c vm_option_utils.c \
 		 vm_parser_model.c vm_parser_utils.c vm_primary_parser.c\
-		 output.c visu.c)
+		 output.c visu.c debug.c debug_inst.c)
 
-SRC = src/op.c
 
 VM_INST_SRC = $(addprefix src/vm/instructions/, inst01_live.c inst02_ld.c \
 		inst03_st.c inst04_add.c inst05_sub.c inst06_and.c inst07_or.c \
