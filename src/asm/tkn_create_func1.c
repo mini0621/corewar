@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_func1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/10 11:57:34 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/10 14:36:56 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	tkn_dir_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		new->name = name;
 		new->type = 'U';
 		ft_lstadd(&lbls, ft_lstnew(new, sizeof(t_lbl)));
+		tmp_l = lbls;
 		ft_lstadd(((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
 	}
 }
