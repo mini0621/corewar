@@ -1,9 +1,9 @@
 #include "corewar.h"
 
-char	lsm_col[13][25] =
+char	lsm_col[13][26] =
 {
 	{"_"},
-	{"abcdefghijklmnopqstuvwxyz"},
+	{"stuvwxyzabcdefghijklmnopq"},
 	{"r"},
 	{"0123456789"},
 	{"-"},

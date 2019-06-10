@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/09 22:58:45 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/10 11:36:42 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,7 @@ typedef struct	s_pos
 	int			dir_bytes;
 }				t_pos;
 
-extern char		lsm_col[13][25];
+extern char		lsm_col[13][26];
 extern int		lex_sm[29][14];
 extern int		syntactic_sm[56][14];
 extern t_op_asm	g_op_tab_asm[16];

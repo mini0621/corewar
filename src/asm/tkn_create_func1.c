@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/09 21:52:25 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/10 11:57:34 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	tkn_register(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 	i = tkn->buff_start + 1;
 	while (buff[i] == '0')
 		i++;
-	if (i == tkn->buff_end)
+	if (i == tkn->buff_end && (i - 1 != tkn->buff_start && buff[i] != '0'))
 		ft_printf("registers cannot have value 0\n"); // handle more properly // 0 ?
 	nbr_str = ft_strndup(buff + i, tkn->buff_end - i + 1);
 	if (ft_strlen(nbr_str) > 2)
@@ -157,7 +157,7 @@ void	tkn_register(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 	else
 	{
 		tkn->type = e_register;
-		*((char*)tkn->value) = nbr_char;
+		tkn->value = ft_strdup(&nbr_char);
 		tkn->mem_size = 1;
 	}
 }
@@ -175,6 +175,7 @@ void	tkn_op(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 	if (i == OP_TAB_ASM_SIZE)
 		ft_printf("invalide op_code\n"); // handle more properly
 	tkn->value = g_op_tab_asm + i;
+	tkn->mem_size = 1;
 	pos->ocp_nbr = g_op_tab_asm[i].n_args;
 	pos->dir_bytes = g_op_tab_asm[i].dir_bytes; // changed the name of op_tab_asm
 }

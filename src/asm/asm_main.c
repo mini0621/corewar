@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/09 22:41:36 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/10 11:12:37 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_list **lbls)
 		pos->state_l = lex_sm[pos->state_l][i];
 		if (pos->state_l == -1)
 			break;
+		if (pos->state_l == 0)
+			(*tkn)->buff_start++;
 		if (lex_sm[pos->state_l][0] == -2 || lex_sm[pos->state_l][0] == -3)
 		{
 			if (lex_sm[pos->state_l][0] == -3)
