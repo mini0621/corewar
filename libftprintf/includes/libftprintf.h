@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:55:20 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/25 14:31:19 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 14:01:02 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "ft_avl.h"
 # include "ft_printf.h"
 
-# define BUFF_SIZE 10
+# define BUFF_SIZE 2048
 
 typedef struct		s_list
 {

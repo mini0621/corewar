@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_asm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/07 16:32:50 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/11 15:16:14 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int	read_file(char **tmp, int *size_tmp, char **line, int *size_line, con
 	int		ret;
 	int		i;
 
-	i = 0;
 	while ((ret = read(fd, buf, BUFF_SIZE_COR)) > 0)
 	{
+		i = 0;
 		while (i < BUFF_SIZE_COR - 1 && buf[i] != '\n')
 			i++;
 		if (buf[i] == '\n')
@@ -49,9 +49,10 @@ static int	read_file(char **tmp, int *size_tmp, char **line, int *size_line, con
 			*size_line = *size_line + i + 1;
 			break ;
 		}
-		if (!(*line = realloc(*line, ret)))
+		if (!(*line = realloc(*line, *size_line + ret)))
 			return (-1);
 		ft_memcpy(*line + *size_line, buf, ret);
+		*size_line = *size_line + ret;
 		ft_bzero(buf, BUFF_SIZE_COR);
 	}
 	return (ft_return_rf(ret, *size_tmp));
@@ -70,7 +71,7 @@ static int	read_tmp(char **tmp, int *size_tmp, char **line, int *size_line)
 		line[0][*size_line] = tmp[0][*size_line];
 		(*size_line)++;
 	}
-	if (tmp[0][*size_line] == '\n')
+	if (*size_tmp && tmp[0][*size_line] == '\n')
 	{
 		line[0][*size_line] = tmp[0][*size_line];
 		(*size_line)++;

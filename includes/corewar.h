@@ -6,14 +6,14 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/10 11:36:42 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/11 15:30:24 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COREWAR_H
 # define COREWAR_H
 
-# define BUFF_SIZE_COR 2048
+# define BUFF_SIZE_COR 10
 # define OP_TAB_ASM_SIZE 16
 # define NB_TKN_TYPES 10
 # define SPACE_CHAR " \t\v\f\r"
@@ -223,8 +223,8 @@ typedef struct	s_op_asm
 typedef	struct	s_tkn // put in the content of the t_list
 {
 	t_tkn_type	type;
-	char		*lc_instruction;
-	char		*lc_tkn;
+	int			lc_instruction;
+	int			lc_tkn;
 	int			buff_start;
 	int			buff_end;
 	int			mem_size;
@@ -235,7 +235,7 @@ typedef	struct	s_lbl  // put in the content of the t_list
 {
 	char		*name;
 	char		type; // D - Defined or U - Undefined
-	char		*lc_lbl;
+	int			lc_lbl_inst;
 	t_list		**frwd;
 }				t_lbl;
 
@@ -244,12 +244,14 @@ typedef struct	s_pos
 	int			line;
 	int			col; // char?
 	int			ocp_nbr;
-	char		*lc_instruction;
-	char		*lc_tkn;
+	int			lc_instruction;
+	int			lc_tkn;
 	int			state_l;
 	int			state_s;
 	int			size_line;
 	int			dir_bytes;
+	int			bytebf_remain;
+	int			bytebf_size;
 }				t_pos;
 
 extern char		lsm_col[13][26];
@@ -270,8 +272,8 @@ void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
 void	tkn_separator(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
 void	tkn_carr_ret(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
 int		read_bytes(char **line, int error, const int fd);
-void	ocp_modify(t_pos *pos);
-void	ocp_create(t_tkn *tkn, t_pos *pos);
+void	ocp_modify(t_pos *pos, char *bytebuf);
+void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
 void	ft_memrev(void *buf, size_t len);
 void	error(t_pos *pos, int i, t_tkn *tkn);
 int		ft_isspace(char c);

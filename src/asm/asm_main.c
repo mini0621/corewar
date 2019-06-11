@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/10 19:05:05 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/11 15:34:18 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_list **lbls)
  * syntactic analysis
  * */
 
-void ocp_create(t_tkn *tkn, t_pos *pos)
+void ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf)
 {
 	char a;
 
@@ -99,17 +99,17 @@ void ocp_create(t_tkn *tkn, t_pos *pos)
 	if (tkn->type == e_register || tkn->type == e_ind_label || tkn->type == e_ind_value
 		|| tkn->type == e_dir_label || tkn->type == e_dir_value) // pos->ocp_nbr >= 1
 	{
-		if (*(pos->lc_instruction + 1) == '\0')
-			*(pos->lc_instruction + 1) = a;
-		else if (*(pos->lc_instruction + 1) > 0 && *(pos->lc_instruction + 1) < 4)
+		if (*(bytebuf + pos->lc_instruction + 1) == '\0')
+			*(bytebuf + pos->lc_instruction + 1) = a;
+		else if (*(bytebuf + pos->lc_instruction + 1) > 0 && *(bytebuf + pos->lc_instruction + 1) < 4)
 		{
-			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 2;
-			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) | a;
+			*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 2;
+			*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) | a;
 		}
-		else if (*(pos->lc_instruction + 1) > 3)
+		else if (*(bytebuf + pos->lc_instruction + 1) > 3)
 		{
-			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 2;
-			*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) | a;
+			*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 2;
+			*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) | a;
 		}
 	}
 }
@@ -137,15 +137,15 @@ void	gaps_fill(char *bytebuf, t_tkn *tkn)
 	{
 		if (((t_tkn*)(t1->content))->mem_size == 2)
 		{
-			ref_sht = lbl->lc_lbl - ((t_tkn*)(t1->content))->lc_instruction;
-			ft_memcpy(tkn->lc_tkn, &ref_sht, 2);
-			ft_memrev(tkn->lc_tkn, 2);
+			ref_sht = lbl->lc_lbl_inst - ((t_tkn*)(t1->content))->lc_instruction;
+			ft_memcpy(bytebuf + tkn->lc_tkn, &ref_sht, 2);
+			ft_memrev(bytebuf + tkn->lc_tkn, 2);
 		}
 		else if (((t_tkn*)(t1->content))->mem_size == 4)
 		{
-			ref_int = lbl->lc_lbl - ((t_tkn*)(t1->content))->lc_instruction;
-			ft_memcpy(tkn->lc_tkn, &ref_int, 4);
-			ft_memrev(tkn->lc_tkn, 4);
+			ref_int = lbl->lc_lbl_inst - ((t_tkn*)(t1->content))->lc_instruction;
+			ft_memcpy(bytebuf + tkn->lc_tkn, &ref_int, 4);
+			ft_memrev(bytebuf + tkn->lc_tkn, 4);
 		}
 		move_free(&t1, &t2);
 	}
@@ -162,22 +162,22 @@ void	bytecode_gen(t_tkn *tkn, char *bytebuf, t_pos *pos, t_list *lbls)
 	{
 		if (tkn->mem_size == 1)
 		{
-			ft_memcpy(tkn->lc_tkn, tkn->value, 1);
+			ft_memcpy(bytebuf + pos->lc_tkn, tkn->value, 1);
 		}
 		else if (tkn->mem_size == 2)
 		{
-			ft_memcpy(tkn->lc_tkn, tkn->value, 2);
-			ft_memrev(tkn->lc_tkn, 2);
+			ft_memcpy(bytebuf + pos->lc_tkn, tkn->value, 2);
+			ft_memrev(bytebuf + pos->lc_tkn, 2);
 		}
 		else if (tkn->mem_size == 4)
 		{
-			ft_memcpy(tkn->lc_tkn, tkn->value, 4);
-			ft_memrev(tkn->lc_tkn, 4);
+			ft_memcpy(bytebuf + pos->lc_tkn, tkn->value, 4);
+			ft_memrev(bytebuf + pos->lc_tkn, 4);
 		}
 	}
 }
 
-void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
+void	syntactic_analysis(t_list *lbls, t_pos *pos, char **bytebuf, char *line)
 {
 	t_tkn	*tkn;
 
@@ -191,15 +191,25 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
 			check_state_s(pos, tkn);
 		if ((tkn->mem_size != 0 && tkn->value != NULL)
 			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U'))
-			bytecode_gen(tkn, bytebuf, pos, lbls);
-		if (tkn->type == e_op)
+			bytecode_gen(tkn, *bytebuf, pos, lbls);
+		if (pos->bytebf_remain < tkn->mem_size
+			|| (tkn->type == e_op
+				&& ((t_op_asm*)(tkn->value))->ocp == 1 && pos->bytebf_remain < 2))
+		{
+			pos->bytebf_size = pos->bytebf_size + BUFF_SIZE_COR;
+			*bytebuf = realloc(*bytebuf, pos->bytebf_size);
+			pos->bytebf_remain = pos->bytebf_remain + BUFF_SIZE_COR;
+		}
+		if (tkn->type == e_op && ((t_op_asm*)(tkn->value))->ocp == 1)
 		{
 			pos->lc_instruction = pos->lc_tkn;
 			pos->lc_tkn = pos->lc_tkn + 1;
+			pos->bytebf_remain = pos->bytebf_remain - 1;
 		}
 		pos->lc_tkn = pos->lc_tkn + tkn->mem_size;
+		pos->bytebf_remain = pos->bytebf_remain - tkn->mem_size;
 		if (tkn)
-			ocp_create(tkn, pos);
+			ocp_create(tkn, pos, *bytebuf);
 		if ((tkn->type == e_ind_label || tkn->type == e_dir_label)
 			&& tkn->value == NULL)
 			continue ;
@@ -209,23 +219,25 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char *bytebuf, char *line)
 
 void	ft_init_main(t_list **lbls, char **bytebuf, char **line, t_pos *pos)
 {
-	*bytebuf = (char*)ft_memalloc(BUFF_SIZE);
+	*bytebuf = (char*)ft_memalloc(BUFF_SIZE_COR);
 	*line = NULL;
 	*lbls = NULL;
+	pos->bytebf_remain = BUFF_SIZE_COR;
+	pos->bytebf_size = pos->bytebf_remain;
 	pos->line = 0;
-	pos->lc_instruction = *bytebuf;
-	pos->lc_tkn = *bytebuf;
+	pos->lc_instruction = 0;
+	pos->lc_tkn = 0;
 	pos->state_s = 0;
 }
 
-void ocp_modify(t_pos *pos)
+void ocp_modify(t_pos *pos, char *bytebuf)
 {
 	if (pos->ocp_nbr == 1)
-		*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 6;
+		*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 6;
 	else if (pos->ocp_nbr == 2)
-		*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 4;
+		*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 4;
 	else if (pos->ocp_nbr == 3)
-		*(pos->lc_instruction + 1) = *(pos->lc_instruction + 1) << 2;
+		*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 2;
 	//variable nbr error? already before in syntactic
 }
 
@@ -243,8 +255,8 @@ void	main_loop(int fd)
 	{
 		pos.col = 0;
 		pos.line++;
-		syntactic_analysis(lbls, &pos, bytebuf, line);
-		ocp_modify(&pos);
+		syntactic_analysis(lbls, &pos, &bytebuf, line);
+		ocp_modify(&pos, bytebuf);
 		if (line)
 			free(line);
 	}
