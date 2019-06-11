@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/10 00:21:33 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 02:09:23 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 void	inst_zjmp(t_game *game, t_process *caller, t_inst *inst)
 {
+	int	offset;
+
 	if (!game || !caller || !inst || !caller->carry)
 		return ;
-	inst->args[0].type = e_dir;
-	caller->pc = access_ptr(game->memdump, caller->pc, *get_arg(caller, game->memdump, &(inst->args[0]), 1));
+	offset = (int)(short)(inst->args[0].value.u_dir_val);
+	ft_printf("this? %i\n", offset);
+	caller->pc = access_ptr(game->memdump, caller->pc, offset);
+	if (!game->deb_state)
+		return ;
 	inst->args[0].value.u_dir_val = caller->pc - game->memdump;
 	get_debug(game, inst, caller, NULL);
 }

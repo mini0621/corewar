@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 23:12:43 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 02:11:35 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,17 @@ static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
 	//ft_printf("addr is %hhx\n", *ptr);
 	while (i < l)
 	{
-		size = (inst->args[i].type != e_reg) ? 4 : 1;
-		if (size == 4 && !op->dir_bytes)
+		size = (inst->args[i].type != e_reg) ? 4: 1;
+		if (inst->args[i].type == e_ind
+				|| (inst->args[i].type == e_dir && !op->dir_bytes))
 			size = 2;
 		//ft_printf("size? %u\n", size);
-		//ft_printf("content %x\n", *ptr);
-		read_dump(dump, ptr, (void *)&(inst->args[i].value.u_dir_val), size);
+		if (inst->args[i].type == e_reg)
+			read_dump(dump, ptr, (void *)&(inst->args[i].value.u_reg_val), size);
+		else if (inst->args[i].type == e_ind)
+			read_dump(dump, ptr, (void *)&(inst->args[i].value.u_ind_val), size);
+		else if (inst->args[i].type == e_dir)
+			read_dump(dump, ptr, (void *)&(inst->args[i].value.u_dir_val), size);
 		ptr = access_ptr(dump, ptr, size);
 		i++;
 	}
@@ -97,6 +102,8 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 			return (access_ptr(dump, addr, 1));
 		addr = access_ptr(dump, addr, 1);
 	}
+	else
+		inst->args[0].type = e_dir;
 //	ft_printf("addr2 is %i\n", addr - dump);
 	addr = decode_args(dump, inst, addr);
 //	ft_printf("addr3 is %i\n", addr - dump);

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/10 03:01:55 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/10 23:42:27 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ void	free_game(t_game *game);
  * */
 t_op	*get_op(t_inst *inst);
 void	update_logs(t_game *game, char **new, size_t l);
+void	memcpy_inv(void *dst, void *src, size_t size);
 
 /*
  * memory_utils.c
@@ -204,6 +205,7 @@ t_uc	*access_ptr(t_uc *dump, t_uc *pc, int offset);
 void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size);
 void	write_dump(t_uc *dump, void *src, t_uc *dst, size_t size);
 t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr);
+void	endian_conv(void *value, size_t size);
 
 /*
  * lst_util.c
@@ -266,4 +268,5 @@ void	print_inst(t_game *game, t_inst *inst, t_process *caller, t_opcode opcode);
 void	get_debug(t_game *game, t_inst *inst, t_process *caller, t_champ *champ);
 void	reset_debug(t_game *game);
 void	print_debug(t_game *game);
+void	debug_hex(void *dst, size_t size);
 #endif
