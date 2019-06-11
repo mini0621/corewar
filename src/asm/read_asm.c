@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/11 15:16:14 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/11 18:27:05 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static int	read_tmp(char **tmp, int *size_tmp, char **line, int *size_line)
 	if (size_line)
 	{
 		ft_memmove(*tmp, *tmp + *size_line, *size_tmp - *size_line);
+		ft_bzero(*tmp + *size_tmp - *size_line, *size_line);
 		*size_tmp = *size_tmp - *size_line;
 		*line = realloc(*line, *size_line);
 	}

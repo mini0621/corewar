@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_func1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/11 17:10:03 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/11 21:49:09 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
+void	tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	char	*name;
 	t_list	*tmp_l;
 	t_lbl	*new;
 
 	tkn->type = e_lbl;
-	tmp_l = lbls;
+	tmp_l = *lbls;
 	name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start);
 	while (tmp_l != NULL && !ft_strequ(((t_lbl*)(tmp_l->content))->name, name))
 		tmp_l = tmp_l->next;
@@ -31,8 +31,6 @@ void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		{
 			tkn->value = tmp_l->content;
 			((t_lbl*)(tmp_l->content))->lc_lbl_inst = pos->lc_instruction;
-			//((t_lbl*)(tmp_l->content))->type = 'D'; // Move this in bytecode_translation function.
-			//verify that the LC points to where the label we just received is pointing to
 		}
 	}
 	else
@@ -43,20 +41,20 @@ void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		new->type = 'D';
 		new->lc_lbl_inst = pos->lc_instruction; // Check if on good instruction (the one after the label, not before)
 		new->frwd = NULL;
-		ft_lstadd(&lbls, ft_lstnew(new, sizeof(t_lbl)));
+		ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)));
 	}
 }
 
-void	tkn_dir_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
+void	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	char	*name;
 	t_list	*tmp_l;
-	t_tkn	*tmp_t;
+	t_list	*tmp_t;
 	t_lbl	*new;
 
 	tkn->type = e_dir_label;
 	tkn->mem_size = pos->dir_bytes;
-	tmp_l = lbls;
+	tmp_l = *lbls;
 	name = ft_strndup(buff + tkn->buff_start + 2, tkn->buff_end - tkn->buff_start - 1);
 	while (tmp_l != NULL && !ft_strequ(((t_lbl*)(tmp_l->content))->name, name))
 		tmp_l = tmp_l->next;
@@ -79,7 +77,7 @@ void	tkn_dir_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		{
 			tkn->lc_instruction = pos->lc_instruction;
 			tkn->lc_tkn = pos->lc_tkn;
-			ft_lstadd(((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
+			ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
 		}
 	}
 	else
@@ -87,21 +85,22 @@ void	tkn_dir_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		new = (t_lbl*)ft_memalloc(sizeof(t_lbl));
 		new->name = name;
 		new->type = 'U';
-		ft_lstadd(&lbls, ft_lstnew(new, sizeof(t_lbl)));
-		ft_lstadd(((t_lbl*)(lbls->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
+		tmp_l = ft_lstnew(new, sizeof(t_lbl));
+		tmp_t = ft_lstnew(tkn, sizeof(t_tkn));
+		ft_lstadd(lbls, tmp_l);
+		ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, tmp_t);
 	}
 }
 
-void	tkn_ind_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
+void	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	char	*name;
 	t_list	*tmp_l;
-	t_tkn	*tmp_t;
 	t_lbl	*new;
 
 	tkn->type = e_ind_label;
 	tkn->mem_size = 2;
-	tmp_l = lbls;
+	tmp_l = *lbls;
 	name = ft_strndup(buff + tkn->buff_start + 1, tkn->buff_end - tkn->buff_start);
 	while (tmp_l != NULL && !ft_strequ(((t_lbl*)(tmp_l->content))->name, name))
 		tmp_l = tmp_l->next;
@@ -124,7 +123,7 @@ void	tkn_ind_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		{
 			tkn->lc_instruction = pos->lc_instruction;
 			tkn->lc_tkn = pos->lc_tkn;
-			ft_lstadd(((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
+			ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
 		}
 	}
 	else
@@ -132,12 +131,13 @@ void	tkn_ind_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		new = (t_lbl*)ft_memalloc(sizeof(t_lbl));
 		new->name = name;
 		new->type = 'U';
-		ft_lstadd(&lbls, ft_lstnew(new, sizeof(t_lbl)));
-		ft_lstadd(((t_lbl*)(lbls->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
+		tmp_l = ft_lstnew(new, sizeof(t_lbl));
+		ft_lstadd(lbls, tmp_l);
+		ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
 	}
 }
 
-void	tkn_register(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
+void	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	int		i;
 	char 	nbr_char;
@@ -162,7 +162,7 @@ void	tkn_register(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 	}
 }
 
-void	tkn_op(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
+void	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	int		i;
 	char	*name;
@@ -180,7 +180,7 @@ void	tkn_op(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 	pos->dir_bytes = g_op_tab_asm[i].dir_bytes; // changed the name of op_tab_asm
 }
 
-void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
+void	tkn_cmd(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	if (ft_strnequ(buff + tkn->buff_start, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 		tkn->type = e_cmd_name;
@@ -206,17 +206,17 @@ void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn)
 		error(pos, 1, tkn);  //fix
 }
 
-void	tkn_separator(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
+void	tkn_separator(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	tkn->type = e_separator;
 }
 
-void	tkn_carr_ret(char *buff, t_pos *pos, t_list *labels, t_tkn *token)
+void	tkn_carr_ret(char *buff, t_pos *pos, t_list **lbls, t_tkn *token)
 {
 	token->type = e_carriage_return;
 }
 
-void	tkn_dir_value(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
+void	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	long int	long_nbr;
 	int			nbr;
@@ -249,7 +249,7 @@ void	tkn_dir_value(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
 	tkn->type = e_dir_value;
 }
 
-void	tkn_ind_value(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
+void	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	long int	long_nbr;
 	short		sh_nbr;

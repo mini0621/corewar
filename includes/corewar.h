@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 15:30:24 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/11 21:47:40 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ typedef	struct	s_lbl  // put in the content of the t_list
 	char		*name;
 	char		type; // D - Defined or U - Undefined
 	int			lc_lbl_inst;
-	t_list		**frwd;
+	t_list		*frwd;
 }				t_lbl;
 
 typedef struct	s_pos
@@ -259,18 +259,18 @@ extern int		lex_sm[29][14];
 extern int		syntactic_sm[56][14];
 extern t_op_asm	g_op_tab_asm[16];
 
-void	(*tkn_fptr[NB_TKN_TYPES])(char *buff, t_pos *pos, t_list *lbl, t_tkn *tkn);
+void	(*tkn_fptr[NB_TKN_TYPES])(char *buff, t_pos *pos, t_list **lbl, t_tkn *tkn);
 
-void	tkn_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_register(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_op(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_dir_value(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_dir_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_ind_value(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_ind_label(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_cmd(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_separator(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
-void	tkn_carr_ret(char *buff, t_pos *pos, t_list *lbls, t_tkn *tkn);
+void	tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_cmd(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_separator(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	tkn_carr_ret(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
 int		read_bytes(char **line, int error, const int fd);
 void	ocp_modify(t_pos *pos, char *bytebuf);
 void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
