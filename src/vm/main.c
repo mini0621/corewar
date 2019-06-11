@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 22:46:43 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:04:54 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	print_result(t_game *game, int win)
 {
-	ft_printf("winner is player %i\n", win);
+	if (game->cycle != game->nbr_cycle)
+		ft_printf("winner is player %i\n", win);
 }
 
 int		main(int argc, char **argv)

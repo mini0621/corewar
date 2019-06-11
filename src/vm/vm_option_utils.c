@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:28 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/09 22:55:09 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:07:14 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int                     vm_opt_soption(int pos, char **av, t_game *game)
 int                     vm_opt_visu(int pos
 		, char **av, t_game *game)
 {
-	game->visu = (t_visu *)malloc(sizeof(t_visu));
+	if (game && av && pos)
+		game->visu = (t_visu *)malloc(sizeof(t_visu));
 	return (1);
 }
 

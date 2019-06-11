@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 01:52:41 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:16:43 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_uc	*access_ptr(t_uc *dump, t_uc *pc, int offset)
 void	endian_conv(void *value, size_t size)
 {
 	t_uc	tmp;
-	int		i;
+	size_t	i;
 
 	if (size < 1)
 		return ;
@@ -43,7 +43,7 @@ void	endian_conv(void *value, size_t size)
 
 void	debug_hex(void *dst, size_t size)
 {
-	int i = 0;
+	size_t i = 0;
 	ft_printf("hex read :");
 	while (i < size)
 	{
@@ -67,7 +67,7 @@ void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size)
 	else
 		ft_memcpy(dst, src, size);
 	endian_conv(dst, size);
-	debug_hex(dst, size);
+//	debug_hex(dst, size);
 	//ft_printf("check %x\n", *(int *)dst);
 	
 }

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 18:42:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 22:10:20 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:09:30 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void print_dump(WINDOW *win, t_uc *dump)
 {
 	t_uc	*ptr;
 	int		i;
-	int		j;
 
 	ptr = dump;
 	i = 0;

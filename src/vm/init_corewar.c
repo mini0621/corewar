@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/10 02:37:55 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:05:15 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void		vm_store_instr(t_game *game, unsigned char *instr
 		, int flag, unsigned int size)
 {
 	int			dif;
-	int			index;
 	int			id;
 	int			nbr_champs;
 

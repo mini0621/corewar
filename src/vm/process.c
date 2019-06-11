@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/10 18:22:10 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:31:04 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 	pre = NULL;
 	while (cur)
 	{
-		if (((t_process *)(cur->content))
-				->is_alive)
+		if (((t_process *)(cur->content))->is_alive)
 		{
 			((t_process *)(cur->content))->is_alive = 0;
 			pre = (!pre) ? cur: pre->next;
@@ -62,9 +61,9 @@ static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 			continue;
 		}
 		ft_lstsub(prcs, cur);
-		ft_lstdel(&cur, &del_lstprcs);
-		pre = (cur == *prcs) ? NULL : pre;
+		ft_lstdelone(&cur, &del_lstprcs);
 		cur = (!pre) ? *prcs : pre->next;
+		pre = (cur == *prcs) ? NULL : pre;
 	}
 	game->cycle_to_die -= CYCLE_DELTA;
 	game->cycle_d = game->cycle_to_die;
