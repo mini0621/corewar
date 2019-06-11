@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 00:20:38 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:09:58 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	get_debug(t_game *game, t_inst *inst, t_process *caller, t_champ *champ)
 {
-	t_arg	*args;
 	char	*tmp;
 	int		l;
 

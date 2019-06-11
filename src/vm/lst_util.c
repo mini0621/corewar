@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 15:51:03 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/05/30 15:53:07 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:04:12 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 void	del_lstprcs(void *cnt, size_t size)
 {
-	
+	if (size)
+		free(cnt);
 }
