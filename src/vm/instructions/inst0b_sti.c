@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 01:25:42 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:27:43 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	inst_sti(t_game *game, t_process *caller, t_inst *inst)
 		return ;
 	res = (short)(*get_arg(caller, game->memdump, &(inst->args[0]), 1))
  	 		+ (short)(*get_arg(caller, game->memdump, &(inst->args[1]), 1));
+ 	res %= IDX_MOD;
 	caller->carry = (!res) ? 1 : 0;
 	addr = access_ptr(game->memdump, caller->pc, (int)res % IDX_MOD);
 	read_dump(game->memdump, addr, &val, REG_SIZE);
