@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_func1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/11 15:31:45 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/11 17:10:03 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ void	tkn_ind_value(char *buff, t_pos *pos, t_list *labels, t_tkn *tkn)
 		error(pos, 1, tkn);  //fix
 	else
 	{
-		sh_nbr = ft_atos(buff + tkn->buff_start + 1);
+		sh_nbr = ft_atos(buff + tkn->buff_start);
 		tkn->value = (void*)&sh_nbr;
 	}
 	tkn->type = e_ind_value;

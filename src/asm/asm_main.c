@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/11 15:34:18 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/11 16:26:08 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,9 +189,6 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char **bytebuf, char *line)
 		pos->state_s = syntactic_sm[pos->state_s][tkn->type];
 		if (syntactic_sm[pos->state_s][0] < -1)
 			check_state_s(pos, tkn);
-		if ((tkn->mem_size != 0 && tkn->value != NULL)
-			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U'))
-			bytecode_gen(tkn, *bytebuf, pos, lbls);
 		if (pos->bytebf_remain < tkn->mem_size
 			|| (tkn->type == e_op
 				&& ((t_op_asm*)(tkn->value))->ocp == 1 && pos->bytebf_remain < 2))
@@ -206,6 +203,9 @@ void	syntactic_analysis(t_list *lbls, t_pos *pos, char **bytebuf, char *line)
 			pos->lc_tkn = pos->lc_tkn + 1;
 			pos->bytebf_remain = pos->bytebf_remain - 1;
 		}
+		if ((tkn->mem_size != 0 && tkn->value != NULL)
+			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U'))
+			bytecode_gen(tkn, *bytebuf, pos, lbls);
 		pos->lc_tkn = pos->lc_tkn + tkn->mem_size;
 		pos->bytebf_remain = pos->bytebf_remain - tkn->mem_size;
 		if (tkn)
