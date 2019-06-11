@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 19:11:38 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 22:46:43 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_result(t_game *game, int win)
 {
-	ft_printf("winner is player %i\n", -win);
+	ft_printf("winner is player %i\n", win);
 }
 
 int		main(int argc, char **argv)
@@ -40,7 +40,8 @@ int		main(int argc, char **argv)
 			output(&game, &pause);
 	}
 	print_result(&game, end);
-	end_visu(game.visu);
+	if (game.visu)
+		end_visu(game.visu);
 	free_game(&game);
 	return (0);
 }

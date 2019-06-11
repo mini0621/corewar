@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 16:32:54 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/10 19:02:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_ocp	ocp_nargshift(t_ocp ocp, int n_args)
 	i = MAX_ARGS_NUMBER - n_args - 1;
 	while (i >= 0)
 	{
-		ft_printf("arg count\n");
+//		ft_printf("arg count\n");
 		ocp = ocp >> 2;
 		i--;
 	}
@@ -56,11 +56,11 @@ int		decode_ocp(t_uc *addr, t_inst *inst)
 		//get each args type 
 		type = get_typefromcode(0x03 & ocp);
 		//and check if it is right
-		ft_printf("this %i %x\n",i, op->args[i]);
+//		ft_printf("this %i %x\n",i, op->args[i]);
 		if (!(type & op->args[i]))
 			return (0);
 		//and store the type in inst
-		ft_printf("arg %i is type %x \n",i, type);
+		ft_printf("arg %i is type %i \n",i, type);
 		inst->args[i].type = type;
 		i--;
 		ocp = ocp >> 2;
