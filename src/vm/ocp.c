@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/10 19:02:46 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:15:33 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		decode_ocp(t_uc *addr, t_inst *inst)
 		if (!(type & op->args[i]))
 			return (0);
 		//and store the type in inst
-		ft_printf("arg %i is type %i \n",i, type);
+//		ft_printf("arg %i is type %i \n",i, type);
 		inst->args[i].type = type;
 		i--;
 		ocp = ocp >> 2;

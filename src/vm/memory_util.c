@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 03:06:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:16:43 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size)
 	else
 		ft_memcpy(dst, src, size);
 	endian_conv(dst, size);
-	debug_hex(dst, size);
+//	debug_hex(dst, size);
 	//ft_printf("check %x\n", *(int *)dst);
 	
 }
