@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 17:21:10 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 02:56:57 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 04:00:05 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,23 @@ void	update_logs(t_game *game, char **new, size_t l)
 		return ;
 	game->logs = tmp;
 	game->logs_len += l;
+}
+
+void	ft_hexdump(t_uc *dump)
+{
+	t_uc	*ptr;
+	int		i;
+
+	ptr = dump;
+	i = 0;
+	ft_printf("\n000000");
+	while (i < MEM_SIZE)
+	{
+		if (i && !(i % 64))
+			ft_printf("\n%#06x", ptr - dump);
+		ft_printf(" %.2hhX", *ptr);
+		ptr++;
+		i++;
+	}
+	ft_printf("\n");
 }
