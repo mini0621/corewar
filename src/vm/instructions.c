@@ -6,13 +6,12 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 21:34:04 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/07 13:51:17 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 21:48:08 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-//decode, excute, update pc
 void	prcs_inst(t_game *game, t_process *caller)
 {
 	t_uc	*dump;
@@ -24,6 +23,7 @@ void	prcs_inst(t_game *game, t_process *caller)
 	newpc = decode(dump, caller->pc, &inst);
 	if (inst.op)
 		(get_op(&inst))->function(game, caller, &inst);
-	caller->pc = newpc;
-	caller->wait_c = (get_op(&inst))->wait;
+	if ((get_op(&inst))->opcode != e_zjmp)
+		caller->pc = newpc;
+	caller->wait_c = (decode_wait(caller->pc));
 }

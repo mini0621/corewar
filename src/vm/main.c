@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 17:16:00 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 21:50:03 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_result(t_game *game, int win)
 {
-	if (game->cycle == game->nbr_cycle || win > 0)
+	if (!game->nbr_cycle || game->cycle == game->nbr_cycle || win > 0)
 		ft_hexdump(game->memdump);
 	else
 		ft_printf("winner is player %i\n", win);
@@ -32,15 +32,12 @@ int		main(int argc, char **argv)
 	if (!init_corewar(&game, argc, argv))
 		return (0);
 	if (game.visu)
-	{
-		pause = (game.visu) ?  1 : 0;
 		vm_init_visu(&game, game.visu);
-	}
 	end = (!game.nbr_cycle) ? 1 : 0;
 	pause = (game.visu) ?  1 : 0;
 	while (!end || pause)
 	{
-		if (!pause)
+		if (!game.pause || !pause)
 			end = process(&game);
 		if (game.visu)
 			if (!output(&game, &pause))

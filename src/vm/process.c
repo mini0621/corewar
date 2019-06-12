@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 17:14:52 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 21:47:27 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int process(t_game *game)
 			p->wait_c -= 1;
 		cur = cur->next;
 	}
+	print_debug(game);
 	game->cycle += 1;
 	game->cycle_d -= 1;
-	print_debug(game);
 	return ((game->nbr_cycle == game->cycle) ? 1 : 0);
 }

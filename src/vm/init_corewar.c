@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 03:05:15 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 21:38:26 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static int		read_champs(t_game *game)
 		vm_store_instr(game, game->champs[i]->fd, i, game->champs[i]->prog_size);
 		n = prcs_new(-i - 1);
 		((t_process *)(n->content))->pc = &(game->memdump[0]) + i * (MEM_SIZE / game->nbr_champs); 
+		((t_process *)(n->content))->wait_c = decode_wait(((t_process *)(n->content))->pc);
 		ft_lstadd(&(game->prcs), n);
 		i++;
 	}

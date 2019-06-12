@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 02:32:43 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 19:05:05 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,9 @@ static void	deb_16_log(t_game *game, t_opcode opcode, t_process *caller, t_arg *
 	else if (opcode == e_st)
 		l = ft_asprintf(&tmp, "champ(%i): store '%08x' into memdump(%i)!\n", caller->c_id,
 				args->value.u_dir_val, (args + 1)->value.u_dir_val);
-	else if (opcode == e_sti && (args + 1)->type == e_reg)
-		l = ft_asprintf(&tmp, "champ(%i): store index(%i) into r%hhi!\n", caller->c_id,
-				args->value.u_dir_val, (args + 2)->value.u_reg_val);
 	else if (opcode == e_sti)
-		l = ft_asprintf(&tmp, "champ(%i): store index(%i) into memdump(%i)!\n", caller->c_id,
-				args->value.u_dir_val, (args + 2)->value.u_dir_val);
+		l = ft_asprintf(&tmp, "champ(%i): store '%08x' into memdump(%i)!\n", caller->c_id,
+				args->value.u_dir_val, (args + 1)->value.u_dir_val);
 	else
 		return ;
 	update_logs(game, &tmp, l);

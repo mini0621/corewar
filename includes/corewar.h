@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 03:39:45 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 21:41:14 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,7 @@ void	prcs_cpy(t_process *dst, t_process *src, t_uc *addr);
  * instructions.c
  * */
 void	prcs_inst(t_game *game, t_process *caller);
-void	update_caller(t_process *caller, t_op *op);
-
+int		decode_wait(t_uc *pc);
 /*
  * decode.c
  * */
