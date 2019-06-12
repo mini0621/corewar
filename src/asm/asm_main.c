@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/12 16:38:42 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/12 16:46:08 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,32 @@ void	init_after_read(t_pos *pos, char **buf, char **read_line)
 	pos->size_buf = pos->size_buf + pos->size_line;
 }
 
+void	ft_write_output(char *bytebuf, t_bytebuf *file_cnt, t_pos *pos)
+{
+	int fd;
+	char *tmp;
+	char *f_name;
+	int	errno;
+	int	i;
+
+	errno = 0;
+	if (file_cnt->name)
+	{
+		tmp = ft_strndup(file_cnt->name, ft_strlen(file_cnt->name) - 2);
+		f_name = ft_strjoin(tmp, ".cor");
+		ft_strdel(tmp);
+	}
+	if ((fd = open(f_name, O_CREAT | O_WRONLY | O_TRUNC, 0644)) == -1) //0644 = chmod
+		ft_printf("\n ASM failed with error [%s]\n", strerror(errno));
+	else
+	{
+		if ((i = write(fd, bytebuf, file_cnt->prog_size)) == -1)
+			ft_printf("\n ASM failed with error [%s]\n", strerror(errno));
+		else
+			ft_printf("ASM succeeded\n");
+	}
+}
+
 int	main_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 {
 	char	*read_line;
@@ -349,6 +375,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (0);
+	// check if file is valide (file name, ext)
 	end = 0;
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 	{
