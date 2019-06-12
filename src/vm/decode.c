@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 21:52:11 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 22:13:05 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 
 	addr = pc;
 	//	ft_printf("addr1 is %i\n", addr - dump);
-	while (!(inst->op = (void *)decode_op(addr)))
-		addr = access_ptr(dump, addr, 1);
+	if (!(inst->op = (void *)decode_op(addr)))
+		return (access_ptr(dump, addr, 1));
 	addr = access_ptr(dump, addr, 1);
 	if ((get_op(inst))->ocp)
 	{
