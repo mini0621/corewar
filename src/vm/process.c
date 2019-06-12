@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 16:56:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:31:04 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 	win = 1;
 	end = 0;
 	i = 0;
-	while ((*champs + i))
+	while (i < game->nbr_champs)
 	{
 		if ((*champs + i)->live_c)
 		{
 			end++;
 			win = (*champs + i)->id;
 		}
+		else
+			get_debug(game, NULL, NULL, *champs + i);
 		i++;
 	}
 	if (!end || end == 1)
@@ -42,24 +44,26 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 	return (0);
 }
 
-static int is_end(t_game *game, t_champ **champs, t_list *prcs)
+static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 {
 	t_list *cur;
 	t_list *pre;
 
-	cur = prcs;
+	cur = *prcs;
 	pre = NULL;
 	while (cur)
 	{
 		if (((t_process *)(cur->content))->is_alive)
 		{
 			((t_process *)(cur->content))->is_alive = 0;
+			pre = (!pre) ? cur: pre->next;
+			cur = cur->next;
 			continue;
 		}
-		ft_lstsub(&prcs, cur);
-		ft_lstdel(&cur, &del_lstprcs);
-		cur = (!pre) ? prcs : pre->next;
-		pre = (cur == prcs) ? NULL : pre->next;
+		ft_lstsub(prcs, cur);
+		ft_lstdelone(&cur, &del_lstprcs);
+		cur = (!pre) ? *prcs : pre->next;
+		pre = (cur == *prcs) ? NULL : pre;
 	}
 	game->cycle_to_die -= CYCLE_DELTA;
 	game->cycle_d = game->cycle_to_die;
@@ -71,7 +75,9 @@ int process(t_game *game)
 	t_list *cur;
 	t_process *p;
 
-	if (!game->cycle_d && is_end(game, &(game->champs[0]), game->prcs))
+	reset_debug(game);
+	get_debug(game, NULL, NULL, NULL);
+	if (!game->cycle_d && is_end(game, &(game->champs[0]), &(game->prcs)))
 		return (1);
 	cur = game->prcs;
 	while (cur)
@@ -85,5 +91,6 @@ int process(t_game *game)
 	}
 	game->cycle += 1;
 	game->cycle_d -= 1;
-	return (0);
+	print_debug(game);
+	return ((game->nbr_cycle == game->cycle) ? 1 : 0);
 }

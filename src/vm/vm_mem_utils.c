@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 15:36:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/11 17:14:55 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/10 01:01:39 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void            vm_init_flags(t_game *game)
 {
 	ft_bzero(game, sizeof(t_game));
+	game->nbr_cycle = -1;
     game->cycle_d = CYCLE_TO_DIE;
     game->cycle_to_die = CYCLE_TO_DIE;
     game->d_state = 0;

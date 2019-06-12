@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/08 15:44:48 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 22:45:20 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ int                 vm_primary_parser(int fd, t_game *game)
 	play_num = game->pv_number;
 	if (play_num + 1 >= MAX_PLAYERS)
 		return (-4);
-	if (!(new = (t_champ *)malloc(sizeof(t_champ))))
-		return (-2);
 	if (!(fd = vm_verify_magic(fd, &magic)))
 		return (-1);
+	if (!(new = (t_champ *)malloc(sizeof(t_champ))))
+		return (-2);
+	ft_bzero(new, sizeof(t_champ));
 	if ((read(fd, new->name, sizeof(t_uc) * PROG_NAME_LENGTH)) < 0
 		|| lseek(fd, 136, SEEK_SET) < 0
 		|| read(fd, &prog_size, sizeof(unsigned int)) < 0)

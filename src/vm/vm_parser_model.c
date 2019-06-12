@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:34:26 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/08 15:16:41 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:09:20 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ unsigned int			vm_endian_conversion(unsigned int value)
 			| ((value>>8) & 0xff00)
 			| ((value<<24) & 0xff000000));
 }
-
+/*
 static void         vm_disp_players(t_game *game)
 {
     int             index;
@@ -55,14 +55,16 @@ static void         vm_disp_players(t_game *game)
         index++;
     }
 }
-
+*/
 
 void                vm_debug(int flag, int ac, char **av, t_game *game)
 {
-    int             index;
-
+	if (flag || ac || av || game)
+		return ;
+//    int             index;
+/*
     index = 0;
-    ft_printf("\n%s############ DEBUG ###############\n", COLOR_GREEN);
+    ft_printf("\n%s############ DEBUG MODE ON###############\n", COLOR_GREEN);
     if (flag == 0)
     {
         ft_printf("Number of arguments parsed: %d\n", ac);
@@ -76,4 +78,5 @@ void                vm_debug(int flag, int ac, char **av, t_game *game)
         // ft_printf("Memory Dumped after %d cycles\nNumber of cycles to run before dump %d\nNumber of players %d\n", game->nbr_cycle, game->nbr_s_cycle, game->nbr_champs);
         vm_disp_players(game);
     }
+    */
 }

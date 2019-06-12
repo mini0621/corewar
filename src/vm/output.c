@@ -6,17 +6,16 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 18:42:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 22:10:20 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:09:30 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-// void print_dump(WINDOW *win, t_uc *dump)
-// {
-// 	t_uc	*ptr;
-// 	int		i;
-// 	int		j;
+void print_dump(WINDOW *win, t_uc *dump)
+{
+	t_uc	*ptr;
+	int		i;
 
 // 	ptr = dump;
 // 	i = 0;
@@ -76,7 +75,6 @@ void	output(t_game *game, int *pause)
 	if (c == 32)
 	{
 		*pause = (*pause) ? 0 : 1;
-		game->pause = *pause;
 	}
 	else if (c == KEY_RESIZE)
 		return (restart_all(game, pause));

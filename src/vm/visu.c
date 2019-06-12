@@ -60,7 +60,7 @@ void	init_visu(t_game *game, t_visu *visu)
 	visu->dump_win = newwin(MEM_SIZE / 64 + 2, 64 * 3 + 9, 0, 0);
 	visu->menu_win = newwin(MEM_SIZE / 64 + 2, 100, 0, 64 * 3 + 8);
 	//scrollok(visu->dump_win, TRUE);
-	visu_launcher(game, game->visu, 1);
+	update_all(game, game->visu, 1, 0);
 }
 
 void	end_visu(t_visu *visu)
