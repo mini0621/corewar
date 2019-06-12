@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 18:42:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 18:49:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 22:10:20 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	output(t_game *game, int *pause)
 	c = getch();
 	if (c == 32)
 	{
-		*pause = (*pause) ? 1 : 0;
+		*pause = (*pause) ? 0 : 1;
 	}
 	else if (c == KEY_RESIZE)
 		return (restart_all(game, pause));
