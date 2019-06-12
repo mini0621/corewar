@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/10 23:42:27 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 03:39:45 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ void	free_game(t_game *game);
 t_op	*get_op(t_inst *inst);
 void	update_logs(t_game *game, char **new, size_t l);
 void	memcpy_inv(void *dst, void *src, size_t size);
+void	ft_hexdump(t_uc *dump);
 
 /*
  * memory_utils.c

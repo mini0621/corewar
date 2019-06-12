@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 03:31:04 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 17:14:52 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 	int end;
 	int win;
 
-	win = 1;
+	win = -1;
 	end = 0;
 	i = 0;
 	while (i < game->nbr_champs)
@@ -74,11 +74,12 @@ int process(t_game *game)
 {
 	t_list *cur;
 	t_process *p;
+	int		win;
 
 	reset_debug(game);
 	get_debug(game, NULL, NULL, NULL);
-	if (!game->cycle_d && is_end(game, &(game->champs[0]), &(game->prcs)))
-		return (1);
+	if (!game->cycle_d && (win = is_end(game, &(game->champs[0]), &(game->prcs))))
+		return (win);
 	cur = game->prcs;
 	while (cur)
 	{
