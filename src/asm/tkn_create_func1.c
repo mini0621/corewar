@@ -6,13 +6,13 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/11 21:49:09 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/12 16:26:44 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	char	*name;
 	t_list	*tmp_l;
@@ -43,9 +43,10 @@ void	tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		new->frwd = NULL;
 		ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)));
 	}
+	return (1);
 }
 
-void	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	char	*name;
 	t_list	*tmp_l;
@@ -90,9 +91,10 @@ void	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		ft_lstadd(lbls, tmp_l);
 		ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, tmp_t);
 	}
+	return (1);
 }
 
-void	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	char	*name;
 	t_list	*tmp_l;
@@ -135,9 +137,10 @@ void	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		ft_lstadd(lbls, tmp_l);
 		ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)));
 	}
+	return (1);
 }
 
-void	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	int		i;
 	char 	nbr_char;
@@ -160,9 +163,10 @@ void	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		tkn->value = ft_strdup(&nbr_char);
 		tkn->mem_size = 1;
 	}
+	return (1);
 }
 
-void	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	int		i;
 	char	*name;
@@ -178,45 +182,71 @@ void	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	tkn->mem_size = 1;
 	pos->ocp_nbr = g_op_tab_asm[i].n_args;
 	pos->dir_bytes = g_op_tab_asm[i].dir_bytes; // changed the name of op_tab_asm
+	return (1);
 }
 
-void	tkn_cmd(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_cmd_name(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
-	if (ft_strnequ(buff + tkn->buff_start, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
-		tkn->type = e_cmd_name;
-	else if (ft_strnequ(buff + tkn->buff_start, COMMENT_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
-		tkn->type = e_cmd_comment;
-	else
-	{
-		error(pos, 1, tkn);  //fix
-		return ;
-	}
-	while (!ft_isspace(*(buff + tkn->buff_start)))
+	tkn->type = e_cmd_name;
+	while (!ft_isspace(*(buf + tkn->buff_start)))
 		tkn->buff_start++;
-	while (ft_isspace(*(buff + tkn->buff_start)))
+	while (ft_isspace(*(buf + tkn->buff_start)))
 		tkn->buff_start++;
 	tkn->buff_start++;
-	tkn->value = ft_strndup(buff + tkn->buff_start,
-		ft_strchr(buff + tkn->buff_start, '\"') - (buff + tkn->buff_start) + 1); //WONT COPY THE \0 CHARS ...
-	if (tkn->type == e_cmd_name
-		&& ft_strlen((char*)tkn->value) > PROG_NAME_LENGTH) //WONT GO TO THE END OF COMMENT IF \0
-		error(pos, 1, tkn);  //fix
-	else if (tkn->type == e_cmd_comment
-		&& ft_strlen((char*)tkn->value) > COMMENT_LENGTH) //WONT GO TO THE END OF COMMENT IF \0
-		error(pos, 1, tkn);  //fix
+	pos->name_len = pos->buf_pos - tkn->buff_start;
+	tkn->value = malloc(pos->buf_pos - tkn->buff_start);
+	tkn->value = ft_memcpy(tkn->value, buf + tkn->buff_start, pos->buf_pos - tkn->buff_start);
+	if (pos->buf_pos - tkn->buff_start > PROG_NAME_LENGTH)
+		return (error(pos, 1, tkn));
+	return (1);
 }
 
-void	tkn_separator(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_cmd_comment(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
+{
+tkn->type = e_cmd_comment;
+while (!ft_isspace(*(buf + tkn->buff_start)))
+		tkn->buff_start++;
+	while (ft_isspace(*(buf + tkn->buff_start)))
+		tkn->buff_start++;
+	tkn->buff_start++;
+	pos->comment_len = pos->buf_pos - tkn->buff_start;
+	tkn->value = malloc(pos->buf_pos - tkn->buff_start);
+	tkn->value = ft_memcpy(tkn->value, buf + tkn->buff_start, pos->buf_pos - tkn->buff_start);
+	if (pos->buf_pos - tkn->buff_start > COMMENT_LENGTH)
+		return (error(pos, 1, tkn));
+	return (1);
+}
+
+int	tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
+{
+	if (ft_strnequ(buf + tkn->buff_start, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
+	{
+		if (!(tkn_cmd_name(buf, pos, lbls, tkn)))
+			return (0);
+	}
+	else if (ft_strnequ(buf + tkn->buff_start, COMMENT_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
+	{
+		if (!(tkn_cmd_comment(buf, pos, lbls, tkn)))
+			return (0);
+	}
+	else
+		return (error(pos, 1, tkn));  //fix
+	return (1);
+}
+
+int	tkn_separator(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	tkn->type = e_separator;
+	return (1);
 }
 
-void	tkn_carr_ret(char *buff, t_pos *pos, t_list **lbls, t_tkn *token)
+int	tkn_carr_ret(char *buff, t_pos *pos, t_list **lbls, t_tkn *token)
 {
 	token->type = e_carriage_return;
+	return (1);
 }
 
-void	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	long int	long_nbr;
 	int			nbr;
@@ -247,9 +277,10 @@ void	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		}
 	}
 	tkn->type = e_dir_value;
+	return (1);
 }
 
-void	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	long int	long_nbr;
 	short		sh_nbr;
@@ -266,4 +297,5 @@ void	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	}
 	tkn->type = e_ind_value;
 	tkn->mem_size = 2;
+	return (1);
 }

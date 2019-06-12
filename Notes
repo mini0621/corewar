@@ -12,7 +12,7 @@ Work to do --------------
 -File creation
 -Verify that labels declared after last instruction points to adress == size_of_champion
 -Norm + leaks
-
+-Name_CMD and comment_CMD on several lines should be handled
 
 -Lexical : allow no space_chars in case where delimiter chars are explicit :
 Example -> .name"hello" should be allowed
