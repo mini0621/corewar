@@ -1,0 +1,19 @@
+Verifications before seting project as finished ---------
+
+-Check if possible to have multiple labels on the same row
+
+
+
+
+Work to do --------------
+
+-Nice Error messages + error returns flow
+-Header integration (name + comment + offsets + champ_size)
+-File creation
+-Verify that labels declared after last instruction points to adress == size_of_champion
+-Norm + leaks
+
+
+-Lexical : allow no space_chars in case where delimiter chars are explicit :
+Example -> .name"hello" should be allowed
+Currently : .name "hello" allowed (minimum 1 space char)

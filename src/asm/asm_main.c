@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/11 22:31:06 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/12 10:48:37 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_tkn	*tkn_create(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	return (tkn);
 }
 
-int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_list **lbls)
+int	lexical_analysis(char *line, t_pos *pos, t_tkn **tkn, t_list **lbls)
 {
 	int	i;
 
@@ -52,7 +52,7 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_list **lbls)
 	while (pos->state_l != -1)  // except every finals and err
 	{
 		i = 0;
-		while (i < NB_LSM_COL && !ft_strchr(lsm_col[i], buff[pos->col]))
+		while (i < NB_LSM_COL && !ft_strchr(lsm_col[i], line[pos->col]))
 			i++;
 		pos->state_l = lex_sm[pos->state_l][i];
 		if (pos->state_l == -1)
@@ -64,7 +64,7 @@ int	lexical_analysis(char *buff, t_pos *pos, t_tkn **tkn, t_list **lbls)
 			if (lex_sm[pos->state_l][0] == -3)
 				pos->col--;
 			(*tkn)->buff_end = pos->col;
-			tkn_create(buff, pos, lbls, *tkn);  //**
+			tkn_create(line, pos, lbls, *tkn);  //**
 			pos->col++;
 			return (1);
 		}
@@ -144,6 +144,17 @@ void	bytecode_gen(t_tkn *tkn, char *bytebuf, t_pos *pos, t_list *lbls)
 	}
 }
 
+void	bytebuf_realloc(char **bytebuf, t_pos *pos, t_tkn *tkn)
+{
+	if (pos->bytebf_remain < tkn->mem_size
+		|| (tkn->type == e_op && ((t_op_asm*)(tkn->value))->ocp == 1 && pos->bytebf_remain < 2))
+		{
+			pos->bytebf_size = pos->bytebf_size + BUFF_SIZE_COR;
+			*bytebuf = realloc(*bytebuf, pos->bytebf_size);
+			pos->bytebf_remain = pos->bytebf_remain + BUFF_SIZE_COR;
+		}
+}
+
 int	syntactic_analysis(t_list **lbls, t_pos *pos, char **bytebuf, char *line)
 {
 	t_tkn	*tkn;
@@ -158,14 +169,7 @@ int	syntactic_analysis(t_list **lbls, t_pos *pos, char **bytebuf, char *line)
 			return (0);
 		if (syntactic_sm[pos->state_s][0] < -1)
 			check_state_s(pos, tkn);
-		if (pos->bytebf_remain < tkn->mem_size
-			|| (tkn->type == e_op
-				&& ((t_op_asm*)(tkn->value))->ocp == 1 && pos->bytebf_remain < 2))
-		{
-			pos->bytebf_size = pos->bytebf_size + BUFF_SIZE_COR;
-			*bytebuf = realloc(*bytebuf, pos->bytebf_size);
-			pos->bytebf_remain = pos->bytebf_remain + BUFF_SIZE_COR;
-		}
+		bytebuf_realloc(bytebuf, pos, tkn);
 		if (tkn->type == e_lbl)
 			pos->lc_instruction = pos->lc_tkn;
 		if ((tkn->mem_size != 0 && tkn->value != NULL)
@@ -209,6 +213,7 @@ void ocp_modify(t_pos *pos, char *bytebuf)
 		*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 4;
 	else if (pos->ocp_nbr == 3)
 		*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 2;
+	pos->ocp_nbr = 0;
 	//variable nbr error? already before in syntactic
 }
 
