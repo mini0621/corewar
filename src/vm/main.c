@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 03:59:11 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/12 16:39:52 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	print_result(t_game *game, int win)
 {
-	if (win > 0)
+	if (game->cycle == game->nbr_cycle || win > 0)
 		ft_hexdump(game->memdump);
-	else if (game->cycle != game->nbr_cycle)
-		ft_printf("winner is player %i\n", win);
 	else
-		ft_hexdump(game->memdump);
+		ft_printf("winner is player %i\n", win);
 }
 
 int		main(int argc, char **argv)
