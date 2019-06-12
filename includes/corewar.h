@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 16:46:07 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/12 18:58:33 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ typedef enum	e_tkn_type
 
 typedef struct	s_op_asm
 {
-	int			n_args; //nbr of args
+	int			n_args;
 	int			ocp;
 	int			dir_bytes;
 	char		*name;
@@ -220,7 +220,7 @@ typedef struct	s_op_asm
 }				t_op_asm;
 
 
-typedef	struct	s_tkn // put in the content of the t_list
+typedef	struct	s_tkn
 {
 	t_tkn_type	type;
 	int			lc_instruction;
@@ -228,10 +228,10 @@ typedef	struct	s_tkn // put in the content of the t_list
 	int			buff_start;
 	int			buff_end;
 	int			mem_size;
-	void		*value; //case of indirect | direct
+	void		*value;
 }				t_tkn;
 
-typedef	struct	s_lbl  // put in the content of the t_list
+typedef	struct	s_lbl
 {
 	char		*name;
 	char		type; // D - Defined or U - Undefined
@@ -242,18 +242,19 @@ typedef	struct	s_lbl  // put in the content of the t_list
 typedef struct	s_pos
 {
 	int			file_line;
-	int			file_col; // char?
+	int			file_col;
 	int			buf_pos;
-	int			ocp_nbr;
 	int			lc_instruction;
 	int			lc_tkn;
 	int			state_l;
 	int			state_s;
-	int			size_line;
-	int			size_buf;
 	int			dir_bytes;
+	int			ocp;
+	int			arg_nbr;
 	int			name_len;
 	int			comment_len;
+	int			size_line;
+	int			size_buf;
 }				t_pos;
 
 typedef struct	s_bytebf

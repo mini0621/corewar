@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/12 16:26:44 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/12 18:54:18 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,8 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		ft_printf("invalide op_code\n"); // handle more properly
 	tkn->value = g_op_tab_asm + i;
 	tkn->mem_size = 1;
-	pos->ocp_nbr = g_op_tab_asm[i].n_args;
+	pos->arg_nbr = g_op_tab_asm[i].n_args;
+	pos->ocp = g_op_tab_asm[i].ocp;
 	pos->dir_bytes = g_op_tab_asm[i].dir_bytes; // changed the name of op_tab_asm
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/12 16:46:08 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/12 18:57:13 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ int	lexical_analysis(char *buf, t_pos *pos, t_tkn **tkn, t_list **lbls)
 {
 	int	i;
 
-	pos->state_l = 0;
-	pos->buf_pos = 0;
+
 	if (!(*tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
 		return (0); //error
-	(*tkn)->buff_start = pos->buf_pos; // 1
+	if (pos->state_l != 24)
+	{
+		pos->state_l = 0;
+		(*tkn)->buff_start = pos->buf_pos; // 1
+	}
 	while (pos->state_l != -1 && pos->buf_pos < pos->size_buf)  // except every finals and err
 	{
 		i = 0;
@@ -88,7 +91,7 @@ void ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf)
 	if (tkn->type == e_ind_label || tkn->type == e_ind_value)
 		a = 0b00000011;
 	if (tkn->type == e_register || tkn->type == e_ind_label || tkn->type == e_ind_value
-		|| tkn->type == e_dir_label || tkn->type == e_dir_value) // pos->ocp_nbr >= 1
+		|| tkn->type == e_dir_label || tkn->type == e_dir_value) // pos->arg_nbr >= 1
 	{
 		if (*(bytebuf + pos->lc_instruction + 1) == '\0')
 			*(bytebuf + pos->lc_instruction + 1) = a;
@@ -210,7 +213,7 @@ int	syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, char *buf)
 		if (syntactic_sm[pos->state_s][0] < -1)
 			check_state_s(pos, tkn);
 		bytebuf_realloc(bytebf, pos, tkn);
-		if (tkn->type == e_lbl)
+		if (tkn->type == e_lbl || tkn->type == e_op)
 			pos->lc_instruction = pos->lc_tkn;
 		if ((tkn->mem_size != 0 && tkn->value != NULL)
 			|| ((tkn->type == e_lbl) && ((t_lbl*)(tkn->value))->type == 'U')
@@ -221,7 +224,7 @@ int	syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, char *buf)
 			pos->lc_tkn = pos->lc_tkn + 1;
 			bytebf->inst_remain = bytebf->inst_remain - 1;
 		}
-		if (tkn)
+		if (tkn && pos->ocp)
 			ocp_create(tkn, pos, bytebf->inst);
 		pos->lc_tkn = pos->lc_tkn + tkn->mem_size;
 		bytebf->inst_remain = bytebf->inst_remain - tkn->mem_size;
@@ -261,13 +264,13 @@ void	ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 
 void ocp_modify(t_pos *pos, char *bytebuf)
 {
-	if (pos->ocp_nbr == 1)
+	if (pos->arg_nbr == 1)
 		*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 6;
-	else if (pos->ocp_nbr == 2)
+	else if (pos->arg_nbr == 2)
 		*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 4;
-	else if (pos->ocp_nbr == 3)
+	else if (pos->arg_nbr == 3)
 		*(bytebuf + pos->lc_instruction + 1) = *(bytebuf + pos->lc_instruction + 1) << 2;
-	pos->ocp_nbr = 0;
+	pos->arg_nbr = 0;
 }
 
 int		end_lbl(t_list *lbls)
@@ -309,7 +312,7 @@ void	init_after_read(t_pos *pos, char **buf, char **read_line)
 	pos->size_buf = pos->size_buf + pos->size_line;
 }
 
-void	ft_write_output(char *bytebuf, t_bytebuf *file_cnt, t_pos *pos)
+void	ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name)
 {
 	int fd;
 	char *tmp;
@@ -318,20 +321,17 @@ void	ft_write_output(char *bytebuf, t_bytebuf *file_cnt, t_pos *pos)
 	int	i;
 
 	errno = 0;
-	if (file_cnt->name)
-	{
-		tmp = ft_strndup(file_cnt->name, ft_strlen(file_cnt->name) - 2);
-		f_name = ft_strjoin(tmp, ".cor");
-		ft_strdel(tmp);
-	}
+	tmp = ft_strndup(name, ft_strlen(name) - 2);
+	f_name = ft_strjoin(tmp, ".cor");
+	ft_strdel(&tmp);
 	if ((fd = open(f_name, O_CREAT | O_WRONLY | O_TRUNC, 0644)) == -1) //0644 = chmod
 		ft_printf("\n ASM failed with error [%s]\n", strerror(errno));
 	else
 	{
-		if ((i = write(fd, bytebuf, file_cnt->prog_size)) == -1)
+		if ((i = write(fd, bytebf->inst, pos->lc_tkn)) == -1)
 			ft_printf("\n ASM failed with error [%s]\n", strerror(errno));
 		else
-			ft_printf("ASM succeeded\n");
+			ft_printf("write output to %s\n", f_name);
 	}
 }
 
@@ -357,7 +357,9 @@ int	main_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 			continue ;
 		ft_strdel(&buf);
 		pos->size_buf = 0;
-		ocp_modify(pos, bytebf->inst);
+		pos->buf_pos = 0;
+		if (pos->ocp)
+			ocp_modify(pos, bytebf->inst);
 	}
 	if (buf)
 		free(buf);
@@ -382,6 +384,7 @@ int	main(int argc, char **argv)
 		ft_printf("error\n"); // handle more properly
 		return (0);
 	}
-	main_loop(fd, &bytebf, &pos);
+	if (main_loop(fd, &bytebf, &pos))
+		ft_write_output(&bytebf, &pos, argv[1]);
 	return (0);
 }
