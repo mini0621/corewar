@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:34:40 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/07 12:11:34 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 20:14:50 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char const	*g_usage[] =
     "-s N:              Runs N cycles, dumps memory, pauses, then repeats",
 	"-a:                Prints output from \"aff\" (Default is to hide it)",
 	"### TEXT OUTPUT MODE ################################################",
-    "-debug:            0:  Start in debug mode",
+    "-de:        	    0:  Start in debug mode",
     "-v:                1:  Show lives",
     "                   2:  Show cycles",
     "                   4:  Show operations",

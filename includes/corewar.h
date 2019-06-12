@@ -35,16 +35,31 @@ typedef uint16_t			t_ind_type;
 typedef uint32_t			t_dir_type;
 typedef	uint8_t				t_ocp;
 
-typedef struct	s_champ
+typedef struct		s_champ
 {
-	char	name[PROG_NAME_LENGTH + 1];
-	char	comment[COMMENT_LENGTH + 1];
-	unsigned char	*instr;
+	char			name[PROG_NAME_LENGTH + 1];
+	char			comment[COMMENT_LENGTH + 1];
+	int				fd;
 	unsigned int	prog_size;
-	short		id; // this should be created as -1 to -4 as a player nbr
-	int		prcs_c;
-	int		live_c;
+	int				color;
+	short			id;
+	int				prcs_c;
+	int				live_c;
+	int				live;
 }				t_champ;
+
+/*
+***VISUALIZER TEMP STRUCT
+*/
+//temp stage of the visualizer
+typedef struct		s_stage
+{
+	char			value; //value
+	int				cur_col; //current color of the cursor
+	int				p_col; //the previous color on the cursor
+	int				state; //state for the indication of occupied or not
+	int				n_col_count; //next color count
+}					t_stage;
 
 typedef struct	s_process
 {
@@ -109,6 +124,7 @@ typedef struct	s_game
 {
 	t_champ		*champs[MAX_PLAYERS + 1]; // the last ptr is NULL
 	t_list		*prcs; //cache coherence and use t_list? young prcs is top
+	t_stage		stage[MEM_SIZE];		
 	t_ull		nbr_cycle;
 	int			nbr_champs;
 	t_ull		nbr_s_cycle; //-s option
@@ -121,7 +137,9 @@ typedef struct	s_game
 	int			deb_state;
 	int			v_state;
 	int			pv_number;
-	int			fl_error;//end of parser option flag
+	int			pause;
+	int			live_count;
+	int			prev_champ;
 	t_ull		cycle;
 	t_ull		cycle_d;
 	t_ull		c_checked;
@@ -248,12 +266,8 @@ void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
 /*
  * visu
 */
-void	end_visu(t_visu *visu);
-void	init_visu(t_game *game, t_visu *visu);
-void	restart_all(t_game *game, int *pause);
-void	update_all(t_game *game, t_visu *visu, int pause, int c);
-void	output(t_game *game, int *pause);
-void	print_menu(WINDOW *win, t_game *game, int pause, int c);
-void print_dump(WINDOW *win, t_uc *dump);
-
+int				output(t_game *game, int *pause);
+void	        visu_launcher(t_game *game, t_visu *visu, int pause);
+void            vm_init_visu(t_game *game, t_visu *visu);
+void			end_visu(t_visu *visu);
 #endif

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/08 19:09:09 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 20:14:08 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,26 @@ static int				vm_init_parser(int ac, char **av, t_game *game)
 			return (0);
 		index++;
 	}
-	if (game->deb_state)
-		vm_debug(1, ac, av, game);
+	// if (game->deb_state)
+	// 	vm_debug(1, ac, av, game);
 	return (1);
 }
 
-static void		vm_store_instr(t_game *game, unsigned char *instr
-		, int flag, unsigned int size)
+static int		vm_store_instr(t_game *game, int fd
+		, int pos, unsigned int size)
 {
 	int			dif;
-	int			index;
 	int			id;
 	int			nbr_champs;
 
 	nbr_champs = game->nbr_champs;
-	id = (int) game->champs[flag]->id;
+	id = (int) game->champs[pos]->id;
 	dif = -(id + 1) * (MEM_SIZE / nbr_champs);
-	ft_memcpy(&(game->memdump[0]) + dif, instr, sizeof(t_uc) * size);
-	free(instr);
+	if (lseek(fd, 2192, SEEK_SET) < 0
+		|| read(fd, &(game->memdump[0]) + dif, size) < 0)
+		return (0);
+	game->champs[pos]->color = pos;
+	return (1);
 }
 
 static int		read_champs(t_game *game)
@@ -53,12 +55,14 @@ static int		read_champs(t_game *game)
 
 	i = 0;
 	nbr_champs = game->nbr_champs;
-	ft_printf("nbr champs %i\n", game->nbr_champs);
-	ft_printf("death cycle %i\n", game->cycle_d);
+	// ft_printf("nbr champs %i\n", game->nbr_champs);
+	// ft_printf("death cycle %i\n", game->cycle_d);
 	while (i < nbr_champs)
 	{
-		ft_printf("this?\n");
-		vm_store_instr(game, game->champs[i]->instr, i, game->champs[i]->prog_size);
+		//ft_printf("this?\n");
+		if (!vm_store_instr(game, game->champs[i]->fd
+			, i, game->champs[i]->prog_size))
+			return (0);
 		n = prcs_new(-i - 1);
 		((t_process *)(n->content))->pc = &(game->memdump[0]) + i * (MEM_SIZE / game->nbr_champs); 
 		ft_lstadd(&(game->prcs), n);

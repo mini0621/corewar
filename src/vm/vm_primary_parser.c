@@ -56,7 +56,6 @@ int                 vm_primary_parser(int fd, t_game *game)
 {
 	unsigned int    magic;
 	unsigned int	prog_size;
-	t_uc			*str;
 	int             play_num;
 	t_champ         *new;
 
@@ -72,15 +71,10 @@ int                 vm_primary_parser(int fd, t_game *game)
 		|| read(fd, &prog_size, sizeof(unsigned int)) < 0)
 		return (-2);
 	prog_size = vm_endian_conversion(prog_size);
-	if ((read(fd, new->comment, sizeof(t_uc) * COMMENT_LENGTH)) < 0
-		|| !(str = (t_uc *)malloc(sizeof(t_uc) * prog_size + 1)))
-		return (-2);
-	ft_bzero(str, sizeof(t_uc) * prog_size);
-	if (lseek(fd, 2192, SEEK_SET) < 0
-		|| read(fd, str, sizeof(t_uc) * prog_size) < 0)
+	if ((read(fd, new->comment, sizeof(t_uc) * COMMENT_LENGTH)) < 0)
 		return (-2);
 	new->prog_size = prog_size;
-	new->instr = str;
+	new->fd = fd;
 	if (!vm_pri_processor(play_num, new, game))
 		return (-3);
 	return (1);

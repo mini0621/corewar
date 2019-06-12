@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 15:36:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/08 19:10:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/11 17:14:55 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void            vm_init_flags(t_game *game)
     game->pl_state = 0;
     game->pv_number = 0;
     game->pl_number = 0;
+    game->prev_champ = 0;
     game->visu = 0;
     ft_bzero(&(game->memdump[0]), MEM_SIZE * sizeof(t_uc));
 }

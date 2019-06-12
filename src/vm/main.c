@@ -20,6 +20,7 @@ void	print_result(t_game *game, int win)
 int		main(int argc, char **argv)
 {
 	t_game	game;
+	t_visu	visu;
 	int		end;
 	int		pause;
 
@@ -29,7 +30,12 @@ int		main(int argc, char **argv)
 	if (!init_corewar(&game, argc, argv))
 		return (0);
 	if (game.visu)
-		init_visu(&game, game.visu);
+	{
+		//init_visu(&game, game.visu);
+		pause = (game.visu) ?  1 : 0;
+		vm_init_visu(&game, game.visu);
+		//visu_launcher(&game, &visu);
+	}
 	end = 0;
 	pause = (game.visu) ?  1 : 0;
 	while (!end || pause)
@@ -37,10 +43,13 @@ int		main(int argc, char **argv)
 		if (!pause)
 			end = process(&game);
 		if (game.visu)
-			output(&game, &pause);
+			if (!output(&game, &pause))
+				break ;
 	}
-	print_result(&game, end);
+	// print_result(&game, end);
 	end_visu(game.visu);
 	free_game(&game);
+	getch();
+	endwin();
 	return (0);
 }

@@ -6,15 +6,14 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:43:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/07 15:05:17 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/08 20:15:02 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
 static int              vm_is_player(char *str)
-{
-    char                *tmp;  
+{ 
 
     if (ft_strlen(str) > 4)
     {
