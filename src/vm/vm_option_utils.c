@@ -78,14 +78,8 @@ int                     vm_opt_n(int pos
 int                     vm_opt_debug(int pos
 		, char **av, t_game *game)
 {
-	t_ull               value;
-
 	if (av[pos] && !game->deb_state)
-	{
-		if ((value = vm_get_value(av[pos + 1])) == (t_ull) -1)
-			return (0);
-		game->deb_state = (int)value;
-	}
+		game->deb_state = 1;
 	return (1);
 }
 

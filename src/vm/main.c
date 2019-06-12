@@ -21,7 +21,6 @@ void	print_result(t_game *game, int win)
 int		main(int argc, char **argv)
 {
 	t_game	game;
-	t_visu	visu;
 	int		end;
 	int		pause;
 
@@ -32,10 +31,8 @@ int		main(int argc, char **argv)
 		return (0);
 	if (game.visu)
 	{
-		//init_visu(&game, game.visu);
 		pause = (game.visu) ?  1 : 0;
 		vm_init_visu(&game, game.visu);
-		//visu_launcher(&game, &visu);
 	}
 	end = 0;
 	pause = (game.visu) ?  1 : 0;

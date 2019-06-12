@@ -274,7 +274,7 @@ void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
 void	end_visu(t_visu *visu);
 int		output(t_game *game, int *pause);
 void	visu_launcher(t_game *game, t_visu *visu, int pause);
-
+void    vm_init_visu(t_game *game, t_visu *visu);
 /*
  *debug
  * */

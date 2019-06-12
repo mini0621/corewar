@@ -59,7 +59,7 @@ static int		read_champs(t_game *game)
 //	ft_printf("death cycle %i\n", game->cycle_d);
 	while (i < nbr_champs)
 	{
-		vm_store_instr(game, game->champs[i]->instr, i, game->champs[i]->prog_size);
+		vm_store_instr(game, game->champs[i]->fd, i, game->champs[i]->prog_size);
 		n = prcs_new(-i - 1);
 		((t_process *)(n->content))->pc = &(game->memdump[0]) + i * (MEM_SIZE / game->nbr_champs); 
 		ft_lstadd(&(game->prcs), n);

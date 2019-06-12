@@ -63,7 +63,7 @@ int			output(t_game *game, int *pause)
 	}
 	else if (c == KEY_ENTER)
 		return (0);
-	else if (getch == KEY_RESIZE)
+	else if (c == KEY_RESIZE)
 		return (restart_all(game, pause));
 	visu_launcher(game, game->visu, *pause);
 	return (1);

@@ -28,8 +28,8 @@ HEADER =  $(addprefix includes/, corewar.h op.h)
 VM_SRC = $(addprefix src/vm/, main.c init_corewar.c process.c instructions.c \
 		 decode.c ocp.c free.c lst_util.c util.c memory_util.c prcs_util.c \
 		 vm_error_utils.c vm_file_reader.c vm_mem_utils.c vm_option_utils.c \
-		 vm_parser_model.c vm_parser_utils.c vm_primary_parser.c\
-		 vm_visu_output.c vm_visu_utils.c debug.c debug_inst.c)
+		 vm_parser_model.c vm_primary_parser.c\
+		 debug.c debug_inst.c vm_visu_utils.c vm_visu_output.c)
 
 
 VM_INST_SRC = $(addprefix src/vm/instructions/, inst01_live.c inst02_ld.c \
