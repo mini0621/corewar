@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 14:53:42 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 15:24:15 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	final_state(t_pos *pos, t_tkn *tkn, char *buf, t_list **lbls)
 {
 	if (lex_sm[pos->state_l][0] == -2 || lex_sm[pos->state_l][0] == -3)
 	{
+		pos->multiple_line = 0;
 		if (lex_sm[pos->state_l][0] == -3)
 			pos->buf_pos--;
 		tkn->buff_end = pos->buf_pos;
