@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:32:41 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 11:18:57 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 18:18:54 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		else
 		{
 			tkn->value = tmp_l->content;
-			((t_lbl*)(tmp_l->content))->lc_lbl_inst = pos->lc_instruction;
+			((t_lbl*)(tmp_l->content))->lc_lbl_inst = pos->lc_tkn;
 		}
 	}
 	else
@@ -39,7 +39,7 @@ int	tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		tkn->value = new;
 		new->name = name;
 		new->type = 'D';
-		new->lc_lbl_inst = pos->lc_instruction; // Check if on good instruction (the one after the label, not before)
+		new->lc_lbl_inst = pos->lc_tkn; // Check if on good instruction (the one after the label, not before)
 		new->frwd = NULL;
 		ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)));
 	}
@@ -83,6 +83,8 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	}
 	else
 	{
+		tkn->lc_instruction = pos->lc_instruction;
+		tkn->lc_tkn = pos->lc_tkn;
 		new = (t_lbl*)ft_memalloc(sizeof(t_lbl));
 		new->name = name;
 		new->type = 'U';
@@ -130,6 +132,8 @@ int	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	}
 	else
 	{
+		tkn->lc_instruction = pos->lc_instruction;
+		tkn->lc_tkn = pos->lc_tkn;
 		new = (t_lbl*)ft_memalloc(sizeof(t_lbl));
 		new->name = name;
 		new->type = 'U';

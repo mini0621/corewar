@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 11:03:18 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 17:21:54 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		i++;
 	if (i == OP_TAB_ASM_SIZE)
 		ft_printf("invalide op_code\n"); // handle more properly
-	tkn->value = g_op_tab_asm + i;
+	tkn->value = (char*)ft_memalloc(sizeof(char));
+	*(char*)(tkn->value) = g_op_tab_asm[i].op_code;
+	tkn->op = g_op_tab_asm + i;
 	tkn->mem_size = 1;
 	pos->arg_nbr = g_op_tab_asm[i].n_args;
 	pos->ocp = g_op_tab_asm[i].ocp;

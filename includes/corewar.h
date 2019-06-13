@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/13 15:01:20 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 17:20:30 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ typedef struct	s_op_asm
 	int			dir_bytes;
 	char		*name;
 	int			op_state_s;
+	char		op_code;
 }				t_op_asm;
 
 
@@ -229,6 +230,7 @@ typedef	struct	s_tkn
 	int			buff_end;
 	int			mem_size;
 	void		*value;
+	t_op_asm	*op;
 }				t_tkn;
 
 typedef	struct	s_lbl

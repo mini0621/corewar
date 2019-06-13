@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 15:24:24 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 18:01:16 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ t_tkn	*tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 void	bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn)
 {
 	if (bytebf->inst_remain < tkn->mem_size
-		|| (tkn->type == e_op && ((t_op_asm*)(tkn->value))->ocp == 1 && bytebf->inst_remain < 2))
+		|| (tkn->type == e_op && tkn->op->ocp == 1 && bytebf->inst_remain < 2))
 	{
+		bytebf->inst = realloc(bytebf->inst, bytebf->inst_size + BUFF_SIZE_COR);
+		ft_bzero(bytebf->inst + bytebf->inst_size, BUFF_SIZE_COR);
 		bytebf->inst_size = bytebf->inst_size + BUFF_SIZE_COR;
-		bytebf->inst = realloc(bytebf->inst, bytebf->inst_size);
 		bytebf->inst_remain = bytebf->inst_remain + BUFF_SIZE_COR;
 	}
 }
@@ -56,6 +57,7 @@ void	ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 	int	magic;
 
 	bytebf->inst = (char*)ft_memalloc(BUFF_SIZE_COR);
+	bzero(bytebf->inst, BUFF_SIZE_COR);
 	bytebf->inst_remain = BUFF_SIZE_COR;
 	bytebf->inst_size = bytebf->inst_remain;
 	bytebf->magic = (char*)ft_memalloc(4);

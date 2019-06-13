@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 14:52:09 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 17:21:18 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	check_state_s(t_pos *pos, t_tkn *tkn)
 	if (syntactic_sm[pos->state_s][0] == -2)
 		pos->state_s = syntactic_sm[pos->state_s][1];
 	if (syntactic_sm[pos->state_s][0] == -3)
-		pos->state_s = ((t_op_asm*)(tkn->value))->op_state_s;
+		pos->state_s = tkn->op->op_state_s;
 }
 
 static void	ft_encode(t_pos *pos, t_tkn *tkn, t_list **lbls, t_bytebf *bytebf)

@@ -6,7 +6,7 @@
 #    By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/13 14:49:19 by allefebv         ###   ########.fr        #
+#    Updated: 2019/06/13 16:28:30 by allefebv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJ_DIR		= obj
 CC = gcc -g
 #CFLAGS = -Wall -Werror -Wextra
 #CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
-CFLAGS = -g -fsanitize=address
+CFLAGS = -fsanitize=address
 
 RM = rm -f
 LDIR = -L libftprintf/ -lftprintf

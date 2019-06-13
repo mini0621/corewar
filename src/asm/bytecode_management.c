@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 14:06:59 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 17:20:45 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos, t_list *lbls)
 		if (tkn->mem_size == 1)
 		{
 			ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, 1);
-			if (tkn->type == e_op && ((t_op_asm*)(tkn->value))->ocp == 1)
+			if (tkn->type == e_op && tkn->op->ocp == 1)
 			{
 				pos->lc_tkn = pos->lc_tkn + 1;
 				bytebf->inst_remain = bytebf->inst_remain - 1;
