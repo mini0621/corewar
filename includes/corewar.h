@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/13 14:52:55 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 15:01:20 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,9 @@ typedef struct	s_pos
 
 typedef struct	s_bytebf
 {
+	char		*bytebuf; // header + inst
+	char		*header;
+	int			hd_size;
 	char		*magic;
 	char		name[PROG_NAME_LENGTH];
 	char		offset1[4];

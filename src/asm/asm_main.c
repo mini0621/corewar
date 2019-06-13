@@ -6,12 +6,28 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 14:49:31 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 15:00:55 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include <fcntl.h>
+
+void	fill_bytefb(t_bytebf *bytebf, t_pos *pos)
+{
+	bytebf->hd_size = 4 + PROG_NAME_LENGTH + 4 + 4 + COMMENT_LENGTH + 4;
+	bytebf->header = (char *)ft_memalloc(bytebf->hd_size);  //malloc protection!
+	ft_memcpy(bytebf->header, bytebf->magic, 4);
+	ft_memcpy(bytebf->header + 4, bytebf->name, PROG_NAME_LENGTH);
+	ft_memcpy(bytebf->header + 4 + PROG_NAME_LENGTH, bytebf->offset1, 4);
+	ft_memcpy(bytebf->header + 8 + PROG_NAME_LENGTH, "size", 4); // change program size
+	ft_memcpy(bytebf->header +  12 + PROG_NAME_LENGTH, bytebf->comment, COMMENT_LENGTH);
+	ft_memcpy(bytebf->header + 12 + PROG_NAME_LENGTH + COMMENT_LENGTH, bytebf->offset2, 4);
+
+	bytebf->bytebuf = (char *)ft_memalloc(bytebf->hd_size + pos->lc_tkn);
+	ft_memcpy(bytebf->bytebuf, bytebf->header, bytebf->hd_size);
+	ft_memcpy(bytebf->bytebuf + bytebf->hd_size, bytebf->inst, pos->lc_tkn);
+}
 
 static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 {
