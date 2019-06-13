@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 18:58:33 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 14:52:55 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,18 +243,25 @@ typedef struct	s_pos
 {
 	int			file_line;
 	int			file_col;
+
 	int			buf_pos;
+	int			size_buf;
+
 	int			lc_instruction;
 	int			lc_tkn;
-	int			state_l;
-	int			state_s;
 	int			dir_bytes;
 	int			ocp;
 	int			arg_nbr;
+	int			multiple_line;
+
+	int			state_l;
+	int			state_s;
+
 	int			name_len;
 	int			comment_len;
 	int			size_line;
-	int			size_buf;
+
+	char		*tmp_buf;
 }				t_pos;
 
 typedef struct	s_bytebf
@@ -287,18 +294,31 @@ int		tkn_ind_label(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
 int		tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
 int		tkn_separator(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
 int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		read_bytes(char **line, int error, const int fd);
+
 void	ocp_modify(t_pos *pos, char *bytebuf);
 void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
-void	ft_memrev(void *buf, size_t len);
-int		ft_isspace(char c);
+int		end_lbl(t_list *lbls);
+void	ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
+t_tkn	*tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
+void	bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn);
+void	ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);
+void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
+void	gaps_fill(char *bytebuf, t_tkn *tkn);
+void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos, t_list *lbls);
+void	init_before_analysis(t_pos *pos, char **read_line);
+void	free_after_analysis(t_pos *pos, char **read_line);
+int		lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls);
+int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn);
+
 //libft
 long	ft_atochar(char *str);
 long	ft_atolong(char *str);
 short	ft_atos(char *str);
 void	*ft_memjoin(void *s1, void *s2, size_t len_s1, size_t len_s2);
+int		ft_isspace(char c);
+void	ft_memrev(void *buf, size_t len);
+int		read_bytes(char **line, int error, const int fd);
 
 //need to fix
 int		error(t_pos *pos, int i, t_tkn *tkn);
-void	check_state_s(t_pos *pos, t_tkn *tkn);
 #endif

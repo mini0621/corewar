@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_state_s.c                                    :+:      :+:    :+:   */
+/*   syntactic_analysis.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 14:50:05 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 14:52:09 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	ft_encode(t_pos *pos, t_tkn *tkn, t_list **lbls, t_bytebf *bytebf)
 	pos->lc_tkn = pos->lc_tkn + tkn->mem_size;
 }
 
-int			syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn)
+int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn)
 {
 	while (pos->state_s != -1 && pos->buf_pos < pos->size_buf)
 	{

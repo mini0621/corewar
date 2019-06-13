@@ -6,7 +6,7 @@
 #    By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/12 15:16:38 by allefebv         ###   ########.fr        #
+#    Updated: 2019/06/13 14:49:19 by allefebv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,10 @@ VM_OBJ = $(VM_SRC:src/vm/%.c=obj/%.o)
 VM_INST_OBJ = $(VM_INST_SRC:src/vm/instruction/%.c=obj/%.o)
 
 ASM_SRC = $(addprefix src/asm/, asm_main.c finished_state_machines.c		\
-		  read_asm.c tkn_create_func1.c ft_memrev.c ft_isspace.c error.c	\
-		  ft_atochar.c ft_atolong.c ft_atos.c check_state_s.c ft_memjoin.c)
+		  read_asm.c ft_memrev.c ft_isspace.c ft_memjoin.c ocp_management.c	\
+		  ft_atochar.c ft_atolong.c ft_atos.c error.c bytecode_management.c	\
+		  tkn_create_1.c tkn_create_2.c tkn_create_3.c end_functions.c		\
+		  initializations.c lexical_analysis.c syntactic_analysis.c)
 
 ASM_OBJ	=	$(ASM_SRC:src/asm/%.c=obj/%.o)
 
