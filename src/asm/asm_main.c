@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/12 18:57:13 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/13 12:30:31 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,8 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 	{
 		while (i < pos->name_len)
 		{
-			bytebf->name[i] = *(char*)(tkn->value + i);
+			if (*(char*)(tkn->value + i) != '\0')
+				bytebf->name[i] = *(char*)(tkn->value + i);
 			i++;
 		}
 	}
@@ -312,6 +313,22 @@ void	init_after_read(t_pos *pos, char **buf, char **read_line)
 	pos->size_buf = pos->size_buf + pos->size_line;
 }
 
+void	fill_bytefb(t_bytebf *bytebf, t_pos *pos)
+{
+	bytebf->hd_size = 4 + PROG_NAME_LENGTH + 4 + 4 + COMMENT_LENGTH + 4;
+	bytebf->header = (char *)ft_memalloc(bytebf->hd_size);  //malloc protection!
+	ft_memcpy(bytebf->header, bytebf->magic, 4);
+	ft_memcpy(bytebf->header + 4, bytebf->name, PROG_NAME_LENGTH);
+	ft_memcpy(bytebf->header + 4 + PROG_NAME_LENGTH, bytebf->offset1, 4);
+	ft_memcpy(bytebf->header + 8 + PROG_NAME_LENGTH, "size", 4); // change program size
+	ft_memcpy(bytebf->header +  12 + PROG_NAME_LENGTH, bytebf->comment, COMMENT_LENGTH);
+	ft_memcpy(bytebf->header + 12 + PROG_NAME_LENGTH + COMMENT_LENGTH, bytebf->offset2, 4);
+
+	bytebf->bytebuf = (char *)ft_memalloc(bytebf->hd_size + pos->lc_tkn);
+	ft_memcpy(bytebf->bytebuf, bytebf->header, bytebf->hd_size);
+	ft_memcpy(bytebf->bytebuf + bytebf->hd_size, bytebf->inst, pos->lc_tkn);
+}
+
 void	ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name)
 {
 	int fd;
@@ -328,10 +345,11 @@ void	ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name)
 		ft_printf("\n ASM failed with error [%s]\n", strerror(errno));
 	else
 	{
-		if ((i = write(fd, bytebf->inst, pos->lc_tkn)) == -1)
+		fill_bytefb(bytebf, pos);
+		if ((i = write(fd, bytebf->bytebuf, pos->lc_tkn + bytebf->hd_size)) == -1)
 			ft_printf("\n ASM failed with error [%s]\n", strerror(errno));
 		else
-			ft_printf("write output to %s\n", f_name);
+			ft_printf("Write output to %s\n", f_name);
 	}
 }
 
