@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 19:25:09 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/05 21:01:08 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/14 14:20:35 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,6 @@ void	free_game(t_game *game)
 		game->champs[i] = NULL;
 		i++;
 	}
+	if (game->visu)
+		free(game->visu);
 }

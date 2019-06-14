@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 21:47:27 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/14 14:35:26 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int process(t_game *game)
 	int		win;
 
 	reset_debug(game);
+	game->cycle += 1;
+	game->cycle_d -= 1;
 	get_debug(game, NULL, NULL, NULL);
 	if (!game->cycle_d && (win = is_end(game, &(game->champs[0]), &(game->prcs))))
 		return (win);
@@ -91,7 +93,5 @@ int process(t_game *game)
 		cur = cur->next;
 	}
 	print_debug(game);
-	game->cycle += 1;
-	game->cycle_d -= 1;
 	return ((game->nbr_cycle == game->cycle) ? 1 : 0);
 }
