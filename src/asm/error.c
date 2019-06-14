@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/14 10:48:37 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:25:49 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,29 @@ static void	input_error(char *input)
 
 static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
 {
+	int	i;
+
+	i = 0;
+	ft_printf("Lexical error at [%d : %d]\n%s",
+		pos->file_line, pos->buf_pos, pos->tmp_buf);
+	while (i < pos->file_col)
+	{
+		ft_printf(" ");
+		i++;
+	}
+	ft_printf("^\n\n");
 	if (error == e_reg_nb_error)
-		ft_printf("Lexical error at [%d : %d] - wrong register nbr\nLine : %s",
-			pos->file_line, tkn->buff_start, pos->tmp_buf);
+		ft_printf("wrong register nbr");
 	else if (error == e_op_code_error)
-		ft_printf("Lexical error at [%d : %d] - wrong op_code\nLine : %s",
-			pos->file_line, tkn->buff_start, pos->tmp_buf);
+		ft_printf("wrong op_code");
 	else if (error == e_dir_int_error)
-		ft_printf("Lexical error at [%d : %d] - dir value > INT_MAX\nLine : %s",
-			pos->file_line, tkn->buff_start, pos->tmp_buf);
+		ft_printf("dir value > INT_MAX");
 	else if (error == e_dir_short_error)
-		ft_printf("Lexical error at [%d : %d] - dir value > SHORT_MAX\nLine : %s",
-			pos->file_line, tkn->buff_start, pos->tmp_buf);
+		ft_printf("dir value > SHORT_MAX");
 	else if (error == e_ind_error)
-		ft_printf("Lexical error at [%d : %d] - ind value > SHORT_MAX\nLine : %s",
-			pos->file_line, tkn->buff_start, pos->tmp_buf);
+		ft_printf("ind value > SHORT_MAX");
 	else if (error == e_double_label)
-		ft_printf("Lexical error at [%d : %d] - double label declaration\nLine : %s",
-			pos->file_line, tkn->buff_start, pos->tmp_buf);
-	else
-		ft_printf("Lexical error at [%d : %d]\nLine : %s",
-			pos->file_line, tkn->buff_start, pos->tmp_buf);
+		ft_printf("double label declaration");
 }
 
 static void	syntactic_error(t_pos *pos, t_tkn *tkn)
