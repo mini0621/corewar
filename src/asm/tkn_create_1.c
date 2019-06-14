@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 17:21:54 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 10:24:07 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	else
 	{
 		tkn->type = e_register;
-		tkn->value = ft_strdup(&nbr_char);
+		if (!(tkn->value = ft_strdup(&nbr_char)))
+			return (ft_error(NULL, e_malloc_error, NULL, NULL));
 		tkn->mem_size = 1;
 	}
 	return (1);
@@ -44,19 +45,21 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	char	*name;
 
 	tkn->type = e_op;
-	name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start + 1);
+	if (!(name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start + 1)))
+		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	i = 0;
 	while (i < OP_TAB_ASM_SIZE && !ft_strequ(name, g_op_tab_asm[i].name))
 		i++;
 	if (i == OP_TAB_ASM_SIZE)
-		ft_printf("invalide op_code\n"); // handle more properly
-	tkn->value = (char*)ft_memalloc(sizeof(char));
+		return (ft_error(pos, e_op_code_error, tkn, NULL));
+	if (!(tkn->value = (char*)ft_memalloc(sizeof(char))))
+		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	*(char*)(tkn->value) = g_op_tab_asm[i].op_code;
 	tkn->op = g_op_tab_asm + i;
 	tkn->mem_size = 1;
 	pos->arg_nbr = g_op_tab_asm[i].n_args;
 	pos->ocp = g_op_tab_asm[i].ocp;
-	pos->dir_bytes = g_op_tab_asm[i].dir_bytes; // changed the name of op_tab_asm
+	pos->dir_bytes = g_op_tab_asm[i].dir_bytes;
 	return (1);
 }
 
@@ -68,12 +71,12 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 
 	tkn->mem_size = pos->dir_bytes;
 	if (tkn->buff_start - tkn->buff_end + 1 > 10)
-		error(pos, 1, tkn);  //fix
+		return (ft_error(pos, e_dir_int_error, tkn, NULL));
 	long_nbr = ft_atolong(buff + tkn->buff_start + 1);
 	if (tkn->mem_size == 4)
 	{
 		if (long_nbr > 2147483647 || long_nbr < -2147483648)
-			error(pos, 1, tkn);  //fix
+			return (ft_error(pos, e_dir_int_error, tkn, NULL));
 		else
 		{
 			nbr = ft_atoi(buff + tkn->buff_start + 1);
@@ -83,7 +86,7 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	else if (tkn->mem_size == 2)
 	{
 		if (long_nbr > 32767 || long_nbr < -32767)
-			error(pos, 1, tkn);  //fix
+			return (ft_error(pos, e_dir_short_error, tkn, NULL));
 		else
 		{
 			sh_nbr = ft_atos(buff + tkn->buff_start + 1);
@@ -99,11 +102,11 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	long int	long_nbr;
 	short		sh_nbr;
 
-	if (tkn->buff_start - tkn->buff_end + 1 > 10)
-		error(pos, 1, tkn);  //fix
+	if (tkn->buff_start - tkn->buff_end + 1 > 5)
+		return (ft_error(pos, e_ind_error, tkn, NULL));
 	long_nbr = ft_atolong(buff + tkn->buff_start);
 	if (long_nbr > 32767 || long_nbr < -32767)
-		error(pos, 1, tkn);  //fix
+		return (ft_error(pos, e_ind_error, tkn, NULL));
 	else
 	{
 		sh_nbr = ft_atos(buff + tkn->buff_start);

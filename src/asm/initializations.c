@@ -6,13 +6,13 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 18:01:16 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 10:58:41 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_tkn	*tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	int j;
 
@@ -32,35 +32,40 @@ t_tkn	*tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	{
 		if (j == lex_sm[pos->state_l][1])
 		{
-			tkn_fptr[j](buf, pos, lbls, tkn);
+			if (!(tkn_fptr[j](buf, pos, lbls, tkn)))
+				return (ft_error(NULL, e_no_print, NULL, NULL));
 			break ;
 		}
 		j++;
 	}
-	return (tkn);
+	return (1);
 }
 
-void	bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn)
+int	bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn)
 {
 	if (bytebf->inst_remain < tkn->mem_size
 		|| (tkn->type == e_op && tkn->op->ocp == 1 && bytebf->inst_remain < 2))
 	{
-		bytebf->inst = realloc(bytebf->inst, bytebf->inst_size + BUFF_SIZE_COR);
+		if (!(bytebf->inst = realloc(bytebf->inst, bytebf->inst_size + BUFF_SIZE_COR)))
+			return (ft_error(pos, e_malloc_error, tkn, NULL));
 		ft_bzero(bytebf->inst + bytebf->inst_size, BUFF_SIZE_COR);
 		bytebf->inst_size = bytebf->inst_size + BUFF_SIZE_COR;
 		bytebf->inst_remain = bytebf->inst_remain + BUFF_SIZE_COR;
 	}
+	return (1);
 }
 
-void	ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
+int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 {
 	int	magic;
 
-	bytebf->inst = (char*)ft_memalloc(BUFF_SIZE_COR);
+	if (!(bytebf->inst = (char*)ft_memalloc(BUFF_SIZE_COR)))
+		return (ft_error(pos, e_malloc_error, NULL, NULL));
 	bzero(bytebf->inst, BUFF_SIZE_COR);
 	bytebf->inst_remain = BUFF_SIZE_COR;
 	bytebf->inst_size = bytebf->inst_remain;
-	bytebf->magic = (char*)ft_memalloc(4);
+	if (!(bytebf->magic = (char*)ft_memalloc(4)))
+		return (ft_error(pos, e_malloc_error, NULL, NULL));
 	magic = COREWAR_EXEC_MAGIC;
 	ft_memcpy(bytebf->magic, &magic, 4);
 	ft_memrev(bytebf->magic, 4);
@@ -68,7 +73,8 @@ void	ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 	ft_bzero(bytebf->offset2, 4);
 	ft_bzero(bytebf->name, PROG_NAME_LENGTH);
 	ft_bzero(bytebf->comment, COMMENT_LENGTH);
-	bytebf->prog_size = (char*)ft_memalloc(4);
+	if (!(bytebf->prog_size = (char*)ft_memalloc(4)))
+		return (ft_error(pos, e_malloc_error, NULL, NULL));
 	*line = NULL;
 	*lbls = NULL;
 	pos->file_line = 0;
@@ -77,19 +83,22 @@ void	ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 	pos->lc_tkn = 0;
 	pos->state_s = 0;
 	pos->size_buf = 0;
+	return (1);
 }
 
-void	init_before_analysis(t_pos *pos, char **read_line)
+int		init_before_analysis(t_pos *pos, char **read_line)
 {
 	char	*tmp;
 
 	pos->file_col = 0;
 	pos->file_line++;
 	tmp = pos->tmp_buf;
-	pos->tmp_buf = ft_memjoin(pos->tmp_buf, *read_line, pos->size_buf, pos->size_line);
+	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, *read_line, pos->size_buf, pos->size_line)))
+		return (ft_error(pos, e_malloc_error, NULL, NULL));
 	ft_strdel(read_line);
 	ft_strdel(&tmp);
 	pos->size_buf = pos->size_buf + pos->size_line;
+	return (1);
 }
 
 void	free_after_analysis(t_pos *pos, char **line)

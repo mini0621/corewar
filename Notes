@@ -1,18 +1,17 @@
 Verifications before seting project as finished ---------
 
--Check if possible to have multiple labels on the same row
-
-
-
+-Decide if REG_SIZE has to be taken into account or if we limit at 99, or u_char max
 
 Work to do --------------
 
 -Nice Error messages + error returns flow
--Header integration (name + comment + offsets + champ_size)
--File creation
--Verify that labels declared after last instruction points to adress == size_of_champion
+
+Reg_NB ERROR + Bad OP_Code ERROR is difficult to handle : have it done in "e_lexical_error"
+in the lexical analysis function or even closer from the error in the tkn_creation function ?
+
+
+
 -Norm + leaks
--Name_CMD and comment_CMD on several lines should be handled
 
 -Lexical : allow no space_chars in case where delimiter chars are explicit :
 Example -> .name"hello" should be allowed

@@ -6,12 +6,13 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 14:51:25 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 09:52:03 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include <stdlib.h>
+//libft
 
 static int	ft_end(int value, char **tmp)
 {

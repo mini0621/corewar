@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 17:21:18 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 10:22:34 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ static void	check_state_s(t_pos *pos, t_tkn *tkn)
 		pos->state_s = tkn->op->op_state_s;
 }
 
-static void	ft_encode(t_pos *pos, t_tkn *tkn, t_list **lbls, t_bytebf *bytebf)
+static int	ft_encode(t_pos *pos, t_tkn *tkn, t_list **lbls, t_bytebf *bytebf)
 {
-	bytebuf_realloc(bytebf, pos, tkn);
+	if (!(bytebuf_realloc(bytebf, pos, tkn)))
+		return (ft_error(NULL, e_no_print, NULL, NULL));
 	bytecode_gen(tkn, bytebf, pos, *lbls);
 	if (tkn && pos->ocp && tkn->mem_size != 0)
 		ocp_create(tkn, pos, bytebf->inst);
 	pos->lc_tkn = pos->lc_tkn + tkn->mem_size;
+	return (1);
 }
 
 int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn)
@@ -34,17 +36,18 @@ int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn
 	while (pos->state_s != -1 && pos->buf_pos < pos->size_buf)
 	{
 		if (!lexical_analysis(pos, tkn, lbls))
-			return (0);
+			return (ft_error(NULL, e_no_print, NULL, NULL));
 		if (pos->multiple_line)
 			return (1);
 		pos->state_s = syntactic_sm[pos->state_s][(*tkn)->type];
 		if (pos->state_s == -1)
-			return (0);
+			return (ft_error(pos, e_lexical_error, *tkn, NULL));
 		if (syntactic_sm[pos->state_s][0] < -1)
 			check_state_s(pos, *tkn);
 		if ((*tkn)->type == e_lbl || (*tkn)->type == e_op)
 			pos->lc_instruction = pos->lc_tkn;
-		ft_encode(pos, *tkn, lbls, bytebf);
+		if (!(ft_encode(pos, *tkn, lbls, bytebf)))
+			return (ft_error(NULL, e_no_print, NULL, NULL));
 		if (((*tkn)->type == e_ind_label || (*tkn)->type == e_dir_label)
 			&& (*tkn)->value == NULL)
 			continue ;

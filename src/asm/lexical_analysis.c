@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 15:24:15 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:03:17 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	check_state_l(t_pos *pos, t_tkn **tkn)
 	if (pos->state_l != 24)
 	{
 		if (!(*tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
-			return (0);
+			return (ft_error(pos, e_malloc_error, NULL, NULL));
 		pos->state_l = 0;
 		(*tkn)->buff_start = pos->buf_pos;
 	}
@@ -32,19 +32,21 @@ static int	final_state(t_pos *pos, t_tkn *tkn, char *buf, t_list **lbls)
 		if (lex_sm[pos->state_l][0] == -3)
 			pos->buf_pos--;
 		tkn->buff_end = pos->buf_pos;
-		tkn_create(buf, pos, lbls, tkn);
+		if (!(tkn_create(buf, pos, lbls, tkn)))
+			return (ft_error(NULL, e_no_print, NULL, NULL));
 		pos->buf_pos++;
 		return (1);
 	}
-	return (0);
+	return (2);
 }
 
 int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 {
 	int	i;
+	int	ret;
 
 	if (check_state_l(pos, tkn) == 0)
-		return (0);
+			return (ft_error(NULL, e_no_print, NULL, NULL));
 	while (pos->state_l != -1 && pos->buf_pos < pos->size_buf)
 	{
 		i = 0;
@@ -55,15 +57,16 @@ int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 			break;
 		if (pos->state_l == 0)
 			(*tkn)->buff_start++;
-		if (final_state(pos, *tkn, pos->tmp_buf, lbls))
+		if ((ret = final_state(pos, *tkn, pos->tmp_buf, lbls)) == 1)
 			return (1);
+		else if (!ret)
+			return (ft_error(NULL, e_no_print, NULL, NULL));
 		pos->buf_pos++;
 	}
 	if (pos->state_l == 24)
 	{
 		pos->multiple_line = 1;
-		return (2);
+		return (1);
 	}
-	error(pos, 1, *tkn); // handle more properly
-	return (0);
+	return (ft_error(pos, e_lexical_error, *tkn, NULL));
 }

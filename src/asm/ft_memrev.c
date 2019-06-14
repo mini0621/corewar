@@ -6,11 +6,12 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 15:03:52 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 15:03:54 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 09:47:35 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+//libft
 
 void	ft_memrev(void *str, size_t len)
 {

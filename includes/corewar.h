@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/13 17:20:30 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 10:59:08 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,26 @@ void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
  * ASM PART
  * */
 
+typedef enum	e_errors
+{
+	e_no_print,
+	e_lexical_error,
+	e_syntactic_error,
+	e_input_error,
+	e_malloc_error,
+	e_open_error,
+	e_invalid_command_error,
+	e_comment_too_long_error,
+	e_name_too_long_error,
+	e_write_error,
+	e_reg_nb_error,
+	e_op_code_error,
+	e_dir_int_error,
+	e_dir_short_error,
+	e_ind_error,
+	e_double_label,
+}				t_errors;
+
 typedef enum	e_tkn_type
 {
 	e_cmd_name,
@@ -303,14 +323,14 @@ int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
 void	ocp_modify(t_pos *pos, char *bytebuf);
 void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
 int		end_lbl(t_list *lbls);
-void	ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
-t_tkn	*tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-void	bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn);
-void	ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);
+int		ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
+int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
+int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn);
+int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);
 void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
 void	gaps_fill(char *bytebuf, t_tkn *tkn);
 void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos, t_list *lbls);
-void	init_before_analysis(t_pos *pos, char **read_line);
+int		init_before_analysis(t_pos *pos, char **read_line);
 void	free_after_analysis(t_pos *pos, char **read_line);
 int		lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls);
 int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn);
@@ -325,5 +345,5 @@ void	ft_memrev(void *buf, size_t len);
 int		read_bytes(char **line, int error, const int fd);
 
 //need to fix
-int		error(t_pos *pos, int i, t_tkn *tkn);
+int		ft_error(t_pos *pos, t_errors error, t_tkn *tkn, char *input);
 #endif

@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:02:32 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 11:19:06 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 10:19:10 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,28 @@ int	tkn_cmd_name(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		tkn->buff_start++;
 	tkn->buff_start++;
 	pos->name_len = pos->buf_pos - tkn->buff_start;
-	tkn->value = malloc(pos->buf_pos - tkn->buff_start);
+	if (!(tkn->value = malloc(pos->buf_pos - tkn->buff_start)))
+		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	tkn->value = ft_memcpy(tkn->value, buf + tkn->buff_start, pos->buf_pos - tkn->buff_start);
 	if (pos->buf_pos - tkn->buff_start > PROG_NAME_LENGTH)
-		return (error(pos, 1, tkn));
+		return (ft_error(pos, e_name_too_long_error, tkn, NULL));
 	return (1);
 }
 
 int	tkn_cmd_comment(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
-tkn->type = e_cmd_comment;
-while (!ft_isspace(*(buf + tkn->buff_start)))
+	tkn->type = e_cmd_comment;
+	while (!ft_isspace(*(buf + tkn->buff_start)))
 		tkn->buff_start++;
 	while (ft_isspace(*(buf + tkn->buff_start)))
 		tkn->buff_start++;
 	tkn->buff_start++;
 	pos->comment_len = pos->buf_pos - tkn->buff_start;
-	tkn->value = malloc(pos->buf_pos - tkn->buff_start);
+	if (!(tkn->value = ft_memalloc(pos->buf_pos - tkn->buff_start)))
+		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	tkn->value = ft_memcpy(tkn->value, buf + tkn->buff_start, pos->buf_pos - tkn->buff_start);
 	if (pos->buf_pos - tkn->buff_start > COMMENT_LENGTH)
-		return (error(pos, 1, tkn));
+		return (ft_error(pos, e_comment_too_long_error, tkn, NULL));
 	return (1);
 }
 
@@ -49,15 +51,15 @@ int	tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	if (ft_strnequ(buf + tkn->buff_start, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 	{
 		if (!(tkn_cmd_name(buf, pos, lbls, tkn)))
-			return (0);
+			return (ft_error(NULL, e_no_print, NULL, NULL));
 	}
 	else if (ft_strnequ(buf + tkn->buff_start, COMMENT_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 	{
 		if (!(tkn_cmd_comment(buf, pos, lbls, tkn)))
-			return (0);
+			return (ft_error(NULL, e_no_print, NULL, NULL));
 	}
 	else
-		return (error(pos, 1, tkn));  //fix
+		return (ft_error(pos, e_invalid_command_error, tkn, NULL));  //fix
 	return (1);
 }
 

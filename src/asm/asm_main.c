@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 15:13:59 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 09:44:20 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	free_after_analysis(pos, &read_line);
 	if (!error && end_lbl(lbls))
 		return (1);
-	return (0);
+	return (ft_error(pos, e_no_print, tkn, NULL));
 }
 
 int		main(int argc, char **argv)
@@ -51,10 +51,7 @@ int		main(int argc, char **argv)
 	// check if file is valide (file name, ext)
 	end = 0;
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
-	{
-		ft_printf("error\n"); // handle more properly
-		return (0);
-	}
+		return (ft_error(&pos, e_open_error, NULL, NULL));
 	if (read_analyze_encode_loop(fd, &bytebf, &pos))
 		ft_write_output(&bytebf, &pos, argv[1]);
 	return (0);
