@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntactic_analysis.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 10:22:34 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:36:08 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ static void	check_state_s(t_pos *pos, t_tkn *tkn)
 
 static int	ft_encode(t_pos *pos, t_tkn *tkn, t_list **lbls, t_bytebf *bytebf)
 {
+	(void)lbls;
 	if (!(bytebuf_realloc(bytebf, pos, tkn)))
 		return (ft_error(NULL, e_no_print, NULL, NULL));
-	bytecode_gen(tkn, bytebf, pos, *lbls);
+	bytecode_gen(tkn, bytebf, pos);
 	if (tkn && pos->ocp && tkn->mem_size != 0)
 		ocp_create(tkn, pos, bytebf->inst);
 	pos->lc_tkn = pos->lc_tkn + tkn->mem_size;

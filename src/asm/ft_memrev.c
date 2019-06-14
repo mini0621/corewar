@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 15:03:52 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 09:47:35 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:24:41 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	ft_memrev(void *str, size_t len)
 {
-	int		i;
+	size_t	i;
 	char	temp;
 
 	temp = 0;

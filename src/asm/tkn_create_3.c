@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:02:32 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 10:19:10 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 15:34:56 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	tkn_cmd_name(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
+	(void)lbls;
 	tkn->type = e_cmd_name;
 	while (!ft_isspace(*(buf + tkn->buff_start)))
 		tkn->buff_start++;
@@ -21,7 +22,7 @@ int	tkn_cmd_name(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		tkn->buff_start++;
 	tkn->buff_start++;
 	pos->name_len = pos->buf_pos - tkn->buff_start;
-	if (!(tkn->value = malloc(pos->buf_pos - tkn->buff_start)))
+	if (!(tkn->value = ft_memalloc(pos->buf_pos - tkn->buff_start)))
 		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	tkn->value = ft_memcpy(tkn->value, buf + tkn->buff_start, pos->buf_pos - tkn->buff_start);
 	if (pos->buf_pos - tkn->buff_start > PROG_NAME_LENGTH)
@@ -31,6 +32,7 @@ int	tkn_cmd_name(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 
 int	tkn_cmd_comment(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
+	(void)lbls;
 	tkn->type = e_cmd_comment;
 	while (!ft_isspace(*(buf + tkn->buff_start)))
 		tkn->buff_start++;
@@ -65,12 +67,18 @@ int	tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 
 int	tkn_separator(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
+	(void)buff;
+	(void)pos;
+	(void)lbls;
 	tkn->type = e_separator;
 	return (1);
 }
 
 int	tkn_carr_ret(char *buff, t_pos *pos, t_list **lbls, t_tkn *token)
 {
+	(void)buff;
+	(void)pos;
+	(void)lbls;
 	token->type = e_carriage_return;
 	return (1);
 }

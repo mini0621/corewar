@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/14 10:59:08 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:29:01 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,7 +329,7 @@ int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn);
 int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);
 void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
 void	gaps_fill(char *bytebuf, t_tkn *tkn);
-void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos, t_list *lbls);
+void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos);
 int		init_before_analysis(t_pos *pos, char **read_line);
 void	free_after_analysis(t_pos *pos, char **read_line);
 int		lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls);

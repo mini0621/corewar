@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 09:44:20 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 15:53:23 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	int		error;
 
 	error = 0;
-	ft_init_main(&lbls, bytebf, &read_line, pos);
+	ft_init_main(&lbls, bytebf, &read_line, pos); //error anyway
 	while ((pos->size_line = read_bytes(&read_line, error, fd)) > 0)
 	{
 		init_before_analysis(pos, &read_line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/14 11:25:49 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 15:58:58 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	input_error(char *input)
 	ft_printf("Given file : \"%s\"", input);
 }
 
-static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
+static void	lexical_error(t_pos *pos, t_errors error)
 {
 	int	i;
 
@@ -73,7 +73,7 @@ int			ft_error(t_pos *pos, t_errors error, t_tkn *tkn, char *input)
 			|| error == e_op_code_error || error == e_dir_int_error
 			|| error == e_dir_short_error || error == e_ind_error
 			|| error == e_double_label)
-			lexical_error(pos, tkn, error);
+			lexical_error(pos, error);
 		else if (error == e_syntactic_error)
 			syntactic_error(pos, tkn);
 		else if (error == e_input_error)

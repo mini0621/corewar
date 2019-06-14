@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 10:58:41 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:32:41 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 
 	if (!(bytebf->inst = (char*)ft_memalloc(BUFF_SIZE_COR)))
 		return (ft_error(pos, e_malloc_error, NULL, NULL));
-	bzero(bytebf->inst, BUFF_SIZE_COR);
+	ft_bzero(bytebf->inst, BUFF_SIZE_COR);
 	bytebf->inst_remain = BUFF_SIZE_COR;
 	bytebf->inst_size = bytebf->inst_remain;
 	if (!(bytebf->magic = (char*)ft_memalloc(4)))
@@ -77,26 +77,27 @@ int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 		return (ft_error(pos, e_malloc_error, NULL, NULL));
 	*line = NULL;
 	*lbls = NULL;
-	pos->file_line = 0;
-	pos->buf_pos = 0;
-	pos->lc_instruction = 0;
-	pos->lc_tkn = 0;
-	pos->state_s = 0;
-	pos->size_buf = 0;
+	ft_bzero(pos, sizeof(t_pos));
 	return (1);
 }
 
 int		init_before_analysis(t_pos *pos, char **read_line)
 {
 	char	*tmp;
+	char	c;
 
+	c = '\0';
 	pos->file_col = 0;
 	pos->file_line++;
 	tmp = pos->tmp_buf;
 	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, *read_line, pos->size_buf, pos->size_line)))
 		return (ft_error(pos, e_malloc_error, NULL, NULL));
+	free(tmp);
+	tmp = pos->tmp_buf;
+	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, &c, pos->size_buf + pos->size_line, 1)))
+		return (ft_error(pos, e_malloc_error, NULL, NULL));
+	free(tmp);
 	ft_strdel(read_line);
-	ft_strdel(&tmp);
 	pos->size_buf = pos->size_buf + pos->size_line;
 	return (1);
 }

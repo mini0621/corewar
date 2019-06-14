@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bytecode_management.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/13 17:20:45 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 15:47:54 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 
 	i = 0;
 	if (tkn->type == e_cmd_comment)
+	{
 		while (i < pos->comment_len)
 		{
 			if (*(char*)(tkn->value + i) != '\0')
 				bytebf->comment[i] = *(char*)(tkn->value + i);
 			i++;
 		}
+		free(tkn->value);
+	}
 	else
 	{
 		while (i < pos->name_len)
@@ -31,6 +34,7 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 			bytebf->name[i] = *(char*)(tkn->value + i);
 			i++;
 		}
+		free(tkn->value);
 	}
 }
 
@@ -67,7 +71,7 @@ void	gaps_fill(char *bytebuf, t_tkn *tkn)
 	}
 }
 
-void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos, t_list *lbls)
+void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
 {
 	if (tkn->type == e_lbl && ((t_lbl*)(tkn->value))->type == 'U')
 	{
@@ -87,7 +91,7 @@ void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos, t_list *lbls)
 				bytebf->inst_remain = bytebf->inst_remain - 1;
 			}
 		}
-		else
+		else if (tkn->mem_size == 2 || tkn->mem_size == 4)
 		{
 			ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, tkn->mem_size);
 			ft_memrev(bytebf->inst + pos->lc_tkn, tkn->mem_size);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 10:24:07 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:00:55 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	char 	nbr_char;
 	char	*nbr_str;
 
+	(void)lbls;
+	(void)pos;
 	i = tkn->buff_start + 1;
 	while (buff[i] == '0')
 		i++;
@@ -44,6 +46,7 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	int		i;
 	char	*name;
 
+	(void)lbls;
 	tkn->type = e_op;
 	if (!(name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start + 1)))
 		return (ft_error(NULL, e_malloc_error, NULL, NULL));
@@ -69,6 +72,7 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	int			nbr;
 	short		sh_nbr;
 
+	(void)lbls;
 	tkn->mem_size = pos->dir_bytes;
 	if (tkn->buff_start - tkn->buff_end + 1 > 10)
 		return (ft_error(pos, e_dir_int_error, tkn, NULL));
@@ -102,6 +106,7 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	long int	long_nbr;
 	short		sh_nbr;
 
+	(void)lbls;
 	if (tkn->buff_start - tkn->buff_end + 1 > 5)
 		return (ft_error(pos, e_ind_error, tkn, NULL));
 	long_nbr = ft_atolong(buff + tkn->buff_start);
