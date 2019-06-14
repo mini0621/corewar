@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/14 15:58:58 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/14 16:44:38 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,29 @@ static void	system_error(t_errors error)
 
 static void	input_error(char *input)
 {
-	ft_printf("Input file is of expected format \"file_name.s\"");
-	ft_printf("Given file : \"%s\"", input);
+	ft_printf("\nInput file is of expected format \"file_name.s\"");
+	ft_printf("\nGiven file : \"%s\"", input);
 }
 
-static void	lexical_error(t_pos *pos, t_errors error)
+static void	nice_display(t_pos *pos, t_tkn *tkn, char *error)
 {
 	int	i;
+	int	j;
 
-	i = 0;
-	ft_printf("Lexical error at [%d : %d]\n%s",
-		pos->file_line, pos->buf_pos, pos->tmp_buf);
-	while (i < pos->file_col)
-	{
+	j = -1;
+	i = -1;
+	ft_printf("\n\e[033m[%d : %d]\e[0m - \e[031m\e[1m%s Error\e[0m\n\e[3m%s\e[0m",
+		pos->file_line, tkn->buff_start + 1, error, pos->tmp_buf);
+	while (++i + 2 < pos->file_col - (pos->buf_pos - tkn->buff_start))
 		ft_printf(" ");
-		i++;
-	}
-	ft_printf("^\n\n");
+	while (--i > 0 && ++j < 2)
+		ft_printf("\e[032m\e[1m~");
+	ft_printf("\e[032m\e[1m^~~\e[0m\n");
+}
+
+static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
+{
+	nice_display(pos, tkn, "Lexical");
 	if (error == e_reg_nb_error)
 		ft_printf("wrong register nbr");
 	else if (error == e_op_code_error)
@@ -61,8 +67,8 @@ static void	lexical_error(t_pos *pos, t_errors error)
 
 static void	syntactic_error(t_pos *pos, t_tkn *tkn)
 {
-	ft_printf("Syntactic error at [%d : %d]\n", pos->file_line, tkn->buff_start);
-	ft_printf("Line : \"%s\"", pos->buf_pos);
+	nice_display(pos, tkn, "Syntactic");
+	write(1, "\n", 1);
 }
 
 int			ft_error(t_pos *pos, t_errors error, t_tkn *tkn, char *input)
@@ -73,7 +79,7 @@ int			ft_error(t_pos *pos, t_errors error, t_tkn *tkn, char *input)
 			|| error == e_op_code_error || error == e_dir_int_error
 			|| error == e_dir_short_error || error == e_ind_error
 			|| error == e_double_label)
-			lexical_error(pos, error);
+			lexical_error(pos, tkn, error);
 		else if (error == e_syntactic_error)
 			syntactic_error(pos, tkn);
 		else if (error == e_input_error)

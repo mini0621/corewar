@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 11:25:50 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/14 11:29:17 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 			return (1);
 		else if (!ret)
 			return (ft_error(NULL, e_no_print, NULL, NULL));
+		if (pos->buf_pos != '\t')
+			pos->file_col++;
+		else
+			pos->file_col += 4;
 		pos->buf_pos++;
+
 	}
 	if (pos->state_l == 24)
 	{

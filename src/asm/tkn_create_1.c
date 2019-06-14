@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 16:00:55 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/14 16:42:18 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	while (buff[i] == '0')
 		i++;
 	if (i == tkn->buff_end && (i - 1 != tkn->buff_start && buff[i] != '0'))
-		ft_printf("registers cannot have value 0\n"); // handle more properly // 0 ?
-	nbr_str = ft_strndup(buff + i, tkn->buff_end - i + 1);
+		return (ft_error(NULL, e_malloc_error, NULL, NULL));
+	nbr_str = ft_strndup(buff + i, tkn->buff_end - i);
 	if (ft_strlen(nbr_str) > 2)
-		ft_printf("registers cannot have value greater than %d\n", REG_NUMBER);
+		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	nbr_char = ft_atochar(nbr_str); //create "ft_atochar"
 	if (nbr_char > 16)  // 0?
-		ft_printf("registers cannot have value greater than %d\n", REG_NUMBER);
+		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	else
 	{
 		tkn->type = e_register;

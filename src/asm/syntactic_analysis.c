@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntactic_analysis.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 11:36:08 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/14 16:44:16 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn
 			return (1);
 		pos->state_s = syntactic_sm[pos->state_s][(*tkn)->type];
 		if (pos->state_s == -1)
-			return (ft_error(pos, e_lexical_error, *tkn, NULL));
+			return (ft_error(pos, e_syntactic_error, *tkn, NULL));
 		if (syntactic_sm[pos->state_s][0] < -1)
 			check_state_s(pos, *tkn);
 		if ((*tkn)->type == e_lbl || (*tkn)->type == e_op)
