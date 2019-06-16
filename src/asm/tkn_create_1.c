@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 16:55:57 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/16 22:13:07 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		i++;
 	if (i == tkn->buff_end && (i - 1 != tkn->buff_start && buff[i] != '0'))
 		return (ft_error(NULL, e_malloc_error, NULL, NULL));
-	nbr_str = ft_strndup(buff + i, tkn->buff_end - i);
+	nbr_str = ft_strndup(buff + i, tkn->buff_end - i + 1);
 	if (ft_strlen(nbr_str) > 2)
 		return (ft_error(NULL, e_malloc_error, NULL, NULL));
-	nbr_char = ft_atochar(nbr_str); //create "ft_atochar"
+	nbr_char = ft_atochar(nbr_str);
 	if (nbr_char > 16)  // 0?
 		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	else
@@ -85,7 +85,8 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		else
 		{
 			nbr = ft_atoi(buff + tkn->buff_start + 1);
-			tkn->value = (void*)(&nbr);
+			tkn->value = ft_memalloc(tkn->mem_size);
+			ft_memcpy(tkn->value, &nbr, tkn->mem_size);
 		}
 	}
 	else if (tkn->mem_size == 2)
@@ -95,7 +96,8 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		else
 		{
 			sh_nbr = ft_atos(buff + tkn->buff_start + 1);
-			tkn->value = (void*)(&sh_nbr);
+			tkn->value = ft_memalloc(tkn->mem_size);
+			ft_memcpy(tkn->value, &sh_nbr, tkn->mem_size);
 		}
 	}
 	tkn->type = e_dir_value;
@@ -116,7 +118,8 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	else
 	{
 		sh_nbr = ft_atos(buff + tkn->buff_start);
-		tkn->value = (void*)&sh_nbr;
+		tkn->value = ft_memalloc(tkn->mem_size);
+		ft_memcpy(tkn->value, &sh_nbr, tkn->mem_size);
 	}
 	tkn->type = e_ind_value;
 	tkn->mem_size = 2;

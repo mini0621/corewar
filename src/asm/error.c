@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/14 16:44:38 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/16 19:29:56 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,14 @@ static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
 		ft_printf("dir value > SHORT_MAX");
 	else if (error == e_ind_error)
 		ft_printf("ind value > SHORT_MAX");
-	else if (error == e_double_label)
-		ft_printf("double label declaration");
+
 }
 
-static void	syntactic_error(t_pos *pos, t_tkn *tkn)
+static void	syntactic_error(t_pos *pos, t_tkn *tkn, t_errors error)
 {
 	nice_display(pos, tkn, "Syntactic");
+	if (error == e_double_label)
+		ft_printf("double label declaration");
 	write(1, "\n", 1);
 }
 
@@ -77,11 +78,10 @@ int			ft_error(t_pos *pos, t_errors error, t_tkn *tkn, char *input)
 	{
 		if (error == e_lexical_error || error == e_reg_nb_error
 			|| error == e_op_code_error || error == e_dir_int_error
-			|| error == e_dir_short_error || error == e_ind_error
-			|| error == e_double_label)
+			|| error == e_dir_short_error || error == e_ind_error)
 			lexical_error(pos, tkn, error);
-		else if (error == e_syntactic_error)
-			syntactic_error(pos, tkn);
+		else if (error == e_syntactic_error || error == e_double_label)
+			syntactic_error(pos, tkn, error);
 		else if (error == e_input_error)
 			input_error(input);
 		else if (error == e_malloc_error || error == e_open_error
