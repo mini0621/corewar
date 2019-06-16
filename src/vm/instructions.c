@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 21:34:04 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 22:13:01 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/16 23:45:04 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	prcs_inst(t_game *game, t_process *caller)
 	newpc = decode(dump, caller->pc, &inst);
 	if (inst.op)
 		(get_op(&inst))->function(game, caller, &inst);
-	if (inst.op && (get_op(&inst))->opcode != e_zjmp)
+	if (inst.op && (((get_op(&inst))->opcode != e_zjmp)
+			|| ((get_op(&inst))->opcode == e_zjmp && !caller->carry)))
 		caller->pc = newpc;
 	caller->wait_c = (decode_wait(caller->pc));
 }
