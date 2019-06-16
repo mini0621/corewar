@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/14 15:59:48 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/16 22:53:34 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int		vm_store_instr(t_game *game, int fd
 	if (lseek(fd, 2192, SEEK_SET) < 0
 		|| read(fd, &(game->memdump[0]) + dif, size) < 0)
 		return (0);
-	n = prcs_new(id);
+	n = prcs_new(game, id);
 	((t_process *)(n->content))->pc = &(game->memdump[0]) + dif; 
 	((t_process *)(n->content))->wait_c = decode_wait(&(game->memdump[0]) + dif);
 	ft_lstadd(&(game->prcs), n);

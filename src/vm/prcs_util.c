@@ -6,19 +6,21 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:30:30 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/14 16:00:04 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/16 22:54:19 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_list	*prcs_new(int c_id)
+t_list	*prcs_new(t_game *game, int c_id)
 {
 	t_process	prcs;
 	t_list		*lst;
 
 	ft_bzero(&prcs, sizeof(t_process));
 	prcs.c_id = c_id;
+	prcs.p_id = game->nbr_prcs;
+	game->nbr_prcs += 1;
 	prcs.regs[0] = c_id;
 	if (!(lst = ft_lstnew(&prcs, sizeof(t_process))))
 		return (NULL);

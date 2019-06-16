@@ -6,129 +6,139 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 19:05:05 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/16 23:07:56 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void	deb_64_log(t_game *game, t_opcode opcode, t_process *caller, t_arg *args)
+
+static char	*add_head(char **log, int p_id, int c_id, int *l)
+{
+	char	*tmp;
+	
+	tmp = NULL;
+	*l += ft_asprintf(&tmp, "process %i(champ %i): ", p_id, c_id);
+	*log = ft_strjoinfree(&tmp, log, 3);
+	return (*log);
+}
+
+static void	debug_carry(t_game *game, int p_id, int c_id, int carry)
 {
 	char	*tmp;
 	int		l;
 
-	l = 0;
+	tmp = NULL;
+	l = ft_asprintf(&tmp, "process %i(champ %i): carry = %i\n", p_id, c_id, carry);
+	update_logs(game, &tmp, l);
+}
+
+
+void	deb_64_log(t_game *game, t_inst *inst, t_process *caller, int p_id)
+{
+	char	*tmp;
+	int		l;
+	t_opcode opcode;
+
+	opcode = (get_op(inst))->opcode;
 	tmp = NULL;
 	if (opcode == e_fork)
-		l += ft_asprintf(&tmp, "champ(%i): fork at memdump(%i)!\n",
-				caller->c_id, args->value.u_dir_val);
+		l = ft_asprintf(&tmp, "fork process %i at memdump(%i)!\n",
+				p_id, inst->args[0].value.u_dir_val);
 	else if (opcode == e_lfork)
-		l += ft_asprintf(&tmp, "champ(%i): long fork at memdump(%i)!\n",
-				caller->c_id, args->value.u_dir_val);
+		l = ft_asprintf(&tmp, "lfork process %i at memdump(%i)!\n",
+				p_id, inst->args[0].value.u_dir_val);
+	else if (opcode == e_zjmp && caller->carry)
+		l = ft_asprintf(&tmp, "zjmp to memdump(%i)!\n",
+				p_id, inst->args[0].value.u_dir_val);
 	else if (opcode == e_zjmp)
-		l += ft_asprintf(&tmp, "champ(%i): jump to memdump(%i)!\n",
-				caller->c_id, args->value.u_dir_val);
+		l = ft_asprintf(&tmp, "zjmp to memdump(%i) skipped!\n",
+				p_id, inst->args[0].value.u_dir_val);
 	else
 		return ;
+	add_head(&tmp, caller->p_id, caller->c_id, &l);
 	update_logs(game, &tmp, l);
 }
 
-static void	deb_32_log(t_game *game, t_opcode opcode, t_process *caller, t_arg *args)
+void	deb_32_log(t_game *game, t_inst *inst, t_process *caller, int res)
 {
 	char	*tmp;
 	int		l;
+	t_opcode opcode;
 
 	tmp = NULL;
+	opcode = (get_op(inst))->opcode;
 	if (opcode == e_add)
-		l = ft_asprintf(&tmp, "champ(%i): add! result %i stored in r%hhi\n", caller->c_id,
-				args->value.u_dir_val, (args + 2)->value.u_reg_val);
+		l = ft_asprintf(&tmp, "add result %i -> r%hhi\n", res, inst->args[2].value.u_reg_val);
 	else if (opcode == e_sub)
-		l = ft_asprintf(&tmp, "champ(%i): sub! result %i stored in r%hhi\n", caller->c_id,
-				args->value.u_dir_val, (args + 2)->value.u_reg_val);
+		l = ft_asprintf(&tmp, "sub result %i -> r%hhi\n", res, inst->args[2].value.u_reg_val);
 	else if (opcode == e_and)
-		l = ft_asprintf(&tmp, "champ(%i): and! result %i stored in r%hhi\n", caller->c_id,
-				args->value.u_dir_val, (args + 2)->value.u_reg_val);
+		l = ft_asprintf(&tmp, "and result %i -> r%hhi\n", res, inst->args[2].value.u_reg_val);
 	else if (opcode == e_or)
-		l = ft_asprintf(&tmp, "champ(%i): or!  result %i stored in r%hhi\n", caller->c_id,
-				args->value.u_dir_val, (args + 2)->value.u_reg_val);
+		l = ft_asprintf(&tmp, "or result %i -> r%hhi\n", res, inst->args[2].value.u_reg_val);
 	else if (opcode == e_xor)
-		l = ft_asprintf(&tmp, "champ(%i): xor! result %i stored in r%hhi\n", caller->c_id,
-				args->value.u_dir_val, (args + 2)->value.u_reg_val);
+		l = ft_asprintf(&tmp, "xor result %i -> r%hhi\n", res, inst->args[2].value.u_reg_val);
 	else
 		return ;
+	add_head(&tmp, caller->p_id, caller->c_id, &l);
 	update_logs(game, &tmp, l);
-	tmp = NULL;
-	l = ft_asprintf(&tmp, "champ(%i): carry = %i\n", caller->c_id, caller->carry);
-	update_logs(game, &tmp, l);
+	debug_carry(game, caller->p_id, caller->c_id, caller->carry);
 }
 
-static void	deb_16_log(t_game *game, t_opcode opcode, t_process *caller, t_arg *args)
+void	deb_16_log(t_game *game, t_inst *inst, t_process *caller, int val)
 {
 	char	*tmp;
 	int		l;
+	t_opcode opcode;
 
 	tmp = NULL;
-	if (opcode == e_st && (args + 1)->type == e_reg)
-		l = ft_asprintf(&tmp, "champ(%i): store '%08x' into r%hhi!\n", caller->c_id,
-				args->value.u_dir_val, (args + 1)->value.u_reg_val);
+	opcode = (get_op(inst))->opcode;
+	if (opcode == e_st && inst->args[1].type == e_reg)
+		l = ft_asprintf(&tmp, "st r%hhi('%08x') -> r%hhi!\n",
+				inst->args[0].value.u_reg_val, val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_st)
-		l = ft_asprintf(&tmp, "champ(%i): store '%08x' into memdump(%i)!\n", caller->c_id,
-				args->value.u_dir_val, (args + 1)->value.u_dir_val);
+		l = ft_asprintf(&tmp, "st r%hhi('%08x') -> memdump(%i)!\n",
+				inst->args[0].value.u_reg_val, val, inst->args[1].value.u_dir_val);
 	else if (opcode == e_sti)
-		l = ft_asprintf(&tmp, "champ(%i): store '%08x' into memdump(%i)!\n", caller->c_id,
-				args->value.u_dir_val, (args + 1)->value.u_dir_val);
+		l = ft_asprintf(&tmp, "sti r%hhi('%08x') -> memdump(%i)!\n",
+				inst->args[0].value.u_reg_val, val, inst->args[1].value.u_dir_val);
 	else
 		return ;
+	add_head(&tmp, caller->p_id, caller->c_id, &l);
 	update_logs(game, &tmp, l);
 }
 
-static void	deb_8_log(t_game *game, t_opcode opcode, t_process *caller, t_arg *args)
+void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val)
 {
 	char	*tmp;
 	int		l;
+	t_opcode opcode;
 
+	opcode = (get_op(inst))->opcode;
 	tmp = NULL;
-	if (opcode == e_ld)
-		l = ft_asprintf(&tmp, "champ(%i): load '%08x' into r%hhi!\n", caller->c_id,
-				args->value.u_dir_val, (args + 1)->value.u_reg_val);
+	if (opcode == e_ld && inst->args[0].type == e_dir)
+		l = ft_asprintf(&tmp, "ld '%08x'(dir) -> r%hhi!\n",
+				val, inst->args[1].value.u_reg_val);
+	else if (opcode == e_ld)
+		l = ft_asprintf(&tmp, "ld '%08x'(ind) -> r%hhi!\n",
+				val, inst->args[1].value.u_reg_val);
+	if (opcode == e_lld && inst->args[0].type == e_dir)
+		l = ft_asprintf(&tmp, "lld '%08x'(dir) -> r%hhi!\n",
+				val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_lld)
-		l = ft_asprintf(&tmp, "champ(%i): long load '%08x' into r%hhi!\n", caller->c_id,
-				args->value.u_dir_val, (args + 1)->value.u_reg_val);
+		l = ft_asprintf(&tmp, "lld '%08x'(ind) -> r%hhi!\n",
+				val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_ldi)
-		l = ft_asprintf(&tmp, "champ(%i): load index(%i) into r%hhi!\n", caller->c_id,
-				args->value.u_dir_val, (args + 2)->value.u_reg_val);
+		l = ft_asprintf(&tmp, "ldi at %i('%08x') -> r%hhi!\n", val,
+			caller->regs[(int)(inst->args[2].value.u_reg_val)],
+			inst->args[2].value.u_reg_val);
 	else if (opcode == e_lldi)
-		l = ft_asprintf(&tmp, "champ(%i): long lead index(%i) into r%hhi!\n",
-				caller->c_id, args->value.u_dir_val, (args + 2)->value.u_reg_val);
+		l = ft_asprintf(&tmp, "lldi at %i('%08x') -> r%hhi!\n", val,
+			caller->regs[(int)(inst->args[2].value.u_reg_val)],
+			inst->args[2].value.u_reg_val);
 	else
 		return ;
+	add_head(&tmp, caller->p_id, caller->c_id, &l);
 	update_logs(game, &tmp, l);
-	tmp = NULL;
-	l = ft_asprintf(&tmp, "champ(%i): carry = %i\n", caller->c_id, caller->carry);
-	update_logs(game, &tmp, l);
-}
-
-void	print_inst(t_game *game, t_inst *inst, t_process *caller, t_opcode opcode)
-{
-	t_arg	*args;
-	char	*tmp;
-	int		l;
-
-	tmp = NULL;
-	args = &(inst->args[0]);
-	if (game->deb_state & 4 && opcode == e_live)
-	{
-		l = ft_asprintf(&tmp, "champ(%i): live for champ(%i)!\n", caller->c_id,
-				args->value.u_dir_val);
-		update_logs(game, &tmp, l);
-	}
-	tmp = NULL;
-	if (game->deb_state & 8)
-		deb_8_log(game, opcode, caller, args);
-	if (game->deb_state & 16)
-		deb_16_log(game, opcode, caller, args);
-	if (game->deb_state & 32)
-		deb_32_log(game, opcode, caller, args);
-	if (game->deb_state & 64)
-		deb_64_log(game, opcode, caller, args);
+	debug_carry(game, caller->p_id, caller->c_id, caller->carry);
 }

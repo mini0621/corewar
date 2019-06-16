@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/14 14:22:36 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/16 23:03:04 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef struct	s_game
 {
 	t_champ		*champs[MAX_PLAYERS + 1]; // the last ptr is NULL
 	t_list		*prcs; //cache coherence and use t_list? young prcs is top
+	t_ull		nbr_prcs;
 	t_stage		stage[MEM_SIZE];		
 	t_ull		nbr_cycle;
 	int			nbr_champs;
@@ -184,7 +185,7 @@ int		process(t_game *game);
 /*
  * prcs_util.c
  * */
-t_list	*prcs_new(int c_id);
+t_list	*prcs_new(t_game *game, int c_id);
 void	prcs_cpy(t_process *dst, t_process *src, t_uc *addr);
 
 /*
@@ -278,9 +279,16 @@ void    vm_init_visu(t_game *game, t_visu *visu);
 /*
  *debug
  * */
-void	print_inst(t_game *game, t_inst *inst, t_process *caller, t_opcode opcode);
-void	get_debug(t_game *game, t_inst *inst, t_process *caller, t_champ *champ);
+void	get_debug(t_game *game, t_champ *champ);
 void	reset_debug(t_game *game);
 void	print_debug(t_game *game);
 void	debug_hex(void *dst, size_t size);
+
+/*
+ *debug inst
+ * */
+void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val);
+void	deb_16_log(t_game *game, t_inst *inst, t_process *caller, int val);
+void	deb_32_log(t_game *game, t_inst *inst, t_process *caller, int res);
+void	deb_64_log(t_game *game, t_inst *inst, t_process *caller, int p_id);
 #endif

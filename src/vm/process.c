@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/14 14:35:26 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/16 23:02:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 			win = (*champs + i)->id;
 		}
 		else
-			get_debug(game, NULL, NULL, *champs + i);
+			get_debug(game, *champs + i);
 		i++;
 	}
 	if (!end || end == 1)
@@ -79,7 +79,7 @@ int process(t_game *game)
 	reset_debug(game);
 	game->cycle += 1;
 	game->cycle_d -= 1;
-	get_debug(game, NULL, NULL, NULL);
+	get_debug(game, NULL);
 	if (!game->cycle_d && (win = is_end(game, &(game->champs[0]), &(game->prcs))))
 		return (win);
 	cur = game->prcs;
