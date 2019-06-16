@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 17:21:10 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/12 17:54:27 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/16 23:56:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_hexdump(t_uc *dump)
 
 	ptr = dump;
 	i = 0;
-	ft_printf("\n0x0000 : ");
+	ft_printf("0x0000 : ");
 	while (i < MEM_SIZE)
 	{
 		if (i && !(i % 64))
