@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/16 23:07:56 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/16 23:33:55 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*add_head(char **log, int p_id, int c_id, int *l)
 	char	*tmp;
 	
 	tmp = NULL;
-	*l += ft_asprintf(&tmp, "process %i(champ %i): ", p_id, c_id);
+	*l += ft_asprintf(&tmp, "process(%i)/champ(%i): ", p_id, c_id);
 	*log = ft_strjoinfree(&tmp, log, 3);
 	return (*log);
 }
@@ -29,7 +29,7 @@ static void	debug_carry(t_game *game, int p_id, int c_id, int carry)
 	int		l;
 
 	tmp = NULL;
-	l = ft_asprintf(&tmp, "process %i(champ %i): carry = %i\n", p_id, c_id, carry);
+	l = ft_asprintf(&tmp, "process(%i)/champ(%i): carry = %i\n", p_id, c_id, carry);
 	update_logs(game, &tmp, l);
 }
 
@@ -122,7 +122,7 @@ void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val)
 	else if (opcode == e_ld)
 		l = ft_asprintf(&tmp, "ld '%08x'(ind) -> r%hhi!\n",
 				val, inst->args[1].value.u_reg_val);
-	if (opcode == e_lld && inst->args[0].type == e_dir)
+	else if (opcode == e_lld && inst->args[0].type == e_dir)
 		l = ft_asprintf(&tmp, "lld '%08x'(dir) -> r%hhi!\n",
 				val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_lld)
