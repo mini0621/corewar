@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/16 22:13:07 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/17 11:13:04 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		return (ft_error(pos, e_ind_error, tkn, NULL));
 	else
 	{
+		tkn->mem_size = pos->dir_bytes;
 		sh_nbr = ft_atos(buff + tkn->buff_start);
 		tkn->value = ft_memalloc(tkn->mem_size);
 		ft_memcpy(tkn->value, &sh_nbr, tkn->mem_size);
