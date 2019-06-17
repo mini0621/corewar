@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 15:09:16 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/17 19:31:59 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	while (buff[i] == '0')
 		i++;
 	if (i == tkn->buff_end && (i - 1 != tkn->buff_start && buff[i] != '0'))
-		return (ft_error(NULL, e_malloc_error, NULL, NULL));
+		return (ft_error(pos, e_reg_nb_error, tkn));
 	nbr_str = ft_strndup(buff + i, tkn->buff_end - i + 1);
 	if (ft_strlen(nbr_str) > 2)
-		return (ft_error(NULL, e_malloc_error, NULL, NULL));
+		return (ft_error(pos, e_reg_nb_error, tkn));
 	nbr_char = ft_atochar(nbr_str);
 	ft_strdel(&nbr_str);
 	if (nbr_char > 16)  // 0?
-		return (ft_error(NULL, e_malloc_error, NULL, NULL));
+		return (ft_error(pos, e_reg_nb_error, tkn));
 	else
 	{
 		tkn->type = e_register;
 		if (!(tkn->value = ft_strdup(&nbr_char)))
-			return (ft_error(NULL, e_malloc_error, NULL, NULL));
+			return (ft_error(NULL, e_malloc_error, NULL));
 		tkn->mem_size = 1;
 	}
 	return (1);
@@ -50,15 +50,15 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	(void)lbls;
 	tkn->type = e_op;
 	if (!(name = ft_strndup(buff + tkn->buff_start, tkn->buff_end - tkn->buff_start + 1)))
-		return (ft_error(NULL, e_malloc_error, NULL, NULL));
+		return (ft_error(NULL, e_malloc_error, NULL));
 	i = 0;
 	while (i < OP_TAB_ASM_SIZE && !ft_strequ(name, g_op_tab_asm[i].name))
 		i++;
 	free(name);
 	if (i == OP_TAB_ASM_SIZE)
-		return (ft_error(pos, e_op_code_error, tkn, NULL));
+		return (ft_error(pos, e_op_code_error, tkn));
 	if (!(tkn->value = (char*)ft_memalloc(sizeof(char))))
-		return (ft_error(NULL, e_malloc_error, NULL, NULL));
+		return (ft_error(NULL, e_malloc_error, NULL));
 	*(char*)(tkn->value) = g_op_tab_asm[i].op_code;
 	tkn->op = g_op_tab_asm + i;
 	tkn->mem_size = 1;
@@ -77,12 +77,12 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	(void)lbls;
 	tkn->mem_size = pos->dir_bytes;
 	if (tkn->buff_start - tkn->buff_end + 1 > 10)
-		return (ft_error(pos, e_dir_int_error, tkn, NULL));
+		return (ft_error(pos, e_dir_int_error, tkn));
 	long_nbr = ft_atolong(buff + tkn->buff_start + 1);
 	if (tkn->mem_size == 4)
 	{
 		if (long_nbr > 2147483647 || long_nbr < -2147483648)
-			return (ft_error(pos, e_dir_int_error, tkn, NULL));
+			return (ft_error(pos, e_dir_int_error, tkn));
 		else
 		{
 			nbr = ft_atoi(buff + tkn->buff_start + 1);
@@ -93,7 +93,7 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	else if (tkn->mem_size == 2)
 	{
 		if (long_nbr > 32767 || long_nbr < -32767)
-			return (ft_error(pos, e_dir_short_error, tkn, NULL));
+			return (ft_error(pos, e_dir_short_error, tkn));
 		else
 		{
 			sh_nbr = ft_atos(buff + tkn->buff_start + 1);
@@ -112,10 +112,10 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 
 	(void)lbls;
 	if (tkn->buff_start - tkn->buff_end + 1 > 5)
-		return (ft_error(pos, e_ind_error, tkn, NULL));
+		return (ft_error(pos, e_ind_error, tkn));
 	long_nbr = ft_atolong(buff + tkn->buff_start);
 	if (long_nbr > 32767 || long_nbr < -32767)
-		return (ft_error(pos, e_ind_error, tkn, NULL));
+		return (ft_error(pos, e_ind_error, tkn));
 	else
 	{
 		tkn->mem_size = pos->dir_bytes;

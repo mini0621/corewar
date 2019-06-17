@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 19:04:42 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/17 19:32:01 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	free_after_analysis(pos, &read_line);
 	if (!error && end_lbl(lbls))
 		return (1);
-	return (ft_error(pos, e_no_print, tkn, NULL));
+	return (ft_error(pos, e_no_print, tkn));
 }
 
 int			main(int argc, char **argv)
@@ -55,7 +55,9 @@ int			main(int argc, char **argv)
 	// check if file is valide (file name, ext)
 	end = 0;
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
-		return (ft_error(&pos, e_open_error, NULL, NULL));
+		return (ft_error(&pos, e_open_error, NULL));
+	ft_bzero(&pos, sizeof(t_pos));
+	pos.file_name = ft_strdup(argv[1]);
 	if (read_analyze_encode_loop(fd, &bytebf, &pos))
 		ft_write_output(&bytebf, &pos, argv[1]);
 	return (0);

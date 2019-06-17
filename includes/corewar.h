@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2019/06/17 14:10:50 by sunakim          ###   ########.fr       */
+=======
+/*   Updated: 2019/06/17 19:11:15 by allefebv         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +252,8 @@ typedef	struct	s_tkn
 	int			lc_tkn;
 	int			buff_start;
 	int			buff_end;
+	int			col_start;
+	int			col_end;
 	int			mem_size;
 	void		*value; //
 	t_op_asm	*op;
@@ -278,12 +284,14 @@ typedef struct	s_pos
 
 	int			state_l;
 	int			state_s;
+	int			previous_st_s;
 
 	int			name_len;
 	int			comment_len;
 	int			size_line;
 
 	char		*tmp_buf;
+	char		*file_name;
 }				t_pos;
 
 typedef struct	s_bytebf
@@ -345,7 +353,7 @@ void	ft_memrev(void *buf, size_t len);
 int		read_bytes(char **line, int error, const int fd);
 
 //need to fix
-int		ft_error(t_pos *pos, t_errors error, t_tkn *tkn, char *input);
+int		ft_error(t_pos *pos, t_errors error, t_tkn *tkn);
 
 //free
 void	del_lbls(void *content, size_t size);
@@ -353,6 +361,5 @@ void	free_lbls(t_lbl *lbl);
 void	del_tkn(void *cnt, size_t size);
 void	free_tkn(t_tkn *cnt);
 void	free_bytebf(t_bytebf *bytebf);
-
 
 #endif
