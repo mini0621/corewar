@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/16 19:29:56 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:24:59 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
 		ft_printf("dir value > SHORT_MAX");
 	else if (error == e_ind_error)
 		ft_printf("ind value > SHORT_MAX");
-
 }
 
 static void	syntactic_error(t_pos *pos, t_tkn *tkn, t_errors error)

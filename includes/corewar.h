@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/14 11:29:01 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/17 14:10:50 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ typedef	struct	s_tkn
 	int			buff_start;
 	int			buff_end;
 	int			mem_size;
-	void		*value;
+	void		*value; //
 	t_op_asm	*op;
 }				t_tkn;
 
@@ -258,7 +258,7 @@ typedef	struct	s_lbl
 	char		*name;
 	char		type; // D - Defined or U - Undefined
 	int			lc_lbl_inst;
-	t_list		*frwd;
+	t_list		*frwd;   //tkn?
 }				t_lbl;
 
 typedef struct	s_pos
@@ -346,4 +346,13 @@ int		read_bytes(char **line, int error, const int fd);
 
 //need to fix
 int		ft_error(t_pos *pos, t_errors error, t_tkn *tkn, char *input);
+
+//free
+void	del_lbls(void *content, size_t size);
+void	free_lbls(t_lbl *lbl);
+void	del_tkn(void *cnt, size_t size);
+void	free_tkn(t_tkn *cnt);
+void	free_bytebf(t_bytebf *bytebf);
+
+
 #endif

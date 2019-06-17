@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:32:41 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 16:09:56 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/17 16:35:26 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		new->type = 'D';
 		new->lc_lbl_inst = pos->lc_tkn;
 		new->frwd = NULL;
-		if (!(ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)))))
+		if (!(ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl))))) // lst new - malloc protec
 			return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	}
 	return (1);
@@ -91,11 +91,11 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	{
 		tkn->lc_instruction = pos->lc_instruction;
 		tkn->lc_tkn = pos->lc_tkn;
-		if (!(new = (t_lbl*)ft_memalloc(sizeof(t_lbl))))
+		if (!(new = (t_lbl*)ft_memalloc(sizeof(t_lbl))))          //
 			return (ft_error(NULL, e_malloc_error, NULL, NULL));
 		new->name = name;
 		new->type = 'U';
-		if (!(ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)))))
+		if (!(ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)))))     //
 			return (ft_error(NULL, e_malloc_error, NULL, NULL));
 		if (!(ft_lstadd(&((t_lbl*)((*lbls)->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)))))
 			return (ft_error(NULL, e_malloc_error, NULL, NULL));

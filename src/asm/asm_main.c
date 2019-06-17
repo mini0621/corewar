@@ -6,12 +6,16 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 15:53:23 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/17 19:04:42 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include <fcntl.h>
+
+//void stop(void)__attribute__((destructor));
+
+//void stop(void){while(1);}
 
 static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 {
@@ -21,7 +25,7 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	int		error;
 
 	error = 0;
-	ft_init_main(&lbls, bytebf, &read_line, pos); //error anyway
+	ft_init_main(&lbls, bytebf, &read_line, pos);
 	while ((pos->size_line = read_bytes(&read_line, error, fd)) > 0)
 	{
 		init_before_analysis(pos, &read_line);
@@ -39,7 +43,7 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	return (ft_error(pos, e_no_print, tkn, NULL));
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	int			fd;
 	int			end;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 11:13:04 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/17 15:09:16 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	if (ft_strlen(nbr_str) > 2)
 		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	nbr_char = ft_atochar(nbr_str);
+	ft_strdel(&nbr_str);
 	if (nbr_char > 16)  // 0?
 		return (ft_error(NULL, e_malloc_error, NULL, NULL));
 	else

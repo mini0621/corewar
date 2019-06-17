@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 15:47:54 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/17 17:25:44 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
 		if (tkn->mem_size == 1)
 		{
 			ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, 1);
+			free(tkn->value);
 			if (tkn->type == e_op && tkn->op->ocp == 1)
 			{
 				pos->lc_tkn = pos->lc_tkn + 1;
@@ -95,6 +96,7 @@ void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
 		{
 			ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, tkn->mem_size);
 			ft_memrev(bytebf->inst + pos->lc_tkn, tkn->mem_size);
+			free(tkn->value);
 		}
 	}
 	bytebf->inst_remain = bytebf->inst_remain - tkn->mem_size;
