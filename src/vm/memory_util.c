@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/11 03:16:43 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 21:29:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_uc	*access_ptr(t_uc *dump, t_uc *pc, int offset)
 {
-	//ft_printf("offset = %i\n", offset);
 	while (offset / MEM_SIZE)
 		offset %= MEM_SIZE;
 	if (offset < 0)
@@ -57,7 +56,6 @@ void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size)
 {
 	size_t	wr;
 	
-//	ft_printf("read src-dump %llu\n", src -dump);
 	if (src - dump + size > MEM_SIZE)
 	{
 		wr = MEM_SIZE - (src - dump);
@@ -67,9 +65,6 @@ void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size)
 	else
 		ft_memcpy(dst, src, size);
 	endian_conv(dst, size);
-//	debug_hex(dst, size);
-	//ft_printf("check %x\n", *(int *)dst);
-	
 }
 
 void	write_dump(t_uc *dump, void *src, t_uc *dst, size_t size)
@@ -78,7 +73,7 @@ void	write_dump(t_uc *dump, void *src, t_uc *dst, size_t size)
 
 	if (dst - dump + size > MEM_SIZE)
 	{
-		rd = MEM_SIZE - ((t_uc *)src - dump);
+		rd = MEM_SIZE - (dst - dump);
 		ft_memcpy(dst, src, rd);
 		ft_memcpy(dst + size, src, size - rd);
 	}

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/16 22:53:34 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 21:12:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,20 @@ static int				vm_init_parser(int ac, char **av, t_game *game)
 			return (0);
 		index++;
 	}
-	// if (game->deb_state)
-	// 	vm_debug(1, ac, av, game);
 	return (1);
+}
+static void		init_clr_map(t_game *game, int c_id, int dif, unsigned int size)
+{
+	unsigned int 	i;
+	short			*map;
+
+	i = 0;
+	map = &(game->visu->clr_map[0]);
+	while (i < size)
+	{
+		map[dif + i] = -1 * c_id;
+		i++;
+	}
 }
 
 static int		vm_store_instr(t_game *game, int fd
@@ -47,6 +58,8 @@ static int		vm_store_instr(t_game *game, int fd
 	n = prcs_new(game, id);
 	((t_process *)(n->content))->pc = &(game->memdump[0]) + dif; 
 	((t_process *)(n->content))->wait_c = decode_wait(&(game->memdump[0]) + dif);
+	if (game->visu)
+		init_clr_map(game, id, dif, size);
 	ft_lstadd(&(game->prcs), n);
 	game->champs[pos]->color = pos;
 	return (1);
@@ -76,6 +89,7 @@ static int		read_champs(t_game *game)
 
 int			init_corewar(t_game *game, int ac, char **av)
 {
+	vm_init_flags(game);
 	if (!vm_init_parser(ac, av, game))
 		return (0);
 	if (!read_champs(game))
@@ -85,5 +99,7 @@ int			init_corewar(t_game *game, int ac, char **av)
 	}
 	if (game->deb_state)
 		game->logs = ft_strnew(0);
+	if (game->visu)
+		init_visu(game, game->visu);
 	return (1);
 }

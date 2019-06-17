@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:28 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/14 14:30:14 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 22:12:34 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ int                     vm_opt_visu(int pos
 		, char **av, t_game *game)
 {
 	if (game && av && pos)
+	{
 		game->visu = (t_visu *)malloc(sizeof(t_visu));
+		ft_bzero(game->visu, sizeof(t_visu));
+	}
 	return (1);
 }
 

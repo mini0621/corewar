@@ -6,14 +6,12 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2019/06/06 12:05:42 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 17:21:06 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
- * ** Toutes les tailles sont en octets.
- * ** On part du principe qu'un int fait 32 bits. Est-ce vrai chez vous ?
- * */
+#ifndef OP_H
+#define OP_H
 
 #define IND_SIZE				2
 #define REG_SIZE				4
@@ -74,3 +72,4 @@ typedef struct		header_s
 	unsigned int		prog_size;
 	char				comment[COMMENT_LENGTH + 1];
 }					header_t;
+#endif

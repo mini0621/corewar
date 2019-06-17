@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:30:30 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/16 22:54:19 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 17:07:14 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_list	*prcs_new(t_game *game, int c_id)
 	prcs.c_id = c_id;
 	prcs.p_id = game->nbr_prcs;
 	game->nbr_prcs += 1;
+	game->prcs_count += 1;
 	prcs.regs[0] = c_id;
 	if (!(lst = ft_lstnew(&prcs, sizeof(t_process))))
 		return (NULL);

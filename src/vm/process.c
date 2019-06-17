@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 11:44:18 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 19:53:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 			cur = cur->next;
 			continue;
 		}
+		game->prcs_count -= 1;
 		ft_lstsub(prcs, cur);
 		ft_lstdelone(&cur, &del_lstprcs);
 		cur = (!pre) ? *prcs : pre->next;
@@ -74,6 +75,21 @@ static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 	}
 	update_cycles(game);
 	return (count_alivechamps(game, champs));
+}
+
+static void	update_visu_clrmap(t_visu *visu)
+{
+	int	i;
+
+	if (!visu)
+		return ;
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		if (visu->clr_map[i] > 10)
+			visu->clr_map[i] -= 10;
+		i++;
+	}
 }
 
 int process(t_game *game)
@@ -99,5 +115,6 @@ int process(t_game *game)
 		cur = cur->next;
 	}
 	print_debug(game);
+	update_visu_clrmap(game->visu);
 	return ((game->nbr_cycle == game->cycle) ? 1 : 0);
 }

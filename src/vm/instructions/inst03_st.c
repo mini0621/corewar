@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/16 23:08:33 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 21:30:08 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	inst_st(t_game *game, t_process *caller, t_inst *inst)
 {
 	t_dir_type	*i;
+	t_uc		*addr;
 
 	if (!game || !caller || !inst)
 		return ;
@@ -24,13 +25,16 @@ void	inst_st(t_game *game, t_process *caller, t_inst *inst)
 		ft_memcpy(get_arg(caller, game->memdump,
 					&(inst->args[1]), 1), i, REG_SIZE);
 	else
-		write_dump(game->memdump, i, access_ptr(game->memdump, caller->pc,
-					(int)(short)(inst->args[1].value.u_ind_val)), REG_SIZE);
+	{
+		addr = access_ptr(game->memdump, caller->pc,
+					(int)(short)(inst->args[1].value.u_ind_val));
+		write_dump(game->memdump, i, addr, REG_SIZE);
+		if (game->visu)
+			update_clr(game, addr - game->memdump, REG_SIZE, caller->c_id);
+	}
 	if (!(game->deb_state & 16))
 		return ;
 	if (inst->args[1].type != e_reg)
-		inst->args[1].value.u_dir_val =
-			access_ptr(game->memdump, caller->pc,
-				(int)(short)(inst->args[1].value.u_ind_val)) - game->memdump;
+		inst->args[1].value.u_dir_val = addr - game->memdump;
 	deb_16_log(game, inst, caller, (int)*i);
 }

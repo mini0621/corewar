@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 11:27:35 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 22:47:43 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ typedef struct	s_game
 	t_champ		*champs[MAX_PLAYERS + 1]; // the last ptr is NULL
 	t_list		*prcs; //cache coherence and use t_list? young prcs is top
 	t_ull		nbr_prcs;
-	t_stage		stage[MEM_SIZE];		
 	t_ull		nbr_cycle;
 	int			nbr_champs;
 	t_ull		nbr_s_cycle; //-s option
@@ -140,8 +139,8 @@ typedef struct	s_game
 	size_t		logs_len;
 	int			v_state;
 	int			pv_number;
-	int			pause;
-	int			live_count;
+	t_ull		live_count;
+	t_ull		prcs_count;
 	int			prev_champ;
 	t_ull		cycle;
 	t_ull		cycle_d;
@@ -274,8 +273,13 @@ void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
 */
 void	end_visu(t_visu *visu);
 int		output(t_game *game, int *pause);
-void	visu_launcher(t_game *game, t_visu *visu, int pause);
-void    vm_init_visu(t_game *game, t_visu *visu);
+void	update_all(t_game *game, t_visu *visu, int pause);
+void    init_visu(t_game *game, t_visu *visu);
+void	        draw_dump(t_game *game, t_visu *win);
+void            draw_menu(t_game *game, t_visu *wind, int pause);
+void	update_clr(t_game *game, int dst, size_t size, int id);
+void	draw_debug(t_game *game, t_visu *visu);
+
 /*
  *debug
  * */
