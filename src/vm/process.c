@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/16 23:02:46 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 11:44:18 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,46 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 	i = 0;
 	while (i < game->nbr_champs)
 	{
-		if ((*champs + i)->live_c)
+		if (champs[i]->prcs_c)
 		{
 			end++;
-			win = (*champs + i)->id;
+			win = champs[i]->id;
+			champs[i]->prcs_c = 0;
 		}
 		else
 			get_debug(game, *champs + i);
+		champs[i]->live_c = 0;
 		i++;
 	}
 	if (!end || end == 1)
 		return (win);
-	i = 0;
-	while ((*champs + i))
-	{
-		if ((*champs + i)->live_c)
-			champs[i]->live_c = 0;
-		i++;
-	}
 	return (0);
 }
-
+static void	update_cycles(t_game *game)
+{
+	if (game->live_count < NBR_LIVE || game->check_c == MAX_CHECKS)
+	{
+		game->cycle_to_die -= CYCLE_DELTA;
+		game->cycle_d = game->cycle_to_die;
+	}
+	game->live_count = 0;
+	game->check_c = (game->check_c == MAX_CHECKS) ? 0 : game->check_c + 1;	
+}
 static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 {
 	t_list *cur;
 	t_list *pre;
+	t_process	*p;
 
 	cur = *prcs;
 	pre = NULL;
 	while (cur)
 	{
-		if (((t_process *)(cur->content))->is_alive)
+		p = (t_process *)(cur->content);
+		if (p->is_alive)
 		{
-			((t_process *)(cur->content))->is_alive = 0;
+			game->champs[-1 * p->c_id - 1]->prcs_c += 1;
+			p->is_alive = 0;
 			pre = (!pre) ? cur: pre->next;
 			cur = cur->next;
 			continue;
@@ -65,8 +72,7 @@ static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 		cur = (!pre) ? *prcs : pre->next;
 		pre = (cur == *prcs) ? NULL : pre;
 	}
-	game->cycle_to_die -= CYCLE_DELTA;
-	game->cycle_d = game->cycle_to_die;
+	update_cycles(game);
 	return (count_alivechamps(game, champs));
 }
 

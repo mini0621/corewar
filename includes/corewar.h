@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/16 23:03:04 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/17 11:27:35 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ typedef struct	s_game
 	int			prev_champ;
 	t_ull		cycle;
 	t_ull		cycle_d;
-	t_ull		c_checked;
+	t_ull		check_c;
 	t_ull		cycle_to_die;
 	t_visu		*visu;
 	t_uc		memdump[MEM_SIZE];
