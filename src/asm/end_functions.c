@@ -6,17 +6,19 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:17:39 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 19:32:01 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:49:59 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include <fcntl.h>
 
-int		end_lbl(t_list *lbls)
+int		end_lbl(t_list *lbls, t_pos *pos)
 {
 	t_list 	*tmp_l;
+	t_list	*tmp_l2;
 	t_list	*tmp_t;
+	t_tkn	*tkn;
 	int		flag;
 
 	tmp_l = lbls;
@@ -25,20 +27,23 @@ int		end_lbl(t_list *lbls)
 	{
 		if (((t_lbl*)(tmp_l->content))->type == 'U')
 		{
-			ft_printf("ERROR -\nLabel \" %s \" has never been declared\n",
-				((t_lbl*)(tmp_l->content))->name);
+
 			tmp_t = ((t_lbl*)(tmp_l->content))->frwd;
 			while (tmp_t)
 			{
-				ft_printf("Used as an argument in instruction address %d\n",
-					((t_tkn*)(tmp_t->content))->lc_instruction);
+				tkn = (t_tkn*)(tmp_t->content);
+				ft_printf(WHT "%s:%d:%d: " RED BLD "error: " RESET "label " WHT BLD "`%s`" RESET " used as ",
+					pos->file_name, tkn->line, tkn->col_start, ((t_lbl*)(tmp_l->content))->name);
+				ft_printf(WHT BLD "`%s`" RESET " at address " WHT BLD "`%#x`" RESET " has never been declared;\n\n",
+					get_tkn_type_name(((t_tkn*)(tmp_t->content))->type), ((t_tkn*)(tmp_t->content))->lc_instruction);
 				tmp_t = tmp_t->next;
 			}
 			flag = 0;
 		}
+		tmp_l2 = tmp_l;
 		tmp_l = tmp_l->next;
+	//	del_lbls(tmp_l2, sizeof(tmp_l2));
 	}
-	//ft_lstdel(&lbls, &del_lbls);
 	return (flag);
 }
 
@@ -83,7 +88,7 @@ int			ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name)
         if ((i = write(fd, bytebf->bytebuf, pos->lc_tkn + bytebf->hd_size)) == -1)
             return (ft_error(NULL, e_write_error, NULL));
         else
-            ft_printf("Write output to %s\n", f_name);
+            ft_printf("\e[037m\e[1mWrite output to %s\n", f_name);
     }
 	ft_strdel(&f_name);
 	free_bytebf(bytebf);

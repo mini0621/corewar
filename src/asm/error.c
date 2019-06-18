@@ -6,14 +6,14 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/17 19:32:00 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:37:06 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "errno.h"
 
-static char	*get_tkn_type_name(t_tkn_type tkn_type)
+char	*get_tkn_type_name(t_tkn_type tkn_type)
 {
 	if (tkn_type == e_cmd_name)
 		return ("cmd_name");
@@ -45,19 +45,21 @@ static char	*get_tkn_type_name(t_tkn_type tkn_type)
 static void	system_error(t_errors error)
 {
 	if (error == e_malloc_error)
-		ft_printf("\e[0m\e[031m\e[1mmemory_allocation_error: \e[0m%s",
+		ft_printf(RED BLD "memory_allocation_error: " RESET "%s\n",
 			strerror(errno));
 	else if (error == e_open_error)
-		ft_printf("\e[0m\e[031m\e[1mopen_file_error: \e[0m%s",
+		ft_printf(RED BLD "open_file_error: " RESET "%s\n",
 			strerror(errno));
 	else
-		ft_printf("\e[0m\e[031m\e[1mwrite_error: %s",
+		ft_printf(RED BLD "write_error: " RESET "%s\n",
 			strerror(errno));
 }
 
 static void	input_error(t_pos *pos)
 {
-	ft_printf("\e[0m\e[031m\e[1mfile_error: \e[0minput file is of expected format \e[037m\e[1m`file_name.s`\e[0m instead of \e[037m\e[1m`%s`\e[0m;", pos->file_name);
+	ft_printf(RED BLD "file_error: " RESET "input file is of expected format ");
+	ft_printf(WHT BLD "`file_name.s`" RESET "instead of " WHT BLD "`%s`" RESET ";",
+		pos->file_name);
 }
 
 static void	ft_print_expected(t_pos *pos)
@@ -67,14 +69,14 @@ static void	ft_print_expected(t_pos *pos)
 
 	i = -1;
 	flag = 0;
-	ft_printf("\e[0mexpected ");
+	ft_printf(RESET "expected ");
 	while (++i < NB_TKN_TYPES)
 	{
 		if (syntactic_sm[pos->previous_st_s][i] != -1)
 		{
 			if (flag == 1)
 				ft_printf(" | ");
-			ft_printf("\e[037m\e[1m`%s`\e[0m", get_tkn_type_name(i));
+			ft_printf(WHT BLD "`%s`" RESET, get_tkn_type_name(i));
 			flag = 1;
 		}
 	}
@@ -88,13 +90,17 @@ static void	nice_display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 	j = -1;
 	i = -1;
 	if (pos->state_s != -1)
-		ft_printf("\e[037m%s:%d:%d: \e[0m\e[031m\e[1m%s_error: \e[0m%s;\n%s",
+	{
+		ft_printf(WHT "%s:%d:%d: " RED BLD "%s_error: " RESET "%s;\n%s",
 		pos->file_name, pos->file_line, tkn->buff_start + 1, error, msg, pos->tmp_buf);
+	}
 	else
 	{
-		ft_printf("\e[037m%s:%d:%d: \e[0m\e[031m\e[1m%s_error: ",pos->file_name, pos->file_line, tkn->buff_start + 1, error);
+		ft_printf(WHT "%s:%d:%d: " RED BLD "%s_error: ",
+			pos->file_name, pos->file_line, tkn->buff_start + 1, error);
 		ft_print_expected(pos);
-		ft_printf("\e[0m instead of \e[037m\e[1m`%s`\e[0m;", get_tkn_type_name(tkn->type), get_tkn_type_name(tkn->type), pos->tmp_buf);
+		ft_printf(RESET " instead of " WHT BLD "`%s`" RESET ";",
+			get_tkn_type_name(tkn->type), get_tkn_type_name(tkn->type), pos->tmp_buf);
 		ft_printf("\n%s",pos->tmp_buf);
 	}
 	if (tkn->col_end != 0)
@@ -104,22 +110,25 @@ static void	nice_display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 			if (i < tkn->col_start)
 				ft_printf(" ");
 			else if (i == tkn->col_start)
-				ft_printf("\e[032m\e[1m^\e[0m");
+				ft_printf(GRN BLD "^" RESET);
 			else if (i <= tkn->col_end)
-				ft_printf("\e[032m\e[1m~\e[0m");
+				ft_printf(GRN BLD "~" RESET);
 		}
 	}
 	else
 	{
-		while (++i <= pos->buf_pos)
+	/*	while (++i <= pos->file_col)
 		{
 			if (i < tkn->col_start)
 				ft_printf(" ");
-			else if (i < pos->buf_pos)
-				ft_printf("\e[032m\e[1m~\e[0m");
+			else if (i < pos->file_col)
+				ft_printf(GRN BLD "~" RESET);
 			else
-				ft_printf("\e[032m\e[1m^\e[0m");
-		}
+				ft_printf(GRN BLD "^" RESET);
+		} */
+		while (++i < pos->file_col)
+			ft_printf(" ");
+		ft_printf(RED BLD "^" RESET);
 	}
 	ft_printf("\n");
 }
@@ -128,17 +137,17 @@ static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
 {
 
 	if (error == e_reg_nb_error)
-		nice_display(pos, tkn, "lexical", "wrong register nbr");
+		nice_display(pos, tkn, "lexical", "wrong_register_nbr");
 	else if (error == e_op_code_error)
-		nice_display(pos, tkn, "lexical", "wrong op_code");
+		nice_display(pos, tkn, "lexical", "wrong_op_code");
 	else if (error == e_dir_int_error)
-		nice_display(pos, tkn, "lexical", "dir value > INT_MAX");
+		nice_display(pos, tkn, "lexical", "dir_value [ > INT_MAX | < INT_MIN ]");
 	else if (error == e_dir_short_error)
-		nice_display(pos, tkn, "lexical", "dir value > SHORT_MAX");
+		nice_display(pos, tkn, "lexical", "dir_value [ > SHORT_MAX | < SHORT_MIN ]");
 	else if (error == e_ind_error)
-		nice_display(pos, tkn, "lexical", "ind value > SHORT_MAX");
+		nice_display(pos, tkn, "lexical", "ind_value [ > SHORT_MAX | < SHORT_MIN ]");
 	else
-		nice_display(pos, tkn, "lexical", "unexpected chararacter");
+		nice_display(pos, tkn, "lexical", "unexpected_chararacter");
 }
 
 static void	syntactic_error(t_pos *pos, t_tkn *tkn, t_errors error)

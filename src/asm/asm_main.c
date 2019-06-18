@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 19:32:01 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/18 18:02:17 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 			ocp_modify(pos, bytebf->inst);
 	}
 	free_after_analysis(pos, &read_line);
-	if (!error && end_lbl(lbls))
+	if (!error && end_lbl(lbls, pos))
 		return (1);
 	return (ft_error(pos, e_no_print, tkn));
 }

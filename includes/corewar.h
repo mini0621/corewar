@@ -6,11 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2019/06/17 14:10:50 by sunakim          ###   ########.fr       */
-=======
-/*   Updated: 2019/06/17 19:11:15 by allefebv         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2019/06/18 17:59:07 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +15,15 @@
 
 # define BUFF_SIZE_COR 10
 # define OP_TAB_ASM_SIZE 16
-# define NB_TKN_TYPES 10
+# define NB_TKN_TYPES 11
 # define SPACE_CHAR " \t\v\f\r"
 # define NB_LSM_COL 13
+
+# define RED "\e[031m"
+# define GRN "\e[032m"
+# define WHT "\e[037m"
+# define BLD "\e[1m"
+# define RESET "\e[0m"
 
 #include "libftprintf.h"
 #include "op.h"
@@ -257,6 +259,7 @@ typedef	struct	s_tkn
 	int			mem_size;
 	void		*value; //
 	t_op_asm	*op;
+	int			line;
 }				t_tkn;
 
 typedef	struct	s_lbl
@@ -274,6 +277,8 @@ typedef struct	s_pos
 
 	int			buf_pos;
 	int			size_buf;
+	int			tab_counter;
+	int			nb_tab;
 
 	int			lc_instruction;
 	int			lc_tkn;
@@ -330,7 +335,7 @@ int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
 
 void	ocp_modify(t_pos *pos, char *bytebuf);
 void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
-int		end_lbl(t_list *lbls);
+int		end_lbl(t_list *lbls, t_pos *pos);
 int		ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
 int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
 int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn);
@@ -342,6 +347,7 @@ int		init_before_analysis(t_pos *pos, char **read_line);
 void	free_after_analysis(t_pos *pos, char **read_line);
 int		lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls);
 int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn);
+char	*get_tkn_type_name(t_tkn_type tkn_type);
 
 //libft
 long	ft_atochar(char *str);

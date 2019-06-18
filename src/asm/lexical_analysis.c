@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 19:13:24 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:22:06 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ static int	final_state(t_pos *pos, t_tkn *tkn, char *buf, t_list **lbls)
 			pos->buf_pos--;
 			pos->file_col--;
 		}
+		else
+			pos->tab_counter++;
+		if (pos->tab_counter == 8)
+			pos->tab_counter = 0;
 		tkn->buff_end = pos->buf_pos;
 		tkn->col_end = pos->file_col;
 		if (!(tkn_create(buf, pos, lbls, tkn)))
@@ -44,6 +48,33 @@ static int	final_state(t_pos *pos, t_tkn *tkn, char *buf, t_list **lbls)
 		return (1);
 	}
 	return (2);
+}
+
+static void		ft_move_positions(t_pos *pos, t_tkn *tkn)
+{
+		if (pos->state_l == 0)
+		{
+			tkn->buff_start++;
+			if (pos->tmp_buf[pos->buf_pos] == '\t')
+			{
+				tkn->col_start = tkn->col_start + 8 - pos->tab_counter;
+				pos->file_col = pos->file_col + 8 - pos->tab_counter;
+				pos->nb_tab++;
+				pos->tab_counter = 0;
+			}
+			else
+			{
+				tkn->col_start++;
+				pos->file_col++;
+			}
+		}
+		else
+			pos->file_col++;
+		if (pos->tmp_buf[pos->buf_pos] != '\t')
+			pos->tab_counter++;
+		if (pos->tab_counter == 8)
+			pos->tab_counter = 0;
+		pos->buf_pos++;
 }
 
 int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
@@ -61,25 +92,11 @@ int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 		pos->state_l = lex_sm[pos->state_l][i];
 		if (pos->state_l == -1)
 			break;
-		if (pos->state_l == 0)
-		{
-			(*tkn)->buff_start++;
-			if (pos->tmp_buf[pos->buf_pos] == '\t')
-				(*tkn)->col_start += 4;
-			else
-				(*tkn)->col_start++;
-
-		}
 		if ((ret = final_state(pos, *tkn, pos->tmp_buf, lbls)) == 1)
 			return (1);
 		else if (!ret)
 			return (ft_error(NULL, e_no_print, NULL));
-		if (pos->tmp_buf[pos->buf_pos] == '\t')
-			pos->file_col += 4;
-		else
-			pos->file_col++;
-		pos->buf_pos++;
-
+		ft_move_positions(pos, *tkn);
 	}
 	if (pos->state_l == 24)
 	{

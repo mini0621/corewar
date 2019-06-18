@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 19:13:04 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/18 13:54:44 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	free_after_analysis(t_pos *pos, char **line)
 	ft_strdel(&pos->tmp_buf);
 	ft_strdel(line);
 	pos->buf_pos = 0;
+	pos->tab_counter = 0;
 	pos->size_buf = 0;
 	pos->file_col = 0;
 }

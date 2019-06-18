@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:32:41 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 19:32:02 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:55:56 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		{
 			tkn->lc_instruction = pos->lc_instruction;
 			tkn->lc_tkn = pos->lc_tkn;
+			tkn->line = pos->file_line;
 			if (!(ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)))))
 				return (ft_error(NULL, e_malloc_error, NULL));
 		}
@@ -91,6 +92,7 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	{
 		tkn->lc_instruction = pos->lc_instruction;
 		tkn->lc_tkn = pos->lc_tkn;
+		tkn->line = pos->file_line;
 		if (!(new = (t_lbl*)ft_memalloc(sizeof(t_lbl))))
 			return (ft_error(NULL, e_malloc_error, NULL));
 		new->name = name;
@@ -100,6 +102,7 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		if (!(ft_lstadd(&((t_lbl*)((*lbls)->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)))))
 			return (ft_error(NULL, e_malloc_error, NULL));
 	}
+
 	return (1);
 }
 
@@ -137,6 +140,7 @@ int	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		{
 			tkn->lc_instruction = pos->lc_instruction;
 			tkn->lc_tkn = pos->lc_tkn;
+			tkn->line = pos->file_line;
 			if (!(ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)))))
 				return (ft_error(NULL, e_malloc_error, NULL));
 		}
@@ -145,6 +149,7 @@ int	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	{
 		tkn->lc_instruction = pos->lc_instruction;
 		tkn->lc_tkn = pos->lc_tkn;
+		tkn->line = pos->file_line;
 		if (!(new = (t_lbl*)ft_memalloc(sizeof(t_lbl))))
 			return (ft_error(NULL, e_malloc_error, NULL));
 		new->name = name;

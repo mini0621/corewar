@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:02:32 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 19:14:55 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/17 21:20:19 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ int	tkn_cmd_name(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	(void)lbls;
 	tkn->type = e_cmd_name;
-	while (!ft_isspace(*(buf + tkn->buff_start)))
+	while (!ft_isspace(buf[tkn->buff_start]) && buf[tkn->buff_start] != '\"')
 		tkn->buff_start++;
-	while (ft_isspace(*(buf + tkn->buff_start)))
-		tkn->buff_start++;
+	if (buf[tkn->buff_start] != '\"')
+		while (ft_isspace(*(buf + tkn->buff_start)))
+			tkn->buff_start++;
 	tkn->buff_start++;
 	pos->name_len = pos->buf_pos - tkn->buff_start;
 	if (!(tkn->value = ft_memalloc(pos->buf_pos - tkn->buff_start)))
@@ -34,10 +35,11 @@ int	tkn_cmd_comment(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 {
 	(void)lbls;
 	tkn->type = e_cmd_comment;
-	while (!ft_isspace(*(buf + tkn->buff_start)))
+	while (!ft_isspace(buf[tkn->buff_start]) && buf[tkn->buff_start] != '\"')
 		tkn->buff_start++;
-	while (ft_isspace(*(buf + tkn->buff_start)))
-		tkn->buff_start++;
+	if (buf[tkn->buff_start] != '\"')
+		while (ft_isspace(*(buf + tkn->buff_start)))
+			tkn->buff_start++;
 	tkn->buff_start++;
 	pos->comment_len = pos->buf_pos - tkn->buff_start;
 	if (!(tkn->value = ft_memalloc(pos->buf_pos - tkn->buff_start)))
