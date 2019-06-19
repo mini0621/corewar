@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bytecode_management.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 17:25:44 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/19 13:46:42 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ void	gaps_fill(char *bytebuf, t_tkn *tkn)
 			ft_memcpy(bytebuf + tkn->lc_tkn, &ref_int, tkn->mem_size);
 			ft_memrev(bytebuf + tkn->lc_tkn, tkn->mem_size);
 		}
-		t2 = t2->next;
-		free(t1->content);
-		free(t1);
-		t1 = t2;
+	//free(tkn->value);
+	//	t2 = t2->next;
+	//	free(t1->content);
+	//	free(t1);
+	//	t1 = t2;
 	}
 }
 

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2019/06/19 13:42:41 by sunakim          ###   ########.fr       */
+=======
+/*   Updated: 2019/06/19 13:41:45 by allefebv         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 

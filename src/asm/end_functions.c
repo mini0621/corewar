@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:17:39 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/18 16:49:59 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 13:38:51 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		end_lbl(t_list *lbls, t_pos *pos)
 		}
 		tmp_l2 = tmp_l;
 		tmp_l = tmp_l->next;
-	//	del_lbls(tmp_l2, sizeof(tmp_l2));
+	//	ft_lstdel(&tmp_l2, sizeof(tmp_l2));
 	}
 	return (flag);
 }
