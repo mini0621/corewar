@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 11:48:19 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/17 18:28:05 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/19 12:05:42 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,21 @@ void	free_bytebf(t_bytebf *bytebf)
 	free(bytebf->inst);
 }
  //tkn
-void	free_tkn(t_tkn *cnt)
+void	del_tkn(void *content, size_t size)
 {
-	if (cnt->value)
-		free(cnt->value); //void
-	//op->name
-}
+	t_tkn *tmp;
 
-void	del_tkn(void *cnt, size_t size)
-{
-	if (cnt && size)
-		free_tkn((t_tkn *)cnt);
+	tmp = (t_tkn*)content;
+	free(tmp->value);
+	free(tmp);
 }
 //lbl
-void	free_lbls(t_lbl *lbl)
-{
-	ft_strdel(&(lbl->name));
-	//if (lbl->frwd)
-	//	ft_lstdel(&(lbl->frwd), &del_tkn);
-}
-
 void	del_lbls(void *content, size_t size)
 {
-	if (content && size)
-		free_lbls((t_lbl *)content);
+	t_lbl *tmp;
+
+	tmp = (t_lbl *)content;
+	ft_strdel(&(tmp->name));
+	ft_lstdel(&(tmp->frwd), &del_tkn);
+	free(tmp);
 }
