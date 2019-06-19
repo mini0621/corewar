@@ -14,10 +14,13 @@
 
 static int              vm_is_player(char *str)
 {
-    if (ft_strlen(str) > 4)
+    if (str != NULL)
     {
-        if (ft_strstr(str, ".cor"))
+        if (ft_strlen(str) > 4)
+        {
+            if (ft_strstr(str, ".cor"))
             return (1);
+        }
     }
     return (0);
 }

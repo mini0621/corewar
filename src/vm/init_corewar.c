@@ -21,13 +21,10 @@ static int				vm_init_parser(int ac, char **av, t_game *game)
 	er_flag = 0;
 	while (index < ac)
 	{
-		ft_printf("index before: %d, arg: %s\n", index, av[index]);
 		if (!vm_opt_reader(&index, av, game, &er_flag))
 			return (0);
-		ft_printf("index after opt: %d, arg: %s\n", index, av[index]);
 		if (!vm_file_reader(av[index], game, &er_flag, &index))
 			return (0);
-		ft_printf("index after fr: %d, arg: %s\n", index, av[index]);
 		if (!er_flag)
 			return (vm_catch_error(IO_ERROR, av[index]));
 		if (index > ac)

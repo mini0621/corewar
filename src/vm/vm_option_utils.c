@@ -89,6 +89,8 @@ int                     vm_opt_reader(int *pos, char **av
 			*flag = 1;
 			break ;
 		}
+		else
+			*flag = 0;
 		index++;
 	}
 	return (1);
