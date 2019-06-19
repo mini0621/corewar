@@ -23,6 +23,7 @@ t_ull               vm_get_value(char *sval)
     if (!sval || !ft_isnumeric(sval))
         return (-1);
     value = ft_atoill(sval);
+    ft_printf("Bingo: %s\n", sval);
     if (value > min || value < max)
         return (value);
     return (-1);

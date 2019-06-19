@@ -21,15 +21,14 @@ static char const	*g_usage[] =
 	"### DUMP ############################################################",
 	"-d N:           Dumps memory after N cycles then exits",
     "-s N:              Runs N cycles, dumps memory, pauses, then repeats",
-	"-a:                Prints output from \"aff\" (Default is to hide it)",
 	"### TEXT OUTPUT MODE ################################################",
     "-de:        	    0:  Start in debug mode",
     "-v:                1:  Show lives",
     "                   2:  Show cycles",
-    "                   4:  Show operations",
-    "                   8:  Show deaths",
-    "                   16: Show PC movements (Except for jumps)",
-    "                   32: Display ncurses mode",
+    "                   3:  Show operations",
+    "                   4:  Show deaths",
+    "                   5: Show PC movements (Except for jumps)",
+    "                   6: Display ncurses mode",
 	"#####################################################################"
 };
 
@@ -46,7 +45,7 @@ int                     vm_catch_error(int flag, char *av)
     }
     else if (flag == IO_ERROR)
     {
-        ft_printf("%sCannot read file %s\n", CLR_RED, av);
+        ft_printf("%sCannot read source file %s\n", CLR_RED, av);
         return (0);
     }
     else if (flag == OPT_ERROR)

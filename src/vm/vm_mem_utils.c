@@ -19,5 +19,7 @@ void            vm_init_flags(t_game *game)
     game->cycle_d = CYCLE_TO_DIE;
     game->cycle_to_die = CYCLE_TO_DIE;
     game->nbr_prcs = 1;
+    game->d_state = 0;
+    game->n_state = 0;
     ft_bzero(&(game->memdump[0]), MEM_SIZE * sizeof(t_uc));
 }

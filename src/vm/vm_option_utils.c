@@ -16,7 +16,6 @@ t_option		 g_options[] = {
 	{"-n", vm_opt_n},
 	{"-d", vm_opt_dump},
 	{"-de", vm_opt_debug},
-	{"-s", vm_opt_soption},
 	{"-v", vm_opt_visu}
 };
 
@@ -31,26 +30,10 @@ int                     vm_opt_dump(int *pos
 			return (0);
 		game->d_state = 1;
 		game->nbr_cycle = value;
-		*pos = *pos + 1;
+		*pos = *pos + 2;
 	}
 	return (1);
 }
-
-int                     vm_opt_soption(int *pos, char **av, t_game *game)
-{
-	t_ull               value;
-
-	if (av[*pos + 1] && !game->s_state)
-	{
-		if ((value = vm_get_value(av[*pos + 1])) == (t_ull) -1)
-			return (0);
-		game->s_state = 1;
-		game->nbr_s_cycle = value;
-		*pos = *pos + 1;
-	}
-	return (1);
-}
-
 
 int                     vm_opt_visu(int *pos
 		, char **av, t_game *game)
@@ -60,6 +43,7 @@ int                     vm_opt_visu(int *pos
 		game->visu = (t_visu *)malloc(sizeof(t_visu));
 		ft_bzero(game->visu, sizeof(t_visu));
 		game->visu->sp = -1;
+		*pos = *pos + 1;
 	}
 	return (1);
 }
@@ -76,7 +60,7 @@ int                     vm_opt_n(int *pos
 			return (0);
 		game->n_state = 1;
 		game->pl_number = value;
-		*pos = *pos + 1;
+		*pos = *pos + 2;
 	}
 	return (1);
 }
@@ -86,10 +70,12 @@ int                     vm_opt_debug(int *pos
 {
 	if (av[*pos] && !game->deb_state)
 		game->deb_state = 1;
+	*pos = *pos + 1;
 	return (1);
 }
 
-int                     vm_opt_reader(int *pos, char **av, t_game *game)
+int                     vm_opt_reader(int *pos, char **av
+				, t_game *game, int *flag)
 {
 	int                 index;
 
@@ -100,6 +86,8 @@ int                     vm_opt_reader(int *pos, char **av, t_game *game)
 		{
 			if (!g_options[index].f(pos, av, game))
 				return (vm_catch_error(OPT_ERROR, av[index]));
+			*flag = 1;
+			break ;
 		}
 		index++;
 	}

@@ -15,15 +15,23 @@
 static int				vm_init_parser(int ac, char **av, t_game *game)
 {
 	int			index;
+	int			er_flag;
 
 	index = 1;
+	er_flag = 0;
 	while (index < ac)
 	{
-		if (!vm_opt_reader(&index, av, game))
+		ft_printf("index before: %d, arg: %s\n", index, av[index]);
+		if (!vm_opt_reader(&index, av, game, &er_flag))
 			return (0);
-		if (vm_file_reader(av[index], game) < 0)
+		ft_printf("index after opt: %d, arg: %s\n", index, av[index]);
+		if (!vm_file_reader(av[index], game, &er_flag, &index))
 			return (0);
-		index++;
+		ft_printf("index after fr: %d, arg: %s\n", index, av[index]);
+		if (!er_flag)
+			return (vm_catch_error(IO_ERROR, av[index]));
+		if (index > ac)
+			break ;
 	}
 	return (1);
 }
@@ -86,11 +94,19 @@ static int		read_champs(t_game *game)
 	return (1);
 }
 
+void	print_opt_value(t_game *game)
+{
+	ft_printf("-d: %d, value: %d\n", game->d_state, game->nbr_cycle);
+	ft_printf("-n: %d, value: %d\n", game->n_state, (int)game->pl_number);
+	ft_printf("-v: %d\n", game->visu->sp);
+}
+
 int			init_corewar(t_game *game, int ac, char **av)
 {
 	vm_init_flags(game);
 	if (!vm_init_parser(ac, av, game))
 		return (0);
+	print_opt_value(game);
 	if (!read_champs(game))
 	{
 		free_game(game);

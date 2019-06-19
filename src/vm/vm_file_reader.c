@@ -22,7 +22,8 @@ static int              vm_is_player(char *str)
     return (0);
 }
 
-int                     vm_file_reader(char *file, t_game *game)
+int                     vm_file_reader(char *file, t_game *game
+                , int *flag, int *index)
 {
     int                 fd;
     int                 ret;
@@ -40,6 +41,8 @@ int                     vm_file_reader(char *file, t_game *game)
             return (vm_catch_error(ret, NULL));
         if (ret == -4)
             return (vm_catch_error(ret, NULL));
+        *flag = 1;
+        *index = *index + 1;
         return (1);
     }
     return (1);

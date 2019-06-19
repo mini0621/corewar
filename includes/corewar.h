@@ -112,18 +112,16 @@ typedef struct	s_game
 	t_ull		nbr_prcs;
 	t_ull		nbr_cycle;
 	int			nbr_champs;
-	t_ull		nbr_s_cycle; //-s option
-	int			d_state;//parser option flags start
-	int			n_state;
-	int			s_state;
-	int			a_state;
+	int			nbr_d_cycle; //-d option number of cycles to run before memory dump
+	int			d_state;//-d option
+	int			n_state;//-n flag for specifying the number of the following
+						//player and also states the order of execution
 	int			pl_state;
-	t_ull		pl_number;
+	t_ull		pl_number; //store the value which follows the -n flag 
 	int			deb_state;
 	char		*logs;
 	size_t		logs_len;
-	int			v_state;
-	int			pv_number;
+	int			pv_number; //keeps track of the previous player number
 	t_ull		live_count;
 	t_ull		prcs_count;
 	int			prev_champ;
@@ -222,15 +220,14 @@ void	del_lstprcs(void *cnt, size_t size);
 void            		vm_init_flags(t_game *game);
 t_ull               	vm_get_value(char *sval);
 int                     vm_catch_error(int flag, char *av);
-int                     vm_file_reader(char *file, t_game *game);
+int                     vm_file_reader(char *file, t_game *game, int *flag, int *index);
 void                	vm_debug(int flag, int ac, char **av, t_game *game);
 unsigned int			vm_endian_conversion(unsigned int val);
-int	                    vm_opt_reader(int *ac, char **av, t_game *game);
+int	                    vm_opt_reader(int *ac, char **av, t_game *game, int *flag);
 int                     vm_opt_dump(int *index, char **av, t_game *game);
 int                     vm_opt_debug(int *index, char **av, t_game *game);
 int                     vm_opt_visu(int *index, char **av, t_game *game);
 int                     vm_opt_n(int *index, char **av, t_game *game);
-int                     vm_opt_soption(int *index, char **av, t_game *game);
 int                 	vm_primary_parser(int fd, t_game *game);
 
 /*
