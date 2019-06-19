@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/18 13:54:44 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 15:07:51 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 	ft_bzero(bytebf->offset2, 4);
 	ft_bzero(bytebf->name, PROG_NAME_LENGTH);
 	ft_bzero(bytebf->comment, COMMENT_LENGTH);
+	bytebf->bytebuf = NULL;
+	bytebf->header = NULL;
 	if (!(bytebf->prog_size = (char*)ft_memalloc(4)))
 		return (ft_error(pos, e_malloc_error, NULL));
 	*line = NULL;
@@ -93,11 +95,11 @@ int		init_before_analysis(t_pos *pos, char **read_line)
 		return (ft_error(pos, e_malloc_error, NULL));
 	free(tmp);
 	tmp = pos->tmp_buf;
-	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, &c, pos->size_buf + pos->size_line, 1)))
+	pos->size_buf = pos->size_buf + pos->size_line;
+	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, &c, pos->size_buf, 1)))
 		return (ft_error(pos, e_malloc_error, NULL));
 	free(tmp);
 	ft_strdel(read_line);
-	pos->size_buf = pos->size_buf + pos->size_line;
 	return (1);
 }
 

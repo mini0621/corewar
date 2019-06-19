@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/19 12:03:29 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/19 14:44:44 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,6 +366,6 @@ void	del_lbls(void *content, size_t size);
 void	free_lbls(t_lbl *lbl);
 void	del_tkn(void *content, size_t size);
 void	free_tkn(t_tkn *cnt);
-void	free_bytebf(t_bytebf *bytebf);
+void	free_bytebf_pos(t_bytebf *bytebf, t_pos *pos);
 
 #endif

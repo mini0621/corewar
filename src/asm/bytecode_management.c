@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 13:46:42 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 14:13:34 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ void	gaps_fill(char *bytebuf, t_tkn *tkn)
 			ft_memcpy(bytebuf + tkn->lc_tkn, &ref_int, tkn->mem_size);
 			ft_memrev(bytebuf + tkn->lc_tkn, tkn->mem_size);
 		}
-	//free(tkn->value);
-	//	t2 = t2->next;
+	t2 = t2->next;
+	t1 = t2;
+	free(tkn->value);
 	//	free(t1->content);
 	//	free(t1);
-	//	t1 = t2;
 	}
 }
 

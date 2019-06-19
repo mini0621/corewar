@@ -6,19 +6,21 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 11:48:19 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/19 13:50:00 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 15:44:40 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	free_bytebf(t_bytebf *bytebf)
+void	free_bytebf_pos(t_bytebf *bytebf, t_pos *pos)
 {
-	free(bytebf->bytebuf);
+	if (bytebf->bytebuf)
+		free(bytebf->bytebuf);
 	free(bytebf->header);
 	free(bytebf->magic);
 	free(bytebf->prog_size);
 	free(bytebf->inst);
+	free(pos->file_name);
 }
  //tkn
 void	del_tkn(void *content, size_t size)
