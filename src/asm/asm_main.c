@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/18 18:02:17 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 13:21:29 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,21 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	return (ft_error(pos, e_no_print, tkn));
 }
 
+static int	file_check(char *str)
+{
+	char *tmp;
+	int i;
+
+	if ((ft_strlen(str)) < 3)
+		return(ft_error(NULL, e_input_error, NULL));
+	i = 0;
+	while (str[i] != '\0' && str[i] != '.')
+		i++;
+	if (str[i] != '.' && str[i + 1] != 's' && str[i + 2] != '\0')
+		return(ft_error(NULL, e_input_error, NULL));
+	return(1);
+}
+
 int			main(int argc, char **argv)
 {
 	int			fd;
@@ -52,7 +67,8 @@ int			main(int argc, char **argv)
 
 	if (argc != 2)
 		return (0);
-	// check if file is valide (file name, ext)
+	if (!(file_check(argv[1])))
+		return (0);
 	end = 0;
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		return (ft_error(&pos, e_open_error, NULL));
