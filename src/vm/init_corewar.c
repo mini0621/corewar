@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 21:12:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/19 12:31:48 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int		vm_store_instr(t_game *game, int fd
 	if (game->visu)
 		init_clr_map(game, id, dif, size);
 	ft_lstadd(&(game->prcs), n);
-	game->champs[pos]->color = pos;
 	return (1);
 }
 

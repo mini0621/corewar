@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 17:21:10 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/16 23:56:09 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/19 12:52:53 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ void	update_logs(t_game *game, char **new, size_t l)
 		return ;
 	game->logs = tmp;
 	game->logs_len += l;
+}
+
+void	reset_prcs_c(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->nbr_champs)
+	{
+		game->champs[i]->prcs_c = 0;
+		game->champs[i]->live_c = 0;
+		i++;
+	}
 }
 
 void	ft_hexdump(t_uc *dump)

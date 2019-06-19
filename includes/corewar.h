@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 22:47:43 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/19 12:53:17 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,10 @@ typedef struct		s_champ
 	char			comment[COMMENT_LENGTH + 1];
 	int				fd;
 	unsigned int	prog_size;
-	int				color;
 	short			id;
 	int				prcs_c;
 	int				live_c;
-	int				live;
 }				t_champ;
-
-/*
-***VISUALIZER TEMP STRUCT
-*/
-//temp stage of the visualizer
-typedef struct		s_stage
-{
-	char			value; //value
-	int				cur_col; //current color of the cursor
-	int				p_col; //the previous color on the cursor
-	int				state; //state for the indication of occupied or not
-	int				n_col_count; //next color count
-}					t_stage;
 
 typedef struct	s_process
 {
@@ -215,6 +200,7 @@ t_op	*get_op(t_inst *inst);
 void	update_logs(t_game *game, char **new, size_t l);
 void	memcpy_inv(void *dst, void *src, size_t size);
 void	ft_hexdump(t_uc *dump);
+void    reset_prcs_c(t_game *game);
 
 /*
  * memory_utils.c
@@ -272,11 +258,11 @@ void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
  * visu
 */
 void	end_visu(t_visu *visu);
-int		output(t_game *game, int *pause);
-void	update_all(t_game *game, t_visu *visu, int pause);
+int		output(t_game *game);
+void	update_all(t_game *game, t_visu *visu);
 void    init_visu(t_game *game, t_visu *visu);
 void	        draw_dump(t_game *game, t_visu *win);
-void            draw_menu(t_game *game, t_visu *wind, int pause);
+void            draw_menu(t_game *game, t_visu *wind);
 void	update_clr(t_game *game, int dst, size_t size, int id);
 void	draw_debug(t_game *game, t_visu *visu);
 

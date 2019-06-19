@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:29:51 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 23:06:06 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/19 14:09:18 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,18 @@ void	init_visu(t_game *game, t_visu *visu)
 	cbreak();
 	noecho();
 	keypad(stdscr, TRUE);
-	nodelay(stdscr, TRUE);
+	timeout(VISU_SPEED * visu->sp);
 	get_colors();
 	visu->dump_win = newwin(MEM_SIZE / 64 + 2, 64 * 3 + 9, 0, 0);
 	if (game->deb_state)
 	{
-		visu->menu_win = newwin(MEM_SIZE / 64 / 3 + 5, 100, 0, 64 * 3 + 8);
-		visu->logs_win = newwin(MEM_SIZE / 64 / 3 * 2 - 1, 100, MEM_SIZE / 64 / 3 + 4, 64 * 3 + 8);
-		//scrollok(visu->logs_win, TRUE);
+		visu->menu_win = newwin((MEM_SIZE / 64 + 2) / 2 + 1, 100, 0, 64 * 3 + 8);
+		visu->logs_win = newwin((MEM_SIZE / 64 + 2) / 2, 100, (MEM_SIZE / 64 + 2) / 2, 64 * 3 + 8);
+		scrollok(visu->logs_win, TRUE);
 	}
 	else
 		visu->menu_win = newwin(MEM_SIZE / 64 + 2 , 100, 0, 64 * 3 + 8);
+	scrollok(visu->menu_win, TRUE);
 	curs_set(FALSE);
-	update_all(game, game->visu, 1);
+	update_all(game, game->visu);
 }

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 19:53:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/19 12:53:41 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 		}
 		else
 			get_debug(game, *champs + i);
-		champs[i]->live_c = 0;
 		i++;
 	}
 	if (!end || end == 1)
 		return (win);
 	return (0);
 }
+
 static void	update_cycles(t_game *game)
 {
 	if (game->live_count < NBR_LIVE || game->check_c == MAX_CHECKS)
@@ -48,6 +48,7 @@ static void	update_cycles(t_game *game)
 	game->live_count = 0;
 	game->check_c = (game->check_c == MAX_CHECKS) ? 0 : game->check_c + 1;	
 }
+
 static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 {
 	t_list *cur;
@@ -55,6 +56,7 @@ static int is_end(t_game *game, t_champ **champs, t_list **prcs)
 	t_process	*p;
 
 	cur = *prcs;
+	reset_prcs_c(game);
 	pre = NULL;
 	while (cur)
 	{

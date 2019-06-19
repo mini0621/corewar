@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 09:49:23 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/17 22:32:30 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/19 14:36:34 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,48 +37,57 @@ static void		draw_header(WINDOW *win)
 static int		draw_champs(t_game *game, WINDOW *win)
 {
 	int	index;
+	int	l;
 	
 	index = -1;
+	l = 10;
 	wattron(win, (COLOR_PAIR(1) | A_BOLD | A_UNDERLINE));
 	mvwprintw(win, 8, 35, "Introducing contestants...\n");
 	wattroff(win, (COLOR_PAIR(1) | A_BOLD | A_UNDERLINE));
 	while (++index < game->nbr_champs)
 	{
 		wattron(win, (COLOR_PAIR(index + 1)));
-		mvwprintw(win,10 + index, 2, "Player %i, weight %i bytes, \"%s\" (\"%s\") !\n",(-1 * game->champs[index]->id), game->champs[index]->prog_size, game->champs[index]->name, game->champs[index]->comment);
+		mvwprintw(win, l, 2, "Player %i, weight %i bytes", index, game->champs[index]->prog_size); 
+		mvwprintw(win, l + 1, 2, "\"%s\" (\"%s\") !",game->champs[index]->name, game->champs[index]->comment);
+		mvwprintw(win, l + 2, 2, "last arrive process: %i, alive count: %i",game->champs[index]->prcs_c, game->champs[index]->live_c);
 		wattroff(win, (COLOR_PAIR(index + 1)));
+		l += 4; 
 	}
-	return (index);
+	return (l);
 }
 
-static void		draw_debug_menu(WINDOW *win)
+static void		draw_debug_menu(WINDOW *win, int index)
 {
 		wattron(win, (COLOR_PAIR(1) | A_BOLD));
-		mvwprintw(win, 6, 35, "debug mode: on");
-		mvwprintw(win, 22, 35, "PRESS ENTER TO GET NEXT_CYCLE");
+		mvwprintw(win, index++, 35, "debug mode: on");
+		mvwprintw(win, index, 35, "n: next cycle");
 		wattroff(win, (COLOR_PAIR(1) | A_BOLD));
 }
 
-void            draw_menu(t_game *game, t_visu *wind, int pause)
+void            draw_menu(t_game *game, t_visu *wind)
 {
 	int	index;
 
 	draw_header(wind->menu_win);
 	index = draw_champs(game, wind->menu_win);
 	wattron(wind->menu_win, (COLOR_PAIR(1)));
-	mvwprintw(wind->menu_win,11 + index, 2, "Cycle: %d", game->cycle);
-	mvwprintw(wind->menu_win, 12 + index, 2,
+	mvwprintw(wind->menu_win, index++, 2, "Cycle: %d", game->cycle);
+	mvwprintw(wind->menu_win, index++, 2,
 		"Total Number of lives: %d Alive Calls: %d",
 		game->prcs_count, game->live_count);
-	mvwprintw(wind->menu_win, 13 + index, 2,
+	mvwprintw(wind->menu_win, index++, 2,
 			"Decrease cycle to die with: %d", CYCLE_DELTA);
 	wattroff(wind->menu_win, (COLOR_PAIR(1)));
 	wattron(wind->menu_win, (COLOR_PAIR(1) | A_BOLD));
-	if (pause)
-		mvwprintw(wind->menu_win, 20, 35, "GAME PAUSED!! PRESS SPACE BAR TO CONTINUE\n");
+	if (wind->sp < 0)
+		mvwprintw(wind->menu_win, index++, 35, "GAME PAUSED!! PRESS SPACE BAR TO CONTINUE\n");
 	else
-		mvwprintw(wind->menu_win, 20, 35, "PRESS SPACE BAR TO PAUSE\n");
+		mvwprintw(wind->menu_win, index++, 35, "PRESS SPACE BAR TO PAUSE\n");
+	if (wind->sp > 0)
+		mvwprintw(wind->menu_win, index++, 35, "Play speed: %i milliseconds", wind->sp * 10);
+	else
+		mvwprintw(wind->menu_win, index++, 35, "Play speed: %i milliseconds", wind->sp * (-10));
 	wattroff(wind->menu_win, (COLOR_PAIR(1) | A_BOLD));
 	if (game->deb_state)
-		draw_debug_menu(wind->menu_win);
+		draw_debug_menu(wind->menu_win, index);
 }
