@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 11:48:19 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/19 12:05:42 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/19 13:43:07 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	del_tkn(void *content, size_t size)
 {
 	t_tkn *tmp;
 
+	(void)size;
 	tmp = (t_tkn*)content;
 	free(tmp->value);
 	free(tmp);
@@ -34,6 +35,7 @@ void	del_lbls(void *content, size_t size)
 {
 	t_lbl *tmp;
 
+	(void)size;
 	tmp = (t_lbl *)content;
 	ft_strdel(&(tmp->name));
 	ft_lstdel(&(tmp->frwd), &del_tkn);

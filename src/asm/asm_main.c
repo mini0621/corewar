@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 13:21:29 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/19 13:42:41 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 
 static int	file_check(char *str)
 {
-	char *tmp;
 	int i;
 
 	if ((ft_strlen(str)) < 3)
