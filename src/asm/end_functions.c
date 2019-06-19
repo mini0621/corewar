@@ -15,7 +15,6 @@
 
 static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag)
 {
-	t_list	*tmp_t2;
 	t_list	*tmp_t;
 	t_tkn	*tkn;
 
@@ -27,7 +26,6 @@ static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag)
 			pos->file_name, tkn->line, tkn->col_start, ((t_lbl*)(tmp_l->content))->name);
 		ft_printf(WHT BLD "`%s`" RESET " at address " WHT BLD "`%#x`" RESET " has never been declared;\n\n",
 			get_tkn_type_name(((t_tkn*)(tmp_t->content))->type), ((t_tkn*)(tmp_t->content))->lc_instruction);
-		tmp_t2 = tmp_t;
 		tmp_t = tmp_t->next;
 	}
 	*flag = 0;
@@ -74,10 +72,8 @@ int			ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name)
 	int		fd;
 	char	*tmp;
 	char	*f_name;
-	int		errno;
 	int		i;
 
-    errno = 0;
     tmp = ft_strndup(name, ft_strlen(name) - 2);
     if (!(f_name = ft_strjoin(tmp, ".cor")))
 	{

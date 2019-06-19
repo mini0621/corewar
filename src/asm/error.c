@@ -89,9 +89,7 @@ static void	ft_print_expected(t_pos *pos)
 static void	nice_display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 {
 	int	i;
-	int	j;
 
-	j = -1;
 	i = -1;
 	if (pos->state_s != -1)
 	{

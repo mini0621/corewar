@@ -65,7 +65,6 @@ static int	file_check(char *str)
 int			main(int argc, char **argv)
 {
 	int			fd;
-	int			end;
 	t_bytebf	bytebf;
 	t_pos		pos;
 
@@ -73,7 +72,6 @@ int			main(int argc, char **argv)
 		return (0);
 	if (!(file_check(argv[1])))
 		return (0);
-	end = 0;
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		return (ft_error(&pos, e_open_error, NULL));
 	ft_bzero(&pos, sizeof(t_pos));
