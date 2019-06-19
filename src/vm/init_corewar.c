@@ -27,8 +27,6 @@ static int				vm_init_parser(int ac, char **av, t_game *game)
 			return (0);
 		if (!er_flag)
 			return (vm_catch_error(IO_ERROR, av[index]));
-		if (index > ac)
-			break ;
 	}
 	return (1);
 }
@@ -76,6 +74,7 @@ static int		read_champs(t_game *game)
 
 	i = 0;
 	nbr_champs = game->nbr_champs;
+	ft_printf("Bingo 2\n");
 	if (!game->visu)
 		ft_printf("Introducing contestants...\n");
 	while (i < nbr_champs)
@@ -104,6 +103,7 @@ int			init_corewar(t_game *game, int ac, char **av)
 	if (!vm_init_parser(ac, av, game))
 		return (0);
 	print_opt_value(game);
+	ft_printf("Bingo 1\n");
 	if (!read_champs(game))
 	{
 		free_game(game);

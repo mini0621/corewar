@@ -27,7 +27,7 @@ int                     vm_opt_dump(int *pos
 	if (av[*pos + 1] && !game->d_state)
 	{
 		if ((value = vm_get_value(av[*pos + 1])) == (t_ull) -1)
-			return (0);
+			return (vm_catch_error(OPT_ERROR, av[*pos]));
 		game->d_state = 1;
 		game->nbr_cycle = value;
 		*pos = *pos + 2;
@@ -57,7 +57,7 @@ int                     vm_opt_n(int *pos
 	if (!game->n_state && av[*pos + 1])
 	{
 		if ((value = vm_get_value(av[*pos + 1])) == (t_ull) -1)
-			return (0);
+			return (vm_catch_error(OPT_ERROR, av[*pos]));
 		game->n_state = 1;
 		game->pl_number = value;
 		*pos = *pos + 2;
@@ -85,7 +85,7 @@ int                     vm_opt_reader(int *pos, char **av
 		if (!ft_strcmp(av[*pos], g_options[index].option))
 		{
 			if (!g_options[index].f(pos, av, game))
-				return (vm_catch_error(OPT_ERROR, av[index]));
+				return (0);
 			*flag = 1;
 			break ;
 		}
