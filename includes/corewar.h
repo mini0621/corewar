@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/19 14:44:44 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 20:40:29 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,34 +320,35 @@ extern int		lex_sm[29][14];
 extern int		syntactic_sm[56][14];
 extern t_op_asm	g_op_tab_asm[16];
 
-int	(*tkn_fptr[NB_TKN_TYPES])(char *buf, t_pos *pos, t_list **lbl, t_tkn *tkn);
+int	(*tkn_fptr[NB_TKN_TYPES])(char *buf, t_pos *pos, t_list **lbl, t_tkn **tkn);
 
-int		tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_dir_value(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_dir_label(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_ind_value(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_ind_label(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_separator(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
+int		tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_dir_value(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_dir_label(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_ind_value(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_ind_label(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_separator(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
 
 void	ocp_modify(t_pos *pos, char *bytebuf);
-void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
 int		end_lbl(t_list *lbls, t_pos *pos);
 int		ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
-int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn);
+int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn);
 int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);
-void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
-void	gaps_fill(char *bytebuf, t_tkn *tkn);
-void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos);
 int		init_before_analysis(t_pos *pos, char **read_line);
 void	free_after_analysis(t_pos *pos, char **read_line);
 int		lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls);
 int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn);
 char	*get_tkn_type_name(t_tkn_type tkn_type);
+
+void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
+void	gaps_fill(char *bytebuf, t_tkn *tkn);
+void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
+void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos);
 
 //libft
 long	ft_atochar(char *str);
@@ -359,13 +360,12 @@ void	ft_memrev(void *buf, size_t len);
 int		read_bytes(char **line, int error, const int fd);
 
 //need to fix
-int		ft_error(t_pos *pos, t_errors error, t_tkn *tkn);
+int		ft_error(t_pos *pos, t_errors error, t_tkn **tkn);
 
 //free
 void	del_lbls(void *content, size_t size);
-void	free_lbls(t_lbl *lbl);
+void	free_tkn(t_tkn **tkn);
 void	del_tkn(void *content, size_t size);
-void	free_tkn(t_tkn *cnt);
 void	free_bytebf_pos(t_bytebf *bytebf, t_pos *pos);
 
 #endif

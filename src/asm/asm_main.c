@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 17:31:01 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 21:13:05 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	int		error;
 
 	error = 0;
-	ft_init_main(&lbls, bytebf, &read_line, pos);
+	if (!(ft_init_main(&lbls, bytebf, &read_line, pos)))
+		return (ft_error(pos, e_no_print, NULL));
 	while ((pos->size_line = read_bytes(&read_line, error, fd)) > 0)
 	{
 		init_before_analysis(pos, &read_line);
@@ -44,7 +45,7 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 		return (1);
 	}
 	ft_lstdel(&lbls, &del_lbls);
-	return (ft_error(pos, e_no_print, tkn));
+	return (ft_error(pos, e_no_print, &tkn));
 }
 
 static int	file_check(char *str)

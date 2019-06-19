@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/19 17:50:44 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 21:10:18 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,19 @@ char	*get_tkn_type_name(t_tkn_type tkn_type)
 
 static void	system_error(t_errors error)
 {
+	char *err_str;
+
+	err_str = strerror(errno);
 	if (error == e_malloc_error)
-		ft_printf(RED BLD "memory_allocation_error: " RESET "%s\n",
-			strerror(errno));
+		ft_printf(RED BLD "memory_allocation_error: " RESET "%s;\n",
+			err_str);
 	else if (error == e_open_error)
-		ft_printf(RED BLD "open_file_error: " RESET "%s\n",
-			strerror(errno));
+		ft_printf(RED BLD "open_file_error: " RESET "%s;\n",
+			err_str);
 	else
-		ft_printf(RED BLD "write_error: " RESET "%s\n",
-			strerror(errno));
+		ft_printf(RED BLD "write_error: " RESET "%s;\n",
+			err_str);
+	ft_strdel(&err_str);
 }
 
 static void	input_error(t_pos *pos)
@@ -154,7 +158,7 @@ static void	syntactic_error(t_pos *pos, t_tkn *tkn, t_errors error)
 		nice_display(pos, tkn, "syntactic", NULL);
 }
 
-int			ft_error(t_pos *pos, t_errors error, t_tkn *tkn)
+int			ft_error(t_pos *pos, t_errors error, t_tkn **tkn)
 {
 	if (error != e_no_print)
 	{
@@ -162,16 +166,15 @@ int			ft_error(t_pos *pos, t_errors error, t_tkn *tkn)
 			|| error == e_op_code_error || error == e_dir_int_error
 			|| error == e_dir_short_error || error == e_ind_error
 			|| error == e_reg_nb_error)
-			lexical_error(pos, tkn, error);
+			lexical_error(pos, *tkn, error);
 		else if (error == e_syntactic_error || error == e_double_label)
-			syntactic_error(pos, tkn, error);
+			syntactic_error(pos, *tkn, error);
 		else if (error == e_input_error)
 			input_error(pos);
 		else if (error == e_malloc_error || error == e_open_error
 			|| error == e_write_error)
 			system_error(error);
 	}
-	if (tkn && error != e_no_print)
-		free(tkn);
+	free_tkn(tkn);
 	return (0);
 }

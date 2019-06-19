@@ -6,13 +6,13 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 15:07:51 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 21:22:09 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
+int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
 	int j;
 
@@ -33,7 +33,7 @@ int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 		if (j == lex_sm[pos->state_l][1])
 		{
 			if (!(tkn_fptr[j](buf, pos, lbls, tkn)))
-				return (ft_error(NULL, e_no_print, NULL));
+				return (ft_error(NULL, e_no_print, tkn));
 			break ;
 		}
 		j++;
@@ -41,13 +41,19 @@ int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	return (1);
 }
 
-int	bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn)
+int	bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn)
 {
-	if (bytebf->inst_remain < tkn->mem_size
-		|| (tkn->type == e_op && tkn->op->ocp == 1 && bytebf->inst_remain < 2))
+	char *tmp;
+
+	if (bytebf->inst_remain < (*tkn)->mem_size
+		|| ((*tkn)->type == e_op && (*tkn)->op->ocp == 1 && bytebf->inst_remain < 2))
 	{
+		tmp = bytebf->inst;
 		if (!(bytebf->inst = realloc(bytebf->inst, bytebf->inst_size + BUFF_SIZE_COR)))
+		{
+			ft_strdel(&tmp);
 			return (ft_error(pos, e_malloc_error, tkn));
+		}
 		ft_bzero(bytebf->inst + bytebf->inst_size, BUFF_SIZE_COR);
 		bytebf->inst_size = bytebf->inst_size + BUFF_SIZE_COR;
 		bytebf->inst_remain = bytebf->inst_remain + BUFF_SIZE_COR;
@@ -59,7 +65,9 @@ int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 {
 	int	magic;
 
-	if (!(bytebf->inst = (char*)ft_memalloc(BUFF_SIZE_COR)))
+	ft_bzero(bytebf, sizeof(bytebf));
+	//if (!(bytebf->inst = (char*)ft_memalloc(BUFF_SIZE_COR)))
+	if (!(bytebf->inst = NULL))
 		return (ft_error(pos, e_malloc_error, NULL));
 	ft_bzero(bytebf->inst, BUFF_SIZE_COR);
 	bytebf->inst_remain = BUFF_SIZE_COR;
@@ -87,6 +95,7 @@ int		init_before_analysis(t_pos *pos, char **read_line)
 	char	*tmp;
 	char	c;
 
+	tmp = NULL;
 	c = '\0';
 	pos->file_col = 0;
 	pos->file_line++;

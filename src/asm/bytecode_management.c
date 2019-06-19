@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 17:14:49 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 21:07:34 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 			i++;
 		}
 		free(tkn->value);
+		tkn->value = NULL;
 	}
 	else
 	{
@@ -35,6 +36,7 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 			i++;
 		}
 		free(tkn->value);
+		tkn->value = NULL;
 	}
 }
 
@@ -81,6 +83,7 @@ void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
 		{
 			ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, 1);
 			free(tkn->value);
+			tkn->value = NULL;
 			if (tkn->type == e_op && tkn->op->ocp == 1)
 			{
 				pos->lc_tkn = pos->lc_tkn + 1;
@@ -92,6 +95,7 @@ void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
 			ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, tkn->mem_size);
 			ft_memrev(bytebf->inst + pos->lc_tkn, tkn->mem_size);
 			free(tkn->value);
+			tkn->value = NULL;
 		}
 	}
 	bytebf->inst_remain = bytebf->inst_remain - tkn->mem_size;

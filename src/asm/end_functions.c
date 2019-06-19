@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:17:39 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 18:02:49 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 21:10:08 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,36 @@ static int	fill_bytebf(t_bytebf *bytebf, t_pos *pos)
 int			ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name)
 {
 	int		fd;
-	char	*tmp;    //malloc
-	char	*f_name;  // malloc
+	char	*tmp;
+	char	*f_name;
 	int		errno;
 	int		i;
 
     errno = 0;
     tmp = ft_strndup(name, ft_strlen(name) - 2);
     if (!(f_name = ft_strjoin(tmp, ".cor")))
+	{
+		ft_strdel(&tmp);
 		return (ft_error(NULL, e_malloc_error, NULL));
+	}
     ft_strdel(&tmp);
-    if ((fd = open(f_name, O_CREAT | O_WRONLY | O_TRUNC, 0644)) < 0) //0644 = chmod
+    if ((fd = open(f_name, O_CREAT | O_WRONLY | O_TRUNC, 0644)) < 0)
+	{
+		ft_strdel(&f_name);
         return (ft_error(NULL, e_open_error, NULL));
+	}
     else
     {
-        fill_bytebf(bytebf, pos);
+        if (!(fill_bytebf(bytebf, pos)))
+		{
+			ft_strdel(&f_name);
+			return (ft_error(NULL, e_no_print, NULL));
+		}
         if ((i = write(fd, bytebf->bytebuf, pos->lc_tkn + bytebf->hd_size)) == -1)
+		{
+			ft_strdel(&f_name);
             return (ft_error(NULL, e_write_error, NULL));
+		}
         else
             ft_printf(WHT BLD "Write output to %s\n" RESET, f_name);
     }
