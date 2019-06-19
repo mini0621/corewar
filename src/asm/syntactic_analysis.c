@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 15:24:40 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:24:42 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn
 			pos->lc_instruction = pos->lc_tkn;
 		if (!(ft_encode(pos, *tkn, lbls, bytebf)))
 			return (ft_error(NULL, e_no_print, NULL));
-		if (((*tkn)->type == e_ind_label || (*tkn)->type == e_dir_label)
-			&& (*tkn)->value == NULL)
-			continue ;
 		free(*tkn);
 	}
 	return (1);

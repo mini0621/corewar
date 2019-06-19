@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 14:13:34 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:14:49 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,12 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 void	gaps_fill(char *bytebuf, t_tkn *tkn)
 {
 	t_list	*t1;
-	t_list	*t2;
 	t_lbl	*lbl;
 	int		ref_int;
 	short	ref_sht;
 
 	lbl = (t_lbl*)tkn->value;
 	t1 = (t_list*)lbl->frwd;
-	t2 = (t_list*)lbl->frwd;
 	while (t1 != NULL)
 	{
 		tkn = (t_tkn*)t1->content;
@@ -64,17 +62,13 @@ void	gaps_fill(char *bytebuf, t_tkn *tkn)
 			ft_memcpy(bytebuf + tkn->lc_tkn, &ref_int, tkn->mem_size);
 			ft_memrev(bytebuf + tkn->lc_tkn, tkn->mem_size);
 		}
-	t2 = t2->next;
-	t1 = t2;
-	free(tkn->value);
-	//	free(t1->content);
-	//	free(t1);
+		t1 = t1->next;
 	}
 }
 
 void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
 {
-	if (tkn->type == e_lbl && ((t_lbl*)(tkn->value))->type == 'U')
+	if (tkn->type == e_lbl && tkn->value && ((t_lbl*)(tkn->value))->type == 'U')
 	{
 		gaps_fill(bytebf->inst, tkn);
 		((t_lbl*)(tkn->value))->type = 'D';

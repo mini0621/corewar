@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:02:32 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/17 21:20:19 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 18:02:43 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	tkn_cmd_name(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	tkn->buff_start++;
 	pos->name_len = pos->buf_pos - tkn->buff_start;
 	if (!(tkn->value = ft_memalloc(pos->buf_pos - tkn->buff_start)))
-		return (ft_error(NULL, e_malloc_error, NULL));
+		return (ft_error(NULL, e_malloc_error, tkn));
 	tkn->value = ft_memcpy(tkn->value, buf + tkn->buff_start, pos->buf_pos - tkn->buff_start);
 	if (pos->buf_pos - tkn->buff_start > PROG_NAME_LENGTH)
 		return (ft_error(pos, e_name_too_long_error, tkn));
@@ -43,7 +43,7 @@ int	tkn_cmd_comment(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn)
 	tkn->buff_start++;
 	pos->comment_len = pos->buf_pos - tkn->buff_start;
 	if (!(tkn->value = ft_memalloc(pos->buf_pos - tkn->buff_start)))
-		return (ft_error(NULL, e_malloc_error, NULL));
+		return (ft_error(NULL, e_malloc_error, tkn));
 	tkn->value = ft_memcpy(tkn->value, buf + tkn->buff_start, pos->buf_pos - tkn->buff_start);
 	if (pos->buf_pos - tkn->buff_start > COMMENT_LENGTH)
 		return (ft_error(pos, e_comment_too_long_error, tkn));

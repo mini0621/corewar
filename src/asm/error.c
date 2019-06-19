@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/19 14:06:00 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 17:50:44 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,18 @@ static void	nice_display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 	i = -1;
 	if (pos->state_s != -1)
 	{
-		ft_printf(WHT "%s:%d:%d: " RED BLD "%s_error: " RESET "%s;\n%s",
-		pos->file_name, pos->file_line, tkn->buff_start + 1, error, msg, pos->tmp_buf);
+		ft_printf(WHT "%s:%d:%d: " RED BLD "%s_error",
+			pos->file_name, pos->file_line, tkn->col_start + 1, error);
+		if (msg)
+			ft_printf(": " RESET "%s;", msg);
+		else
+			ft_printf(";");
+		ft_printf(RESET "\n%s", pos->tmp_buf);
 	}
 	else
 	{
 		ft_printf(WHT "%s:%d:%d: " RED BLD "%s_error: ",
-			pos->file_name, pos->file_line, tkn->buff_start + 1, error);
+			pos->file_name, pos->file_line, tkn->col_start + 1, error);
 		ft_print_expected(pos);
 		ft_printf(RESET " instead of " WHT BLD "`%s`" RESET ";",
 			get_tkn_type_name(tkn->type), get_tkn_type_name(tkn->type), pos->tmp_buf);
@@ -117,15 +122,6 @@ static void	nice_display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 	}
 	else
 	{
-	/*	while (++i <= pos->file_col)
-		{
-			if (i < tkn->col_start)
-				ft_printf(" ");
-			else if (i < pos->file_col)
-				ft_printf(GRN BLD "~" RESET);
-			else
-				ft_printf(GRN BLD "^" RESET);
-		} */
 		while (++i < pos->file_col)
 			ft_printf(" ");
 		ft_printf(RED BLD "^" RESET);
@@ -152,9 +148,10 @@ static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
 
 static void	syntactic_error(t_pos *pos, t_tkn *tkn, t_errors error)
 {
-	nice_display(pos, tkn, "syntactic", NULL);
 	if (error == e_double_label)
-		ft_printf("double label declaration");
+		nice_display(pos, tkn, "syntactic", "double_label_declaration");
+	else
+		nice_display(pos, tkn, "syntactic", NULL);
 }
 
 int			ft_error(t_pos *pos, t_errors error, t_tkn *tkn)
@@ -174,5 +171,7 @@ int			ft_error(t_pos *pos, t_errors error, t_tkn *tkn)
 			|| error == e_write_error)
 			system_error(error);
 	}
+	if (tkn && error != e_no_print)
+		free(tkn);
 	return (0);
 }

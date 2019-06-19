@@ -6,28 +6,12 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:17:39 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 16:00:32 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/19 18:02:49 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include <fcntl.h>
-
-static void	free_tkn_end(t_list *tmp_l)
-{
-	t_list	*tmp_t2;
-	t_list	*tmp_t;
-
-	tmp_t = ((t_lbl*)(tmp_l->content))->frwd;
-	while (tmp_t)
-	{
-		tmp_t2 = tmp_t;
-		tmp_t = tmp_t->next;
-		free(((t_tkn*)(tmp_t2->content))->value);
-		free(tmp_t2->content);
-		free(tmp_t2);
-	}
-}
 
 static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag)
 {
@@ -45,9 +29,6 @@ static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag)
 			get_tkn_type_name(((t_tkn*)(tmp_t->content))->type), ((t_tkn*)(tmp_t->content))->lc_instruction);
 		tmp_t2 = tmp_t;
 		tmp_t = tmp_t->next;
-		free(((t_tkn*)(tmp_t2->content))->value);
-		free(tmp_t2->content);
-		free(tmp_t2);
 	}
 	*flag = 0;
 }
@@ -55,7 +36,6 @@ static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag)
 int		end_lbl(t_list *lbls, t_pos *pos)
 {
 	t_list 	*tmp_l;
-	t_list	*tmp_l2;
 	int		flag;
 
 	tmp_l = lbls;
@@ -64,15 +44,8 @@ int		end_lbl(t_list *lbls, t_pos *pos)
 	{
 		if (((t_lbl*)(tmp_l->content))->type == 'U')
 			print_error_lbl(tmp_l, pos, &flag);
-		else
-			free_tkn_end(tmp_l);
-		tmp_l2 = tmp_l;
 		tmp_l = tmp_l->next;
-		free(((t_lbl*)(tmp_l2->content))->name);
-		free(tmp_l2->content);
-		free(tmp_l2);
 	}
-	//ft_lstdel(&lbls, &del_lbls);
 	return (flag);
 }
 
