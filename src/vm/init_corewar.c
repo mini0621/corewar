@@ -19,7 +19,7 @@ static int				vm_init_parser(int ac, char **av, t_game *game)
 	index = 1;
 	while (index < ac)
 	{
-		if (!vm_opt_reader(index, av, game))
+		if (!vm_opt_reader(&index, av, game))
 			return (0);
 		if (vm_file_reader(av[index], game) < 0)
 			return (0);

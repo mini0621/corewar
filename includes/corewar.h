@@ -225,13 +225,12 @@ int                     vm_catch_error(int flag, char *av);
 int                     vm_file_reader(char *file, t_game *game);
 void                	vm_debug(int flag, int ac, char **av, t_game *game);
 unsigned int			vm_endian_conversion(unsigned int val);
-int	                    vm_opt_reader(int ac, char **av, t_game *game);
-int                     vm_opt_dump(int index, char **av, t_game *game);
-int                     vm_opt_debug(int index, char **av, t_game *game);
-int                     vm_opt_visu(int index, char **av, t_game *game);
-int                     vm_opt_aff(int index, char **av, t_game *game);
-int                     vm_opt_n(int index, char **av, t_game *game);
-int                     vm_opt_soption(int index, char **av, t_game *game);
+int	                    vm_opt_reader(int *ac, char **av, t_game *game);
+int                     vm_opt_dump(int *index, char **av, t_game *game);
+int                     vm_opt_debug(int *index, char **av, t_game *game);
+int                     vm_opt_visu(int *index, char **av, t_game *game);
+int                     vm_opt_n(int *index, char **av, t_game *game);
+int                     vm_opt_soption(int *index, char **av, t_game *game);
 int                 	vm_primary_parser(int fd, t_game *game);
 
 /*
