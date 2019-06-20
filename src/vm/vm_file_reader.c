@@ -35,7 +35,6 @@ int                     vm_file_reader(char *file, t_game *game
     {
         if ((fd = open(file, O_RDONLY)) < 0)
             return (vm_catch_error(IO_ERROR, file));
-        ft_printf("Player file: %s, FD: %d\n", file, fd);
         ret = vm_primary_parser(fd, game);
         if (ret == -1)
             return (vm_catch_error(ret, NULL));

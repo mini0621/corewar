@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/08 22:45:20 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/20 04:14:06 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int                 vm_primary_parser(int fd, t_game *game)
 	t_champ         *new;
 
 	play_num = game->pv_number;
-	ft_printf("number of players stored: %d\n", play_num);
 	if (play_num + 1 >= MAX_PLAYERS)
 		return (-4);
 	if (!(fd = vm_verify_magic(fd, &magic)))

@@ -73,15 +73,13 @@ static int		read_champs(t_game *game)
 	int		nbr_champs;
 
 	i = 0;
-	nbr_champs = game->nbr_champs;
-	ft_printf("Bingo 2\n");
+	nbr_champs = game->nbr_champs;;
 	if (!game->visu)
 		ft_printf("Introducing contestants...\n");
 	while (i < nbr_champs)
 	{
 		if (!vm_store_instr(game, game->champs[i]->fd, i, game->champs[i]->prog_size))
 			return (0);
-		ft_printf("Bingo 3\n");
 		if (!game->visu)
 			ft_printf("* Player %i, weighing %u bytes, \"%s\" (\"%s\") !\n",
 					i + 1, game->champs[i]->prog_size, game->champs[i]->name,
@@ -91,31 +89,11 @@ static int		read_champs(t_game *game)
 	return (1);
 }
 
-void		print_opt_value(t_game *game)
-{
-	int 	index;
-
-	index = 0;
-	ft_printf("-d: %d, value: %d\n", game->d_state, game->nbr_cycle);
-	ft_printf("-n: %d, value: %d\n", game->n_state, (int)game->pl_number);
-	ft_printf("-v: %d\n", game->visu->sp);
-	ft_printf("Number of champs %d\n", game->nbr_champs);
-	ft_printf("pv_number: %d\n", game->pv_number);
-	while (index < game->nbr_champs)
-	{
-		ft_printf("Player id: %d, n_id: %d, %s\n", game->champs[index]->id, game->champs[index]->n_id, game->champs[index]->name);
-		index++;
-	}
-
-}
-
 int			init_corewar(t_game *game, int ac, char **av)
 {
 	vm_init_flags(game);
 	if (!vm_init_parser(ac, av, game))
 		return (0);
-	print_opt_value(game);
-	ft_printf("Bingo 1\n");
 	if (!read_champs(game))
 	{
 		free_game(game);

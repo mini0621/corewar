@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:34:40 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/08 20:14:50 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/20 04:14:52 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static char const	*g_usage[] =
 	"-n N:              Set champion number for the next champion",
 	"### DUMP ############################################################",
 	"-d N:           Dumps memory after N cycles then exits",
-    "-s N:              Runs N cycles, dumps memory, pauses, then repeats",
 	"### TEXT OUTPUT MODE ################################################",
     "-de:        	    0:  Start in debug mode",
     "-v:                1:  Show lives",

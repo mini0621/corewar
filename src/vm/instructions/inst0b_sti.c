@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 21:31:50 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/20 04:15:43 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	inst_sti(t_game *game, t_process *caller, t_inst *inst)
 	if (!game || !caller || !inst)
 		return ;
 	res = (short)(*get_arg(caller, game->memdump, &(inst->args[1]), 1))
-		+ (short)(*get_arg(caller, game->memdump, &(inst->args[2]), 1));
+		+ (short)(*get_arg(caller, game->memdump, &(inst->args[2]), 1));//seg fault location
 	res %= IDX_MOD;
 	caller->carry = (!res) ? 0 : 1;
 	addr = access_ptr(game->memdump, caller->pc, (int)res);
