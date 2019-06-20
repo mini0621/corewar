@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/20 04:15:07 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/20 14:36:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,34 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 {
 	int i;
 	int end;
-	int win;
 
-	win = -1;
 	end = 0;
-	i = 0;
-	while (i < game->nbr_champs)
+	i = game->nbr_champs - 1;
+	while (i >= 0)
 	{
 		if (champs[i]->prcs_c)
 		{
 			end++;
-			win = champs[i]->id;
-			champs[i]->prcs_c = 0;
+			game->winner = champs[i]->id;
 		}
 		else
 			get_debug(game, *champs + i);
-		i++;
+		i--;
 	}
-	if (!end || end == 1)
-		return (win);
+	if (!end)
+		return (game->winner);
 	return (0);
 }
 
 static void	update_cycles(t_game *game)
 {
-	if (game->live_count < NBR_LIVE || game->check_c == MAX_CHECKS)
+	if (game->live_count > NBR_LIVE || game->check_c == MAX_CHECKS)
 	{
 		game->cycle_to_die -= CYCLE_DELTA;
-		game->cycle_d = game->cycle_to_die;
 	}
 	game->live_count = 0;
 	game->check_c = (game->check_c == MAX_CHECKS) ? 0 : game->check_c + 1;	
+	game->cycle_d = game->cycle_to_die;
 }
 
 static int is_end(t_game *game, t_champ **champs, t_list **prcs)

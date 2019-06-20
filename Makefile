@@ -6,7 +6,7 @@
 #    By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/19 14:37:26 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/06/20 14:09:43 by mnishimo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ LIBFT = libftprintf.a
 OBJ_DIR = obj
 
 CC = gcc -g
-CFLAGS = -Wall -Werror -Wextra
-#CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+#CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 #CFLAGS = -g -fsanitize=address
 
 RM = rm -rf

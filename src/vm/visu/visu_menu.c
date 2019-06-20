@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 09:49:23 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/19 14:36:34 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/20 17:19:05 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int		draw_champs(t_game *game, WINDOW *win)
 	while (++index < game->nbr_champs)
 	{
 		wattron(win, (COLOR_PAIR(index + 1)));
-		mvwprintw(win, l, 2, "Player %i, weight %i bytes", index, game->champs[index]->prog_size); 
+		mvwprintw(win, l, 2, "Player %i, weight %i bytes", index + 1, game->champs[index]->prog_size); 
 		mvwprintw(win, l + 1, 2, "\"%s\" (\"%s\") !",game->champs[index]->name, game->champs[index]->comment);
 		mvwprintw(win, l + 2, 2, "last arrive process: %i, alive count: %i",game->champs[index]->prcs_c, game->champs[index]->live_c);
 		wattroff(win, (COLOR_PAIR(index + 1)));
@@ -76,7 +76,7 @@ void            draw_menu(t_game *game, t_visu *wind)
 		"Total Number of lives: %d Alive Calls: %d",
 		game->prcs_count, game->live_count);
 	mvwprintw(wind->menu_win, index++, 2,
-			"Decrease cycle to die with: %d", CYCLE_DELTA);
+			"Cycle to die: %d, decreasing with: %d", game->cycle_to_die, CYCLE_DELTA);
 	wattroff(wind->menu_win, (COLOR_PAIR(1)));
 	wattron(wind->menu_win, (COLOR_PAIR(1) | A_BOLD));
 	if (wind->sp < 0)

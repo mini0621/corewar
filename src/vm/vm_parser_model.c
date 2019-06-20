@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:34:26 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/20 04:14:15 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:28:05 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ t_ull               vm_get_value(char *sval)
     min = (t_ull)INT_MIN;
     max = (t_ull)INT_MAX;
     if (!sval || !ft_isnumeric(sval))
-        return (-1);
+        return (0);
     value = ft_atoill(sval);
     if (value > min || value < max)
         return (value);
-    return (-1);
+    return (0);
 }
 
 // void                    vm_align_ids(t_game *game)

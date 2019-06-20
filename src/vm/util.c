@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 17:21:10 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/19 12:52:53 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/20 14:15:21 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	reset_prcs_c(t_game *game)
 	while (i < game->nbr_champs)
 	{
 		game->champs[i]->prcs_c = 0;
-		game->champs[i]->live_c = 0;
 		i++;
 	}
 }

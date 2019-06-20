@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 21:29:46 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/20 23:30:24 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,15 @@ void	endian_conv(void *value, size_t size)
 	t_uc	tmp;
 	size_t	i;
 
-	if (size < 1)
+	if (size < 1 || !value)
 		return ;
 	i = 0;
+	if (size == 2)
+	{
+		tmp = *(int *)value & 0xff;
+		*(int *)value = (*(int *)value >> 8 & 0xff) | (*(int *)value << 8 & 0xff00);
+		return ;
+	}
 	while (i < size / 2)
 	{
 		tmp = ((t_uc *)value)[size - i - 1];
@@ -42,7 +48,9 @@ void	endian_conv(void *value, size_t size)
 
 void	debug_hex(void *dst, size_t size)
 {
-	size_t i = 0;
+	size_t i;
+
+	i = 0;
 	ft_printf("hex read :");
 	while (i < size)
 	{
@@ -60,7 +68,7 @@ void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size)
 	{
 		wr = MEM_SIZE - (src - dump);
 		ft_memcpy(dst, src, wr);
-		ft_memcpy(dst + size, src, size - wr);
+		ft_memcpy(dst + wr, src + wr, size - wr);
 	}
 	else
 		ft_memcpy(dst, src, size);
@@ -95,7 +103,8 @@ t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr)
 		return (&(arg->value.u_dir_val));
 	i = (rstr) ? (int)(signed short)(arg->value.u_ind_val) % IDX_MOD
 		: (int)(signed short)(arg->value.u_ind_val);
-	ft_memcpy(&(arg->value.u_dir_val), access_ptr(dump, caller->pc, i), REG_SIZE);
-	endian_conv(&(arg->value.u_dir_val), REG_SIZE);
+	arg->value.u_dir_val = 0;
+	read_dump(dump, access_ptr(dump, caller->pc, i), &(arg->value.u_dir_val), REG_SIZE);
+	//endian_conv(&(arg->value.u_dir_val), REG_SIZE);
 	return (&(arg->value.u_dir_val));
 }

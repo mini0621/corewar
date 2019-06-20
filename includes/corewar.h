@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/19 12:53:17 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/20 17:37:03 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 # define CLR_YEL  "\x1b[33m"
 typedef	unsigned long long	t_ull;
 typedef	unsigned char	t_uc;
-typedef	uint8_t				t_reg_type;
-typedef uint16_t			t_ind_type;
-typedef uint32_t			t_dir_type;
+typedef	int8_t				t_reg_type;
+typedef int16_t			t_ind_type;
+typedef int32_t			t_dir_type;
 typedef	uint8_t				t_ocp;
 
 typedef struct		s_champ
@@ -111,13 +111,11 @@ typedef struct	s_game
 	t_champ		*champs[MAX_PLAYERS + 1]; // the last ptr is NULL
 	t_list		*prcs; //cache coherence and use t_list? young prcs is top
 	t_ull		nbr_prcs;
-	t_ull		nbr_cycle;
+	t_ull		nbr_cycle; //-d option value
 	int			nbr_champs;
-	int			nbr_d_cycle; //-d option number of cycles to run before memory dump
 	int			d_state;//-d option
 	int			n_state;//-n flag for specifying the number of the following
 						//player and also states the order of execution
-	int			pl_state;
 	t_ull		pl_number; //store the value which follows the -n flag 
 	int			deb_state;
 	char		*logs;
@@ -125,11 +123,11 @@ typedef struct	s_game
 	int			pv_number; //keeps track of the previous player number
 	t_ull		live_count;
 	t_ull		prcs_count;
-	int			prev_champ;
 	t_ull		cycle;
 	t_ull		cycle_d;
 	t_ull		check_c;
 	t_ull		cycle_to_die;
+	int			winner;
 	t_visu		*visu;
 	t_uc		memdump[MEM_SIZE];
 }				t_game;

@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:34:40 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/20 04:14:52 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:32:29 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 
 static char const	*g_usage[] =
 {
-	"Usage:./corewar -d N -s N -v N -debug -n N] [-a] <champion1.cor> <...>",
+	"Usage:./corewar [-d N]  [-v] [-de N] [-n N] <champion1.cor> <...>",
 	"### CONTESTANT ######################################################",
 	"your_champion.cor: Champion compiled with the asm",
-	"-n N:              Set champion number for the next champion",
+	"-n (0 < N < INTMAX) :  Set champion number for the next champion",
 	"### DUMP ############################################################",
-	"-d N:           Dumps memory after N cycles then exits",
-	"### TEXT OUTPUT MODE ################################################",
-    "-de:        	    0:  Start in debug mode",
-    "-v:                1:  Show lives",
-    "                   2:  Show cycles",
-    "                   3:  Show operations",
-    "                   4:  Show deaths",
-    "                   5: Show PC movements (Except for jumps)",
-    "                   6: Display ncurses mode",
+	"-d (0 < N < ULLMAX) :  Dumps memory after N cycles then exits",
+	"### DEBUG OUTPUT MODE ###############################################",
+    "-de (0 < N < INTMAX)"
+    "            	    1:  cycle number",
+    "                   2:  death logs",
+    "                   4:  live logs",
+    "                   8:  load logs",
+    "                  16:  store logs",
+    "                  32: 	logical op logs",
+    "                  64:  jump, fork logs",
+	"### VISUAL MODE #####################################################",
+	"-v               Ncurses visualizer mode",
 	"#####################################################################"
 };
 

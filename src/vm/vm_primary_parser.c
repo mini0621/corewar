@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/20 04:14:06 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:40:39 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int          vm_pri_processor(int pv_number, t_champ *champ
 		game->champs[pv_number] = champ;
 		(game->nbr_champs)++;
 		(game->pv_number)++;
-		game->pl_state = 0;
 		game->pl_number = 0;
 		game->n_state = 0;
 		return (1);
