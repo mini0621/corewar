@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 21:22:09 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 14:47:57 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 	int	magic;
 
 	ft_bzero(bytebf, sizeof(bytebf));
-	//if (!(bytebf->inst = (char*)ft_memalloc(BUFF_SIZE_COR)))
-	if (!(bytebf->inst = NULL))
+	if (!(bytebf->inst = (char*)ft_memalloc(BUFF_SIZE_COR)))
+	//if (!(bytebf->inst = NULL))
 		return (ft_error(pos, e_malloc_error, NULL));
 	ft_bzero(bytebf->inst, BUFF_SIZE_COR);
 	bytebf->inst_remain = BUFF_SIZE_COR;

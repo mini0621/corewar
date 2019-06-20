@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:32:41 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 21:05:32 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:28:50 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 			(*tkn)->lc_instruction = pos->lc_instruction;
 			(*tkn)->lc_tkn = pos->lc_tkn;
 			(*tkn)->line = pos->file_line;
-			if (!(ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)))))
+			if (!(ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(*tkn, sizeof(t_tkn)))))
 				return (ft_error(NULL, e_malloc_error, NULL));
 		}
 	}
@@ -112,7 +112,7 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 		if (!(ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)))))
 			return (ft_error(NULL, e_malloc_error, NULL));
 		free(new);
-		if (!(ft_lstadd(&((t_lbl*)((*lbls)->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)))))
+		if (!(ft_lstadd(&((t_lbl*)((*lbls)->content))->frwd, ft_lstnew(*tkn, sizeof(t_tkn)))))
 			return (ft_error(NULL, e_malloc_error, NULL));
 	}
 	return (1);
@@ -155,7 +155,7 @@ int	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 			(*tkn)->lc_instruction = pos->lc_instruction;
 			(*tkn)->lc_tkn = pos->lc_tkn;
 			(*tkn)->line = pos->file_line;
-			if (!(ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)))))
+			if (!(ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(*tkn, sizeof(t_tkn)))))
 				return (ft_error(NULL, e_malloc_error, NULL));
 		}
 	}
@@ -171,7 +171,7 @@ int	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 		if (!(ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)))))
 			return (ft_error(NULL, e_malloc_error, NULL));
 		free(new);
-		if (!(ft_lstadd(&((t_lbl*)((*lbls)->content))->frwd, ft_lstnew(tkn, sizeof(t_tkn)))))
+		if (!(ft_lstadd(&((t_lbl*)((*lbls)->content))->frwd, ft_lstnew(*tkn, sizeof(t_tkn)))))
 			return (ft_error(NULL, e_malloc_error, NULL));
 	}
 	return (1);
