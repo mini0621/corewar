@@ -16,3 +16,16 @@ in the lexical analysis function or even closer from the error in the tkn_creati
 -Lexical : allow no space_chars in case where delimiter chars are explicit :
 Example -> .name"hello" should be allowed
 Currently : .name "hello" allowed (minimum 1 space char)
+
+
+erreur valgrind :
+Syscall param write(buf) points to uninitialised byte(s)
+	==18552==    at 0x1003C67E6: write (in /usr/lib/system/libsystem_kernel.dylib)
+	==18552==    by 0x10000426B: ft_write_output (end_functions.c:96)
+	==18552==    by 0x1000009D3: main (asm_main.c:81)
+	==18552==  Address 0x100b70864 is 4 bytes inside a block of size 2,192 alloc'd
+	==18552==    at 0x1000AC626: malloc (in /Users/allefebv/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+	==18552==    by 0x100005944: ft_memalloc (ft_memalloc.c:19)
+	==18552==    by 0x1000044A9: fill_bytebf (end_functions.c:63)
+	==18552==    by 0x10000421E: ft_write_output (end_functions.c:91)
+	==18552==    by 0x1000009D3: main (asm_main.c:81)
