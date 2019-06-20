@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 17:46:54 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 22:41:07 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	tkn_fptr[7] = &tkn_cmd;
 	tkn_fptr[8] = &tkn_separator;
 	tkn_fptr[9] = &tkn_carr_ret;
-
 	j = 0;
 	while (j < NB_TKN_TYPES)
 	{
@@ -41,12 +40,12 @@ int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	return (1);
 }
 
-int	bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn)
+int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn)
 {
 	char *tmp;
 
-	if (bytebf->inst_remain < (*tkn)->mem_size
-		|| ((*tkn)->type == e_op && (*tkn)->op->ocp == 1 && bytebf->inst_remain < 2))
+	if (bytebf->inst_remain < (*tkn)->mem_size || ((*tkn)->type == e_op
+		&& (*tkn)->op->ocp == 1 && bytebf->inst_remain < 2))
 	{
 		tmp = bytebf->inst;
 		if (!(bytebf->inst = realloc(bytebf->inst, bytebf->inst_size + BUFF_SIZE_COR)))

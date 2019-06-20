@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   read_asm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 20:47:03 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 21:27:03 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-#include <stdlib.h>
-//libft
 
 static int	ft_end(int value, char **tmp)
 {

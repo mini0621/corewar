@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntactic_analysis.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 20:58:53 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 22:41:18 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_encode(t_pos *pos, t_tkn **tkn, t_list **lbls, t_bytebf *bytebf)
 	return (1);
 }
 
-int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn)
+int			syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn)
 {
 	while (pos->state_s != -1 && pos->buf_pos < pos->size_buf)
 	{
@@ -47,7 +47,7 @@ int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn
 		if (syntactic_sm[pos->state_s][0] < -1)
 			check_state_s(pos, *tkn);
 		if ((*tkn)->type == e_lbl || (*tkn)->type == e_op)
-			pos->lc_instruction = pos->lc_tkn;
+			pos->lc_inst = pos->lc_tkn;
 		if (!(ft_encode(pos, tkn, lbls, bytebf)))
 			return (ft_error(NULL, e_no_print, tkn));
 		free_tkn(tkn);

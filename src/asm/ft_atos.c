@@ -6,12 +6,11 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/05 21:16:24 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/08 14:41:20 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/20 20:32:55 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-//libft
 
 short	ft_atos(char *str)
 {

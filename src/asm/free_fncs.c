@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_fncs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 11:48:19 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/19 21:21:49 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 21:26:54 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	free_bytebf_pos(t_bytebf *bytebf, t_pos *pos)
 	free(bytebf->inst);
 	free(pos->file_name);
 }
- //tkn
+
 void	del_tkn(void *content, size_t size)
 {
 	t_tkn *tmp;
@@ -31,7 +31,7 @@ void	del_tkn(void *content, size_t size)
 	free(tmp->value);
 	free(tmp);
 }
-//lbl
+
 void	del_lbls(void *content, size_t size)
 {
 	t_lbl *tmp;

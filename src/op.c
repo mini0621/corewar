@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   op.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 15:07:53 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/13 17:03:31 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 22:42:53 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_op_asm    g_op_tab_asm[16] =
+t_op_asm	g_op_tab_asm[16] =
 {
 	{1, 0, 4, "live", 15, 1},
 	{2, 1, 4, "ld", 18, 2},

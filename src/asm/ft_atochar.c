@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atochar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 15:34:09 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/14 09:46:58 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 21:26:55 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-//libft
 
 long	ft_atochar(char *str)
 {

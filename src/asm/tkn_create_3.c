@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:02:32 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 20:37:05 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 21:27:09 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
 			return (ft_error(NULL, e_no_print, NULL));
 	}
 	else
-		return (ft_error(pos, e_invalid_command_error, tkn));  //fix
+		return (ft_error(pos, e_invalid_command_error, tkn));
 	return (1);
 }
 

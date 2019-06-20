@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/19 20:40:29 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 22:36:00 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #include "op.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
 typedef	unsigned long long	t_ull;
 typedef	unsigned long long	t_uc;
@@ -250,7 +251,7 @@ typedef struct	s_op_asm
 typedef	struct	s_tkn
 {
 	t_tkn_type	type;
-	int			lc_instruction;
+	int			lc_inst;
 	int			lc_tkn;
 	int			buff_start;
 	int			buff_end;
@@ -265,9 +266,9 @@ typedef	struct	s_tkn
 typedef	struct	s_lbl
 {
 	char		*name;
-	char		type; // D - Defined or U - Undefined
+	char		type;
 	int			lc_lbl_inst;
-	t_list		*frwd;   //tkn?
+	t_list		*frwd;
 }				t_lbl;
 
 typedef struct	s_pos
@@ -280,7 +281,7 @@ typedef struct	s_pos
 	int			tab_counter;
 	int			nb_tab;
 
-	int			lc_instruction;
+	int			lc_inst;
 	int			lc_tkn;
 	int			dir_bytes;
 	int			ocp;

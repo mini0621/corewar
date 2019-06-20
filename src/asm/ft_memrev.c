@@ -6,12 +6,11 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 15:03:52 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 11:24:41 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/20 20:35:05 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-//libft
 
 void	ft_memrev(void *str, size_t len)
 {

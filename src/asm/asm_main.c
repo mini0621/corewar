@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 19:33:03 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 22:36:00 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-#include <fcntl.h>
-
-//void stop(void)__attribute__((destructor));
-
-//void stop(void){while(1);}
 
 static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 {
@@ -49,22 +44,18 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	return (ft_error(pos, e_no_print, NULL));
 }
 
-static int	file_check(char *str)
+static int	file_check(char *str, t_pos *pos)
 {
 	int i;
 
 	i = 0;
 	if ((ft_strlen(str)) < 3)
-		return(ft_error(NULL, e_input_error, NULL));
-//	if (ret == ft_strstr(str, ".s") && *(ret + 2) == '\0')
-//		return (1);
-//	else
-//		return(ft_error(NULL, e_input_error, NULL));
+		return (ft_error(NULL, e_input_error, NULL));
 	while (str[i] != '\0' && str[i] != '.')
 		i++;
 	if (str[i] != '.' && str[i + 1] != 's' && str[i + 2] != '\0')
-		return(ft_error(NULL, e_input_error, NULL));
-	return(1);
+		return (ft_error(pos, e_input_error, NULL));
+	return (1);
 }
 
 int			main(int argc, char **argv)
@@ -77,7 +68,7 @@ int			main(int argc, char **argv)
 		return (0);
 	ft_bzero(&pos, sizeof(t_pos));
 	pos.file_name = ft_strdup(argv[1]);
-	if (!(file_check(argv[1])))
+	if (!(file_check(argv[1], &pos)))
 		return (0);
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		return (ft_error(&pos, e_open_error, NULL));

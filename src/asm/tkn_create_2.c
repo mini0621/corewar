@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:32:41 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 15:28:50 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 21:27:07 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,18 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 			{
 				if (!((*tkn)->value = (short*)malloc(sizeof(short))))
 					return (ft_error(NULL, e_malloc_error, NULL));
-				*((short*)(*tkn)->value) = ((t_lbl*)(tmp_l->content))->lc_lbl_inst - pos->lc_instruction;
+				*((short*)(*tkn)->value) = ((t_lbl*)(tmp_l->content))->lc_lbl_inst - pos->lc_inst;
 			}
 			else
 			{
 				if (!((*tkn)->value = (int*)malloc(sizeof(int))))
 					return (ft_error(NULL, e_malloc_error, NULL));
-				*((int*)(*tkn)->value) = ((t_lbl*)(tmp_l->content))->lc_lbl_inst - pos->lc_instruction;
+				*((int*)(*tkn)->value) = ((t_lbl*)(tmp_l->content))->lc_lbl_inst - pos->lc_inst;
 			}
 		}
 		else
 		{
-			(*tkn)->lc_instruction = pos->lc_instruction;
+			(*tkn)->lc_inst = pos->lc_inst;
 			(*tkn)->lc_tkn = pos->lc_tkn;
 			(*tkn)->line = pos->file_line;
 			if (!(ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(*tkn, sizeof(t_tkn)))))
@@ -102,7 +102,7 @@ int	tkn_dir_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	}
 	else
 	{
-		(*tkn)->lc_instruction = pos->lc_instruction;
+		(*tkn)->lc_inst = pos->lc_inst;
 		(*tkn)->lc_tkn = pos->lc_tkn;
 		(*tkn)->line = pos->file_line;
 		if (!(new = (t_lbl*)ft_memalloc(sizeof(t_lbl))))
@@ -141,18 +141,18 @@ int	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 			{
 				if (!((*tkn)->value = (short*)malloc(sizeof(short))))
 					return (ft_error(NULL, e_malloc_error, NULL));
-				*((short*)(*tkn)->value) = ((t_lbl*)(tmp_l->content))->lc_lbl_inst - pos->lc_instruction;
+				*((short*)(*tkn)->value) = ((t_lbl*)(tmp_l->content))->lc_lbl_inst - pos->lc_inst;
 			}
 			else
 			{
 				if (!((*tkn)->value = (int*)malloc(sizeof(int))))
 					return (ft_error(NULL, e_malloc_error, NULL));
-				*((int*)(*tkn)->value) = ((t_lbl*)(tmp_l->content))->lc_lbl_inst - pos->lc_instruction;
+				*((int*)(*tkn)->value) = ((t_lbl*)(tmp_l->content))->lc_lbl_inst - pos->lc_inst;
 			}
 		}
 		else
 		{
-			(*tkn)->lc_instruction = pos->lc_instruction;
+			(*tkn)->lc_inst = pos->lc_inst;
 			(*tkn)->lc_tkn = pos->lc_tkn;
 			(*tkn)->line = pos->file_line;
 			if (!(ft_lstadd(&((t_lbl*)(tmp_l->content))->frwd, ft_lstnew(*tkn, sizeof(t_tkn)))))
@@ -161,7 +161,7 @@ int	tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	}
 	else
 	{
-		(*tkn)->lc_instruction = pos->lc_instruction;
+		(*tkn)->lc_inst = pos->lc_inst;
 		(*tkn)->lc_tkn = pos->lc_tkn;
 		(*tkn)->line = pos->file_line;
 		if (!(new = (t_lbl*)ft_memalloc(sizeof(t_lbl))))

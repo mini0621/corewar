@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 21:03:25 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 22:45:39 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
 	int		i;
-	char 	nbr_char;
+	char	nbr_char;
 	char	*nbr_str;
 
 	(void)lbls;
 	i = (*tkn)->buff_start + 1;
-	while (buff[i] == '0')
+	while (buff[i] == '0' && buff[i] != '\n')
 		i++;
-	if (i == (*tkn)->buff_end && (i - 1 != (*tkn)->buff_start && buff[i] != '0'))
+//	if (i == (*tkn)->buff_end && (i - 1 != (*tkn)->buff_start && buff[i] == '0'))
+//		return (ft_error(pos, e_reg_nb_error, tkn));
+	if (buff[i] == '\n')
 		return (ft_error(pos, e_reg_nb_error, tkn));
 	nbr_str = ft_strndup(buff + i, (*tkn)->buff_end - i + 1);
 	if (ft_strlen(nbr_str) > 2)
@@ -76,7 +78,7 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 
 	(void)lbls;
 	(*tkn)->mem_size = pos->dir_bytes;
-	if ((*tkn)->buff_start - (*tkn)->buff_end + 1 > 10)
+	if ((*tkn)->buff_end - (*tkn)->buff_start > 10)
 		return (ft_error(pos, e_dir_int_error, tkn));
 	long_nbr = ft_atolong(buff + (*tkn)->buff_start + 1);
 	if ((*tkn)->mem_size == 4)
@@ -111,7 +113,7 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	short		sh_nbr;
 
 	(void)lbls;
-	if ((*tkn)->buff_start - (*tkn)->buff_end + 1 > 5)
+	if ((*tkn)->buff_end - (*tkn)->buff_start + 1 > 5)
 		return (ft_error(pos, e_ind_error, tkn));
 	long_nbr = ft_atolong(buff + (*tkn)->buff_start);
 	if (long_nbr > 32767 || long_nbr < -32767)

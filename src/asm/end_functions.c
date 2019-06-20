@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   end_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:17:39 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 17:42:03 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 21:26:48 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-#include <fcntl.h>
 
 static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag)
 {
@@ -25,7 +24,7 @@ static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag)
 		ft_printf(WHT "%s:%d:%d: " RED BLD "error: " RESET "label " WHT BLD "`%s`" RESET " used as ",
 			pos->file_name, tkn->line, tkn->col_start, ((t_lbl*)(tmp_l->content))->name);
 		ft_printf(WHT BLD "`%s`" RESET " at address " WHT BLD "`%#x`" RESET " has never been declared;\n\n",
-			get_tkn_type_name(((t_tkn*)(tmp_t->content))->type), ((t_tkn*)(tmp_t->content))->lc_instruction);
+			get_tkn_type_name(((t_tkn*)(tmp_t->content))->type), ((t_tkn*)(tmp_t->content))->lc_inst);
 		tmp_t = tmp_t->next;
 	}
 	*flag = 0;

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 14:54:14 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/19 14:50:39 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 20:35:01 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-//libft
 
 void	*ft_memjoin(void *s1, void *s2, size_t len_s1, size_t len_s2)
 {
