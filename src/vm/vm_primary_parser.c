@@ -28,20 +28,22 @@ static int          vm_pri_processor(int pv_number, t_champ *champ
 	if (game->n_state
 			&& (game->pl_number + 1 < MAX_PLAYERS))
 	{
-		champ->id = (short)(-1 * game->pl_number -1);
+		champ->id = (short)(-1 * pv_number -1);
+		champ->n_id = (short)(-1 * game->pl_number);
 		champ->prcs_c = 0;
 		champ->live_c = 0;
-		game->champs[(int)game->pl_number] = champ;
+		game->champs[pv_number] = champ;
 		(game->nbr_champs)++;
-		game->pv_number = (int) game->pl_number;
 		(game->pv_number)++;
 		game->pl_state = 0;
 		game->pl_number = 0;
+		game->n_state = 0;
 		return (1);
 	}
 	if (!game->n_state)
 	{
 		champ->id = (short)(-1 * pv_number -1);
+		champ->n_id = 0;
 		champ->prcs_c = 0;
 		champ->live_c = 0;
 		game->champs[pv_number] = champ;
@@ -60,6 +62,7 @@ int                 vm_primary_parser(int fd, t_game *game)
 	t_champ         *new;
 
 	play_num = game->pv_number;
+	ft_printf("number of players stored: %d\n", play_num);
 	if (play_num + 1 >= MAX_PLAYERS)
 		return (-4);
 	if (!(fd = vm_verify_magic(fd, &magic)))

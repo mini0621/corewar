@@ -40,6 +40,7 @@ typedef struct		s_champ
 	char			name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
 	int				fd;
+	short			n_id;
 	unsigned int	prog_size;
 	short			id;
 	int				prcs_c;
