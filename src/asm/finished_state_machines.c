@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   finished_state_machines.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 22:44:06 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/20 22:44:32 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 12:42:26 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	lsm_col[13][26] =
 	{DIRECT_CHAR},
 	{LABEL_CHAR},
 	{SPACE_CHAR},
-	{"#;"},
+	{COMMENT_CHARS},
 	{SEPARATOR_CHAR},
 	{"\n"},
 	{"."},

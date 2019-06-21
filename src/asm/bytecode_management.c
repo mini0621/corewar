@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bytecode_management.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 21:26:49 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 16:41:03 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 				bytebf->comment[i] = *(char*)(tkn->value + i);
 			i++;
 		}
-		free(tkn->value);
-		tkn->value = NULL;
+//		free(tkn->value);
+//		tkn->value = NULL;
 	}
 	else
 	{
@@ -35,8 +35,8 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 			bytebf->name[i] = *(char*)(tkn->value + i);
 			i++;
 		}
-		free(tkn->value);
-		tkn->value = NULL;
+//		free(tkn->value);
+//		tkn->value = NULL;
 	}
 }
 
