@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 22:41:18 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 16:17:06 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	check_state_s(t_pos *pos, t_tkn *tkn)
 {
-	if (syntactic_sm[pos->state_s][0] == -2)
-		pos->state_s = syntactic_sm[pos->state_s][1];
-	if (syntactic_sm[pos->state_s][0] == -3)
+	if (g_syntactic_sm[pos->state_s][0] == -2)
+		pos->state_s = g_syntactic_sm[pos->state_s][1];
+	if (g_syntactic_sm[pos->state_s][0] == -3)
 		pos->state_s = tkn->op->op_state_s;
 }
 
@@ -41,10 +41,10 @@ int			syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tk
 		if (pos->multiple_line)
 			return (1);
 		pos->previous_st_s = pos->state_s;
-		pos->state_s = syntactic_sm[pos->state_s][(*tkn)->type];
+		pos->state_s = g_syntactic_sm[pos->state_s][(*tkn)->type];
 		if (pos->state_s == -1)
 			return (ft_error(pos, e_syntactic_error, tkn));
-		if (syntactic_sm[pos->state_s][0] < -1)
+		if (g_syntactic_sm[pos->state_s][0] < -1)
 			check_state_s(pos, *tkn);
 		if ((*tkn)->type == e_lbl || (*tkn)->type == e_op)
 			pos->lc_inst = pos->lc_tkn;

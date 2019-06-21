@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/21 14:46:23 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 16:14:35 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	ft_print_expected(t_pos *pos)
 	ft_printf(RESET "expected ");
 	while (++i < NB_TKN_TYPES)
 	{
-		if (syntactic_sm[pos->previous_st_s][i] != -1)
+		if (g_syntactic_sm[pos->previous_st_s][i] != -1)
 		{
 			if (flag == 1)
 				ft_printf(" | ");

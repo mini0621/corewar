@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/21 15:10:05 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 16:07:49 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	}
 	ft_lstdel(&lbls, &del_lbls);
 	if (!flag)
-		return(ft_error(pos, e_empty_file, NULL));
+		return (ft_error(pos, e_empty_file, NULL));
 	return (ft_error(pos, e_no_print, NULL));
 }
 

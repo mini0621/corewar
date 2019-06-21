@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/21 14:21:23 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 16:16:24 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,9 +317,9 @@ typedef struct	s_bytebf
 	int			inst_size;
 }				t_bytebf;
 
-extern char		lsm_col[13][26];
-extern int		lex_sm[29][14];
-extern int		syntactic_sm[56][14];
+extern char		g_lsm_col[13][26];
+extern int		g_lex_sm[29][14];
+extern int		g_syntactic_sm[56][14];
 extern t_op_asm	g_op_tab_asm[16];
 
 int	(*tkn_fptr[NB_TKN_TYPES])(char *buf, t_pos *pos, t_list **lbl, t_tkn **tkn);
@@ -347,7 +347,7 @@ int		lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls);
 int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn);
 char	*get_tkn_type_name(t_tkn_type tkn_type);
 
-void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
+void	ocp_create(t_tkn *tkn, t_pos *pos, char *bybf);
 void	gaps_fill(char *bytebuf, t_tkn *tkn);
 void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
 void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos);

@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 22:41:07 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 16:22:22 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	j = 0;
 	while (j < NB_TKN_TYPES)
 	{
-		if (j == lex_sm[pos->state_l][1])
+		if (j == g_lex_sm[pos->state_l][1])
 		{
 			if (!(tkn_fptr[j](buf, pos, lbls, tkn)))
 				return (ft_error(NULL, e_no_print, tkn));
@@ -48,7 +48,8 @@ int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn)
 		&& (*tkn)->op->ocp == 1 && bytebf->inst_remain < 2))
 	{
 		tmp = bytebf->inst;
-		if (!(bytebf->inst = realloc(bytebf->inst, bytebf->inst_size + BUFF_SIZE_COR)))
+		if (!(bytebf->inst = realloc(bytebf->inst,
+			bytebf->inst_size + BUFF_SIZE_COR)))
 		{
 			ft_strdel(&tmp);
 			return (ft_error(pos, e_malloc_error, tkn));
@@ -99,7 +100,8 @@ int		init_before_analysis(t_pos *pos, char **read_line)
 	pos->file_col = 0;
 	pos->file_line++;
 	tmp = pos->tmp_buf;
-	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, *read_line, pos->size_buf, pos->size_line)))
+	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, *read_line,
+		pos->size_buf, pos->size_line)))
 	{
 		free(tmp);
 		return (ft_error(pos, e_malloc_error, NULL));
