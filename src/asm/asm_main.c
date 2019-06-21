@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/21 15:02:06 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 15:10:05 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static int	file_check(char *str, t_pos *pos)
 		i++;
 	if (str[i] == '.' && str[i + 1] != 's')
 	{
+		if (i != 0)
+			return (ft_error(pos, e_input_error, NULL));
 		i++;
 		while (str[i] != '\0' && str[i] != '.')
 			i++;
