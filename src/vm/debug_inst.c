@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/21 15:14:12 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/21 16:29:24 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	deb_16_log(t_game *game, t_inst *inst, t_process *caller, int val)
 		return ;
 	add_head(&tmp, caller->p_id, caller->c_id, &l);
 	update_logs(game, &tmp, l);
-	debug_carry(game, caller->p_id, caller->c_id, caller->carry);
 }
 
 void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val)

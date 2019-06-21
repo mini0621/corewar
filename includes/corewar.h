@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/20 17:37:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:38:38 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct	s_arg
 
 typedef struct  s_option
 {
-        char    option[3];
+        char    option[6];
         int     (*f)();
 }               t_option;
 
@@ -118,6 +118,7 @@ typedef struct	s_game
 						//player and also states the order of execution
 	t_ull		pl_number; //store the value which follows the -n flag 
 	int			deb_state;
+	int			print_off;
 	char		*logs;
 	size_t		logs_len;
 	int			pv_number; //keeps track of the previous player number
@@ -224,6 +225,7 @@ void                	vm_debug(int flag, int ac, char **av, t_game *game);
 unsigned int			vm_endian_conversion(unsigned int val);
 int	                    vm_opt_reader(int *ac, char **av, t_game *game, int *flag);
 int                     vm_opt_dump(int *index, char **av, t_game *game);
+int                     vm_opt_print(int *index, char **av, t_game *game);
 int                     vm_opt_debug(int *index, char **av, t_game *game);
 int                     vm_opt_visu(int *index, char **av, t_game *game);
 int                     vm_opt_n(int *index, char **av, t_game *game);

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:30:30 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/17 17:07:14 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:56:28 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_list	*prcs_new(t_game *game, int c_id)
 
 	ft_bzero(&prcs, sizeof(t_process));
 	prcs.c_id = c_id;
+	prcs.carry = 0;
 	prcs.p_id = game->nbr_prcs;
 	game->nbr_prcs += 1;
 	game->prcs_count += 1;

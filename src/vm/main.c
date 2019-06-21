@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/19 13:28:48 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/21 16:30:12 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 void	print_result(t_game *game, int win)
 {
 	if (game->logs)
-	{
-		print_debug(game);
 		free(game->logs);
-	}
 	if (game->visu)
 		return ;
 	if (!game->nbr_cycle || game->cycle == game->nbr_cycle)

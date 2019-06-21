@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:34:40 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/20 15:32:29 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:41:28 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,23 @@ static char const	*g_usage[] =
 	"Usage:./corewar [-d N]  [-v] [-de N] [-n N] <champion1.cor> <...>",
 	"### CONTESTANT ######################################################",
 	"your_champion.cor: Champion compiled with the asm",
-	"-n (0 < N < INTMAX) :  Set champion number for the next champion",
+	"-n (0 < N < INTMAX)    :  Set champion number for the next champion",
 	"### DUMP ############################################################",
-	"-d (0 < N < ULLMAX) :  Dumps memory after N cycles then exits",
+	"-dump (0 < N < ULLMAX) :  Dumps memory after N cycles then exits",
 	"### DEBUG OUTPUT MODE ###############################################",
-    "-de (0 < N < INTMAX)"
-    "            	    1:  cycle number",
-    "                   2:  death logs",
-    "                   4:  live logs",
-    "                   8:  load logs",
-    "                  16:  store logs",
-    "                  32: 	logical op logs",
-    "                  64:  jump, fork logs",
+    "-de (0 < N < INTMAX)  1:  cycle number",
+    "                      2:  death logs",
+    "                      4:  live logs",
+    "                      8:  load logs",
+    "                     16:  store logs",
+    "                     32:  logical op logs",
+    "                     64:  jump, fork logs",
+	"### PRINT OFF MODE ##################################################",
+	"-p                   1 :  live comment off",
+	"                     2 :  aff comment off",
+	"                     3 :  all comment off",
 	"### VISUAL MODE #####################################################",
-	"-v               Ncurses visualizer mode",
+	"-v                   Ncurses visualizer mode",
 	"#####################################################################"
 };
 
