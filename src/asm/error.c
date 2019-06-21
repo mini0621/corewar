@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/21 13:29:58 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 14:46:23 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static void	input_error(t_pos *pos)
 	ft_printf(RED BLD "file_error: " RESET "input file is of expected format ");
 	ft_printf(WHT BLD "`file_name.s`" RESET "instead of " WHT BLD "`%s`" RESET ";",
 		pos->file_name);
+	free(pos->file_name);
 }
 
 static void	ft_print_expected(t_pos *pos)
