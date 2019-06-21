@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/20 22:36:00 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 14:21:23 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ typedef enum	e_errors
 	e_dir_short_error,
 	e_ind_error,
 	e_double_label,
+	e_empty_file,
 }				t_errors;
 
 typedef enum	e_tkn_type
@@ -258,7 +259,7 @@ typedef	struct	s_tkn
 	int			col_start;
 	int			col_end;
 	int			mem_size;
-	void		*value; //
+	void		*value;
 	t_op_asm	*op;
 	int			line;
 }				t_tkn;
@@ -302,7 +303,7 @@ typedef struct	s_pos
 
 typedef struct	s_bytebf
 {
-	char		*bytebuf; // header + inst
+	char		*bytebuf;
 	char		*header;
 	int			hd_size;
 	char		*magic;

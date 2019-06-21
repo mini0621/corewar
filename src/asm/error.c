@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/20 21:26:51 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/21 13:29:58 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static void	system_error(t_errors error)
 	else if (error == e_open_error)
 		ft_printf(RED BLD "open_file_error: " RESET "%s;\n",
 			err_str);
+	else if (error == e_empty_file)
+		ft_printf(RED BLD "empty_file_error" RESET "%s;\n");
 	else
 		ft_printf(RED BLD "write_error: " RESET "%s;\n",
 			err_str);
