@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/20 20:02:44 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:14:12 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	deb_64_log(t_game *game, t_inst *inst, t_process *caller, int p_id)
 		l = ft_asprintf(&tmp, "lfork process %i at memdump(%i)!\n",
 				p_id, inst->args[0].value.u_dir_val);
 	else if (opcode == e_zjmp && caller->carry)
-		l = ft_asprintf(&tmp, "zjmp to memdump(%i)!\n",
-			(int)inst->args[0].value.u_dir_val);
+		l = ft_asprintf(&tmp, "zjmp to %i(%i), memdump(%i)!\n",
+			p_id, p_id % IDX_MOD, (int)inst->args[0].value.u_dir_val);
 	else if (opcode == e_zjmp)
-		l = ft_asprintf(&tmp, "zjmp to memdump(%i) skipped!\n",
-			(int)inst->args[0].value.u_dir_val);
+		l = ft_asprintf(&tmp, "zjmp to %i(%i), memdump(%i) skipped!\n",
+			p_id, p_id % IDX_MOD, (int)inst->args[0].value.u_dir_val);
 	else
 		return ;
 	add_head(&tmp, caller->p_id, caller->c_id, &l);
@@ -106,6 +106,7 @@ void	deb_16_log(t_game *game, t_inst *inst, t_process *caller, int val)
 		return ;
 	add_head(&tmp, caller->p_id, caller->c_id, &l);
 	update_logs(game, &tmp, l);
+	debug_carry(game, caller->p_id, caller->c_id, caller->carry);
 }
 
 void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val)
