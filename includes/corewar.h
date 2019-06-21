@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/14 11:29:01 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/20 22:36:00 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,21 @@
 
 # define BUFF_SIZE_COR 10
 # define OP_TAB_ASM_SIZE 16
-# define NB_TKN_TYPES 10
+# define NB_TKN_TYPES 11
 # define SPACE_CHAR " \t\v\f\r"
 # define NB_LSM_COL 13
+
+# define RED "\e[031m"
+# define GRN "\e[032m"
+# define WHT "\e[037m"
+# define BLD "\e[1m"
+# define RESET "\e[0m"
 
 #include "libftprintf.h"
 #include "op.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
 typedef	unsigned long long	t_ull;
 typedef	unsigned long long	t_uc;
@@ -244,19 +251,22 @@ typedef struct	s_op_asm
 typedef	struct	s_tkn
 {
 	t_tkn_type	type;
-	int			lc_instruction;
+	int			lc_inst;
 	int			lc_tkn;
 	int			buff_start;
 	int			buff_end;
+	int			col_start;
+	int			col_end;
 	int			mem_size;
-	void		*value;
+	void		*value; //
 	t_op_asm	*op;
+	int			line;
 }				t_tkn;
 
 typedef	struct	s_lbl
 {
 	char		*name;
-	char		type; // D - Defined or U - Undefined
+	char		type;
 	int			lc_lbl_inst;
 	t_list		*frwd;
 }				t_lbl;
@@ -268,8 +278,10 @@ typedef struct	s_pos
 
 	int			buf_pos;
 	int			size_buf;
+	int			tab_counter;
+	int			nb_tab;
 
-	int			lc_instruction;
+	int			lc_inst;
 	int			lc_tkn;
 	int			dir_bytes;
 	int			ocp;
@@ -278,12 +290,14 @@ typedef struct	s_pos
 
 	int			state_l;
 	int			state_s;
+	int			previous_st_s;
 
 	int			name_len;
 	int			comment_len;
 	int			size_line;
 
 	char		*tmp_buf;
+	char		*file_name;
 }				t_pos;
 
 typedef struct	s_bytebf
@@ -307,33 +321,35 @@ extern int		lex_sm[29][14];
 extern int		syntactic_sm[56][14];
 extern t_op_asm	g_op_tab_asm[16];
 
-int	(*tkn_fptr[NB_TKN_TYPES])(char *buf, t_pos *pos, t_list **lbl, t_tkn *tkn);
+int	(*tkn_fptr[NB_TKN_TYPES])(char *buf, t_pos *pos, t_list **lbl, t_tkn **tkn);
 
-int		tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_dir_value(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_dir_label(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_ind_value(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_ind_label(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_separator(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
+int		tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_dir_value(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_dir_label(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_ind_value(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_ind_label(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_separator(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
 
 void	ocp_modify(t_pos *pos, char *bytebuf);
-void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
-int		end_lbl(t_list *lbls);
+int		end_lbl(t_list *lbls, t_pos *pos);
 int		ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
-int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn *tkn);
-int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn *tkn);
+int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn);
 int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);
-void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
-void	gaps_fill(char *bytebuf, t_tkn *tkn);
-void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos);
 int		init_before_analysis(t_pos *pos, char **read_line);
 void	free_after_analysis(t_pos *pos, char **read_line);
 int		lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls);
 int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn);
+char	*get_tkn_type_name(t_tkn_type tkn_type);
+
+void	ocp_create(t_tkn *tkn, t_pos *pos, char *bytebuf);
+void	gaps_fill(char *bytebuf, t_tkn *tkn);
+void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
+void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos);
 
 //libft
 long	ft_atochar(char *str);
@@ -345,5 +361,12 @@ void	ft_memrev(void *buf, size_t len);
 int		read_bytes(char **line, int error, const int fd);
 
 //need to fix
-int		ft_error(t_pos *pos, t_errors error, t_tkn *tkn, char *input);
+int		ft_error(t_pos *pos, t_errors error, t_tkn **tkn);
+
+//free
+void	del_lbls(void *content, size_t size);
+void	free_tkn(t_tkn **tkn);
+void	del_tkn(void *content, size_t size);
+void	free_bytebf_pos(t_bytebf *bytebf, t_pos *pos);
+
 #endif

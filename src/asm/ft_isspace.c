@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 09:47:08 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/14 09:47:17 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/20 20:34:56 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//libft
 
 int	ft_isspace(char c)
 {
