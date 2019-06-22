@@ -3,33 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/21 16:07:49 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 20:50:55 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+static int	end_main_loop(t_pos *pos, t_tkn **tkn)
+{
+	if (!pos->content)
+		return (ft_error(pos, e_empty_file, NULL));
+	if (pos->state_l == 26)
+		return (ft_error(pos, e_invalid_command_error, tkn));
+	if (pos->state_s == 2)
+		return (ft_error(pos, e_no_instruction, NULL));
+	else
+		return (0);
+}
+
+static int	rd_anlz_enc_2(t_pos *pos, t_list **lbls)
+{
+	if (pos->content && pos->state_l != 26 && pos->state_s != 2
+		&& !pos->error && end_lbl(*lbls, pos))
+	{
+		ft_lstdel(lbls, &del_lbls);
+		return (1);
+	}
+	ft_lstdel(lbls, &del_lbls);
+	return (0);
+}
 
 static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 {
 	t_list	*lbls;
 	t_tkn	*tkn;
 	char	*read_line;
-	int		error;
-	int		flag;
 
-	flag = 0;
-	error = 0;
 	if (!(ft_init_main(&lbls, bytebf, &read_line, pos)))
 		return (ft_error(pos, e_no_print, NULL));
-	while ((pos->size_line = read_bytes(&read_line, error, fd)) > 0)
+	while ((pos->size_line = read_bytes(&read_line, pos->error, fd)) > 0)
 	{
-		flag = 1;
-		if (!(init_before_analysis(pos, &read_line)) && (error = 1))
+		pos->content = 1;
+		if (!(init_before_analysis(pos, &read_line)) && (pos->error = 1))
 			continue ;
-		if ((!syntactic_analysis(&lbls, pos, bytebf, &tkn)) && (error = 1))
+		if ((!syntactic_analysis(&lbls, pos, bytebf, &tkn)) && (pos->error = 1))
 			continue ;
 		if (pos->multiple_line)
 			continue ;
@@ -38,15 +58,9 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 			ocp_modify(pos, bytebf->inst);
 	}
 	free_after_analysis(pos, &read_line);
-	if (flag && !error && end_lbl(lbls, pos))
-	{
-		ft_lstdel(&lbls, &del_lbls);
+	if (rd_anlz_enc_2(pos, &lbls))
 		return (1);
-	}
-	ft_lstdel(&lbls, &del_lbls);
-	if (!flag)
-		return (ft_error(pos, e_empty_file, NULL));
-	return (ft_error(pos, e_no_print, NULL));
+	return (end_main_loop(pos, &tkn));
 }
 
 static int	file_check(char *str, t_pos *pos)
@@ -87,7 +101,12 @@ int			main(int argc, char **argv)
 	if ((fd = open(argv[1], O_RDONLY)) < 0)
 		return (ft_error(&pos, e_open_error, NULL));
 	if (read_analyze_encode_loop(fd, &bytebf, &pos))
+	{
+		ft_printf("OK\n");
 		ft_write_output(&bytebf, &pos, argv[1]);
+	}
+	else
+		ft_printf("KO\n");
 	free_bytebf_pos(&bytebf, &pos);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analysis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/21 16:16:40 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 21:37:33 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,6 @@ static int	check_state_l(t_pos *pos, t_tkn **tkn)
 		(*tkn)->value = NULL;
 	}
 	return (1);
-}
-
-static int	final_state(t_pos *pos, t_tkn **tkn, char *buf, t_list **lbls)
-{
-	if (g_lex_sm[pos->state_l][0] == -2 || g_lex_sm[pos->state_l][0] == -3)
-	{
-		pos->multiple_line = 0;
-		if (g_lex_sm[pos->state_l][0] == -3)
-		{
-			pos->buf_pos--;
-			pos->file_col--;
-		}
-		else
-			pos->tab_counter++;
-		if (pos->tab_counter == 8)
-			pos->tab_counter = 0;
-		(*tkn)->buff_end = pos->buf_pos;
-		(*tkn)->col_end = pos->file_col;
-		if (!(tkn_create(buf, pos, lbls, tkn)))
-			return (ft_error(NULL, e_no_print, tkn));
-		pos->file_col++;
-		pos->buf_pos++;
-		return (1);
-	}
-	return (2);
 }
 
 static void	ft_move_positions(t_pos *pos, t_tkn *tkn)
@@ -78,23 +53,30 @@ static void	ft_move_positions(t_pos *pos, t_tkn *tkn)
 	pos->buf_pos++;
 }
 
+static int	find_char_type(t_pos *pos, int i)
+{
+	i = 0;
+	if (pos->tmp_buf[pos->buf_pos] != 0)
+	{
+		while (i < NB_LSM_COL && !ft_strchr(g_lsm_col[i],
+			pos->tmp_buf[pos->buf_pos]))
+			i++;
+	}
+	else
+		i = 13;
+	return (i);
+}
+
 int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 {
 	int	i;
 	int	ret;
 
 	if (check_state_l(pos, tkn) == 0)
-			return (ft_error(NULL, e_no_print, NULL));
+		return (ft_error(NULL, e_no_print, NULL));
 	while (pos->state_l != -1 && pos->buf_pos < pos->size_buf)
 	{
-		i = 0;
-//		if (pos->tmp_buf[pos->buf_pos] != 0)
-//		{
-			while (i < NB_LSM_COL && !ft_strchr(g_lsm_col[i], pos->tmp_buf[pos->buf_pos]))
-				i++;
-//		}
-//		else
-//			i = 13;
+		i = find_char_type(pos, i);
 		pos->state_l = g_lex_sm[pos->state_l][i];
 		if (pos->state_l == -1)
 			break ;
@@ -104,7 +86,7 @@ int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 			return (ft_error(NULL, e_no_print, tkn));
 		ft_move_positions(pos, *tkn);
 	}
-	if (pos->state_l == 24)
+	if (pos->state_l == 26)
 	{
 		pos->multiple_line = 1;
 		return (1);

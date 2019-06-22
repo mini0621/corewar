@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/21 16:14:35 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 18:30:33 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,71 +48,75 @@ static void	system_error(t_errors error)
 
 	err_str = strerror(errno);
 	if (error == e_malloc_error)
-		ft_printf(RED BLD "memory_allocation_error: " RESET "%s;\n",
+		ft_printf(BLD RED "memory_allocation error: %s\n",
 			err_str);
 	else if (error == e_open_error)
-		ft_printf(RED BLD "open_file_error: " RESET "%s;\n",
+		ft_printf(BLD RED "open_file error: %s\n",
 			err_str);
 	else if (error == e_empty_file)
-		ft_printf(RED BLD "empty_file_error" RESET "%s;\n");
+		ft_printf(RED BLD "empty_file error" RESET "%s;\n");
 	else
-		ft_printf(RED BLD "write_error: " RESET "%s;\n",
+		ft_printf(BLD RED "write_error: %s\n",
 			err_str);
 	ft_strdel(&err_str);
 }
 
-static void	input_error(t_pos *pos)
-{
-	ft_printf(RED BLD "file_error: " RESET "input file is of expected format ");
-	ft_printf(WHT BLD "`file_name.s`" RESET "instead of " WHT BLD "`%s`" RESET ";",
-		pos->file_name);
-	free(pos->file_name);
-}
-
-static void	ft_print_expected(t_pos *pos)
+static void	print_expected_tkn(t_pos *pos, t_tkn *tkn)
 {
 	int	i;
 	int flag;
 
 	i = -1;
 	flag = 0;
-	ft_printf(RESET "expected ");
+	ft_printf(WHT "expected ");
 	while (++i < NB_TKN_TYPES)
 	{
 		if (g_syntactic_sm[pos->previous_st_s][i] != -1)
 		{
 			if (flag == 1)
 				ft_printf(" | ");
-			ft_printf(WHT BLD "`%s`" RESET, get_tkn_type_name(i));
+			ft_printf("'%s'", get_tkn_type_name(i));
 			flag = 1;
 		}
 	}
+	ft_printf(WHT " instead of '%s'",
+		get_tkn_type_name(tkn->type),
+		get_tkn_type_name(tkn->type), pos->tmp_buf);
 }
 
-static void	nice_display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
+static void	print_file_name(t_pos *pos, t_tkn *tkn, char *error, char *msg)
+{
+	if (strstr(msg, "unex"))
+		ft_printf(WHT BLD "%s:%d:%d: " RED "%s_error:",
+			pos->file_name, pos->file_line, pos->buf_pos + 1, error);
+	else
+		ft_printf(WHT BLD "%s:%d:%d: " RED "%s_error:",
+			pos->file_name, pos->file_line, tkn->buff_start + 1, error);
+}
+
+static void print_additionnal_msg(char *msg, t_pos *pos, t_tkn *tkn)
+{
+	if (msg)
+		ft_printf(WHT " %s", msg);
+	else if (pos->state_s == -1)
+		print_expected_tkn(pos, tkn);
+}
+
+static void	print_line(t_pos *pos)
+{
+	int i;
+
+	i = -1;
+	ft_printf(RESET "\n");
+	while (++i < pos->size_buf)
+		ft_putchar(pos->tmp_buf[i]);
+}
+
+static void	print_arrow(t_pos *pos, t_tkn *tkn)
 {
 	int	i;
 
 	i = -1;
-	if (pos->state_s != -1)
-	{
-		ft_printf(WHT "%s:%d:%d: " RED BLD "%s_error",
-			pos->file_name, pos->file_line, tkn->col_start + 1, error);
-		if (msg)
-			ft_printf(": " RESET "%s;", msg);
-		else
-			ft_printf(";");
-		ft_printf(RESET "\n%s", pos->tmp_buf);
-	}
-	else
-	{
-		ft_printf(WHT "%s:%d:%d: " RED BLD "%s_error: ",
-			pos->file_name, pos->file_line, tkn->col_start + 1, error);
-		ft_print_expected(pos);
-		ft_printf(RESET " instead of " WHT BLD "`%s`" RESET ";",
-			get_tkn_type_name(tkn->type), get_tkn_type_name(tkn->type), pos->tmp_buf);
-		ft_printf("\n%s",pos->tmp_buf);
-	}
 	if (tkn->col_end != 0)
 	{
 		while (++i <= tkn->col_end)
@@ -127,40 +131,96 @@ static void	nice_display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 	}
 	else
 	{
-		while (++i < pos->file_col)
+		while (++i + 1 < pos->file_col)
 			ft_printf(" ");
 		ft_printf(RED BLD "^" RESET);
 	}
-	ft_printf("\n");
+}
+
+static void	display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
+{
+	print_file_name(pos, tkn, error, msg);
+	print_additionnal_msg(msg, pos, tkn);
+	print_line(pos);
+	if (!strstr(msg, "missing"))
+	{
+		print_arrow(pos, tkn);
+		ft_printf("\n");
+	}
 }
 
 static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
 {
+	char *msg;
 
+	msg = NULL;
 	if (error == e_reg_nb_error)
-		nice_display(pos, tkn, "lexical", "wrong_register_nbr");
+		display(pos, tkn, "lexical", "wrong register_nbr");
 	else if (error == e_op_code_error)
-		nice_display(pos, tkn, "lexical", "wrong_op_code");
+		display(pos, tkn, "lexical", "wrong op_code");
 	else if (error == e_dir_int_error)
-		nice_display(pos, tkn, "lexical", "dir_value [ > INT_MAX | < INT_MIN ]");
+		display(pos, tkn, "lexical", "dir_value [ > INT_MAX | < INT_MIN ]");
 	else if (error == e_dir_short_error)
-		nice_display(pos, tkn, "lexical", "dir_value [ > SHORT_MAX | < SHORT_MIN ]");
+		display(pos, tkn, "lexical", "dir_value [ > SHORT_MAX | < SHORT_MIN ]");
 	else if (error == e_ind_error)
-		nice_display(pos, tkn, "lexical", "ind_value [ > SHORT_MAX | < SHORT_MIN ]");
+		display(pos, tkn, "lexical", "ind_value [ > SHORT_MAX | < SHORT_MIN ]");
 	else
-		nice_display(pos, tkn, "lexical", "unexpected_chararacter");
+	{
+		ft_asprintf(&msg, "unexpected_chararacter (ascii = '%d')",
+			pos->tmp_buf[pos->buf_pos - 1]);
+		display(pos, tkn, "lexical", msg);
+	}
 }
 
 static void	syntactic_error(t_pos *pos, t_tkn *tkn, t_errors error)
 {
 	if (error == e_double_label)
-		nice_display(pos, tkn, "syntactic", "double_label_declaration");
+		display(pos, tkn, "syntactic", "double label_declaration");
 	else
-		nice_display(pos, tkn, "syntactic", NULL);
+		display(pos, tkn, "syntactic", NULL);
+}
+
+static void	header_error(t_pos *pos, t_tkn *tkn, t_errors error)
+{
+	char *msg;
+
+	msg = NULL;
+	if (error == e_name_too_long_error)
+		ft_asprintf(&msg, "champion_name_too_long : size '%d' for max '%d'",
+			pos->name_len, PROG_NAME_LENGTH);
+	else if (error == e_comment_too_long_error)
+		ft_asprintf(&msg, "champion_comment_too_long : size '%d' for max '%d'",
+			pos->comment_len, COMMENT_LENGTH);
+	display(pos, tkn, "syntactic", msg);
+}
+
+static void	command_error(t_pos *pos, t_tkn *tkn, t_errors error)
+{
+	(void)error;
+	if (pos->state_l == 26)
+		display(pos, tkn, "lexical", "command: missing ending double_quote");
+	else
+		display(pos, tkn, "lexical", "unknown command");
+
+}
+
+static void	input_error(t_pos *pos, t_errors error)
+{
+	ft_printf(BLD RED "file_error: ");
+	if (error == e_input_error)
+	{
+		ft_printf(WHT "input file is of expected format ");
+		ft_printf("'file_name.s' instead of '%s'\n", pos->file_name);
+	}
+	else
+	{
+		ft_printf(WHT "no instructions in file\n");
+	}
 }
 
 int			ft_error(t_pos *pos, t_errors error, t_tkn **tkn)
 {
+	ft_printf("error = %d\n", error);
 	if (error != e_no_print)
 	{
 		if (error == e_lexical_error || error == e_reg_nb_error
@@ -170,11 +230,16 @@ int			ft_error(t_pos *pos, t_errors error, t_tkn **tkn)
 			lexical_error(pos, *tkn, error);
 		else if (error == e_syntactic_error || error == e_double_label)
 			syntactic_error(pos, *tkn, error);
-		else if (error == e_input_error)
-			input_error(pos);
+		else if (error == e_input_error || error == e_no_instruction)
+			input_error(pos, error);
 		else if (error == e_malloc_error || error == e_open_error
 			|| error == e_write_error)
 			system_error(error);
+		else if (error == e_name_too_long_error
+			|| error == e_comment_too_long_error)
+			header_error(pos, *tkn, error);
+		else if (error == e_invalid_command_error)
+			command_error(pos, *tkn, error);
 	}
 	free_tkn(tkn);
 	return (0);

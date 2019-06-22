@@ -1,22 +1,13 @@
 Verifications before seting project as finished ---------
 
 -Decide if REG_SIZE has to be taken into account or if we limit at 99, or u_char max
+-Register = 0 / Register = 250 .... decide
 
 Work to do --------------
 
--Nice Error messages + error returns flow
-
-Reg_NB ERROR + Bad OP_Code ERROR is difficult to handle : have it done in "e_lexical_error"
-in the lexical analysis function or even closer from the error in the tkn_creation function ?
-
-
-
 -Norm + leaks
 
--Lexical : allow no space_chars in case where delimiter chars are explicit :
-Example -> .name"hello" should be allowed
-Currently : .name "hello" allowed (minimum 1 space char)
-
+Strangely large values now still are accepted (2**64)
 
 erreur valgrind :
 Syscall param write(buf) points to uninitialised byte(s)

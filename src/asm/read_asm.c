@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_asm.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 21:27:03 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 21:32:20 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,88 +27,89 @@ static int	ft_return_rf(int ret, int size_tmp)
 	return (1);
 }
 
-static int	read_file(char **tmp, int *size_tmp, char **line, int *size_line, const int fd)
+static int	read_file(char **tmp, char **line, int sizes[], const int fd)
 {
 	char	buf[BUFF_SIZE_COR];
 	int		ret;
-	int		i;
 
 	while ((ret = read(fd, buf, BUFF_SIZE_COR)) > 0)
 	{
-		i = 0;
-		while (i < BUFF_SIZE_COR - 1 && buf[i] != '\n')
-			i++;
-		if (buf[i] == '\n')
+		sizes[2] = 0;
+		while (sizes[2] < BUFF_SIZE_COR - 1 && buf[sizes[2]] != '\n')
+			sizes[2]++;
+		if (buf[sizes[2]] == '\n')
 		{
-			if (!(*line = realloc(*line, *size_line + i + 1)))
+			if (!(*line = realloc(*line, sizes[1] + sizes[2] + 1)))
 				return (-1);
-			ft_memcpy(*line + *size_line, buf, i + 1);
-			ft_memcpy(*tmp, buf + i + 1, ret - i - 1);
-			*size_tmp = ret - i - 1;
-			*size_line = *size_line + i + 1;
+			ft_memcpy(*line + sizes[1], buf, sizes[2] + 1);
+			ft_memcpy(*tmp, buf + sizes[2] + 1, ret - sizes[2] - 1);
+			sizes[0] = ret - sizes[2] - 1;
+			sizes[1] = sizes[1] + sizes[2] + 1;
 			break ;
 		}
-		if (!(*line = realloc(*line, *size_line + ret)))
+		if (!(*line = realloc(*line, sizes[1] + ret)))
 			return (-1);
-		ft_memcpy(*line + *size_line, buf, ret);
-		*size_line = *size_line + ret;
+		ft_memcpy(*line + sizes[1], buf, ret);
+		sizes[1] = sizes[1] + ret;
 		ft_bzero(buf, BUFF_SIZE_COR);
 	}
-	return (ft_return_rf(ret, *size_tmp));
+	return (ft_return_rf(ret, sizes[0]));
 }
 
-static int	read_tmp(char **tmp, int *size_tmp, char **line, int *size_line)
+static int	read_tmp(char **tmp, char **line, int sizes[], int flag)
 {
-	int		flag;
-
-	flag = 0;
 	if (*tmp == NULL)
 		if (!(*tmp = ft_memalloc(BUFF_SIZE_COR)))
 			return (-1);
-	while (*size_line < *size_tmp && tmp[0][*size_line] != '\n') // size = nb chars
+	while (sizes[1] < sizes[0] && tmp[0][sizes[1]] != '\n')
 	{
-		line[0][*size_line] = tmp[0][*size_line];
-		(*size_line)++;
+		line[0][sizes[1]] = tmp[0][sizes[1]];
+		sizes[1]++;
 	}
-	if (*size_tmp && tmp[0][*size_line] == '\n')
+	if (sizes[0] && tmp[0][sizes[1]] == '\n')
 	{
-		line[0][*size_line] = tmp[0][*size_line];
-		(*size_line)++;
+		line[0][sizes[1]] = tmp[0][sizes[1]];
+		sizes[1]++;
 		flag = 1;
 	}
-	if (size_line)
+	if (sizes[1])
 	{
-		ft_memmove(*tmp, *tmp + *size_line, *size_tmp - *size_line);
-		ft_bzero(*tmp + *size_tmp - *size_line, *size_line);
-		*size_tmp = *size_tmp - *size_line;
-		if (!(*line = realloc(*line, *size_line)))
+		ft_memmove(*tmp, *tmp + sizes[1], sizes[0] - sizes[1]);
+		ft_bzero(*tmp + sizes[0] - sizes[1], sizes[1]);
+		sizes[0] = sizes[0] - sizes[1];
+		if (!(*line = realloc(*line, sizes[1])))
 			return (-1);
 	}
 	return (flag);
 }
 
+/*
+** sizes[0] == size_tmp - sizes[1] == size_line - sizes[2] == buf_to_\n
+*/
+
 int			read_bytes(char **line, int error, const int fd)
 {
 	static char	*tmp;
-	static int	size_tmp;
-	int			size_line;
+	static int	sizes[3];
 	char		buf[1];
 	int			ret;
+	int			flag;
 
 	if (!line || fd < 0 || read(fd, buf, 0) < 0 || BUFF_SIZE_COR <= 0)
 		return (-1);
-	size_line = 0;
+	sizes[1] = 0;
+	flag = 0;
 	if (!error)
 	{
 		if (!(*line = ft_memalloc(BUFF_SIZE_COR)))
 			return (ft_end(-1, &tmp));
-		if ((ret = read_tmp(&tmp, &size_tmp, line, &size_line)) == 1) // 1 = \n - 0 = no \n - -1 error
-			return (size_line);
+		if ((ret = read_tmp(&tmp, line, sizes, flag)) == 1)
+			return (sizes[1]);
 		else if (ret == -1
-			|| (ret = read_file(&tmp, &size_tmp, line, &size_line, fd)) == -1) // -1 if error, 0 if EOF
+			|| (ret = read_file(&tmp, line, sizes, fd)) == -1)
 			return (ft_end(-1, &tmp));
-		if (size_line || size_tmp)
-			return (size_line);
+		if (sizes[1] || sizes[0])
+			return (sizes[1]);
 	}
 	return (ft_end(0, &tmp));
 }

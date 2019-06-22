@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/21 16:16:24 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 21:36:27 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ typedef enum	e_errors
 	e_ind_error,
 	e_double_label,
 	e_empty_file,
+	e_no_instruction,
 }				t_errors;
 
 typedef enum	e_tkn_type
@@ -299,6 +300,9 @@ typedef struct	s_pos
 
 	char		*tmp_buf;
 	char		*file_name;
+
+	int			content;
+	int			error;
 }				t_pos;
 
 typedef struct	s_bytebf
@@ -318,7 +322,7 @@ typedef struct	s_bytebf
 }				t_bytebf;
 
 extern char		g_lsm_col[13][26];
-extern int		g_lex_sm[29][14];
+extern int		g_lex_sm[30][14];
 extern int		g_syntactic_sm[56][14];
 extern t_op_asm	g_op_tab_asm[16];
 
@@ -338,6 +342,7 @@ int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
 void	ocp_modify(t_pos *pos, char *bytebuf);
 int		end_lbl(t_list *lbls, t_pos *pos);
 int		ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
+int	final_state(t_pos *pos, t_tkn **tkn, char *buf, t_list **lbls);
 int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
 int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn);
 int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);

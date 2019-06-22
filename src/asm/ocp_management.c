@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ocp_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:03:59 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/21 16:21:24 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 20:55:13 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ocp_create(t_tkn *tkn, t_pos *pos, char *bybf)
 		a = 0b00000011;
 	if (tkn->type == e_register || tkn->type == e_ind_label
 		|| tkn->type == e_dir_label || tkn->type == e_ind_value
-		|| tkn->type == e_dir_value) // pos->arg_nbr >= 1
+		|| tkn->type == e_dir_value)
 	{
 		if (*(bybf + pos->lc_inst + 1) == '\0')
 			*(bybf + pos->lc_inst + 1) = a;

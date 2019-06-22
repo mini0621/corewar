@@ -3,44 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   initializations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/21 16:22:22 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 21:37:39 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
-{
-	int j;
-
-	tkn_fptr[0] = &tkn_label;
-	tkn_fptr[1] = &tkn_register;
-	tkn_fptr[2] = &tkn_op;
-	tkn_fptr[3] = &tkn_dir_value;
-	tkn_fptr[4] = &tkn_dir_label;
-	tkn_fptr[5] = &tkn_ind_value;
-	tkn_fptr[6] = &tkn_ind_label;
-	tkn_fptr[7] = &tkn_cmd;
-	tkn_fptr[8] = &tkn_separator;
-	tkn_fptr[9] = &tkn_carr_ret;
-	j = 0;
-	while (j < NB_TKN_TYPES)
-	{
-		if (j == g_lex_sm[pos->state_l][1])
-		{
-			if (!(tkn_fptr[j](buf, pos, lbls, tkn)))
-				return (ft_error(NULL, e_no_print, tkn));
-			break ;
-		}
-		j++;
-	}
-	return (1);
-}
-
-int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn)
+int			bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn)
 {
 	char *tmp;
 
@@ -61,7 +33,8 @@ int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn)
 	return (1);
 }
 
-int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
+int			ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line,
+				t_pos *pos)
 {
 	int	magic;
 
@@ -90,7 +63,21 @@ int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos)
 	return (1);
 }
 
-int		init_before_analysis(t_pos *pos, char **read_line)
+static int	check_buff_end(t_pos *pos)
+{
+	if (pos->tmp_buf[pos->size_buf - 1] != '\n')
+	{
+		if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, "\n\0",
+								pos->size_buf, 2)))
+			return (ft_error(pos, e_malloc_error, NULL));
+		pos->size_buf++;
+	}
+	else if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, "\0", pos->size_buf, 1)))
+		return (ft_error(pos, e_malloc_error, NULL));
+	return (1);
+}
+
+int			init_before_analysis(t_pos *pos, char **read_line)
 {
 	char	*tmp;
 	char	c;
@@ -109,14 +96,14 @@ int		init_before_analysis(t_pos *pos, char **read_line)
 	free(tmp);
 	tmp = pos->tmp_buf;
 	pos->size_buf = pos->size_buf + pos->size_line;
-	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, &c, pos->size_buf, 1)))
-		return (ft_error(pos, e_malloc_error, NULL));
+	if (!(check_buff_end(pos)))
+		return (ft_error(pos, e_no_print, NULL));
 	free(tmp);
 	ft_strdel(read_line);
 	return (1);
 }
 
-void	free_after_analysis(t_pos *pos, char **line)
+void		free_after_analysis(t_pos *pos, char **line)
 {
 	ft_strdel(&pos->tmp_buf);
 	ft_strdel(line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bytecode_management.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 21:26:49 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 20:54:09 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 				bytebf->comment[i] = *(char*)(tkn->value + i);
 			i++;
 		}
-		free(tkn->value);
-		tkn->value = NULL;
 	}
 	else
 	{
@@ -35,8 +33,6 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 			bytebf->name[i] = *(char*)(tkn->value + i);
 			i++;
 		}
-		free(tkn->value);
-		tkn->value = NULL;
 	}
 }
 
@@ -69,6 +65,28 @@ void	gaps_fill(char *bytebuf, t_tkn *tkn)
 	}
 }
 
+void	copy_rev(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
+{
+	if (tkn->mem_size == 1)
+	{
+		ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, 1);
+		free(tkn->value);
+		tkn->value = NULL;
+		if (tkn->type == e_op && tkn->op->ocp == 1)
+		{
+			pos->lc_tkn = pos->lc_tkn + 1;
+			bytebf->inst_remain = bytebf->inst_remain - 1;
+		}
+	}
+	else if (tkn->mem_size == 2 || tkn->mem_size == 4)
+	{
+		ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, tkn->mem_size);
+		ft_memrev(bytebf->inst + pos->lc_tkn, tkn->mem_size);
+		free(tkn->value);
+		tkn->value = NULL;
+	}
+}
+
 void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
 {
 	if (tkn->type == e_lbl && tkn->value && ((t_lbl*)(tkn->value))->type == 'U')
@@ -80,25 +98,6 @@ void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos)
 	else if (tkn->type == e_cmd_comment || tkn->type == e_cmd_name)
 		command_buf_fill(bytebf, tkn, pos);
 	else if (tkn->mem_size != 0 && tkn->value != NULL)
-	{
-		if (tkn->mem_size == 1)
-		{
-			ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, 1);
-			free(tkn->value);
-			tkn->value = NULL;
-			if (tkn->type == e_op && tkn->op->ocp == 1)
-			{
-				pos->lc_tkn = pos->lc_tkn + 1;
-				bytebf->inst_remain = bytebf->inst_remain - 1;
-			}
-		}
-		else if (tkn->mem_size == 2 || tkn->mem_size == 4)
-		{
-			ft_memcpy(bytebf->inst + pos->lc_tkn, tkn->value, tkn->mem_size);
-			ft_memrev(bytebf->inst + pos->lc_tkn, tkn->mem_size);
-			free(tkn->value);
-			tkn->value = NULL;
-		}
-	}
+		copy_rev(tkn, bytebf, pos);
 	bytebf->inst_remain = bytebf->inst_remain - tkn->mem_size;
 }

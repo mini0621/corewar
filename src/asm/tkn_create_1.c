@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 22:45:39 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 21:44:51 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 		return (ft_error(pos, e_reg_nb_error, tkn));
 	nbr_char = ft_atochar(nbr_str);
 	ft_strdel(&nbr_str);
-	if (nbr_char > 16)  // 0?
+	if (nbr_char > 16)
 		return (ft_error(pos, e_reg_nb_error, tkn));
 	else
 	{
@@ -51,7 +51,8 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	(void)lbls;
 	name = NULL;
 	(*tkn)->type = e_op;
-	if (!(name = ft_strndup(buff + (*tkn)->buff_start, (*tkn)->buff_end - (*tkn)->buff_start + 1)))
+	if (!(name = ft_strndup(buff + (*tkn)->buff_start,
+					(*tkn)->buff_end - (*tkn)->buff_start + 1)))
 		return (ft_error(NULL, e_malloc_error, tkn));
 	i = 0;
 	while (i < OP_TAB_ASM_SIZE && !ft_strequ(name, g_op_tab_asm[i].name))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntactic_analysis.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 22:32:35 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/21 16:17:06 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 20:58:53 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static int	ft_encode(t_pos *pos, t_tkn **tkn, t_list **lbls, t_bytebf *bytebf)
 	return (1);
 }
 
-int			syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn)
+int			syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf,
+				t_tkn **tkn)
 {
 	while (pos->state_s != -1 && pos->buf_pos < pos->size_buf)
 	{
