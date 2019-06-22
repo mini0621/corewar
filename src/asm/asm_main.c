@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 22:36:00 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 16:32:54 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 			ocp_modify(pos, bytebf->inst);
 	}
 	free_after_analysis(pos, &read_line);
-	if (!error && end_lbl(lbls, pos))
+	if (pos->state_l != 26 && !error && end_lbl(lbls, pos))
 	{
 		ft_lstdel(&lbls, &del_lbls);
 		return (1);
 	}
 	ft_lstdel(&lbls, &del_lbls);
+	if (pos->state_l == 26)
+		return(ft_error(pos, e_invalid_command_error, &tkn));
 	return (ft_error(pos, e_no_print, NULL));
 }
 

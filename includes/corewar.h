@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/20 22:36:00 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 15:56:16 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,7 @@ typedef struct	s_bytebf
 }				t_bytebf;
 
 extern char		lsm_col[13][26];
-extern int		lex_sm[29][14];
+extern int		lex_sm[30][14];
 extern int		syntactic_sm[56][14];
 extern t_op_asm	g_op_tab_asm[16];
 

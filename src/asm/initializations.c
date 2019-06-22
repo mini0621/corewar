@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 22:41:07 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 15:17:45 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,15 @@ int		init_before_analysis(t_pos *pos, char **read_line)
 	free(tmp);
 	tmp = pos->tmp_buf;
 	pos->size_buf = pos->size_buf + pos->size_line;
-	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, &c, pos->size_buf, 1)))
-		return (ft_error(pos, e_malloc_error, NULL));
+	if (pos->tmp_buf[pos->size_buf - 1] != '\n')
+	{
+		if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, "\n\0", pos->size_buf, 2)))
+			return (ft_error(pos, e_malloc_error, NULL));
+		pos->size_buf++;
+	}
+	else
+		if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, "\0", pos->size_buf, 1)))
+			return (ft_error(pos, e_malloc_error, NULL));
 	free(tmp);
 	ft_strdel(read_line);
 	return (1);

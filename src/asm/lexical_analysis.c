@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analysis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 22:44:40 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/22 16:21:31 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,13 @@ int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 	while (pos->state_l != -1 && pos->buf_pos < pos->size_buf)
 	{
 		i = 0;
-//		if (pos->tmp_buf[pos->buf_pos] != 0)
-//		{
+		if (pos->tmp_buf[pos->buf_pos] != 0)
+		{
 			while (i < NB_LSM_COL && !ft_strchr(lsm_col[i], pos->tmp_buf[pos->buf_pos]))
 				i++;
-//		}
-//		else
-//			i = 13;
+		}
+		else
+			i = 13;
 		pos->state_l = lex_sm[pos->state_l][i];
 		if (pos->state_l == -1)
 			break ;
@@ -104,7 +104,7 @@ int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 			return (ft_error(NULL, e_no_print, tkn));
 		ft_move_positions(pos, *tkn);
 	}
-	if (pos->state_l == 24)
+	if (pos->state_l == 26)
 	{
 		pos->multiple_line = 1;
 		return (1);
