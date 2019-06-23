@@ -6,33 +6,31 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:17:39 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/23 17:59:02 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 19:24:38 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag)
+static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag, int *first)
 {
 	t_list	*tmp_t;
 	t_tkn	*tkn;
-	int		first;
 
-	first = 1;
 	tmp_t = ((t_lbl*)(tmp_l->content))->frwd;
 	while (tmp_t)
 	{
 		tkn = (t_tkn*)(tmp_t->content);
-		if (first == 0)
+		if (*first == 0)
 			ft_printf("\n");
-		ft_printf("\e[1m\e[037m%s:%d:%d: \e[031merror: label `%s` used as ",
+		ft_printf("\e[1m\e[037m%s:%d:%d: \e[031merror: \e[037mlabel '%s' ",
 			pos->file_name, tkn->line,
-			tkn->col_start, ((t_lbl*)(tmp_l->content))->name);
-		ft_printf("`%s` at address `%#x` has never been declared\n",
+			tkn->buff_start + 1, ((t_lbl*)(tmp_l->content))->name);
+		ft_printf("used as '%s' at address '%#x' has never been declared\n",
 			get_tkn_type_name(((t_tkn*)(tmp_t->content))->type),
 			((t_tkn*)(tmp_t->content))->lc_inst);
 		tmp_t = tmp_t->next;
-		first = 0;
+		*first = 0;
 	}
 	*flag = 0;
 }
@@ -41,13 +39,15 @@ int			end_lbl(t_list *lbls, t_pos *pos)
 {
 	t_list	*tmp_l;
 	int		flag;
+	int		first;
 
 	tmp_l = lbls;
 	flag = 1;
+	first = 1;
 	while (tmp_l)
 	{
 		if (((t_lbl*)(tmp_l->content))->type == 'U')
-			print_error_lbl(tmp_l, pos, &flag);
+			print_error_lbl(tmp_l, pos, &flag, &first);
 		tmp_l = tmp_l->next;
 	}
 	return (flag);
