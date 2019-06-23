@@ -6,6 +6,7 @@ Verifications before seting project as finished ---------
 Work to do --------------
 
 -Norm + leaks
+-Close file
 
 Strangely large values now still are accepted (2**64)
 

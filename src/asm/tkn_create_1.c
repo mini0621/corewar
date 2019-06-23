@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/22 21:44:51 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 17:58:36 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	i = (*tkn)->buff_start + 1;
 	while (buff[i] == '0' && buff[i] != '\n')
 		i++;
-//	if (i == (*tkn)->buff_end && (i - 1 != (*tkn)->buff_start && buff[i] == '0'))
-//		return (ft_error(pos, e_reg_nb_error, tkn));
 	if (buff[i] == '\n')
 		return (ft_error(pos, e_reg_nb_error, tkn));
 	nbr_str = ft_strndup(buff + i, (*tkn)->buff_end - i + 1);
@@ -71,17 +69,11 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	return (1);
 }
 
-int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
+int	dir_value_tkn_fill(char *buff, t_pos *pos, t_tkn **tkn, long int long_nbr)
 {
-	long int	long_nbr;
-	int			nbr;
-	short		sh_nbr;
+	int		nbr;
+	short	sh_nbr;
 
-	(void)lbls;
-	(*tkn)->mem_size = pos->dir_bytes;
-	if ((*tkn)->buff_end - (*tkn)->buff_start > 10)
-		return (ft_error(pos, e_dir_int_error, tkn));
-	long_nbr = ft_atolong(buff + (*tkn)->buff_start + 1);
 	if ((*tkn)->mem_size == 4)
 	{
 		if (long_nbr > 2147483647 || long_nbr < -2147483648)
@@ -93,17 +85,33 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 			ft_memcpy((*tkn)->value, &nbr, (*tkn)->mem_size);
 		}
 	}
-	else if ((*tkn)->mem_size == 2)
+	else if (long_nbr > 32767 || long_nbr < -32767)
+		return (ft_error(pos, e_dir_short_error, tkn));
+	else
 	{
-		if (long_nbr > 32767 || long_nbr < -32767)
-			return (ft_error(pos, e_dir_short_error, tkn));
-		else
-		{
-			sh_nbr = ft_atos(buff + (*tkn)->buff_start + 1);
-			(*tkn)->value = ft_memalloc((*tkn)->mem_size);
-			ft_memcpy((*tkn)->value, &sh_nbr, (*tkn)->mem_size);
-		}
+		sh_nbr = ft_atos(buff + (*tkn)->buff_start + 1);
+		(*tkn)->value = ft_memalloc((*tkn)->mem_size);
+		ft_memcpy((*tkn)->value, &sh_nbr, (*tkn)->mem_size);
 	}
+	return (1);
+}
+
+int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
+{
+	long int	long_nbr;
+
+	(void)lbls;
+	(*tkn)->mem_size = pos->dir_bytes;
+	if (pos->tmp_buf[(*tkn)->buff_start + 1] == '-')
+	{
+		if ((*tkn)->buff_end - ((*tkn)->buff_start + 1) > 10)
+			return (ft_error(pos, e_dir_int_error, tkn));
+	}
+	else if ((*tkn)->buff_end - (*tkn)->buff_start > 10)
+		return (ft_error(pos, e_dir_int_error, tkn));
+	long_nbr = ft_atolong(buff + (*tkn)->buff_start + 1);
+	if (!dir_value_tkn_fill(buff, pos, tkn, long_nbr))
+		return (ft_error(NULL, e_no_print, NULL));
 	(*tkn)->type = e_dir_value;
 	return (1);
 }

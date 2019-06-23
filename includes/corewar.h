@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/22 21:36:27 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 16:00:25 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,7 @@ int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
 void	ocp_modify(t_pos *pos, char *bytebuf);
 int		end_lbl(t_list *lbls, t_pos *pos);
 int		ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
-int	final_state(t_pos *pos, t_tkn **tkn, char *buf, t_list **lbls);
+int		final_state(t_pos *pos, t_tkn **tkn, char *buf, t_list **lbls);
 int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
 int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn);
 int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);
@@ -368,6 +368,11 @@ int		read_bytes(char **line, int error, const int fd);
 
 //need to fix
 int		ft_error(t_pos *pos, t_errors error, t_tkn **tkn);
+void	display(t_pos *pos, t_tkn *tkn, char *error, char *msg);
+void	system_error(t_errors error);
+void	header_error(t_pos *pos, t_tkn *tkn, t_errors error);
+void	command_error(t_pos *pos, t_tkn *tkn, t_errors error);
+void	input_error(t_pos *pos, t_errors error);
 
 //free
 void	del_lbls(void *content, size_t size);
