@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:58:29 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/23 16:02:35 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 18:50:12 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@ void	system_error(t_errors error)
 	(void)error;
 	err_str = strerror(errno);
 	if (error == e_malloc_error)
-		ft_printf("e[1m\e[031mmemory_allocation error: %s\n\e[0m", err_str);
+		ft_printf("\e[1m\e[031mmemory_allocation error: \e[037m%s\n\e[0m",
+			err_str);
 	else if (error == e_open_error)
-		ft_printf("\e[1m\e[031mopen_file error: %s\n\e[0m", err_str);
+		ft_printf("\e[1m\e[031mopen_file error: \e[037m%s\n\e[0m", err_str);
 	else if (error == e_empty_file)
-		ft_printf("e[1m\e[031mempty_file error:\n\e[0m");
-	else
-		ft_printf("e[1m\e[031mwrite_error: %s\n\e[0m", err_str);
+		ft_printf("\e[1m\e[031mempty_file error:\n\e[0m");
+	else if (error == e_write_error)
+		ft_printf("\e[1m\e[031mwrite_error: \e[037m%s\n\e[0m", err_str);
+	else if (error == e_close_error)
+		ft_printf("\e[1m\e[031mclose_error: \e[037m%s\n\e[0m", err_str);
 	ft_strdel(&err_str);
 }
 

@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/23 16:00:25 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 18:41:21 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ typedef enum	e_errors
 	e_input_error,
 	e_malloc_error,
 	e_open_error,
+	e_close_error,
 	e_invalid_command_error,
 	e_comment_too_long_error,
 	e_name_too_long_error,

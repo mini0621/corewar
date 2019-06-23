@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/22 20:50:55 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 18:50:28 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,19 @@ int			main(int argc, char **argv)
 	pos.file_name = ft_strdup(argv[1]);
 	if (!(file_check(argv[1], &pos)))
 		return (0);
-	if ((fd = open(argv[1], O_RDONLY)) < 0)
+	else if ((fd = open(argv[1], O_RDONLY)) < 0)
 		return (ft_error(&pos, e_open_error, NULL));
-	if (read_analyze_encode_loop(fd, &bytebf, &pos))
+	else if (read_analyze_encode_loop(fd, &bytebf, &pos))
 	{
-		ft_printf("OK\n");
 		ft_write_output(&bytebf, &pos, argv[1]);
+		if (close(fd) == -1)
+			return (ft_error(NULL, e_close_error, NULL));
 	}
 	else
-		ft_printf("KO\n");
-	free_bytebf_pos(&bytebf, &pos);
+	{
+		free_bytebf_pos(&bytebf, &pos);
+		if (close(fd) == -1)
+			return (ft_error(NULL, e_close_error, NULL));
+	}
 	return (0);
 }

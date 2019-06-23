@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/23 16:02:24 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 18:41:42 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	syntactic_error(t_pos *pos, t_tkn *tkn, t_errors error)
 
 int			ft_error(t_pos *pos, t_errors error, t_tkn **tkn)
 {
-	ft_printf("error = %d\n", error);
 	if (error != e_no_print)
 	{
 		if (error == e_lexical_error || error == e_reg_nb_error
@@ -58,7 +57,7 @@ int			ft_error(t_pos *pos, t_errors error, t_tkn **tkn)
 		else if (error == e_input_error || error == e_no_instruction)
 			input_error(pos, error);
 		else if (error == e_malloc_error || error == e_open_error
-			|| error == e_write_error)
+			|| error == e_write_error || error == e_close_error)
 			system_error(error);
 		else if (error == e_name_too_long_error
 			|| error == e_comment_too_long_error)
