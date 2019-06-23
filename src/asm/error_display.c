@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 14:42:46 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/23 16:53:23 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 19:13:16 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	print_line_or_msg(t_pos *pos, t_tkn *tkn, char *msg, char type)
 	else if (type == 'M')
 	{
 		if (msg)
-			ft_printf(" \e[037m%s", msg);
+			ft_printf("\e[037m%s", msg);
 		else if (pos->state_s == -1)
 			print_expected_tkn(pos, tkn);
 	}
@@ -84,7 +84,7 @@ static void	print_arrow(t_pos *pos, t_tkn *tkn)
 	}
 	else
 	{
-		while (++i + 1 < pos->file_col)
+		while (++i < pos->file_col)
 			ft_printf(" ");
 		ft_printf("\e[031m\e[1m^\e[0m");
 	}

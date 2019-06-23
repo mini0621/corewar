@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:02:32 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/22 17:28:11 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/23 19:09:14 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,17 @@ int	tkn_cmd_comment(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
 int	tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
 	if (ft_strnequ(buf + (*tkn)->buff_start, NAME_CMD_STRING,
-		ft_strlen(NAME_CMD_STRING)))
+		ft_strlen(NAME_CMD_STRING))
+		&& (pos->tmp_buf[(*tkn)->buff_start + 5] == '\"'
+			|| pos->tmp_buf[(*tkn)->buff_start + 5] == ' '))
 	{
 		if (!(tkn_cmd_name(buf, pos, lbls, tkn)))
 			return (ft_error(NULL, e_no_print, NULL));
 	}
 	else if (ft_strnequ(buf + (*tkn)->buff_start, COMMENT_CMD_STRING,
-		ft_strlen(NAME_CMD_STRING)))
+		ft_strlen(NAME_CMD_STRING))
+		&& (pos->tmp_buf[(*tkn)->buff_start + 8] == '\"'
+			|| pos->tmp_buf[(*tkn)->buff_start + 8] == ' '))
 	{
 		if (!(tkn_cmd_comment(buf, pos, lbls, tkn)))
 			return (ft_error(NULL, e_no_print, NULL));
