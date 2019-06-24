@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/16 21:57:54 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 12:35:55 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	inst_lld(t_game *game, t_process *caller, t_inst *inst)
 
 	if (!game || !caller || !inst)
 		return ;
-	i = get_arg(caller, game->memdump, &(inst->args[0]), 0);
+	if (!(i = get_arg(caller, game->memdump, &(inst->args[0]), 0)))
+		return ;
 	caller->carry = (i && !(*i)) ? 1 : 0;
 	dst = get_arg(caller, game->memdump, &(inst->args[1]), 0);
 	ft_memcpy(dst, i, REG_SIZE);

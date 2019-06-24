@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/21 16:38:17 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 11:49:25 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	inst_st(t_game *game, t_process *caller, t_inst *inst)
 	t_dir_type	*i;
 	t_uc		*addr;
 
-	if (!game || !caller || !inst)
+	if (!game || !caller || !inst
+		|| !(i = get_arg(caller, game->memdump, &(inst->args[0]), 1)))
 		return ;
-	i = get_arg(caller, game->memdump, &(inst->args[0]), 1);
 	if (inst->args[1].type == e_reg)
 		ft_memcpy(get_arg(caller, game->memdump,
 					&(inst->args[1]), 1), i, REG_SIZE);

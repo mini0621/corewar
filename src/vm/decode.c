@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/21 16:15:17 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 11:36:36 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 	t_uc	*addr;
 
 	addr = pc;
-	//	ft_printf("addr1 is %i\n", addr - dump);
 	if (!(inst->op = (void *)decode_op(addr)))
 		return (access_ptr(dump, addr, 1));
 	addr = access_ptr(dump, addr, 1);
@@ -114,8 +113,6 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 	}
 	else
 		inst->args[0].type = e_dir;
-	//	ft_printf("addr2 is %i\n", addr - dump);
 	addr = decode_args(dump, inst, addr);
-	//	ft_printf("addr3 is %i\n", addr - dump);
 	return (addr);
 }
