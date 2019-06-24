@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 12:11:44 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 14:57:53 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 			ocp_modify(pos, bytebf->inst);
 	}
 	free_after_analysis(pos, &read_line);
-	if (rd_anlz_enc_2(pos, &lbls))
-		return (1);
-	return (end_main_loop(pos, &tkn));
+	if (!rd_anlz_enc_2(pos, &lbls))
+		return (end_main_loop(pos, &tkn));
+	return (1);
 }
 
 static int	file_check(char *str, t_pos *pos)
@@ -96,7 +96,8 @@ int			main(int argc, char **argv)
 	if (argc != 2)
 		return (0);
 	ft_bzero(&pos, sizeof(t_pos));
-	pos.file_name = ft_strdup(argv[1]);
+	if (!(pos.file_name = ft_strdup(argv[1])))
+		return (ft_error(&pos, e_malloc_error, NULL));
 	if (!(file_check(argv[1], &pos)))
 		return (0);
 	else if ((fd = open(argv[1], O_RDONLY)) < 0)

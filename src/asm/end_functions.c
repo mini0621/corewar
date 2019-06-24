@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:17:39 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 12:11:12 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 14:32:54 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static void	print_error_lbl(t_list *tmp_l, t_pos *pos, int *flag, int *first)
 		tkn = (t_tkn*)(tmp_t->content);
 		if (*first == 0)
 			ft_printf("\n");
-		ft_printf("\e[1m\e[037m%s:%d:%d: \e[031merror: \e[037mlabel '%s' ",
+		ft_printf("\e[1m\e[037m%s:%d:%d: \e[031merror: \e[037mlabel '%s' used",
 			pos->file_name, tkn->line,
 			tkn->buff_start + 1, ((t_lbl*)(tmp_l->content))->name);
-		ft_printf("used as '%s' at address '%#x' has never been declared\n",
+		ft_printf(" as '%s' at address '%#x' has never been declared\n\e[0m",
 			get_tkn_type_name(((t_tkn*)(tmp_t->content))->type),
 			((t_tkn*)(tmp_t->content))->lc_inst);
 		tmp_t = tmp_t->next;
@@ -100,7 +100,8 @@ int			ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name)
 	char	*tmp;
 	char	*f_name;
 
-	tmp = ft_strndup(name, ft_strlen(name) - 2);
+	if (!(tmp = ft_strndup(name, ft_strlen(name) - 2)))
+		return (ft_error(pos, e_malloc_error, NULL));
 	if (!(f_name = ft_strjoin(tmp, ".cor")))
 	{
 		ft_strdel(&tmp);

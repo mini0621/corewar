@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 13:49:26 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 14:55:37 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 		i++;
 	if (buff[i] == '\n')
 		return (ft_error(pos, e_reg_nb_error, tkn));
-	nbr_str = ft_strndup(buff + i, (*tkn)->buff_end - i + 1);
+	if (!(nbr_str = ft_strndup(buff + i, (*tkn)->buff_end - i + 1)))
+		return (ft_error(pos, e_malloc_error, tkn));
 	if (ft_strlen(nbr_str) > 2)
 		return (ft_error(pos, e_reg_nb_error, tkn));
 	nbr_char = ft_atochar(nbr_str);
@@ -82,7 +83,8 @@ int	dir_value_tkn_fill(char *buff, t_pos *pos, t_tkn **tkn, long int long_nbr)
 		else
 		{
 			nbr = ft_atoi(buff + (*tkn)->buff_start + 1);
-			(*tkn)->value = ft_memalloc((*tkn)->mem_size);
+			if (!((*tkn)->value = ft_memalloc((*tkn)->mem_size)))
+				return (ft_error(pos, e_malloc_error, tkn));
 			ft_memcpy((*tkn)->value, &nbr, (*tkn)->mem_size);
 		}
 	}
@@ -91,7 +93,8 @@ int	dir_value_tkn_fill(char *buff, t_pos *pos, t_tkn **tkn, long int long_nbr)
 	else
 	{
 		sh_nbr = ft_atos(buff + (*tkn)->buff_start + 1);
-		(*tkn)->value = ft_memalloc((*tkn)->mem_size);
+		if (!((*tkn)->value = ft_memalloc((*tkn)->mem_size)))
+			return (ft_error(pos, e_malloc_error, tkn));
 		ft_memcpy((*tkn)->value, &sh_nbr, (*tkn)->mem_size);
 	}
 	return (1);
@@ -132,7 +135,8 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	{
 		(*tkn)->mem_size = pos->dir_bytes;
 		sh_nbr = ft_atos(buff + (*tkn)->buff_start);
-		(*tkn)->value = ft_memalloc((*tkn)->mem_size);
+		if (!((*tkn)->value = ft_memalloc((*tkn)->mem_size)))
+			return (ft_error(pos, e_malloc_error, tkn));
 		ft_memcpy((*tkn)->value, &sh_nbr, (*tkn)->mem_size);
 	}
 	(*tkn)->type = e_ind_value;

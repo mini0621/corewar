@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:32:41 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 14:25:19 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 15:35:42 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,22 @@ static int	label_exists(t_list *tmp_l, t_pos *pos, t_tkn **tkn)
 
 static int	label_dont_exist(t_list **lbls, t_pos *pos, t_tkn **tkn, char *name)
 {
-	t_lbl	*new;
+	t_lbl	*new_lbl;
+	t_list	*new_lst;
 
 	tkn_fields_update(pos, *tkn);
-	if (!(new = (t_lbl*)ft_memalloc(sizeof(t_lbl))))
+	if (!(new_lbl = (t_lbl*)ft_memalloc(sizeof(t_lbl))))
 		return (ft_error(pos, e_malloc_error, NULL));
-	new->name = name;
-	new->type = 'U';
-	if (!(ft_lstpushback(lbls, ft_lstnew(new, sizeof(t_lbl)))))
+	new_lbl->name = name;
+	new_lbl->type = 'U';
+	if (!(new_lst = ft_lstnew(new_lbl, sizeof(t_lbl))))
 	{
-		free(new);
+		free(new_lbl);
 		return (ft_error(pos, e_malloc_error, tkn));
 	}
-	free(new);
-	if (!(ft_lstpushback(&((t_lbl*)((*lbls)->content))->frwd,
+	ft_lstpushback(lbls, new_lst);
+	free(new_lbl);
+	if (!(ft_lstpushback(&((t_lbl*)(new_lst->content))->frwd,
 		ft_lstnew(*tkn, sizeof(t_tkn)))))
 		return (ft_error(pos, e_malloc_error, tkn));
 	return (1);
