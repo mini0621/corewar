@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/23 18:50:28 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 12:11:44 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	end_main_loop(t_pos *pos, t_tkn **tkn)
 		return (ft_error(pos, e_empty_file, NULL));
 	if (pos->state_l == 26)
 		return (ft_error(pos, e_invalid_command_error, tkn));
-	if (pos->state_s == 2)
+	if (pos->state_s == 2 && !pos->error_print)
 		return (ft_error(pos, e_no_instruction, NULL));
 	else
 		return (0);
@@ -27,7 +27,7 @@ static int	end_main_loop(t_pos *pos, t_tkn **tkn)
 static int	rd_anlz_enc_2(t_pos *pos, t_list **lbls)
 {
 	if (pos->content && pos->state_l != 26 && pos->state_s != 2
-		&& !pos->error && end_lbl(*lbls, pos))
+		&& !pos->end_read && end_lbl(*lbls, pos))
 	{
 		ft_lstdel(lbls, &del_lbls);
 		return (1);
@@ -43,13 +43,14 @@ static int	read_analyze_encode_loop(int fd, t_bytebf *bytebf, t_pos *pos)
 	char	*read_line;
 
 	if (!(ft_init_main(&lbls, bytebf, &read_line, pos)))
-		return (ft_error(pos, e_no_print, NULL));
-	while ((pos->size_line = read_bytes(&read_line, pos->error, fd)) > 0)
+		return (ft_error(NULL, e_no_print, NULL));
+	while ((pos->size_line = read_bytes(&read_line, pos->end_read, fd)) > 0)
 	{
 		pos->content = 1;
-		if (!(init_before_analysis(pos, &read_line)) && (pos->error = 1))
+		if (!(init_before_analysis(pos, &read_line)) && (pos->end_read = 1))
 			continue ;
-		if ((!syntactic_analysis(&lbls, pos, bytebf, &tkn)) && (pos->error = 1))
+		if ((!syntactic_analysis(&lbls, pos, bytebf, &tkn))
+			&& (pos->end_read = 1))
 			continue ;
 		if (pos->multiple_line)
 			continue ;
@@ -100,17 +101,14 @@ int			main(int argc, char **argv)
 		return (0);
 	else if ((fd = open(argv[1], O_RDONLY)) < 0)
 		return (ft_error(&pos, e_open_error, NULL));
-	else if (read_analyze_encode_loop(fd, &bytebf, &pos))
-	{
-		ft_write_output(&bytebf, &pos, argv[1]);
-		if (close(fd) == -1)
-			return (ft_error(NULL, e_close_error, NULL));
-	}
-	else
+	else if (!read_analyze_encode_loop(fd, &bytebf, &pos)
+		|| !ft_write_output(&bytebf, &pos, argv[1]))
 	{
 		free_bytebf_pos(&bytebf, &pos);
 		if (close(fd) == -1)
-			return (ft_error(NULL, e_close_error, NULL));
+			return (ft_error(&pos, e_close_error, NULL));
 	}
+	else if (close(fd) == -1)
+		return (ft_error(&pos, e_close_error, NULL));
 	return (0);
 }

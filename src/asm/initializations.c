@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/22 21:37:39 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 12:11:01 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line,
 
 	*line = NULL;
 	*lbls = NULL;
-	ft_bzero(bytebf, sizeof(bytebf));
+	ft_bzero(bytebf, sizeof(t_bytebf));
 	bytebf->header = NULL;
 	bytebf->prog_size = NULL;
 	bytebf->magic = NULL;
@@ -65,15 +65,24 @@ int			ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line,
 
 static int	check_buff_end(t_pos *pos)
 {
+	char	*tmp;
+
+	tmp = pos->tmp_buf;
 	if (pos->tmp_buf[pos->size_buf - 1] != '\n')
 	{
 		if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, "\n\0",
 								pos->size_buf, 2)))
+		{
+			ft_memdel((void**)&tmp);
 			return (ft_error(pos, e_malloc_error, NULL));
+		}
 		pos->size_buf++;
 	}
 	else if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, "\0", pos->size_buf, 1)))
+	{
+		ft_memdel((void**)&tmp);
 		return (ft_error(pos, e_malloc_error, NULL));
+	}
 	return (1);
 }
 
@@ -97,7 +106,7 @@ int			init_before_analysis(t_pos *pos, char **read_line)
 	tmp = pos->tmp_buf;
 	pos->size_buf = pos->size_buf + pos->size_line;
 	if (!(check_buff_end(pos)))
-		return (ft_error(pos, e_no_print, NULL));
+		return (ft_error(NULL, e_no_print, NULL));
 	free(tmp);
 	ft_strdel(read_line);
 	return (1);

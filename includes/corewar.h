@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/23 18:41:21 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 12:03:19 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
 
 typedef enum	e_errors
 {
+	e_no_error,
 	e_no_print,
 	e_lexical_error,
 	e_syntactic_error,
@@ -303,7 +304,8 @@ typedef struct	s_pos
 	char		*file_name;
 
 	int			content;
-	int			error;
+	int			end_read;
+	int			error_print;
 }				t_pos;
 
 typedef struct	s_bytebf

@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:55:20 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/13 20:49:06 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 14:16:01 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int					ft_power(int base, int power);
 t_list				*ft_lstlast(t_list *alst);
 int					ft_lstlen(t_list *alst);
 t_list				*ft_lstat(t_list *alst, unsigned int nbr);
-void				ft_lstpushback(t_list **alst, t_list *new);
+int				ft_lstpushback(t_list **alst, t_list *new);
 void				ft_lstinsert(t_list **alst, t_list *new,
 		int (*cmp)(void *, void *));
 void				ft_lstdelof(t_list **alst, void *content,

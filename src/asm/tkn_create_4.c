@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 14:07:57 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/23 14:22:17 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 14:25:21 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,18 @@ static int	lbl_dont_exist(t_list **lbls, t_pos *pos, t_tkn **tkn, char **name)
 	if (!(new = (t_lbl*)ft_memalloc(sizeof(t_lbl))))
 	{
 		ft_strdel(name);
-		return (ft_error(NULL, e_malloc_error, tkn));
+		return (ft_error(pos, e_malloc_error, tkn));
 	}
 	(*tkn)->value = NULL;
 	new->name = *name;
 	new->type = 'D';
 	new->lc_lbl_inst = pos->lc_tkn;
 	new->frwd = NULL;
-	if (!(ft_lstadd(lbls, ft_lstnew(new, sizeof(t_lbl)))))
+	if (!(ft_lstpushback(lbls, ft_lstnew(new, sizeof(t_lbl)))))
 	{
+		free(new);
 		ft_strdel(name);
-		return (ft_error(NULL, e_malloc_error, tkn));
+		return (ft_error(pos, e_malloc_error, tkn));
 	}
 	free(new);
 	return (1);
@@ -59,7 +60,7 @@ int			tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	tmp_l = *lbls;
 	if (!(name = ft_strndup(buff + (*tkn)->buff_start,
 		(*tkn)->buff_end - (*tkn)->buff_start)))
-		return (ft_error(NULL, e_malloc_error, tkn));
+		return (ft_error(pos, e_malloc_error, tkn));
 	while (tmp_l != NULL && !ft_strequ(((t_lbl*)(tmp_l->content))->name, name))
 		tmp_l = tmp_l->next;
 	if (tmp_l != NULL)

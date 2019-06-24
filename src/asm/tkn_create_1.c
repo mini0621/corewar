@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/23 17:58:36 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 13:49:26 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	{
 		(*tkn)->type = e_register;
 		if (!((*tkn)->value = ft_strdup(&nbr_char)))
-			return (ft_error(NULL, e_malloc_error, tkn));
+			return (ft_error(pos, e_malloc_error, tkn));
 		(*tkn)->mem_size = 1;
 	}
 	return (1);
@@ -47,11 +47,12 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	char	*name;
 
 	(void)lbls;
+										(void)buff;
 	name = NULL;
 	(*tkn)->type = e_op;
 	if (!(name = ft_strndup(buff + (*tkn)->buff_start,
 					(*tkn)->buff_end - (*tkn)->buff_start + 1)))
-		return (ft_error(NULL, e_malloc_error, tkn));
+		return (ft_error(pos, e_malloc_error, tkn));
 	i = 0;
 	while (i < OP_TAB_ASM_SIZE && !ft_strequ(name, g_op_tab_asm[i].name))
 		i++;
@@ -59,7 +60,7 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	if (i == OP_TAB_ASM_SIZE)
 		return (ft_error(pos, e_op_code_error, tkn));
 	if (!((*tkn)->value = (char*)ft_memalloc(sizeof(char))))
-		return (ft_error(NULL, e_malloc_error, tkn));
+		return (ft_error(pos, e_malloc_error, tkn));
 	*(char*)((*tkn)->value) = g_op_tab_asm[i].op_code;
 	(*tkn)->op = g_op_tab_asm + i;
 	(*tkn)->mem_size = 1;

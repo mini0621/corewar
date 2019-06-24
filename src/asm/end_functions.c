@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:17:39 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/23 19:24:38 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 12:11:12 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	fill_bytebf(t_bytebf *bytebf, t_pos *pos)
 {
 	bytebf->hd_size = 4 + PROG_NAME_LENGTH + 4 + 4 + COMMENT_LENGTH + 4;
 	if (!(bytebf->header = (char *)ft_memalloc(bytebf->hd_size)))
-		return (ft_error(NULL, e_malloc_error, NULL));
+		return (ft_error(pos, e_malloc_error, NULL));
 	ft_memcpy(bytebf->header, bytebf->magic, 4);
 	ft_memcpy(bytebf->header + 4, bytebf->name, PROG_NAME_LENGTH);
 	ft_memcpy(bytebf->header + 4 + PROG_NAME_LENGTH, bytebf->offset1, 4);
@@ -69,7 +69,7 @@ static int	fill_bytebf(t_bytebf *bytebf, t_pos *pos)
 	ft_memcpy(bytebf->header + 12 + PROG_NAME_LENGTH + COMMENT_LENGTH,
 		bytebf->offset2, 4);
 	if (!(bytebf->bytebuf = (char *)ft_memalloc(bytebf->hd_size + pos->lc_tkn)))
-		return (ft_error(NULL, e_malloc_error, NULL));
+		return (ft_error(pos, e_malloc_error, NULL));
 	ft_memcpy(bytebf->bytebuf, bytebf->header, bytebf->hd_size);
 	ft_memcpy(bytebf->bytebuf + bytebf->hd_size, bytebf->inst, pos->lc_tkn);
 	return (1);
@@ -87,7 +87,7 @@ static int	ft_fill_write(t_bytebf *bytebf, t_pos *pos, int fd, char *f_name)
 	if ((i = write(fd, bytebf->bytebuf, pos->lc_tkn + bytebf->hd_size)) == -1)
 	{
 		ft_strdel(&f_name);
-		return (ft_error(NULL, e_write_error, NULL));
+		return (ft_error(pos, e_write_error, NULL));
 	}
 	else
 		ft_printf("\e[1m\e[037mWrite output to %s\n\e[0m", f_name);
@@ -104,16 +104,17 @@ int			ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name)
 	if (!(f_name = ft_strjoin(tmp, ".cor")))
 	{
 		ft_strdel(&tmp);
-		return (ft_error(NULL, e_malloc_error, NULL));
+		return (ft_error(pos, e_malloc_error, NULL));
 	}
 	ft_strdel(&tmp);
 	if ((fd = open(f_name, O_CREAT | O_WRONLY | O_TRUNC, 0644)) < 0)
 	{
 		ft_strdel(&f_name);
-		return (ft_error(NULL, e_open_error, NULL));
+		return (ft_error(pos, e_open_error, NULL));
 	}
 	else if (!ft_fill_write(bytebf, pos, fd, f_name))
 		return (ft_error(NULL, e_no_print, NULL));
+	free_bytebf_pos(bytebf, pos);
 	ft_strdel(&f_name);
 	return (1);
 }
