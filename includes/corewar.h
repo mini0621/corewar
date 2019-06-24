@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 12:03:19 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 16:31:57 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,7 +361,7 @@ void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
 void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos);
 
 //libft
-long	ft_atochar(char *str);
+char	ft_atochar(char *str);
 long	ft_atolong(char *str);
 short	ft_atos(char *str);
 void	*ft_memjoin(void *s1, void *s2, size_t len_s1, size_t len_s2);

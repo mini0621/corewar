@@ -6,15 +6,15 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 15:34:09 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/20 21:26:55 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/24 16:31:47 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-long	ft_atochar(char *str)
+char	ft_atochar(char *str)
 {
-	int		i;
+	int	i;
 	char	ret;
 	char	neg;
 
