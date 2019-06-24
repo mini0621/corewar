@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 11:36:36 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 21:22:34 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,20 @@ int	decode_wait(t_uc *pc)
 	if (!(*pc) || *pc > 0x0f)
 		return (0);
 	code = (t_opcode)(*pc);
+	if (code == 0)
+		return (1);
 	return (g_op_tab[(int)code].wait -1);
 }
 
-static t_op	*decode_op(t_uc *pc)
+t_op	*decode_op(t_uc pc)
 {
 	t_opcode	code;
 
-	if (!(*pc) || *pc > 0x0f)
+	if (pc > 0x0f)
 		return (NULL);
-	code = (t_opcode)(*pc);
+	code = (t_opcode)(pc);
+	if (!code)
+		return (NULL);
 	return (&(g_op_tab[(int)code]));
 }
 
@@ -72,16 +76,12 @@ static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
 	op = get_op(inst);
 	l = op->n_args;
 	ptr = addr;
-	//ft_printf("op is %i\n", op->opcode);
-	//ft_printf("l is %i\n", l);
-	//ft_printf("addr is %hhx\n", *ptr);
 	while (i < l)
 	{
 		size = (inst->args[i].type != e_reg) ? 4: 1;
 		if (inst->args[i].type == e_ind
 				|| (inst->args[i].type == e_dir && !op->dir_bytes))
 			size = 2;
-		//ft_printf("size? %u\n", size);
 		if (inst->args[i].type == e_reg)
 			read_dump(dump, ptr, (void *)&(inst->args[i].value.u_reg_val), size);
 		else if (inst->args[i].type == e_ind)
@@ -94,16 +94,13 @@ static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
 	return (ptr);
 }
 
-//decode the inst and store it into t_inst, 
-//in case of error return 0
-//in error how many should we plus the pc
 t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 {
 	t_uc	*addr;
 
 	addr = pc;
-	if (!(inst->op = (void *)decode_op(addr)))
-		return (access_ptr(dump, addr, 1));
+	if (!inst->op)
+		return (access_ptr(dump, pc, 1));
 	addr = access_ptr(dump, addr, 1);
 	if ((get_op(inst))->ocp)
 	{

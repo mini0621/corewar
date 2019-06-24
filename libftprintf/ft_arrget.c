@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_arrget.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/28 19:25:09 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 16:01:51 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/24 14:30:03 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/24 14:47:58 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
-#include "visu.h"
+#include "libftprintf.h"
 
-void	free_game(t_game *game)
+unsigned char	*ft_arrget(t_arr *arr, size_t index)
 {
-	int	i;
-
-	ft_arrdel(&(game->prcs));
-	i = 0;
-	while (game->champs[i])
-	{
-		free(game->champs[i]);
-		game->champs[i] = NULL;
-		i++;
-	}
-	if (game->visu)
-	{
-		end_visu(game->visu);
-		free(game->visu);
-	}
+	if (!arr || !arr->head || arr->nbr_elem <= index)
+		return (NULL);
+	return (arr->head + arr->size * index);
 }

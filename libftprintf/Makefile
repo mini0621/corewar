@@ -25,7 +25,8 @@ FTSRC = ft_lstiter.c    ft_putchar.c    ft_strdel.c     ft_strnew.c  ft_lstlast.
 		ft_atozu.c		ft_max.c ft_deltab.c get_next_line.c ft_min.c ft_lstsort.c \
 		ft_isnumeric.c 	ft_atoill.c \
 		ft_atollu.c ft_qappend.c ft_qnew.c ft_qpop.c ft_qdel.c  \
-		ft_qpush.c ft_lstsub.c ft_lstinsert.c ft_qclear.c ft_lstnomallocnew.c
+		ft_qpush.c ft_lstsub.c ft_lstinsert.c ft_qclear.c ft_lstnomallocnew.c\
+		ft_arrnew.c ft_arradd.c ft_arrdel.c ft_arrget.c ft_arrresize.c ft_arrsub.c
 
 FTIOSRC=$(addprefix ft_printf/, ft_printf.c convertion.c setting.c process_csp.c \
 		fraction.c process_ld.c \

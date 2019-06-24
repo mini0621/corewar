@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/21 15:38:38 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 20:53:40 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,8 @@ typedef struct		s_champ
 	int				live_c;
 }				t_champ;
 
-typedef struct	s_process
-{
-	int			c_id;
-	int			p_id; // this might be useless
-	t_dir_type	regs[REG_NUMBER];
-	int			wait_c;
-	int			is_alive;
-	t_uc		*pc;
-	int			carry;
-}				t_process;
-
 typedef enum	e_argtype
 {
-	// if we want to represent this by 3 bit, change to defined T_DIR/T_IND/T_REG
 	e_reg = T_REG,
 	e_dir = T_DIR,
 	e_ind = T_IND,
@@ -106,16 +94,27 @@ typedef struct  s_option
         int     (*f)();
 }               t_option;
 
+typedef struct	s_process
+{
+	int			c_id;
+	int			p_id;
+	t_uc		op;
+	t_dir_type	regs[REG_NUMBER];
+	int			wait_c;
+	int			is_alive;
+	t_uc		*pc;
+	int			carry;
+}				t_process;
+
 typedef struct	s_game
 {
 	t_champ		*champs[MAX_PLAYERS + 1]; // the last ptr is NULL
-	t_list		*prcs; //cache coherence and use t_list? young prcs is top
+	t_arr		*prcs; //cache coherence and use t_list? young prcs is top
 	t_ull		nbr_prcs;
 	t_ull		nbr_cycle; //-d option value
 	int			nbr_champs;
 	int			d_state;//-d option
 	int			n_state;//-n flag for specifying the number of the following
-						//player and also states the order of execution
 	t_ull		pl_number; //store the value which follows the -n flag 
 	int			deb_state;
 	int			print_off;
@@ -167,19 +166,19 @@ int		process(t_game *game);
 /*
  * prcs_util.c
  * */
-t_list	*prcs_new(t_game *game, int c_id);
-void	prcs_cpy(t_process *dst, t_process *src, t_uc *addr);
+int		prcs_new(t_game *game, int c_id, t_uc *pc, t_arr *arr);
+void	prcs_cpy(t_process *dst, t_process *src);
 
 /*
  * instructions.c
  * */
-void	prcs_inst(t_game *game, t_process *caller);
+void	prcs_inst(t_game *game, size_t p_index);
 int		decode_wait(t_uc *pc);
 /*
  * decode.c
  * */
 t_uc	*decode(t_uc *dump, t_uc *pc, t_inst *inst);
-
+t_op	*decode_op(t_uc pc);
 
 /*
  * ocp.c

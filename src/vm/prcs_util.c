@@ -6,33 +6,36 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:30:30 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/21 15:56:28 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 21:19:58 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_list	*prcs_new(t_game *game, int c_id)
+int	prcs_new(t_game *game, int c_id, t_uc *pc, t_arr *arr)
 {
 	t_process	prcs;
-	t_list		*lst;
 
 	ft_bzero(&prcs, sizeof(t_process));
 	prcs.c_id = c_id;
 	prcs.carry = 0;
 	prcs.p_id = game->nbr_prcs;
+	prcs.regs[0] = c_id;
+	if (pc)
+	{
+		prcs.pc = pc;
+		prcs.op = *pc;
+		prcs.wait_c = decode_wait(pc);
+	}
 	game->nbr_prcs += 1;
 	game->prcs_count += 1;
-	prcs.regs[0] = c_id;
-	if (!(lst = ft_lstnew(&prcs, sizeof(t_process))))
-		return (NULL);
-	return (lst);
+	return (ft_arradd(arr, &prcs, sizeof(t_process), -1));
 }
 
-void	prcs_cpy(t_process *dst, t_process *src, t_uc *addr)
+void	prcs_cpy(t_process *dst, t_process *src)
 {
-	ft_memcpy(&(dst->regs), &(src->regs), sizeof(t_dir_type) * REG_NUMBER);
+	if (!dst || !src)
+		return ;
+	ft_memcpy(dst->regs, src->regs, sizeof(t_dir_type) * REG_NUMBER);
 	dst->carry = src->carry;
-	dst->pc = addr;
-	dst->wait_c = decode_wait(addr);
 }

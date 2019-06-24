@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/19 12:31:48 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 21:01:36 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int		vm_store_instr(t_game *game, int fd
 	int			dif;
 	int			id;
 	int			nbr_champs;
-	t_list	*n;
 
 	nbr_champs = game->nbr_champs;
 	id = (int) game->champs[pos]->id;
@@ -58,12 +57,10 @@ static int		vm_store_instr(t_game *game, int fd
 	if (lseek(fd, 2192, SEEK_SET) < 0
 		|| read(fd, &(game->memdump[0]) + dif, size) < 0)
 		return (0);
-	n = prcs_new(game, id);
-	((t_process *)(n->content))->pc = &(game->memdump[0]) + dif; 
-	((t_process *)(n->content))->wait_c = decode_wait(&(game->memdump[0]) + dif);
+	if (prcs_new(game, id, game->memdump + dif, game->prcs) < 0)
+		return (0);
 	if (game->visu)
 		init_clr_map(game, id, dif, size);
-	ft_lstadd(&(game->prcs), n);
 	return (1);
 }
 
@@ -93,6 +90,8 @@ int			init_corewar(t_game *game, int ac, char **av)
 {
 	vm_init_flags(game);
 	if (!vm_init_parser(ac, av, game))
+		return (0);
+	if (!(game->prcs = ft_arrnew(sizeof(t_process), game->nbr_champs * 10)))
 		return (0);
 	if (!read_champs(game))
 	{

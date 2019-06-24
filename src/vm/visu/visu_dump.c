@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 09:49:23 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/19 14:25:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 17:29:31 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 static void		draw_curs(t_game *game, t_visu *visu)
 {
-	t_list	*cur;
+	int		cur;
 	int		i;
 	WINDOW	*win;
 
 	win = visu->dump_win;
-	cur = game->prcs;
-	while (cur)
+	cur = game->prcs->last;
+	while (cur >= 0)
 	{
-		i = ((t_process *)(cur->content))->pc - game->memdump;
+		i = ((t_process *)ft_arrget(game->prcs, cur))->pc - game->memdump;
 		wattron(win, COLOR_PAIR(visu->clr_map[i % 10] + 5) | A_BOLD);
 		mvwprintw(win, i / 64 + 1, i % 64 * 3 + 9, "%.2hhX", game->memdump[i]);
 		wattroff(win, COLOR_PAIR(visu->clr_map[visu->clr_map[i % 10]] + 5) | A_BOLD);
-		cur = cur->next;
+		cur--;
 	}
 }
 

@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_arrnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/28 19:25:09 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 16:01:51 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/24 14:07:26 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/24 16:41:48 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
-#include "visu.h"
+#include "libftprintf.h"
 
-void	free_game(t_game *game)
+t_arr *ft_arrnew(size_t size, size_t nbr_elem)
 {
-	int	i;
+	t_arr	*ret;
 
-	ft_arrdel(&(game->prcs));
-	i = 0;
-	while (game->champs[i])
+	if (!(ret = (t_arr *)malloc(sizeof(t_arr))))
+		return (NULL);
+	ret->nbr_elem = nbr_elem;
+	ret->size = size;
+	ret->last = -1;
+	if (!(ret->head = (unsigned char *)malloc(size * nbr_elem)))
 	{
-		free(game->champs[i]);
-		game->champs[i] = NULL;
-		i++;
+		free(ret);
+		return (NULL);
 	}
-	if (game->visu)
-	{
-		end_visu(game->visu);
-		free(game->visu);
-	}
+	ft_bzero(ret->head, size * nbr_elem);
+	return (ret);
 }

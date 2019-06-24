@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/20 14:36:09 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 17:41:04 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,38 +39,34 @@ static void	update_cycles(t_game *game)
 {
 	if (game->live_count > NBR_LIVE || game->check_c == MAX_CHECKS)
 	{
-		game->cycle_to_die -= CYCLE_DELTA;
+		game->cycle_to_die = (game->cycle_to_die <= CYCLE_DELTA) ?
+			1 : game->cycle_to_die - CYCLE_DELTA;
 	}
 	game->live_count = 0;
 	game->check_c = (game->check_c == MAX_CHECKS) ? 0 : game->check_c + 1;	
 	game->cycle_d = game->cycle_to_die;
 }
 
-static int is_end(t_game *game, t_champ **champs, t_list **prcs)
+static int is_end(t_game *game, t_champ **champs)
 {
-	t_list *cur;
-	t_list *pre;
+	int		i;
 	t_process	*p;
 
-	cur = *prcs;
+	i = game->prcs->last;
 	reset_prcs_c(game);
-	pre = NULL;
-	while (cur)
+	while (i >= 0)
 	{
-		p = (t_process *)(cur->content);
-		if (p->is_alive)
+		p = (t_process *)ft_arrget(game->prcs, i);
+		if (p && p->is_alive)
 		{
 			game->champs[-1 * p->c_id - 1]->prcs_c += 1;
 			p->is_alive = 0;
-			pre = (!pre) ? cur: pre->next;
-			cur = cur->next;
+			i--;
 			continue;
 		}
 		game->prcs_count -= 1;
-		ft_lstsub(prcs, cur);
-		ft_lstdelone(&cur, &del_lstprcs);
-		cur = (!pre) ? *prcs : pre->next;
-		pre = (cur == *prcs) ? NULL : pre;
+		ft_arrsub(game->prcs, i);
+		i--;
 	}
 	update_cycles(game);
 	return (count_alivechamps(game, champs));
@@ -93,25 +89,25 @@ static void	update_visu_clrmap(t_visu *visu)
 
 int process(t_game *game)
 {
-	t_list *cur;
-	t_process *p;
-	int		win;
+	int			i;
+	t_process	*p;
+	int			win;
 
 	reset_debug(game);
 	game->cycle += 1;
 	game->cycle_d -= 1;
 	get_debug(game, NULL);
-	if (!game->cycle_d && (win = is_end(game, &(game->champs[0]), &(game->prcs))))
+	if (!game->cycle_d && (win = is_end(game, &(game->champs[0]))))
 		return (win);
-	cur = game->prcs;
-	while (cur)
+	i = game->prcs->last;
+	while (i >= 0)
 	{
-		p = (t_process *)(cur->content);
+		p = (t_process *)ft_arrget(game->prcs, i);
 		if (!p->wait_c)
-			prcs_inst(game, (t_process *)(cur->content));
+			prcs_inst(game, i);
 		else
 			p->wait_c -= 1;
-		cur = cur->next;
+		i--;
 	}
 	print_debug(game);
 	update_visu_clrmap(game->visu);

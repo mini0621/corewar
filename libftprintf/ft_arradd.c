@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_arradd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/28 19:25:09 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 16:01:51 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/24 14:18:46 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/24 15:27:42 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
-#include "visu.h"
+#include "libftprintf.h"
 
-void	free_game(t_game *game)
+int	ft_arradd(t_arr *arr, void *new, size_t size, int index)
 {
-	int	i;
+	size_t	i;
 
-	ft_arrdel(&(game->prcs));
-	i = 0;
-	while (game->champs[i])
-	{
-		free(game->champs[i]);
-		game->champs[i] = NULL;
-		i++;
-	}
-	if (game->visu)
-	{
-		end_visu(game->visu);
-		free(game->visu);
-	}
+	i = (index < 0) ? arr->last + 1 : (size_t)index;
+	if (arr->size != size || arr->nbr_elem <= i)
+		return (-1);
+	ft_memcpy(arr->head + size * i, new, size);
+	if (arr->last < (int)i)
+		arr->last = i;
+	return (1);
 }

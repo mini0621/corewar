@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:29:51 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 12:11:21 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/24 17:30:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	get_colors(void)
 	init_pair(0, COLOR_WHITE, COLOR_BLACK); //defalt memdump
 	init_pair(1, COLOR_CYAN, COLOR_BLACK);	//memdump written by champ 1
 	init_pair(2, COLOR_MAGENTA, COLOR_BLACK); // champ 2
-	init_pair(3, COLOR_CYAN, COLOR_BLACK); //champ 3
+	init_pair(3, COLOR_YELLOW, COLOR_BLACK); //champ 3
 	init_pair(4, COLOR_GREEN, COLOR_BLACK); //champ 4
 	init_pair(5, COLOR_WHITE, COLOR_BLUE); //defalt pc cursor
 	init_pair(6, COLOR_CYAN, COLOR_BLUE); // pc of champ 1
