@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analysis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 12:11:43 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 16:05:20 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_state_l(t_pos *pos, t_tkn **tkn)
 {
-	if (pos->state_l != 24)
+	if (pos->state_l != 26)
 	{
 		if (!(*tkn = (t_tkn*)ft_memalloc(sizeof(t_tkn))))
 			return (ft_error(pos, e_malloc_error, tkn));
@@ -78,7 +78,7 @@ int			lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls)
 	{
 		i = find_char_type(pos, i);
 		pos->state_l = g_lex_sm[pos->state_l][i];
-		if (pos->state_l == -1)
+ 		if (pos->state_l == -1)
 			break ;
 		if ((ret = final_state(pos, tkn, pos->tmp_buf, lbls)) == 1)
 			return (1);
