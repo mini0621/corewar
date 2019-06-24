@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:58:29 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 14:49:09 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 17:46:20 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	header_error(t_pos *pos, t_tkn *tkn, t_errors error)
 		ft_asprintf(&msg, "champion_comment_too_long : size '%d' for max '%d'",
 			pos->comment_len, COMMENT_LENGTH);
 	display(pos, tkn, "syntactic", msg);
+	ft_strdel(&msg);
 }
 
 void	command_error(t_pos *pos, t_tkn *tkn, t_errors error)

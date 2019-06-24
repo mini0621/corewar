@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/24 14:49:11 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 17:45:34 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
 		ft_asprintf(&msg, "unexpected_chararacter (ascii = '%d')",
 			pos->tmp_buf[pos->buf_pos - 1]);
 		display(pos, tkn, "lexical", msg);
+		ft_strdel(&msg);
 	}
 }
 

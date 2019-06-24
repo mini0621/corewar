@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 17:40:40 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/24 17:46:52 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	dir_value_tkn_fill(char *buff, t_pos *pos, t_tkn **tkn, long int long_nbr)
 			ft_memcpy((*tkn)->value, &nbr, (*tkn)->mem_size);
 		}
 	}
-	else if (long_nbr > 32767 || long_nbr < -32767)
+	else if (long_nbr > 32767 || long_nbr < -32768)
 		return (ft_error(pos, e_dir_short_error, tkn));
 	else
 	{
@@ -119,10 +119,15 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	short		sh_nbr;
 
 	(void)lbls;
-	if ((*tkn)->buff_end - (*tkn)->buff_start + 1 > 5)
+	if (pos->tmp_buf[(*tkn)->buff_start] == '-')
+	{
+		if ((*tkn)->buff_end - ((*tkn)->buff_start + 1) > 5)
+			return (ft_error(pos, e_dir_int_error, tkn));
+	}
+	else if ((*tkn)->buff_end - (*tkn)->buff_start > 5)
 		return (ft_error(pos, e_ind_error, tkn));
 	long_nbr = ft_atolong(buff + (*tkn)->buff_start);
-	if (long_nbr > 32767 || long_nbr < -32767)
+	if (long_nbr > 32767 || long_nbr < -32768)
 		return (ft_error(pos, e_ind_error, tkn));
 	else
 	{

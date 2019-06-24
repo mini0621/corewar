@@ -5,6 +5,4 @@ Verifications before seting project as finished ---------
 
 Work to do --------------
 
--Leaks malloc errors
 -Try to break it
--Lstadd_end for labels list

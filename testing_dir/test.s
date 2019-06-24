@@ -2,7 +2,7 @@
 .comment""
 
 entry:
-fork	%-1
+fork	18446744073709551616
 	st	-	r15, -5
 live		%42
 	fork	%1
