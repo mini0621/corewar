@@ -6,16 +6,11 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 17:19:37 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 17:24:40 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-static int		ocp_error_check()
-{
-
-}
 
 t_ocp	ocp_nargshift(t_ocp ocp, int n_args)
 {
