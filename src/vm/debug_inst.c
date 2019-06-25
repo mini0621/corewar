@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/21 16:29:24 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 16:50:22 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ void	deb_16_log(t_game *game, t_inst *inst, t_process *caller, int val)
 	tmp = NULL;
 	opcode = (get_op(inst))->opcode;
 	if (opcode == e_st && inst->args[1].type == e_reg)
-		l = ft_asprintf(&tmp, "st r%hhi('%08x') -> r%hhi!\n",
+		l = ft_asprintf(&tmp, "st r%hhu('%08x') -> r%hhu!\n",
 				inst->args[0].value.u_reg_val, val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_st)
-		l = ft_asprintf(&tmp, "st r%hhi('%08x') -> memdump(%i)!\n",
+		l = ft_asprintf(&tmp, "st r%hhu('%08x') -> memdump(%i)!\n",
 				inst->args[0].value.u_reg_val, val, inst->args[1].value.u_dir_val);
 	else if (opcode == e_sti)
-		l = ft_asprintf(&tmp, "sti r%hhi('%08x') -> memdump(%i)!\n",
+		l = ft_asprintf(&tmp, "sti r%hhu('%08x') -> memdump(%i)!\n",
 				inst->args[0].value.u_reg_val, val, inst->args[1].value.u_dir_val);
 	else
 		return ;
@@ -117,23 +117,23 @@ void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val)
 	opcode = (get_op(inst))->opcode;
 	tmp = NULL;
 	if (opcode == e_ld && inst->args[0].type == e_dir)
-		l = ft_asprintf(&tmp, "ld '%08x'(dir) -> r%hhi!\n",
+		l = ft_asprintf(&tmp, "ld '%08x'(dir) -> r%hhu!\n",
 				val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_ld)
-		l = ft_asprintf(&tmp, "ld '%08x'(ind) -> r%hhi!\n",
+		l = ft_asprintf(&tmp, "ld '%08x'(ind) -> r%hhu!\n",
 				val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_lld && inst->args[0].type == e_dir)
-		l = ft_asprintf(&tmp, "lld '%08x'(dir) -> r%hhi!\n",
+		l = ft_asprintf(&tmp, "lld '%08x'(dir) -> r%hhu!\n",
 				val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_lld)
-		l = ft_asprintf(&tmp, "lld '%08x'(ind) -> r%hhi!\n",
+		l = ft_asprintf(&tmp, "lld '%08x'(ind) -> r%hhu!\n",
 				val, inst->args[1].value.u_reg_val);
 	else if (opcode == e_ldi)
-		l = ft_asprintf(&tmp, "ldi at %i('%08x') -> r%hhi!\n", val,
+		l = ft_asprintf(&tmp, "ldi at %i('%08x') -> r%hhu!\n", val,
 			caller->regs[(int)(inst->args[2].value.u_reg_val)],
 			inst->args[2].value.u_reg_val);
 	else if (opcode == e_lldi)
-		l = ft_asprintf(&tmp, "lldi at %i('%08x') -> r%hhi!\n", val,
+		l = ft_asprintf(&tmp, "lldi at %i('%08x') -> r%hhu!\n", val,
 			caller->regs[(int)(inst->args[2].value.u_reg_val)],
 			inst->args[2].value.u_reg_val);
 	else
