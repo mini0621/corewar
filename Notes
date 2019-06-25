@@ -6,3 +6,4 @@ Verifications before seting project as finished ---------
 Work to do --------------
 
 -Try to break it
+-Buffer cor value = 1 : invalid read / writes
