@@ -33,6 +33,10 @@ int                     vm_opt_dump(int *pos
 		game->nbr_cycle = value;
 		*pos = *pos + 2;
 	}
+	else if(game->d_state && av[*pos + 1])
+		return (vm_catch_error(-5, av[*pos]));
+	else if (!game->d_state && !av[*pos + 1])
+		return (vm_catch_error(OPT_ERROR, av[*pos]));
 	return (1);
 }
 
@@ -41,13 +45,17 @@ int                     vm_opt_print(int *pos
 {
 	t_ull               value;
 
-	if (av[*pos + 1] && !game->d_state)
+	if (av[*pos + 1] && !game->print_off)
 	{
 		if (!(value = vm_get_value(av[*pos + 1])))
 			return (vm_catch_error(OPT_ERROR, av[*pos]));
 		game->print_off = value;
 		*pos = *pos + 2;
 	}
+	else if(game->print_off && av[*pos + 1])
+		return (vm_catch_error(-5, av[*pos]));
+	else if (!game->print_off && !av[*pos + 1])
+		return (vm_catch_error(OPT_ERROR, av[*pos]));
 	return (1);
 }
 
@@ -72,12 +80,16 @@ int                     vm_opt_n(int *pos
 
 	if (!game->n_state && av[*pos + 1])
 	{
-		if ((value = vm_get_value(av[*pos + 1])) == (t_ull) -1)
+		if (!(value = vm_get_value(av[*pos + 1])))
 			return (vm_catch_error(OPT_ERROR, av[*pos]));
 		game->n_state = 1;
 		game->pl_number = value;
 		*pos = *pos + 2;
 	}
+	else if(game->n_state && av[*pos + 1])
+		return (vm_catch_error(-5, av[*pos]));
+	else if (!game->n_state && !av[*pos + 1])
+		return (vm_catch_error(OPT_ERROR, av[*pos]));
 	return (1);
 }
 

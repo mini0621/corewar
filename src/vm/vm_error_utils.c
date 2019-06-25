@@ -78,5 +78,10 @@ int                     vm_catch_error(int flag, char *av)
         ft_printf("%sPlease adhere to the limit of 4 players\n", CLR_RED);
         return (0);
     }
+      else if (flag == -5)
+    {
+        ft_printf("%sOption %s has been provided for more than once\n", CLR_YEL, av);
+        return (0);
+    }
     return (1);
 }
