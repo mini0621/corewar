@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 09:49:23 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/20 17:19:05 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 18:50:07 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ static int		draw_champs(t_game *game, WINDOW *win)
 static void		draw_debug_menu(WINDOW *win, int index)
 {
 		wattron(win, (COLOR_PAIR(1) | A_BOLD));
-		mvwprintw(win, index++, 35, "debug mode: on");
-		mvwprintw(win, index, 35, "n: next cycle");
+		mvwprintw(win, index++, 35, "debug mode: on   n: next cycle");
 		wattroff(win, (COLOR_PAIR(1) | A_BOLD));
 }
 
@@ -84,9 +83,9 @@ void            draw_menu(t_game *game, t_visu *wind)
 	else
 		mvwprintw(wind->menu_win, index++, 35, "PRESS SPACE BAR TO PAUSE\n");
 	if (wind->sp > 0)
-		mvwprintw(wind->menu_win, index++, 35, "Play speed: %i milliseconds", wind->sp * 10);
+		mvwprintw(wind->menu_win, index++, 35, "Play interval: %i milliseconds", wind->sp * 10);
 	else
-		mvwprintw(wind->menu_win, index++, 35, "Play speed: %i milliseconds", wind->sp * (-10));
+		mvwprintw(wind->menu_win, index++, 35, "Play interval: %i milliseconds", wind->sp * (-10));
 	wattroff(wind->menu_win, (COLOR_PAIR(1) | A_BOLD));
 	if (game->deb_state)
 		draw_debug_menu(wind->menu_win, index);
