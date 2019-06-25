@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/25 11:27:07 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/25 14:42:10 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ int			init_before_analysis(t_pos *pos, char **read_line)
 
 	tmp = NULL;
 	c = '\0';
-	pos->file_col = 0;
-	pos->tab_counter = 0;
 	pos->file_line++;
 	tmp = pos->tmp_buf;
 	if (!(pos->tmp_buf = ft_memjoin(pos->tmp_buf, *read_line,
