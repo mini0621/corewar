@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 12:18:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 12:19:30 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,5 @@ t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr)
 		: (int)(signed short)(arg->value.u_ind_val);
 	arg->value.u_dir_val = 0;
 	read_dump(dump, access_ptr(dump, caller->pc, i), &(arg->value.u_dir_val), REG_SIZE);
-	//endian_conv(&(arg->value.u_dir_val), REG_SIZE);
 	return (&(arg->value.u_dir_val));
 }
