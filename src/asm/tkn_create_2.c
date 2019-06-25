@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:32:41 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 15:35:42 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/25 16:12:54 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int			tkn_ind_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	char	*name;
 	t_list	*tmp_l;
 
-(void)buff;
 	name = NULL;
 	(*tkn)->type = e_ind_label;
 	(*tkn)->mem_size = 2;

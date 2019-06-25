@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_analysis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/25 15:53:56 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/25 16:12:16 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	check_state_l(t_pos *pos, t_tkn **tkn)
 		pos->file_col = 0;
 		pos->tab_counter = 0;
 	}
-
 	return (1);
 }
 
@@ -41,7 +40,6 @@ static void	ft_move_positions(t_pos *pos, t_tkn *tkn)
 			tkn->col_start = tkn->col_start + 8 - pos->tab_counter;
 		else
 			tkn->col_start++;
-
 	}
 	if (pos->tmp_buf[pos->buf_pos] == '\t')
 	{
