@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 16:32:55 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 12:08:36 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	inst_fork(t_game *game, t_process *caller, t_inst *inst)
 {
 	t_uc	*addr;
-
 	if (!game || !caller || !inst)
 		return ;
 	addr = access_ptr(game->memdump, caller->pc,

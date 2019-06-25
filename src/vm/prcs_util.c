@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:30:30 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 21:19:58 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 12:09:12 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	prcs_new(t_game *game, int c_id, t_uc *pc, t_arr *arr)
 
 	ft_bzero(&prcs, sizeof(t_process));
 	prcs.c_id = c_id;
+	if (game->cycle == 5050)
+		ft_printf("5050 !! fork? what?\n");
 	prcs.carry = 0;
 	prcs.p_id = game->nbr_prcs;
 	prcs.regs[0] = c_id;
