@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 15:34:09 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/24 16:31:47 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/25 15:49:44 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	ft_atochar(char *str)
 {
-	int	i;
+	int		i;
 	char	ret;
 	char	neg;
 

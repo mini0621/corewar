@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_create_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 18:54:27 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/25 15:51:09 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+#include <limits.h>
 
 int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
@@ -70,7 +71,7 @@ int	dir_value_tkn_fill(char *buff, t_pos *pos, t_tkn **tkn, long int long_nbr)
 
 	if ((*tkn)->mem_size == 4)
 	{
-		if (long_nbr > 2147483647 || long_nbr < -2147483648)
+		if (long_nbr > INT_MAX || long_nbr < INT_MIN)
 			return (ft_error(pos, e_dir_int_error, tkn));
 		else
 		{
@@ -80,7 +81,7 @@ int	dir_value_tkn_fill(char *buff, t_pos *pos, t_tkn **tkn, long int long_nbr)
 			ft_memcpy((*tkn)->value, &nbr, (*tkn)->mem_size);
 		}
 	}
-	else if (long_nbr > 32767 || long_nbr < -32768)
+	else if (long_nbr > SHRT_MAX || long_nbr < SHRT_MIN)
 		return (ft_error(pos, e_dir_short_error, tkn));
 	else
 	{
@@ -94,18 +95,18 @@ int	dir_value_tkn_fill(char *buff, t_pos *pos, t_tkn **tkn, long int long_nbr)
 
 int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
+	int			i;
 	long int	long_nbr;
 
 	(void)lbls;
-	(*tkn)->mem_size = pos->dir_bytes;
-	if (pos->tmp_buf[(*tkn)->buff_start + 1] == '-')
-	{
-		if ((*tkn)->buff_end - ((*tkn)->buff_start + 1) > 10)
-			return (ft_error(pos, e_dir_int_error, tkn));
-	}
-	else if ((*tkn)->buff_end - (*tkn)->buff_start > 10)
+	i = (*tkn)->buff_start + 1;
+	(pos->tmp_buf[i] == '-') ? (i = i + 1) : (0);
+	while (buff[i] == '0')
+		i++;
+	if ((*tkn)->buff_end - (i - 1) > 10)
 		return (ft_error(pos, e_dir_int_error, tkn));
 	long_nbr = ft_atolong(buff + (*tkn)->buff_start + 1);
+	(*tkn)->mem_size = pos->dir_bytes;
 	if (!dir_value_tkn_fill(buff, pos, tkn, long_nbr))
 		return (ft_error(NULL, e_no_print, NULL));
 	(*tkn)->type = e_dir_value;
@@ -114,19 +115,19 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 
 int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
+	int			i;
 	long int	long_nbr;
 	short		sh_nbr;
 
 	(void)lbls;
-	if (pos->tmp_buf[(*tkn)->buff_start] == '-')
-	{
-		if ((*tkn)->buff_end - ((*tkn)->buff_start + 1) > 5)
-			return (ft_error(pos, e_dir_int_error, tkn));
-	}
-	else if ((*tkn)->buff_end - (*tkn)->buff_start > 5)
+	i = (*tkn)->buff_start;
+	(pos->tmp_buf[(*tkn)->buff_start] == '-') ? (i = i + 1) : (0);
+	while (buff[i] == '0' && buff[i + 1] != '\n')
+		i++;
+	if ((*tkn)->buff_end - (i - 1) > 5)
 		return (ft_error(pos, e_ind_error, tkn));
 	long_nbr = ft_atolong(buff + (*tkn)->buff_start);
-	if (long_nbr > 32767 || long_nbr < -32768)
+	if (long_nbr > SHRT_MAX || long_nbr < SHRT_MIN)
 		return (ft_error(pos, e_ind_error, tkn));
 	else
 	{
