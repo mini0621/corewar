@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 17:46:52 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/24 18:54:27 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	char	*name;
 
 	(void)lbls;
-										(void)buff;
 	name = NULL;
 	(*tkn)->type = e_op;
 	if (!(name = ft_strndup(buff + (*tkn)->buff_start,

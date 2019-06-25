@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:29:10 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/22 21:32:20 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/25 10:18:10 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_return_rf(int ret, int size_tmp)
 	return (1);
 }
 
-static int	read_file(char **tmp, char **line, int sizes[], const int fd)
+static int	read_file(char **tmp, char **line, int *sizes, const int fd)
 {
 	char	buf[BUFF_SIZE_COR];
 	int		ret;
@@ -35,8 +35,8 @@ static int	read_file(char **tmp, char **line, int sizes[], const int fd)
 	while ((ret = read(fd, buf, BUFF_SIZE_COR)) > 0)
 	{
 		sizes[2] = 0;
-		while (sizes[2] < BUFF_SIZE_COR - 1 && buf[sizes[2]] != '\n')
-			sizes[2]++;
+		while (sizes[2] < ret - 1 && buf[sizes[2]] != '\n')
+			(sizes[2])++;
 		if (buf[sizes[2]] == '\n')
 		{
 			if (!(*line = realloc(*line, sizes[1] + sizes[2] + 1)))
