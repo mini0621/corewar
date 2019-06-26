@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 14:42:46 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/23 19:13:16 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:02:22 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	print_expected_tkn(t_pos *pos, t_tkn *tkn)
 
 	i = -1;
 	flag = 0;
-	ft_printf(WHT "expected ");
+	ft_printf("\e[037mexpected ");
 	while (++i < NB_TKN_TYPES)
 	{
 		if (g_syntactic_sm[pos->previous_st_s][i] != -1)
@@ -40,7 +40,7 @@ static void	print_expected_tkn(t_pos *pos, t_tkn *tkn)
 			flag = 1;
 		}
 	}
-	ft_printf(WHT " instead of '%s'",
+	ft_printf(" instead of '%s'",
 		get_tkn_type_name(tkn->type),
 		get_tkn_type_name(tkn->type), pos->tmp_buf);
 }

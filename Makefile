@@ -6,7 +6,7 @@
 #    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/26 16:42:11 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/06/26 17:04:31 by mnishimo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,8 +46,7 @@ ASM_SRC =	$(addprefix src/asm/, asm_main.c finished_state_machines.c			\
 			lexical_analysis.c syntactic_analysis.c error.c error_types.c		\
 			error_display.c)
 
-ASM_OBJ	=	$(ASM_SRC:src/asm/%.c=obj/%.o)
-
+ASM_OBJ	=	$(ASM_SRC:src/asm/%.c=obj/asm/%.o)
 OBJ		=	$(SRC:src/%.c=obj/%.o)
 
 VM_OBJ = $(VM_SRC:src/%.c=obj/%.o)
@@ -63,6 +62,7 @@ $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
 	mkdir $(OBJ_DIR)/vm/
 	mkdir $(OBJ_DIR)/vm/visu
+	mkdir $(OBJ_DIR)/asm/
 
 obj/vm/%.o: src/vm/%.c $(HEADER) $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
