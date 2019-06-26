@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:40:46 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/26 18:13:22 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 #include <limits.h>
 
 typedef	unsigned long long	t_ull;
-typedef	unsigned long long	t_uc;
+typedef	unsigned char		t_uc;
 typedef	uint8_t				t_reg_type;
 typedef uint16_t			t_ind_type;
 typedef uint32_t			t_dir_type;
