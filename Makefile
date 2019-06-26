@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+         #
+#    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/23 17:59:40 by allefebv         ###   ########.fr        #
+#    Updated: 2019/06/26 14:17:42 by sunakim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CFLAGS = -Wall -Werror -Wextra
 #CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 #CFLAGS = -fsanitize=address
 
-RM = rm -f
+RM = rm -rf
 LDIR = -L libftprintf/ -lftprintf
 INCLUDES = -I includes/  -I libftprintf/includes
 
@@ -77,6 +77,7 @@ $(ASM_NAME):  $(LIBFT) $(ASM_OBJ) $(OBJ)
 
 clean:
 	$(RM) $(VM_OBJ) $(ASM_OBJ)
+	$(RM) $(OBJ_DIR)
 	make -C libftprintf/ clean
 
 fclean: clean
