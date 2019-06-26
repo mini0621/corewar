@@ -6,7 +6,11 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:55 by mndhlovu          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2019/06/26 07:58:38 by mndhlovu         ###   ########.fr       */
+=======
 /*   Updated: 2019/06/25 18:42:16 by mnishimo         ###   ########.fr       */
+>>>>>>> 3a31793319781746ab06d495f72ed9dac1be2634
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +22,17 @@ static int          vm_verify_magic(int fd, unsigned int *magic)
 		return (0);
 	*magic = vm_endian_conversion(*magic);
 	if (*magic == (unsigned int)COREWAR_EXEC_MAGIC)
+		return (fd);
+	return (0);
+}
+
+static int          vm_verify_size(int fd, unsigned int *prog_size)
+{
+	if (((lseek(fd, 136, SEEK_SET)) < 0)
+			|| (read(fd, prog_size, sizeof(unsigned int))) < 0)
+		return (0);
+	*prog_size = vm_endian_conversion(*prog_size);
+	if (*prog_size < (unsigned int)CHAMP_MAX_SIZE)
 		return (fd);
 	return (0);
 }
@@ -68,11 +83,10 @@ int                 vm_primary_parser(int fd, t_game *game)
 	if (!(new = (t_champ *)malloc(sizeof(t_champ))))
 		return (-2);
 	ft_bzero(new, sizeof(t_champ));
-	if ((read(fd, new->name, sizeof(t_uc) * PROG_NAME_LENGTH)) < 0
-		|| lseek(fd, 136, SEEK_SET) < 0
-		|| read(fd, &prog_size, sizeof(unsigned int)) < 0)
+	if ((read(fd, new->name, sizeof(t_uc) * PROG_NAME_LENGTH)) < 0)
 		return (-2);
-	prog_size = vm_endian_conversion(prog_size);
+	if (!(fd = vm_verify_size(fd, &prog_size)))
+		return (-5);
 	if ((read(fd, new->comment, sizeof(t_uc) * COMMENT_LENGTH)) < 0)
 		return (-2);
 	new->prog_size = prog_size;

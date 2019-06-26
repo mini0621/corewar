@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:43:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/11 03:06:29 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/26 08:00:37 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int                     vm_file_reader(char *file, t_game *game
             return (vm_catch_error(ret, NULL));
         if (ret == -4)
             return (vm_catch_error(ret, NULL));
+		if (ret == -5)
+			return (vm_catch_error(ret, file));
         *flag = 1;
         *index = *index + 1;
         return (1);
