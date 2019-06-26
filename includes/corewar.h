@@ -3,24 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 19:15:27 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:40:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COREWAR_H
 # define COREWAR_H
 
-#include "libftprintf.h"
-#include "op.h"
-#include "visu.h"
-#include <unistd.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <limits.h>
+# define BUFF_SIZE_COR 10
+# define OP_TAB_ASM_SIZE 16
+# define NB_TKN_TYPES 11
+# define SPACE_CHAR " \t\v\f\r"
+# define NB_LSM_COL 13
 # define IO_ERROR 1
 # define OPT_ERROR 2
 # define ML_ERROR 3
@@ -28,11 +25,20 @@
 # define CLR_RED  "\x1b[31m"
 # define CLR_GREEN  "\x1b[32m"
 # define CLR_YEL  "\x1b[33m"
+
+#include "libftprintf.h"
+#include "op.h"
+#include "visu.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <limits.h>
+
 typedef	unsigned long long	t_ull;
-typedef	unsigned char	t_uc;
-typedef	int8_t				t_reg_type;
-typedef int16_t			t_ind_type;
-typedef int32_t			t_dir_type;
+typedef	unsigned long long	t_uc;
+typedef	uint8_t				t_reg_type;
+typedef uint16_t			t_ind_type;
+typedef uint32_t			t_dir_type;
 typedef	uint8_t				t_ocp;
 
 typedef struct		s_champ
@@ -174,6 +180,7 @@ void	prcs_cpy(t_process *dst, t_process *src);
  * */
 void	prcs_inst(t_game *game, size_t p_index);
 int		decode_wait(t_uc *pc);
+
 /*
  * decode.c
  * */
@@ -280,4 +287,187 @@ void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val);
 void	deb_16_log(t_game *game, t_inst *inst, t_process *caller, int val);
 void	deb_32_log(t_game *game, t_inst *inst, t_process *caller, int res);
 void	deb_64_log(t_game *game, t_inst *inst, t_process *caller, int p_id);
+
+/*
+ * ASM PART
+ * */
+
+typedef enum	e_errors
+{
+	e_no_error,
+	e_no_print,
+	e_lexical_error,
+	e_syntactic_error,
+	e_input_error,
+	e_malloc_error,
+	e_open_error,
+	e_close_error,
+	e_invalid_command_error,
+	e_comment_too_long_error,
+	e_name_too_long_error,
+	e_write_error,
+	e_reg_nb_error,
+	e_op_code_error,
+	e_dir_int_error,
+	e_dir_short_error,
+	e_ind_error,
+	e_double_label,
+	e_empty_file,
+	e_no_instruction,
+	e_usage,
+}				t_errors;
+
+typedef enum	e_tkn_type
+{
+	e_cmd_name,
+	e_cmd_comment,
+	e_op,
+	e_lbl,
+	e_register,
+	e_ind_label,
+	e_ind_value,
+	e_dir_label,
+	e_dir_value,
+	e_separator,
+	e_carriage_return,
+	e_eof,
+}				t_tkn_type;
+
+typedef struct	s_op_asm
+{
+	int			n_args;
+	int			ocp;
+	int			dir_bytes;
+	char		*name;
+	int			op_state_s;
+	char		op_code;
+}				t_op_asm;
+
+
+typedef	struct	s_tkn
+{
+	t_tkn_type	type;
+	int			lc_inst;
+	int			lc_tkn;
+	int			buff_start;
+	int			buff_end;
+	int			col_start;
+	int			col_end;
+	int			mem_size;
+	void		*value;
+	t_op_asm	*op;
+	int			line;
+}				t_tkn;
+
+typedef	struct	s_lbl
+{
+	char		*name;
+	char		type;
+	int			lc_lbl_inst;
+	t_list		*frwd;
+}				t_lbl;
+
+typedef struct	s_pos
+{
+	int			file_line;
+	int			file_col;
+	int			buf_pos;
+	int			size_buf;
+	int			tab_counter;
+	int			nb_tab;
+	int			lc_inst;
+	int			lc_tkn;
+	int			dir_bytes;
+	int			ocp;
+	int			arg_nbr;
+	int			multiple_line;
+	int			state_l;
+	int			state_s;
+	int			previous_st_s;
+	int			name_len;
+	int			comment_len;
+	int			size_line;
+	char		*tmp_buf;
+	char		*file_name;
+	int			content;
+	int			end_read;
+	int			error_print;
+}				t_pos;
+
+typedef struct	s_bytebf
+{
+	char		*bytebuf;
+	char		*header;
+	int			hd_size;
+	char		*magic;
+	char		name[PROG_NAME_LENGTH];
+	char		offset1[4];
+	char		*prog_size;
+	char		comment[COMMENT_LENGTH];
+	char		offset2[4];
+	char		*inst;
+	int			inst_remain;
+	int			inst_size;
+}				t_bytebf;
+
+extern char		g_lsm_col[13][26];
+extern int		g_lex_sm[30][14];
+extern int		g_syntactic_sm[56][14];
+extern t_op_asm	g_op_tab_asm[16];
+
+int	(*tkn_fptr[NB_TKN_TYPES])(char *buf, t_pos *pos, t_list **lbl, t_tkn **tkn);
+
+int		tkn_label(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_dir_value(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_dir_label(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_ind_value(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_ind_label(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_cmd(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_separator(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		tkn_carr_ret(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+
+void	ocp_modify(t_pos *pos, char *bytebuf);
+int		end_lbl(t_list *lbls, t_pos *pos);
+int		ft_write_output(t_bytebf *bytebf, t_pos *pos, char *name);
+int		final_state(t_pos *pos, t_tkn **tkn, char *buf, t_list **lbls);
+int		tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn);
+int		bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn);
+int		ft_init_main(t_list **lbls, t_bytebf *bytebf, char **line, t_pos *pos);
+int		init_before_analysis(t_pos *pos, char **read_line);
+void	free_after_analysis(t_pos *pos, char **read_line);
+int		lexical_analysis(t_pos *pos, t_tkn **tkn, t_list **lbls);
+int		syntactic_analysis(t_list **lbls, t_pos *pos, t_bytebf *bytebf, t_tkn **tkn);
+char	*get_tkn_type_name(t_tkn_type tkn_type);
+
+void	ocp_create(t_tkn *tkn, t_pos *pos, char *bybf);
+void	gaps_fill(char *bytebuf, t_tkn *tkn);
+void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos);
+void	bytecode_gen(t_tkn *tkn, t_bytebf *bytebf, t_pos *pos);
+
+//libft
+char	ft_atochar(char *str);
+long	ft_atolong(char *str);
+short	ft_atos(char *str);
+void	*ft_memjoin(void *s1, void *s2, size_t len_s1, size_t len_s2);
+int		ft_isspace(char c);
+void	ft_memrev(void *buf, size_t len);
+int		read_bytes(char **line, int error, const int fd);
+
+//need to fix
+int		ft_error(t_pos *pos, t_errors error, t_tkn **tkn);
+void	display(t_pos *pos, t_tkn *tkn, char *error, char *msg);
+void	system_error(t_errors error);
+void	header_error(t_pos *pos, t_tkn *tkn, t_errors error);
+void	command_error(t_pos *pos, t_tkn *tkn, t_errors error);
+void	input_error(t_pos *pos, t_errors error);
+
+//free
+void	del_lbls(void *content, size_t size);
+void	free_tkn(t_tkn **tkn);
+void	del_tkn(void *content, size_t size);
+void	free_bytebf_pos(t_bytebf *bytebf, t_pos *pos);
+
+
 #endif

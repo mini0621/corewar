@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_memrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnishimo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/21 16:28:33 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:22:42 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/13 15:03:52 by allefebv          #+#    #+#             */
+/*   Updated: 2019/06/20 20:35:05 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "corewar.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	ft_memrev(void *str, size_t len)
 {
-	unsigned char	*ps;
-	unsigned char	*pd;
-	size_t			i;
+	size_t	i;
+	char	temp;
 
+	temp = 0;
 	i = 0;
-	if (!dst || !src || !n)
-		return (dst);
-	pd = (unsigned char *)dst;
-	ps = (unsigned char *)src;
-	while (i < n)
+	while (i < len)
 	{
-		pd[i] = ps[i];
+		temp = *(char*)(str + (len - 1));
+		*(char*)(str + (len - 1)) = *(char*)(str + i);
+		*(char*)(str + i) = temp;
 		i++;
+		len--;
 	}
-	return (dst);
 }

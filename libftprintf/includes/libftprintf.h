@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:55:20 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 15:26:25 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:19:07 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "ft_avl.h"
 # include "ft_printf.h"
 
-# define BUFF_SIZE 10
+# define BUFF_SIZE 2048
 
 typedef struct		s_list
 {
@@ -122,7 +122,7 @@ t_list				*ft_lstnomallocnew(void const *content,
 		size_t content_size);
 void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
-void				ft_lstadd(t_list **alst, t_list *new);
+int					ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					ft_sqrt(int nb);
@@ -130,7 +130,7 @@ int					ft_power(int base, int power);
 t_list				*ft_lstlast(t_list *alst);
 int					ft_lstlen(t_list *alst);
 t_list				*ft_lstat(t_list *alst, unsigned int nbr);
-void				ft_lstpushback(t_list **alst, t_list *new);
+int				ft_lstpushback(t_list **alst, t_list *new);
 void				ft_lstinsert(t_list **alst, t_list *new,
 		int (*cmp)(void *, void *));
 void				ft_lstdelof(t_list **alst, void *content,

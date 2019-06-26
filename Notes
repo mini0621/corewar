@@ -1,0 +1,9 @@
+Verifications before seting project as finished ---------
+
+-Decide if REG_SIZE has to be taken into account or if we limit at 99, or u_char max
+-Register = 0 / Register = 250 .... decide
+
+Work to do --------------
+
+-Try to break it
+-Buffer cor value = 1 : invalid read / writes

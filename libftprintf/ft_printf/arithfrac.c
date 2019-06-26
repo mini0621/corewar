@@ -6,7 +6,7 @@
 /*   By: mnishimo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/09 18:49:16 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/16 22:28:15 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:22:10 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ unsigned long long	get_mincarry(unsigned long long *a,
 void				add_frac(unsigned long long *a, unsigned long long **b)
 {
 	int	i;
-	int e;
 
-	e = 0;
 	i = 0;
 	while (i < 101)
 	{
