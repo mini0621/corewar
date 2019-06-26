@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:05:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/19 14:35:20 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/26 22:17:58 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,18 @@ void	update_all(t_game *game, t_visu *visu)
 	draw_dump(game, visu);
 	if (game->deb_state)
 		draw_debug(game, visu);
-	wattron(visu->dump_win, COLOR_PAIR(10));
-	wattron(visu->menu_win, COLOR_PAIR(10));
+	wattron(visu->dump_win, COLOR_PAIR(17));
+	wattron(visu->menu_win, COLOR_PAIR(17));
 	if (game->deb_state)
-		wattron(visu->logs_win, COLOR_PAIR(10));
+		wattron(visu->logs_win, COLOR_PAIR(17));
 	wborder(visu->dump_win, '*', '*', '*', '*', '*', '*', '*', '*');
 	wborder(visu->menu_win, '*', '*', '*', '*', '*', '*', '*', '*');
 	if (game->deb_state)
 		wborder(visu->logs_win, '*', '*', '*', '*', '*', '*', '*', '*');
-	wattroff(visu->dump_win, COLOR_PAIR(10));
-	wattroff(visu->menu_win, COLOR_PAIR(10));
+	wattroff(visu->dump_win, COLOR_PAIR(17));
+	wattroff(visu->menu_win, COLOR_PAIR(17));
 	if (game->deb_state)
-		wattroff(visu->logs_win, COLOR_PAIR(10));
+		wattroff(visu->logs_win, COLOR_PAIR(17));
 	refresh();
 	wnoutrefresh(visu->menu_win);
 	wnoutrefresh(visu->dump_win);
