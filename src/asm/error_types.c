@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:58:29 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/24 17:46:20 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 12:48:44 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,15 @@ void	command_error(t_pos *pos, t_tkn *tkn, t_errors error)
 
 void	input_error(t_pos *pos, t_errors error)
 {
-	ft_printf("\e[1m\e[031mfile_error: ");
+	if (error == e_usage)
+		ft_printf("\e[037musage : ./asm 'sourcefile.s'\n");
+	else
+		ft_printf("\e[1m\e[031mfile_error: ");
 	if (error == e_input_error)
 	{
 		ft_printf("\e[037minput file is of expected format ");
 		ft_printf("'file_name.s' instead of '%s'\n", pos->file_name);
 	}
-	else
+	else if (error == e_no_instruction)
 		ft_printf("\e[037mno instructions in file\n");
 }

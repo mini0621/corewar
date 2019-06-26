@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/25 14:42:11 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 12:47:33 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int			main(int argc, char **argv)
 	t_pos		pos;
 
 	if (argc != 2)
-		return (0);
+		return (ft_error(&pos, e_usage, NULL));
 	ft_bzero(&pos, sizeof(t_pos));
 	if (!(pos.file_name = ft_strdup(argv[1])))
 		return (ft_error(&pos, e_malloc_error, NULL));
