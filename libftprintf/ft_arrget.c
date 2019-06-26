@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_arrget.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 22:40:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:24:29 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/24 14:30:03 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/24 14:47:58 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int		ft_lstadd(t_list **alst, t_list *new)
+unsigned char	*ft_arrget(t_arr *arr, size_t index)
 {
-	if (!new || !alst)
-		return (0);
-	new->next = *alst;
-	*alst = new;
-	return (1);
+	if (!arr || !arr->head || arr->nbr_elem <= index)
+		return (NULL);
+	return (arr->head + arr->size * index);
 }

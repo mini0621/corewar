@@ -1,22 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 22:40:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:24:29 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/06 19:26:40 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "corewar.h"
+#include "visu.h"
 
-int		ft_lstadd(t_list **alst, t_list *new)
+int	main(void)
 {
-	if (!new || !alst)
-		return (0);
-	new->next = *alst;
-	*alst = new;
-	return (1);
+	t_game	game;
+	int		end;
+	int		pause;
+
+	init_visu(&game);
+	end = 0;
+	pause = 1;
+	while (end < 10000 || pause)
+	{
+		output(&game, &end, &pause);
+		if (!pause)
+			end++;
+	}
+	free_game(&game);
+	end_visu(&(game.visu));
+	return (0);
 }

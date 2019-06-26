@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_arrresize.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 22:40:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:24:29 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/24 14:32:40 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/24 17:00:35 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int		ft_lstadd(t_list **alst, t_list *new)
+int	ft_arrresize(t_arr *arr, size_t nbr_elem)
 {
-	if (!new || !alst)
-		return (0);
-	new->next = *alst;
-	*alst = new;
+	unsigned char	*new;
+
+	if (!arr || !arr->head)
+		return (-1);
+	if (!(new = (unsigned char *)malloc(arr->size * nbr_elem)))
+		return (-1);
+	ft_bzero(new, arr->size * nbr_elem);
+	if (arr->nbr_elem > nbr_elem)
+		ft_memcpy(new, arr->head, arr->size * nbr_elem);
+	else
+		ft_memcpy(new, arr->head, arr->size * arr->nbr_elem);
+	free(arr->head);
+	arr->head = new;
+	arr->nbr_elem = nbr_elem;
 	return (1);
 }

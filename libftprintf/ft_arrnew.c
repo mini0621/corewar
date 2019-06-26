@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_arrnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 22:40:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:24:29 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/24 14:07:26 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/24 16:41:48 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int		ft_lstadd(t_list **alst, t_list *new)
+t_arr *ft_arrnew(size_t size, size_t nbr_elem)
 {
-	if (!new || !alst)
-		return (0);
-	new->next = *alst;
-	*alst = new;
-	return (1);
+	t_arr	*ret;
+
+	if (!(ret = (t_arr *)malloc(sizeof(t_arr))))
+		return (NULL);
+	ret->nbr_elem = nbr_elem;
+	ret->size = size;
+	ret->last = -1;
+	if (!(ret->head = (unsigned char *)malloc(size * nbr_elem)))
+	{
+		free(ret);
+		return (NULL);
+	}
+	ft_bzero(ret->head, size * nbr_elem);
+	return (ret);
 }

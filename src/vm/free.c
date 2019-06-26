@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 22:40:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:24:29 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/05/28 19:25:09 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/24 16:01:51 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "corewar.h"
+#include "visu.h"
 
-int		ft_lstadd(t_list **alst, t_list *new)
+void	free_game(t_game *game)
 {
-	if (!new || !alst)
-		return (0);
-	new->next = *alst;
-	*alst = new;
-	return (1);
+	int	i;
+
+	ft_arrdel(&(game->prcs));
+	i = 0;
+	while (game->champs[i])
+	{
+		free(game->champs[i]);
+		game->champs[i] = NULL;
+		i++;
+	}
+	if (game->visu)
+	{
+		end_visu(game->visu);
+		free(game->visu);
+	}
 }

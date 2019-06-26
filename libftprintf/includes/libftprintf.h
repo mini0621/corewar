@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:55:20 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 14:16:01 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:19:07 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ typedef struct		s_queue
 	t_list	*top;
 	t_list	*last;
 }					t_queue;
+
+typedef struct		s_arr
+{
+	size_t			size;
+	size_t			nbr_elem;
+	int				last;
+	unsigned char	*head;
+}					t_arr;
 
 typedef struct		s_fd
 {
@@ -144,4 +152,11 @@ t_queue				*ft_qnew(void);
 t_list				*ft_qpop(t_queue *q);
 void				ft_qdel(t_queue **q, void (*del)(void *, size_t));
 void				ft_qclear(t_queue **q, void (*del)(void *, size_t));
+
+void	ft_arrdel(t_arr **arr);
+unsigned char	*ft_arrget(t_arr *arr, size_t index);
+t_arr *ft_arrnew(size_t size, size_t nbr_elem);
+int	ft_arrresize(t_arr *arr, size_t nbr_elem);
+int	ft_arradd(t_arr *arr, void *new, size_t size, int index);
+void	ft_arrsub(t_arr *arr, size_t index);
 #endif

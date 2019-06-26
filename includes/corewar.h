@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 12:45:14 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 16:40:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,21 @@
 # define NB_TKN_TYPES 11
 # define SPACE_CHAR " \t\v\f\r"
 # define NB_LSM_COL 13
-
-# define RED "\e[031m"
-# define GRN "\e[032m"
-# define WHT "\e[037m"
-# define BLD "\e[1m"
-# define RESET "\e[0m"
+# define IO_ERROR 1
+# define OPT_ERROR 2
+# define ML_ERROR 3
+# define US_ERROR 0
+# define CLR_RED  "\x1b[31m"
+# define CLR_GREEN  "\x1b[32m"
+# define CLR_YEL  "\x1b[33m"
 
 #include "libftprintf.h"
 #include "op.h"
+#include "visu.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <limits.h>
 
 typedef	unsigned long long	t_ull;
 typedef	unsigned long long	t_uc;
@@ -38,29 +41,20 @@ typedef uint16_t			t_ind_type;
 typedef uint32_t			t_dir_type;
 typedef	uint8_t				t_ocp;
 
-typedef struct	s_champ
+typedef struct		s_champ
 {
-	char	name[PROG_NAME_LENGTH + 1];
-	char	comment[COMMENT_LENGTH + 1];
-	int		id; // this should be created in init and copied in r0
-	int		prcs_c;
-	int		live_c;
+	char			name[PROG_NAME_LENGTH + 1];
+	char			comment[COMMENT_LENGTH + 1];
+	int				fd;
+	short			n_id;
+	unsigned int	prog_size;
+	short			id;
+	int				prcs_c;
+	int				live_c;
 }				t_champ;
-
-typedef struct	s_process
-{
-	int		id;
-	int		prcs_id;
-	t_uc	*regs[REG_NUMBER];
-	int		wait_c;
-	int		is_alive;
-	t_uc	*pc;
-	int		carry;
-}				t_process;
 
 typedef enum	e_argtype
 {
-	// if we want to represent this by 3 bit, change to defined T_DIR/T_IND/T_REG
 	e_reg = T_REG,
 	e_dir = T_DIR,
 	e_ind = T_IND,
@@ -68,9 +62,9 @@ typedef enum	e_argtype
 
 typedef union	u_argval
 {
-	t_reg_type	reg_val;
-	t_ind_type	ind_val;
-	t_dir_type	dir_val;
+	t_reg_type	u_reg_val;
+	t_ind_type	u_ind_val;
+	t_dir_type	u_dir_val;
 }				t_argval;
 
 typedef enum	e_opcode
@@ -100,16 +94,47 @@ typedef struct	s_arg
 	t_argval	value;
 }				t_arg;
 
+typedef struct  s_option
+{
+        char    option[6];
+        int     (*f)();
+}               t_option;
+
+typedef struct	s_process
+{
+	int			c_id;
+	int			p_id;
+	t_uc		op;
+	t_dir_type	regs[REG_NUMBER];
+	int			wait_c;
+	int			is_alive;
+	t_uc		*pc;
+	int			carry;
+}				t_process;
+
 typedef struct	s_game
 {
 	t_champ		*champs[MAX_PLAYERS + 1]; // the last ptr is NULL
-	t_list		*prcs; //cache coherence and use t_list? young prcs is top
-	t_ull		nbr_cycle;
+	t_arr		*prcs; //cache coherence and use t_list? young prcs is top
+	t_ull		nbr_prcs;
+	t_ull		nbr_cycle; //-d option value
 	int			nbr_champs;
+	int			d_state;//-d option
+	int			n_state;//-n flag for specifying the number of the following
+	t_ull		pl_number; //store the value which follows the -n flag 
+	int			deb_state;
+	int			print_off;
+	char		*logs;
+	size_t		logs_len;
+	int			pv_number; //keeps track of the previous player number
+	t_ull		live_count;
+	t_ull		prcs_count;
 	t_ull		cycle;
 	t_ull		cycle_d;
-	t_ull		c_checked;
+	t_ull		check_c;
 	t_ull		cycle_to_die;
+	int			winner;
+	t_visu		*visu;
 	t_uc		memdump[MEM_SIZE];
 }				t_game;
 
@@ -145,15 +170,22 @@ int		init_corewar(t_game *game, int ac, char **av);
 int		process(t_game *game);
 
 /*
+ * prcs_util.c
+ * */
+int		prcs_new(t_game *game, int c_id, t_uc *pc, t_arr *arr);
+void	prcs_cpy(t_process *dst, t_process *src);
+
+/*
  * instructions.c
  * */
-void	prcs_inst(t_game *game, t_process *caller);
-void	update_caller(t_process *caller, t_op *op);
+void	prcs_inst(t_game *game, size_t p_index);
+int		decode_wait(t_uc *pc);
+
 /*
  * decode.c
  * */
 t_uc	*decode(t_uc *dump, t_uc *pc, t_inst *inst);
-
+t_op	*decode_op(t_uc pc);
 
 /*
  * ocp.c
@@ -169,11 +201,41 @@ void	free_game(t_game *game);
  * util.c
  * */
 t_op	*get_op(t_inst *inst);
+void	update_logs(t_game *game, char **new, size_t l);
+void	memcpy_inv(void *dst, void *src, size_t size);
+void	ft_hexdump(t_uc *dump);
+void    reset_prcs_c(t_game *game);
+
+/*
+ * memory_utils.c
+ * */
+t_uc	*access_ptr(t_uc *dump, t_uc *pc, int offset);
+void	read_dump(t_uc *dump, t_uc *src, void *dst, size_t size);
+void	write_dump(t_uc *dump, void *src, t_uc *dst, size_t size);
+t_dir_type	*get_arg(t_process *caller, t_uc *dump, t_arg *arg, int rstr);
+void	endian_conv(void *value, size_t size);
 
 /*
  * lst_util.c
  * */
 void	del_lstprcs(void *cnt, size_t size);
+
+/*
+ *	Parser utility functions
+ * */
+void            		vm_init_flags(t_game *game);
+t_ull               	vm_get_value(char *sval);
+int                     vm_catch_error(int flag, char *av);
+int                     vm_file_reader(char *file, t_game *game, int *flag, int *index);
+void                	vm_debug(int flag, int ac, char **av, t_game *game);
+unsigned int			vm_endian_conversion(unsigned int val);
+int	                    vm_opt_reader(int *ac, char **av, t_game *game, int *flag);
+int                     vm_opt_dump(int *index, char **av, t_game *game);
+int                     vm_opt_print(int *index, char **av, t_game *game);
+int                     vm_opt_debug(int *index, char **av, t_game *game);
+int                     vm_opt_visu(int *index, char **av, t_game *game);
+int                     vm_opt_n(int *index, char **av, t_game *game);
+int                 	vm_primary_parser(int fd, t_game *game);
 
 /*
  * instruction functions
@@ -195,7 +257,36 @@ void	inst_lldi(t_game *game, t_process *caller, t_inst *inst);
 void	inst_lfork(t_game *game, t_process *caller, t_inst *inst);
 void	inst_aff(t_game *game, t_process *caller, t_inst *inst);
 
+/*
+ * visu
+*/
+void	end_visu(t_visu *visu);
+int		output(t_game *game);
+void	update_all(t_game *game, t_visu *visu);
+void    init_visu(t_game *game, t_visu *visu);
+void	        draw_dump(t_game *game, t_visu *win);
+void            draw_menu(t_game *game, t_visu *wind);
+void	update_clr(t_game *game, int dst, size_t size, int id);
+void	draw_debug(t_game *game, t_visu *visu);
 
+/*
+ *debug
+ * */
+void	get_debug(t_game *game, t_champ *champ);
+void	reset_debug(t_game *game);
+void	print_debug(t_game *game);
+void	debug_hex(void *dst, size_t size);
+
+void	debug_carry(t_game *game, int p_id, int c_id, int carry);
+char	*add_head(char **log, int p_id, int c_id, int *l);
+
+/*
+ *debug inst
+ * */
+void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val);
+void	deb_16_log(t_game *game, t_inst *inst, t_process *caller, int val);
+void	deb_32_log(t_game *game, t_inst *inst, t_process *caller, int res);
+void	deb_64_log(t_game *game, t_inst *inst, t_process *caller, int p_id);
 
 /*
  * ASM PART
@@ -280,30 +371,24 @@ typedef struct	s_pos
 {
 	int			file_line;
 	int			file_col;
-
 	int			buf_pos;
 	int			size_buf;
 	int			tab_counter;
 	int			nb_tab;
-
 	int			lc_inst;
 	int			lc_tkn;
 	int			dir_bytes;
 	int			ocp;
 	int			arg_nbr;
 	int			multiple_line;
-
 	int			state_l;
 	int			state_s;
 	int			previous_st_s;
-
 	int			name_len;
 	int			comment_len;
 	int			size_line;
-
 	char		*tmp_buf;
 	char		*file_name;
-
 	int			content;
 	int			end_read;
 	int			error_print;
@@ -383,5 +468,6 @@ void	del_lbls(void *content, size_t size);
 void	free_tkn(t_tkn **tkn);
 void	del_tkn(void *content, size_t size);
 void	free_bytebf_pos(t_bytebf *bytebf, t_pos *pos);
+
 
 #endif

@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   draw_debug.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 22:40:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:24:29 by mnishimo         ###   ########.fr       */
+/*   Created: 2019/06/17 22:14:12 by mnishimo          #+#    #+#             */
+/*   Updated: 2019/06/25 18:47:33 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "corewar.h"
 
-int		ft_lstadd(t_list **alst, t_list *new)
+void	draw_debug(t_game *game, t_visu *visu)
 {
-	if (!new || !alst)
-		return (0);
-	new->next = *alst;
-	*alst = new;
-	return (1);
+	int		l;
+	char	*start;
+	char	*end;
+
+	start = &(game->logs[0]);
+	l = 3;
+	wattron(visu->logs_win, COLOR_PAIR(1));
+	while ((end = ft_strchr(start, '\n')) && end != start)
+	{
+		*end = '\0';
+		mvwprintw(visu->logs_win, l, 5, "%s", start);
+		*end = '\n';
+		start = end + 1;
+		l++;
+	}
+	wattroff(visu->logs_win, COLOR_PAIR(1));
 }
