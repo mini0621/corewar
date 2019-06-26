@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 12:38:57 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 18:18:19 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ void	inst_aff(t_game *game, t_process *caller, t_inst *inst)
 		return;
 	c = (char)*i;
 	caller->carry = (!c) ? 1 : 0;
-	if (game->print_off && game->print_off != 1)
+	if (!game->print_off || game->print_off == 1)
 		ft_printf("%c", c);
 }

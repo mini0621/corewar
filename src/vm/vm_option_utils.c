@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:28 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/21 15:36:48 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 18:16:38 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int                     vm_opt_print(int *pos
 {
 	t_ull               value;
 
-	if (av[*pos + 1] && !game->print_off)
+	if (av[*pos + 1] && !game->print_off && !game->visu)
 	{
 		if (!(value = vm_get_value(av[*pos + 1])))
 			return (vm_catch_error(OPT_ERROR, av[*pos]));
@@ -68,6 +68,7 @@ int                     vm_opt_visu(int *pos
 		ft_bzero(game->visu, sizeof(t_visu));
 		game->visu->sp = -1;
 		*pos = *pos + 1;
+		game->print_off = 3;
 	}
 	return (1);
 }

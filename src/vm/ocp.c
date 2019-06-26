@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 17:24:40 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 17:35:55 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,45 @@ static t_argtype	get_typefromcode(t_ocp code)
 	return (0);
 }
 
+static int	add_error_pc(t_argtype type, int dir)
+{
+	if (type == e_reg)
+		return (1);
+	if (type == e_ind)
+		return (2);
+	if (type == e_dir && dir)
+		return (4);
+	if (type == e_dir)
+		return (2);
+	else
+		return (0);
+}
+
+
 int		decode_ocp(t_uc *addr, t_inst *inst)
 {
 	t_ocp		ocp;
 	t_argtype	type;
 	t_op		*op;
 	int			i;
+	int			newpc;
 
+	newpc = 0;
 	ocp = *((t_ocp *)addr);
 	op = get_op(inst);
-	if (op->n_args > MAX_ARGS_NUMBER)
-		return (0);
 	ocp = ocp_nargshift(ocp, op->n_args);
 	i = op->n_args - 1;
 	while (i >= 0)
 	{
 		type = get_typefromcode(0x03 & ocp);
 		//ft_printf("this %i %x\n",i, op->args[i]);
+		newpc += add_error_pc(type, op->dir_bytes);
 		if (!(type & op->args[i]))
-			return (0);
+			return (newpc);
 		//ft_printf("arg %i is type %i \n",i, type);
 		inst->args[i].type = type;
 		i--;
 		ocp = ocp >> 2;
 	}
-	return (1);
+	return (0);
 }
