@@ -6,33 +6,11 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 16:50:22 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:23:43 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-
-static char	*add_head(char **log, int p_id, int c_id, int *l)
-{
-	char	*tmp;
-	
-	tmp = NULL;
-	*l += ft_asprintf(&tmp, "process(%i)/champ(%i): ", p_id, c_id);
-	*log = ft_strjoinfree(&tmp, log, 3);
-	return (*log);
-}
-
-static void	debug_carry(t_game *game, int p_id, int c_id, int carry)
-{
-	char	*tmp;
-	int		l;
-
-	tmp = NULL;
-	l = ft_asprintf(&tmp, "process(%i)/champ(%i): carry = %i\n", p_id, c_id, carry);
-	update_logs(game, &tmp, l);
-}
-
 
 void	deb_64_log(t_game *game, t_inst *inst, t_process *caller, int p_id)
 {
@@ -108,35 +86,41 @@ void	deb_16_log(t_game *game, t_inst *inst, t_process *caller, int val)
 	update_logs(game, &tmp, l);
 }
 
+static int	deb_ld(t_process *caller, t_inst *inst, char **tmp, int val)
+{
+	t_opcode opcode;
+
+	if ((opcode = (get_op(inst))->opcode)
+			&& opcode == e_ld && inst->args[0].type == e_dir)
+		return (ft_asprintf(tmp, "ld '%08x'(dir) -> r%hhu!\n",
+				val, inst->args[1].value.u_reg_val));
+	else if (opcode == e_ld)
+		return (ft_asprintf(tmp, "ld '%08x'(ind) -> r%hhu!\n",
+				val, inst->args[1].value.u_reg_val));
+	else if (opcode == e_lld && inst->args[0].type == e_dir)
+		return (ft_asprintf(tmp, "lld '%08x'(dir) -> r%hhu!\n",
+				val, inst->args[1].value.u_reg_val));
+	else if (opcode == e_lld)
+		return (ft_asprintf(tmp, "lld '%08x'(ind) -> r%hhu!\n",
+				val, inst->args[1].value.u_reg_val));
+	else if (opcode == e_ldi)
+		return (ft_asprintf(tmp, "ldi at %i('%08x') -> r%hhu!\n", val,
+			caller->regs[(int)(inst->args[2].value.u_reg_val)],
+			inst->args[2].value.u_reg_val));
+	else if (opcode == e_lldi)
+		return (ft_asprintf(tmp, "lldi at %i('%08x') -> r%hhu!\n", val,
+			caller->regs[(int)(inst->args[2].value.u_reg_val)],
+			inst->args[2].value.u_reg_val));
+	return (0);
+}
+
 void	deb_8_log(t_game *game, t_inst *inst, t_process *caller, int val)
 {
 	char	*tmp;
 	int		l;
-	t_opcode opcode;
 
-	opcode = (get_op(inst))->opcode;
 	tmp = NULL;
-	if (opcode == e_ld && inst->args[0].type == e_dir)
-		l = ft_asprintf(&tmp, "ld '%08x'(dir) -> r%hhu!\n",
-				val, inst->args[1].value.u_reg_val);
-	else if (opcode == e_ld)
-		l = ft_asprintf(&tmp, "ld '%08x'(ind) -> r%hhu!\n",
-				val, inst->args[1].value.u_reg_val);
-	else if (opcode == e_lld && inst->args[0].type == e_dir)
-		l = ft_asprintf(&tmp, "lld '%08x'(dir) -> r%hhu!\n",
-				val, inst->args[1].value.u_reg_val);
-	else if (opcode == e_lld)
-		l = ft_asprintf(&tmp, "lld '%08x'(ind) -> r%hhu!\n",
-				val, inst->args[1].value.u_reg_val);
-	else if (opcode == e_ldi)
-		l = ft_asprintf(&tmp, "ldi at %i('%08x') -> r%hhu!\n", val,
-			caller->regs[(int)(inst->args[2].value.u_reg_val)],
-			inst->args[2].value.u_reg_val);
-	else if (opcode == e_lldi)
-		l = ft_asprintf(&tmp, "lldi at %i('%08x') -> r%hhu!\n", val,
-			caller->regs[(int)(inst->args[2].value.u_reg_val)],
-			inst->args[2].value.u_reg_val);
-	else
+	if (!(l = deb_ld(caller, inst, &tmp, val)))
 		return ;
 	add_head(&tmp, caller->p_id, caller->c_id, &l);
 	update_logs(game, &tmp, l);

@@ -6,7 +6,7 @@
 #    By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/25 15:03:57 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/06/25 19:16:57 by mnishimo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ HEADER =  $(addprefix includes/, corewar.h op.h)
 VM_SRC = $(addprefix src/vm/, main.c init_corewar.c process.c instructions.c \
 		 decode.c ocp.c free.c lst_util.c util.c memory_util.c prcs_util.c \
 		 vm_error_utils.c vm_file_reader.c vm_mem_utils.c vm_option_utils.c \
-		 vm_parser_model.c vm_primary_parser.c\
+		 vm_parser_model.c vm_primary_parser.c debug_util.c\
 		 debug.c debug_inst.c) $(addprefix src/vm/visu/, output.c visu_util.c \
 		 visu_dump.c visu_menu.c init_visu.c visu_debug.c)
 

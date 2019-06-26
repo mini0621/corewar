@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 18:04:59 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 19:19:59 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,14 @@ t_op	*decode_op(t_uc pc)
 static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
 {
 	int	i;
-	int	l;
 	t_uc	*ptr;
 	t_op	*op;
 	size_t	size;
 
 	i = 0;
 	op = get_op(inst);
-	l = op->n_args;
 	ptr = addr;
-	while (i < l)
+	while (i < op->n_args)
 	{
 		size = (inst->args[i].type != e_reg) ? 4: 1;
 		if (inst->args[i].type == e_ind
