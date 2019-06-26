@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:34:40 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/21 15:41:28 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/26 08:00:49 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,15 @@ int                     vm_catch_error(int flag, char *av)
         ft_printf("%sPlease adhere to the limit of 4 players\n", CLR_RED);
         return (0);
     }
-      else if (flag == -5)
+   	else if (flag == -5)
     {
         ft_printf("%sOption %s has been provided for more than once\n", CLR_YEL, av);
         return (0);
     }
+	else if (flag == -6)
+	{
+		ft_printf("%sError Program size of %s exceeds %d\n", CLR_RED, av, CHAMP_MAX_SIZE);
+		return (0);
+	}
     return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:29:51 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 17:30:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/25 16:37:25 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,15 @@ void	init_visu(t_game *game, t_visu *visu)
 	visu->dump_win = newwin(MEM_SIZE / 64 + 2, 64 * 3 + 9, 0, 0);
 	if (game->deb_state)
 	{
-		visu->menu_win = newwin((MEM_SIZE / 64 + 2) / 2 + 1, 100, 0, 64 * 3 + 8);
-		visu->logs_win = newwin((MEM_SIZE / 64 + 2) / 2, 100, (MEM_SIZE / 64 + 2) / 2, 64 * 3 + 8);
+		visu->menu_win = newwin((MEM_SIZE / 64 + 2) / 2 + 1
+				, 100, 0, 64 * 3 + 8);
+		visu->logs_win = newwin((MEM_SIZE / 64 + 2) / 2
+				, 100, (MEM_SIZE / 64 + 2) / 2, 64 * 3 + 8);
 		scrollok(visu->logs_win, TRUE);
 	}
 	else
-		visu->menu_win = newwin(MEM_SIZE / 64 + 2 , 100, 0, 64 * 3 + 8);
+		visu->menu_win = newwin(MEM_SIZE / 64 + 2
+				, 100, 0, 64 * 3 + 8);
 	scrollok(visu->menu_win, TRUE);
 	curs_set(FALSE);
 	update_all(game, game->visu);
