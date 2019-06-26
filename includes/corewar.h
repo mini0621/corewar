@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 16:31:57 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/26 12:45:14 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,7 @@ typedef enum	e_errors
 	e_double_label,
 	e_empty_file,
 	e_no_instruction,
+	e_usage,
 }				t_errors;
 
 typedef enum	e_tkn_type

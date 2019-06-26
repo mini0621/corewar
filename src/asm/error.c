@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/24 18:53:33 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 12:46:01 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int			ft_error(t_pos *pos, t_errors error, t_tkn **tkn)
 			lexical_error(pos, *tkn, error);
 		else if (error == e_syntactic_error || error == e_double_label)
 			syntactic_error(pos, *tkn, error);
-		else if (error == e_input_error || error == e_no_instruction)
+		else if (error == e_input_error || error == e_no_instruction
+			|| error == e_usage)
 			input_error(pos, error);
 		else if (error == e_malloc_error || error == e_open_error
 			|| error == e_write_error || error == e_close_error)
