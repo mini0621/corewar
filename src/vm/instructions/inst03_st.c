@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 19:24:43 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 02:48:35 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	inst_st(t_game *game, t_process *caller, t_inst *inst)
 		if (game->visu)
 			update_clr(game, addr - game->memdump, REG_SIZE, caller->c_id);
 	}
+	//ft_printf("check pc%i\n", caller->pc -game->memdump);
 	if (!(game->deb_state & 16))
 		return ;
 	if (inst->args[1].type != e_reg)

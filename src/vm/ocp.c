@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 17:35:55 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 02:28:56 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ int		decode_ocp(t_uc *addr, t_inst *inst)
 	t_op		*op;
 	int			i;
 	int			newpc;
+	int			err;
 
+	err = 0;
 	newpc = 0;
 	ocp = *((t_ocp *)addr);
 	op = get_op(inst);
@@ -70,11 +72,11 @@ int		decode_ocp(t_uc *addr, t_inst *inst)
 		//ft_printf("this %i %x\n",i, op->args[i]);
 		newpc += add_error_pc(type, op->dir_bytes);
 		if (!(type & op->args[i]))
-			return (newpc);
+			err++;
 		//ft_printf("arg %i is type %i \n",i, type);
 		inst->args[i].type = type;
 		i--;
 		ocp = ocp >> 2;
 	}
-	return (0);
+	return ((err) ? newpc : 0);
 }
