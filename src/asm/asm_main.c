@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/26 18:16:33 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:26:53 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static int	end_main_loop(t_pos *pos, t_tkn **tkn)
 		return (ft_error(pos, e_empty_file, NULL));
 	if (pos->state_l == 26)
 		return (ft_error(pos, e_invalid_command_error, tkn));
-	if (pos->state_s == 2 && !pos->error_print)
+	if ((pos->state_s == 2 || pos->state_s == 1 || pos->state_s == 0)
+			&& !pos->error_print)
 		return (ft_error(pos, e_no_instruction, NULL));
 	else
 		return (0);
@@ -27,6 +28,7 @@ static int	end_main_loop(t_pos *pos, t_tkn **tkn)
 static int	rd_anlz_enc_2(t_pos *pos, t_list **lbls)
 {
 	if (pos->content && pos->state_l != 26 && pos->state_s != 2
+		&& pos->state_s != 1 && pos->state_s != 0
 		&& !pos->end_read && end_lbl(*lbls, pos))
 	{
 		ft_lstdel(lbls, &del_lbls);
