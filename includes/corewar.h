@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/27 11:20:16 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:59:39 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ typedef struct	s_game
 	int			nbr_champs;
 	int			d_state;//-d option
 	int			n_state;//-n flag for specifying the number of the following
-	t_ull		pl_number; //store the value which follows the -n flag 
+	t_ull		pl_number; //store the value which follows the -n flag
 	int			deb_state;
 	int			print_off;
 	char		*logs;
@@ -412,7 +412,7 @@ typedef struct	s_bytebf
 
 extern char		g_lsm_col[13][26];
 extern int		g_lex_sm[30][14];
-extern int		g_syntactic_sm[56][14];
+extern int		g_syntactic_sm[59][14];
 extern t_op_asm	g_op_tab_asm[16];
 
 int	(*tkn_fptr[NB_TKN_TYPES])(char *buf, t_pos *pos, t_list **lbl, t_tkn **tkn);
