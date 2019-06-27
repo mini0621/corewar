@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 14:03:48 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/26 17:58:59 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/27 19:14:15 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static void	lexical_error(t_pos *pos, t_tkn *tkn, t_errors error)
 	else if (error == e_op_code_error)
 		display(pos, tkn, "lexical", "wrong op_code");
 	else if (error == e_dir_int_error)
-		display(pos, tkn, "lexical", "dir_value [ > INT_MAX | < INT_MIN ]");
+		display(pos, tkn, "lexical", "dir_value [ > UINT_MAX | < INT_MIN ]");
 	else if (error == e_dir_short_error)
-		display(pos, tkn, "lexical", "dir_value [ > SHORT_MAX | < SHORT_MIN ]");
+		display(pos, tkn, "lexical", "dir_value [ > USHRT_MAX | < SHRT_MIN ]");
 	else if (error == e_ind_error)
-		display(pos, tkn, "lexical", "ind_value [ > SHORT_MAX | < SHORT_MIN ]");
+		display(pos, tkn, "lexical", "ind_value [ > USHRT_MAX | < SHRT_MIN ]");
 	else
 		display(pos, tkn, "lexical", "unexpected_character");
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
+#    By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/26 17:04:31 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/06/27 19:29:02 by allefebv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ ASM_SRC =	$(addprefix src/asm/, asm_main.c finished_state_machines.c			\
 			tkn_create_1.c tkn_create_2.c tkn_create_3.c tkn_create_4.c			\
 			end_functions.c	initializations.c free_fncs.c tkn_creations.c		\
 			lexical_analysis.c syntactic_analysis.c error.c error_types.c		\
-			error_display.c)
+			error_display.c ft_atoui.c ft_atous.c)
 
 ASM_OBJ	=	$(ASM_SRC:src/asm/%.c=obj/asm/%.o)
 OBJ		=	$(SRC:src/%.c=obj/%.o)
