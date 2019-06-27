@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:12:36 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/22 20:54:09 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:56:29 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,26 @@
 void	command_buf_fill(t_bytebf *bytebf, t_tkn *tkn, t_pos *pos)
 {
 	int	i;
+	int	j;
 
-	i = 0;
+	i = -1;
+	j = -1;
 	if (tkn->type == e_cmd_comment)
 	{
-		while (i < pos->comment_len)
+		while (++i < pos->comment_len)
 		{
-			if (*(char*)(tkn->value + i) != '\0')
-				bytebf->comment[i] = *(char*)(tkn->value + i);
-			i++;
+			if (*(char*)(tkn->value + i) == '\0')
+				continue ;
+			bytebf->comment[++j] = *(char*)(tkn->value + i);
 		}
 	}
 	else
 	{
-		while (i < pos->name_len)
+		while (++i < pos->name_len)
 		{
-			bytebf->name[i] = *(char*)(tkn->value + i);
-			i++;
+			if (*(char*)(tkn->value + i) == '\0')
+				continue ;
+			bytebf->name[++j] = *(char*)(tkn->value + i);
 		}
 	}
 }
