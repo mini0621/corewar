@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 14:42:46 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/26 17:02:22 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:30:08 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	print_file_name(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 {
-	if (msg && strstr(msg, "unex"))
+	if (msg && ft_strstr(msg, "unex"))
 		ft_printf("\e[037m\e[1m%s:%d:%d: \e[031m%s_error: ",
 			pos->file_name, pos->file_line, pos->buf_pos + 1, error);
 	else
@@ -95,7 +95,7 @@ void		display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 	print_file_name(pos, tkn, error, msg);
 	print_line_or_msg(pos, tkn, msg, 'M');
 	print_line_or_msg(pos, tkn, msg, 'L');
-	if ((msg && !strstr(msg, "missing")) || pos->state_s == -1)
+	if ((msg && !ft_strstr(msg, "missing")) || pos->state_s == -1)
 	{
 		print_arrow(pos, tkn);
 		ft_printf("\n");
