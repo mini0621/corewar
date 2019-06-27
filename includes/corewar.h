@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/27 17:24:37 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/27 17:28:23 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,7 +390,7 @@ typedef struct				s_bytebf
 
 extern char					g_lsm_col[13][26];
 extern int					g_lex_sm[30][14];
-extern int					g_syntactic_sm[56][14];
+extern int					g_syntactic_sm[59][14];
 extern t_op_asm				g_op_tab_asm[16];
 
 typedef int					(*t_tkn_fptr)(char *buf, t_pos *pos, t_list **lbl,
