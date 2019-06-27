@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tkn_creations.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/22 21:35:32 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/22 21:37:55 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/27 17:21:08 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 
 int	tkn_create(char *buf, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
-	int j;
+	int			j;
+	t_tkn_fptr	fptr[NB_TKN_TYPES];
 
-	tkn_fptr[0] = &tkn_label;
-	tkn_fptr[1] = &tkn_register;
-	tkn_fptr[2] = &tkn_op;
-	tkn_fptr[3] = &tkn_dir_value;
-	tkn_fptr[4] = &tkn_dir_label;
-	tkn_fptr[5] = &tkn_ind_value;
-	tkn_fptr[6] = &tkn_ind_label;
-	tkn_fptr[7] = &tkn_cmd;
-	tkn_fptr[8] = &tkn_separator;
-	tkn_fptr[9] = &tkn_carr_ret;
+	fptr[0] = &tkn_label;
+	fptr[1] = &tkn_register;
+	fptr[2] = &tkn_op;
+	fptr[3] = &tkn_dir_value;
+	fptr[4] = &tkn_dir_label;
+	fptr[5] = &tkn_ind_value;
+	fptr[6] = &tkn_ind_label;
+	fptr[7] = &tkn_cmd;
+	fptr[8] = &tkn_separator;
+	fptr[9] = &tkn_carr_ret;
 	j = 0;
 	while (j < NB_TKN_TYPES)
 	{
 		if (j == g_lex_sm[pos->state_l][1])
 		{
-			if (!(tkn_fptr[j](buf, pos, lbls, tkn)))
+			if (!(fptr[j](buf, pos, lbls, tkn)))
 				return (ft_error(NULL, e_no_print, tkn));
 			break ;
 		}
