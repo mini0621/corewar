@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 17:35:24 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/26 12:47:33 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 18:16:33 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,20 @@ static int	file_check(char *str, t_pos *pos)
 	i = 0;
 	if ((ft_strlen(str)) < 3)
 		return (ft_error(pos, e_input_error, NULL));
+	while (ft_strlen(str) >= 3
+		&& *str == '.' && *(str + 1) == '.' && *(str + 2) == '/')
+		str += 3;
+	if (str[i] == '.')
+		i++;
 	while (str[i] != '\0' && str[i] != '.')
 		i++;
+	if (str[i] == '\0')
+		return (ft_error(pos, e_input_error, NULL));
 	if (str[i] == '.' && str[i + 1] != 's')
-	{
-		if (i != 0)
-			return (ft_error(pos, e_input_error, NULL));
-		i++;
-		while (str[i] != '\0' && str[i] != '.')
-			i++;
-	}
+		return (ft_error(pos, e_input_error, NULL));
 	if (str[i] == '.' && str[i + 1] == 's' && str[i + 2] == '\0')
 		return (1);
-	else
-		return (ft_error(pos, e_input_error, NULL));
+	return (ft_error(pos, e_input_error, NULL));
 }
 
 int			main(int argc, char **argv)
@@ -99,7 +99,7 @@ int			main(int argc, char **argv)
 	if (!(pos.file_name = ft_strdup(argv[1])))
 		return (ft_error(&pos, e_malloc_error, NULL));
 	if (!(file_check(argv[1], &pos)))
-		return (0);
+		return (ft_error(&pos, e_no_print, NULL));
 	else if ((fd = open(argv[1], O_RDONLY)) < 0)
 		return (ft_error(&pos, e_open_error, NULL));
 	else if (!read_analyze_encode_loop(fd, &bytebf, &pos)

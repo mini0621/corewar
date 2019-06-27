@@ -6,14 +6,14 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:58:29 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/26 12:48:44 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:57:59 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include <errno.h>
 
-void	system_error(t_errors error)
+void	system_error(t_pos *pos, t_errors error)
 {
 	char *err_str;
 
@@ -23,9 +23,10 @@ void	system_error(t_errors error)
 		ft_printf("\e[1m\e[031mmemory_allocation error: \e[037m%s\n\e[0m",
 			err_str);
 	else if (error == e_open_error)
+	{
 		ft_printf("\e[1m\e[031mopen_file error: \e[037m%s\n\e[0m", err_str);
-	else if (error == e_empty_file)
-		ft_printf("\e[1m\e[031mempty_file error:\n\e[0m");
+		ft_strdel(&pos->file_name);
+	}
 	else if (error == e_write_error)
 		ft_printf("\e[1m\e[031mwrite_error: \e[037m%s\n\e[0m", err_str);
 	else if (error == e_close_error)
@@ -60,14 +61,17 @@ void	command_error(t_pos *pos, t_tkn *tkn, t_errors error)
 void	input_error(t_pos *pos, t_errors error)
 {
 	if (error == e_usage)
-		ft_printf("\e[037musage : ./asm 'sourcefile.s'\n");
+		ft_printf("\e[037musage : ./asm 'sourcefile.s'\n\e[0m");
+	else if (error == e_empty_file)
+		ft_printf("\e[1m\e[031merror: \e[037mfile is empty\n\e[0m");
 	else
 		ft_printf("\e[1m\e[031mfile_error: ");
 	if (error == e_input_error)
 	{
 		ft_printf("\e[037minput file is of expected format ");
-		ft_printf("'file_name.s' instead of '%s'\n", pos->file_name);
+		ft_printf("'file_name.s' instead of '%s'\n\e[0m", pos->file_name);
+		ft_strdel(&pos->file_name);
 	}
 	else if (error == e_no_instruction)
-		ft_printf("\e[037mno instructions in file\n");
+		ft_printf("\e[037mno instructions in file\n\e[0m");
 }

@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 18:13:22 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:20:16 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -458,7 +458,7 @@ int		read_bytes(char **line, int error, const int fd);
 //need to fix
 int		ft_error(t_pos *pos, t_errors error, t_tkn **tkn);
 void	display(t_pos *pos, t_tkn *tkn, char *error, char *msg);
-void	system_error(t_errors error);
+void	system_error(t_pos *pos, t_errors error);
 void	header_error(t_pos *pos, t_tkn *tkn, t_errors error);
 void	command_error(t_pos *pos, t_tkn *tkn, t_errors error);
 void	input_error(t_pos *pos, t_errors error);

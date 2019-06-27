@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 10:32:41 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/25 16:12:54 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/26 17:38:16 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	label_dont_exist(t_list **lbls, t_pos *pos, t_tkn **tkn, char *name)
 		return (ft_error(pos, e_malloc_error, NULL));
 	new_lbl->name = name;
 	new_lbl->type = 'U';
+	new_lbl->frwd = NULL;
 	if (!(new_lst = ft_lstnew(new_lbl, sizeof(t_lbl))))
 	{
 		free(new_lbl);
