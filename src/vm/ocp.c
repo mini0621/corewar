@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/27 02:28:56 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 11:43:16 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,14 @@ int		decode_ocp(t_uc *addr, t_inst *inst)
 		type = get_typefromcode(0x03 & ocp);
 		//ft_printf("this %i %x\n",i, op->args[i]);
 		newpc += add_error_pc(type, op->dir_bytes);
-		if (!(type & op->args[i]))
+		if (!type || !(type & op->args[i]))
 			err++;
-		//ft_printf("arg %i is type %i \n",i, type);
+	//	ft_printf("arg %i is type %i \n",i, type);
 		inst->args[i].type = type;
 		i--;
 		ocp = ocp >> 2;
 	}
+	if (err)
+		inst->op = NULL;
 	return ((err) ? newpc : 0);
 }
