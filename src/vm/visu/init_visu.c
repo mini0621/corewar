@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:29:51 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 22:49:01 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:08:48 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ static void	get_colors(void)
 	color_conv(22, 232, 245, 233);
 	color_conv(23, 0, 135, 68);
 	color_conv(24, 205, 220, 57);
-	color_conv(1, 210, 210, 210);
+	color_conv(1, 180, 180, 180);
+	color_conv(2, 0, 40, 0);
+	color_conv(3, 244, 67, 54);
 }
 
 static void	get_pairs(void)
@@ -54,9 +56,10 @@ static void	get_pairs(void)
 	init_pair(12, COLORS - 16, COLOR_BLACK); // new written by champ 1
 	init_pair(13, COLORS - 17, COLOR_BLACK); // new written by champ 1
 	init_pair(14, COLORS - 18, COLOR_BLACK); // new written by champ 1
-	init_pair(15, COLORS - 23, COLOR_BLACK); // main
-	init_pair(16, COLORS - 24, COLOR_BLACK); // main2
-	init_pair(17, COLORS - 1, COLORS - 1); //box
+	init_pair(15, COLORS - 24, COLOR_BLACK); // main2
+	init_pair(16, COLORS - 23, COLOR_BLACK); // main
+	init_pair(17, COLORS - 2, COLORS - 2); //box
+	init_pair(18, COLORS - 3, COLOR_BLACK); //box
 }
 
 void	init_visu(t_game *game, t_visu *visu)
@@ -71,10 +74,10 @@ void	init_visu(t_game *game, t_visu *visu)
 	visu->dump_win = newwin(MEM_SIZE / 64 + 4, 64 * 3 + 10, 0, 0);
 	if (game->deb_state)
 	{
-		visu->menu_win = newwin((MEM_SIZE / 64 + 4) / 2 + 1
+		visu->menu_win = newwin((MEM_SIZE / 64 + 4) / 2 + 2
 				, 100, 0, 64 * 3 + 10);
 		visu->logs_win = newwin((MEM_SIZE / 64 + 4) / 2
-				, 100, (MEM_SIZE / 64 + 2) / 2, 64 * 3 + 10);
+				, 100, (MEM_SIZE / 64 + 2) / 2 + 1, 64 * 3 + 10);
 		scrollok(visu->logs_win, TRUE);
 	}
 	else

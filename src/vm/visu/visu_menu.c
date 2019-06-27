@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 09:49:23 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/26 22:01:05 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:03:14 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static void		draw_header(WINDOW *win)
 
 	count = 0;
 	wprintw(win, "\n");
-	wattron(win, (COLOR_PAIR(16) | A_BOLD));
+	wattron(win, (COLOR_PAIR(18) | A_BOLD));
 	while (count < (int)(sizeof(g_header) / sizeof(g_header[0])))
 		wprintw(win, "%84s\n", g_header[count++]);
-	wattroff(win, (COLOR_PAIR(16) | A_BOLD));
+	wattroff(win, (COLOR_PAIR(18) | A_BOLD));
 
 }
 
@@ -69,14 +69,14 @@ void            draw_menu(t_game *game, t_visu *wind)
 
 	draw_header(wind->menu_win);
 	index = draw_champs(game, wind->menu_win);
-	wattron(wind->menu_win, (COLOR_PAIR(16)));
+	wattron(wind->menu_win, (COLOR_PAIR(18)));
 	mvwprintw(wind->menu_win, index++, 2, "Cycle: %d", game->cycle);
 	mvwprintw(wind->menu_win, index++, 2,
 		"Total Number of lives: %d Alive Calls: %d",
 		game->prcs_count, game->live_count);
 	mvwprintw(wind->menu_win, index++, 2,
 			"Cycle to die: %d, decreasing with: %d", game->cycle_to_die, CYCLE_DELTA);
-	wattroff(wind->menu_win, (COLOR_PAIR(16)));
+	wattroff(wind->menu_win, (COLOR_PAIR(18)));
 	wattron(wind->menu_win, (COLOR_PAIR(15) | A_BOLD));
 	if (wind->sp < 0)
 		mvwprintw(wind->menu_win, index++, 35, "GAME PAUSED!! PRESS SPACE BAR TO CONTINUE\n");

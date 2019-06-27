@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:14:12 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 18:47:33 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 12:03:42 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	draw_debug(t_game *game, t_visu *visu)
 
 	start = &(game->logs[0]);
 	l = 3;
-	wattron(visu->logs_win, COLOR_PAIR(1));
+	wattron(visu->logs_win, COLOR_PAIR(18));
 	while ((end = ft_strchr(start, '\n')) && end != start)
 	{
 		*end = '\0';
@@ -29,5 +29,5 @@ void	draw_debug(t_game *game, t_visu *visu)
 		start = end + 1;
 		l++;
 	}
-	wattroff(visu->logs_win, COLOR_PAIR(1));
+	wattroff(visu->logs_win, COLOR_PAIR(18));
 }
