@@ -199,6 +199,8 @@ t_ull						vm_get_value(char *sval);
 int							vm_catch_error(int flag, char *av);
 int							vm_file_reader(char *file, t_game *game,
 							int *flag, int *index);
+void                		vm_sort_champ_id(t_game *game);
+int	                    	vm_is_player(char *str);
 void						vm_debug(int flag, int ac, char **av, t_game *game);
 unsigned int				vm_endian_conversion(unsigned int val);
 int							vm_opt_reader(int *ac, char **av, t_game *game,
