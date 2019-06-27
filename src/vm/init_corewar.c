@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 21:01:36 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 10:51:46 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int				vm_init_parser(int ac, char **av, t_game *game)
 	}
 	return (1);
 }
+
 static void		init_clr_map(t_game *game, int c_id, int dif, unsigned int size)
 {
 	unsigned int 	i;
@@ -86,11 +87,27 @@ static int		read_champs(t_game *game)
 	return (1);
 }
 
+// void		vm_print_champs(t_game *game)
+// {
+// 	int		index;
+
+// 	index = 0;
+// 	while (index < game->nbr_champs)
+// 	{
+// 		ft_printf("name: %s, id: %d, pos: %d\n", game->champs[index]->name, game->champs[index]->id, index);
+// 		index++;
+// 	}
+// }
+
 int			init_corewar(t_game *game, int ac, char **av)
 {
 	vm_init_flags(game);
 	if (!vm_init_parser(ac, av, game))
+	{
+		free_game(game);
 		return (0);
+	}
+	vm_sort_champ_id(game);
 	if (!(game->prcs = ft_arrnew(sizeof(t_process), game->nbr_champs * 10)))
 		return (0);
 	if (!read_champs(game))

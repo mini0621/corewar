@@ -236,6 +236,8 @@ int                     vm_opt_debug(int *index, char **av, t_game *game);
 int                     vm_opt_visu(int *index, char **av, t_game *game);
 int                     vm_opt_n(int *index, char **av, t_game *game);
 int                 	vm_primary_parser(int fd, t_game *game);
+void                    vm_sort_champ_id(t_game *game);
+int	                    vm_is_player(char *str);
 
 /*
  * instruction functions

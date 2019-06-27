@@ -12,6 +12,13 @@
 
 #include "corewar.h"
 
+static int 			free_then_error(t_champ *champ, int flag, int fd)
+{
+	free(champ);
+	close(fd);
+	return (flag);
+}
+
 static int          vm_verify_magic(int fd, unsigned int *magic)
 {
 	if ((read(fd, magic, sizeof(unsigned int))) < 0)
@@ -36,11 +43,9 @@ static int          vm_verify_size(int fd, unsigned int *prog_size)
 static int          vm_pri_processor(int pv_number, t_champ *champ
 		, t_game *game)
 {
-	if (game->n_state
-			&& (game->pl_number + 1 < MAX_PLAYERS))
+	if (game->n_state)
 	{
-		champ->id = (short)(-1 * pv_number -1);
-		champ->n_id = (short)(-1 * game->pl_number);
+		champ->id = (short)(-1 * game->pl_number);
 		champ->prcs_c = 0;
 		champ->live_c = 0;
 		game->champs[pv_number] = champ;
@@ -53,7 +58,6 @@ static int          vm_pri_processor(int pv_number, t_champ *champ
 	if (!game->n_state)
 	{
 		champ->id = (short)(-1 * pv_number -1);
-		champ->n_id = 0;
 		champ->prcs_c = 0;
 		champ->live_c = 0;
 		game->champs[pv_number] = champ;
@@ -77,17 +81,17 @@ int                 vm_primary_parser(int fd, t_game *game)
 	if (!(fd = vm_verify_magic(fd, &magic)))
 		return (-1);
 	if (!(new = (t_champ *)malloc(sizeof(t_champ))))
-		return (-2);
+		return (free_then_error(new, -2, fd));
 	ft_bzero(new, sizeof(t_champ));
 	if ((read(fd, new->name, sizeof(t_uc) * PROG_NAME_LENGTH)) < 0)
-		return (-2);
+		return (free_then_error(new, -2, fd));
 	if (!(fd = vm_verify_size(fd, &prog_size)))
-		return (-5);
+		return (free_then_error(new, -6, fd));
 	if ((read(fd, new->comment, sizeof(t_uc) * COMMENT_LENGTH)) < 0)
-		return (-2);
+		return (free_then_error(new, -2, fd));
 	new->prog_size = prog_size;
 	new->fd = fd;
 	if (!vm_pri_processor(play_num, new, game))
-		return (-3);
+		return (free_then_error(new, -3, fd));
 	return (1);
 }

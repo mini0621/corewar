@@ -12,15 +12,14 @@
 
 #include "corewar.h"
 
-static int              vm_is_player(char *str)
+int	                    vm_is_player(char *str)
 {
     if (str != NULL)
     {
-        if (ft_strlen(str) > 4)
-        {
-            if (ft_strstr(str, ".cor"))
+        if ((ft_strlen(str)) < 4)
+            return (0);
+        if (!(ft_strcmp(".cor", ft_strrchr(str, '.'))))
             return (1);
-        }
     }
     return (0);
 }
@@ -36,16 +35,8 @@ int                     vm_file_reader(char *file, t_game *game
         if ((fd = open(file, O_RDONLY)) < 0)
             return (vm_catch_error(IO_ERROR, file));
         ret = vm_primary_parser(fd, game);
-        if (ret == -1)
-            return (vm_catch_error(ret, NULL));
-        if (ret == -2)
-            return (vm_catch_error(ret, NULL));
-        if (ret == -3)
-            return (vm_catch_error(ret, NULL));
-        if (ret == -4)
-            return (vm_catch_error(ret, NULL));
-		if (ret == -5)
-			return (vm_catch_error(ret, file));
+        if (ret < 0 && ret > -7)
+            return (vm_catch_error(ret, file));
         *flag = 1;
         *index = *index + 1;
         return (1);

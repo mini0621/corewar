@@ -18,7 +18,7 @@ void            vm_init_flags(t_game *game)
 	game->nbr_cycle = ULLONG_MAX;
     game->cycle_d = CYCLE_TO_DIE;
     game->cycle_to_die = CYCLE_TO_DIE;
-    game->print_off = 3;
+    game->print_off = 0;
     game->winner = -1;
     game->nbr_prcs = 1;
     ft_bzero(&(game->memdump[0]), MEM_SIZE * sizeof(t_uc));

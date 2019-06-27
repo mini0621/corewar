@@ -52,18 +52,16 @@ int                     vm_catch_error(int flag, char *av)
     else if (flag == OPT_ERROR)
         ft_printf("%sError found around the option params of %s\n", CLR_YEL, av);
     else if (flag == -1)
-        ft_printf("%sInvalid magic number found on one of the players\n", CLR_RED);
+        ft_printf("%sInvalid magic number found on %s\n", CLR_RED, av);
     else if (flag == -2)
-        ft_printf("%sFile processing and memory allocation failed\n", CLR_RED);
+        ft_printf("%sFile processing or memory allocation fail %s\n", CLR_RED, av);
     else if (flag == -3)
-        ft_printf("%sError while saving player to memory\n", CLR_RED);
+        ft_printf("%sError while saving %s to memory\n", CLR_RED, av);
     else if (flag == -4)
         ft_printf("%sPlease adhere to the limit of 4 players\n", CLR_RED);
     else if (flag == -5)
         ft_printf("%sOption %s has been provided for more than once\n", CLR_YEL, av);
 	else if (flag == -6)
 		ft_printf("%sError Program size of %s exceeds %d\n", CLR_RED, av, CHAMP_MAX_SIZE);
-	else
-    	return (1);
     return (0);
 }
