@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/27 11:43:16 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 13:18:26 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,20 @@ int		decode_ocp(t_uc *addr, t_inst *inst)
 {
 	t_ocp		ocp;
 	t_argtype	type;
-	t_op		*op;
 	int			i;
 	int			newpc;
 	int			err;
 
 	err = 0;
 	newpc = 0;
-	ocp = *((t_ocp *)addr);
-	op = get_op(inst);
-	ocp = ocp_nargshift(ocp, op->n_args);
-	i = op->n_args - 1;
+	ocp = ocp_nargshift(*((t_ocp *)addr), (get_op(inst))->n_args);
+	i = (get_op(inst))->n_args - 1;
 	while (i >= 0)
 	{
 		type = get_typefromcode(0x03 & ocp);
 		//ft_printf("this %i %x\n",i, op->args[i]);
-		newpc += add_error_pc(type, op->dir_bytes);
-		if (!type || !(type & op->args[i]))
+		newpc += add_error_pc(type, (get_op(inst))->dir_bytes);
+		if (!type || !(type & (get_op(inst))->args[i]))
 			err++;
 	//	ft_printf("arg %i is type %i \n",i, type);
 		inst->args[i].type = type;

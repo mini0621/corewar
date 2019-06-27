@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 15:37:53 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/27 14:24:14 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 	i = game->nbr_champs - 1;
 	while (i >= 0)
 	{
-		if (champs[i]->prcs_c)
+	//	ft_printf("checking ... %i, prcs %i %s\n", champs[i]->id, champs[i]->prcs_c, champs[i]->name);
+		if (champs[i]->prcs_c && champs[i]->live_c)
 		{
 			end++;
 			game->winner = champs[i]->id;
 		}
 		else
-			get_debug(game, *champs + i);
+		{
+			champs[i]->live_c = 0;
+			get_debug(game, *champs + i, 0);
+		}
 		i--;
 	}
 	if (!end)
@@ -64,6 +68,7 @@ static int is_end(t_game *game, t_champ **champs)
 			i--;
 			continue;
 		}
+		get_debug(game, NULL, p->p_id);
 		game->prcs_count -= 1;
 		ft_arrsub(game->prcs, i);
 		i--;
@@ -96,7 +101,7 @@ int process(t_game *game)
 	reset_debug(game);
 	game->cycle += 1;
 	game->cycle_d -= 1;
-	get_debug(game, NULL);
+	get_debug(game, NULL, 0);
 	if (!game->cycle_d && (win = is_end(game, &(game->champs[0]))))
 		return (win);
 	i = game->prcs->last;
