@@ -23,10 +23,11 @@ static void	deb_4_log(t_game *game, int p_id, int c_id, int id)
 	update_logs(game, &tmp, l);
 }
 
-void	inst_live(t_game *game, t_process *caller, t_inst *inst)
+void		inst_live(t_game *game, t_process *caller, t_inst *inst)
 {
-	int	i;
-	int	id;
+	int		i;
+	int		id;
+	int 	n_id;
 
 	if (!game || !caller || !inst)
 		return ;
@@ -38,9 +39,10 @@ void	inst_live(t_game *game, t_process *caller, t_inst *inst)
 	{
 		if (game->champs[i]->id == id)
 		{
+			n_id = game->champs[i]->n_id;
 			if (!game->print_off || game->print_off == 2)
 				ft_printf("A process shows that player %i (%s) is alive\n",
-					-id, game->champs[i]->name);
+					n_id, game->champs[i]->name);
 			(game->champs[i]->live_c)++;
 			break;
 		}

@@ -6,14 +6,13 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 19:19:59 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:45:08 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-
-t_op    g_op_tab[17] =
+t_op				g_op_tab[17] =
 {
 	{0, 0, {0}, 0, 0, 0, 0, 0, NULL},
 	{e_live, 1, {T_DIR}, 10, 0, 0, 0, 1, &inst_live},
@@ -40,7 +39,7 @@ t_op    g_op_tab[17] =
 	{e_aff, 1, {T_REG}, 2, 1, 0, 1, 0, &inst_aff}
 };
 
-int	decode_wait(t_uc *pc)
+int				decode_wait(t_uc *pc)
 {
 	t_opcode	code;
 
@@ -49,10 +48,10 @@ int	decode_wait(t_uc *pc)
 	code = (t_opcode)(*pc);
 	if (code == 0)
 		return (1);
-	return (g_op_tab[(int)code].wait -1);
+	return (g_op_tab[(int)code].wait - 1);
 }
 
-t_op	*decode_op(t_uc pc)
+t_op			*decode_op(t_uc pc)
 {
 	t_opcode	code;
 
@@ -64,38 +63,39 @@ t_op	*decode_op(t_uc pc)
 	return (&(g_op_tab[(int)code]));
 }
 
-static t_uc	*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
+static t_uc		*decode_args(t_uc *dump, t_inst *inst, t_uc *addr)
 {
-	int	i;
-	t_uc	*ptr;
-	t_op	*op;
-	size_t	size;
+	int			i;
+	t_uc		*ptr;
+	t_op		*op;
+	size_t		size;
 
-	i = 0;
+	i = -1;
 	op = get_op(inst);
 	ptr = addr;
-	while (i < op->n_args)
+	while (++i < op->n_args)
 	{
-		size = (inst->args[i].type != e_reg) ? 4: 1;
-		if (inst->args[i].type == e_ind
-				|| (inst->args[i].type == e_dir && !op->dir_bytes))
-			size = 2;
+		size = (inst->args[i].type != e_reg) ? 4 : 1;
+		size = (inst->args[i].type == e_ind || (inst->args[i].
+					type == e_dir && !op->dir_bytes)) ? 2 : size;
 		if (inst->args[i].type == e_reg)
-			read_dump(dump, ptr, (void *)&(inst->args[i].value.u_reg_val), size);
+			read_dump(dump, ptr, (void *)
+					&(inst->args[i].value.u_reg_val), size);
 		else if (inst->args[i].type == e_ind)
-			read_dump(dump, ptr, (void *)&(inst->args[i].value.u_ind_val), size);
+			read_dump(dump, ptr, (void *)
+					&(inst->args[i].value.u_ind_val), size);
 		else if (inst->args[i].type == e_dir)
-			read_dump(dump, ptr, (void *)&(inst->args[i].value.u_dir_val), size);
+			read_dump(dump, ptr, (void *)
+					&(inst->args[i].value.u_dir_val), size);
 		ptr = access_ptr(dump, ptr, size);
-		i++;
 	}
 	return (ptr);
 }
 
-t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
+t_uc			*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 {
-	t_uc	*addr;
-	int		newpc;
+	t_uc		*addr;
+	int			newpc;
 
 	addr = pc;
 	if (!inst->op)
@@ -106,7 +106,6 @@ t_uc		*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 		if ((newpc = decode_ocp(addr, inst)))
 		{
 			inst->op = NULL;
-			//ft_printf("error :new pc = %i\n", newpc);
 			return (access_ptr(dump, addr, newpc));
 		}
 		addr = access_ptr(dump, addr, 1);

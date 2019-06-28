@@ -47,7 +47,7 @@ static int		draw_champs(t_game *game, WINDOW *win)
 	while (++index < game->nbr_champs)
 	{
 		wattron(win, (COLOR_PAIR(index + 1)));
-		mvwprintw(win, l, 2, "Player %i, weight %i bytes", index + 1, game->champs[index]->prog_size); 
+		mvwprintw(win, l, 2, "Player %i, weight %i bytes", game->champs[index]->n_id, game->champs[index]->prog_size); 
 		mvwprintw(win, l + 1, 2, "\"%s\" (\"%s\") !",game->champs[index]->name, game->champs[index]->comment);
 		mvwprintw(win, l + 2, 2, "last arrive process: %i, alive count: %i",game->champs[index]->prcs_c, game->champs[index]->live_c);
 		wattroff(win, (COLOR_PAIR(index + 1)));

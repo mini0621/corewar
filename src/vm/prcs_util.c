@@ -6,13 +6,13 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 18:30:30 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 15:25:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:59:00 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int	prcs_new(t_game *game, int c_id, t_uc *pc, t_arr *arr)
+int				prcs_new(t_game *game, int c_id, t_uc *pc, t_arr *arr)
 {
 	t_process	prcs;
 
@@ -32,7 +32,7 @@ int	prcs_new(t_game *game, int c_id, t_uc *pc, t_arr *arr)
 	return (ft_arradd(arr, &prcs, sizeof(t_process), -1));
 }
 
-void	prcs_cpy(t_process *dst, t_process *src)
+void			prcs_cpy(t_process *dst, t_process *src)
 {
 	if (!dst || !src)
 		return ;

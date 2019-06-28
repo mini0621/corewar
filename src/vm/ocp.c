@@ -6,15 +6,15 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 00:21:44 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 17:35:55 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:58:28 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_ocp	ocp_nargshift(t_ocp ocp, int n_args)
+t_ocp					ocp_nargshift(t_ocp ocp, int n_args)
 {
-	int i;
+	int					i;
 
 	i = MAX_ARGS_NUMBER - n_args - 1;
 	while (i >= 0)
@@ -25,7 +25,7 @@ t_ocp	ocp_nargshift(t_ocp ocp, int n_args)
 	return (ocp);
 }
 
-static t_argtype	get_typefromcode(t_ocp code)
+static t_argtype		get_typefromcode(t_ocp code)
 {
 	if (code == REG_CODE)
 		return (e_reg);
@@ -36,7 +36,7 @@ static t_argtype	get_typefromcode(t_ocp code)
 	return (0);
 }
 
-static int	add_error_pc(t_argtype type, int dir)
+static int				add_error_pc(t_argtype type, int dir)
 {
 	if (type == e_reg)
 		return (1);
@@ -50,8 +50,7 @@ static int	add_error_pc(t_argtype type, int dir)
 		return (0);
 }
 
-
-int		decode_ocp(t_uc *addr, t_inst *inst)
+int						decode_ocp(t_uc *addr, t_inst *inst)
 {
 	t_ocp		ocp;
 	t_argtype	type;
@@ -67,11 +66,9 @@ int		decode_ocp(t_uc *addr, t_inst *inst)
 	while (i >= 0)
 	{
 		type = get_typefromcode(0x03 & ocp);
-		//ft_printf("this %i %x\n",i, op->args[i]);
 		newpc += add_error_pc(type, op->dir_bytes);
 		if (!(type & op->args[i]))
 			return (newpc);
-		//ft_printf("arg %i is type %i \n",i, type);
 		inst->args[i].type = type;
 		i--;
 		ocp = ocp >> 2;

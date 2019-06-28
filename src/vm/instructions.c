@@ -6,18 +6,18 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 21:34:04 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 17:14:56 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:52:37 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	prcs_inst(t_game *game, size_t p_index)
+void			prcs_inst(t_game *game, size_t p_index)
 {
-	t_uc	*dump;
-	t_uc	*newpc;
-	t_inst	inst;
-	t_process *caller;
+	t_uc		*dump;
+	t_uc		*newpc;
+	t_inst		inst;
+	t_process	*caller;
 
 	if (game->prcs_count + 5 > game->prcs->nbr_elem
 			&& ft_arrresize(game->prcs, game->prcs->nbr_elem * 2) < 0)

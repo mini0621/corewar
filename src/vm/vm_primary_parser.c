@@ -46,6 +46,7 @@ static int          vm_pri_processor(int pv_number, t_champ *champ
 	if (game->n_state)
 	{
 		champ->id = (short)(-1 * game->pl_number);
+		champ->n_id = (short)(game->pl_number);
 		champ->prcs_c = 0;
 		champ->live_c = 0;
 		game->champs[pv_number] = champ;
@@ -57,7 +58,8 @@ static int          vm_pri_processor(int pv_number, t_champ *champ
 	}
 	if (!game->n_state)
 	{
-		champ->id = (short)(-1 * pv_number -1);
+		champ->id = (short)(-1 * pv_number - 1);
+		champ->n_id = (short)(pv_number - 1);
 		champ->prcs_c = 0;
 		champ->live_c = 0;
 		game->champs[pv_number] = champ;

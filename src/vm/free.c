@@ -6,16 +6,16 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 19:25:09 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 16:01:51 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:45:46 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include "visu.h"
 
-void	free_game(t_game *game)
+void		free_game(t_game *game)
 {
-	int	i;
+	int		i;
 
 	ft_arrdel(&(game->prcs));
 	i = 0;

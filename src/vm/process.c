@@ -6,16 +6,16 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 15:37:53 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/28 11:01:33 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int count_alivechamps(t_game *game, t_champ **champs)
+static int			count_alivechamps(t_game *game, t_champ **champs)
 {
-	int i;
-	int end;
+	int				i;
+	int				end;
 
 	end = 0;
 	i = game->nbr_champs - 1;
@@ -35,7 +35,7 @@ static int count_alivechamps(t_game *game, t_champ **champs)
 	return (0);
 }
 
-static void	update_cycles(t_game *game)
+static void			update_cycles(t_game *game)
 {
 	if (game->live_count > NBR_LIVE || game->check_c == MAX_CHECKS)
 	{
@@ -43,14 +43,14 @@ static void	update_cycles(t_game *game)
 			1 : game->cycle_to_die - CYCLE_DELTA;
 	}
 	game->live_count = 0;
-	game->check_c = (game->check_c == MAX_CHECKS) ? 0 : game->check_c + 1;	
+	game->check_c = (game->check_c == MAX_CHECKS) ? 0 : game->check_c + 1;
 	game->cycle_d = game->cycle_to_die;
 }
 
-static int is_end(t_game *game, t_champ **champs)
+static int			is_end(t_game *game, t_champ **champs)
 {
-	int		i;
-	t_process	*p;
+	int				i;
+	t_process		*p;
 
 	i = game->prcs->last;
 	reset_prcs_c(game);
@@ -72,9 +72,9 @@ static int is_end(t_game *game, t_champ **champs)
 	return (count_alivechamps(game, champs));
 }
 
-static void	update_visu_clrmap(t_visu *visu)
+static void			update_visu_clrmap(t_visu *visu)
 {
-	int	i;
+	int				i;
 
 	if (!visu)
 		return ;
@@ -87,11 +87,11 @@ static void	update_visu_clrmap(t_visu *visu)
 	}
 }
 
-int process(t_game *game)
+int					process(t_game *game)
 {
-	int			i;
-	t_process	*p;
-	int			win;
+	int				i;
+	t_process		*p;
+	int				win;
 
 	reset_debug(game);
 	game->cycle += 1;

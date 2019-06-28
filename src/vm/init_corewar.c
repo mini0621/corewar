@@ -6,16 +6,16 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/27 10:51:46 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/28 10:51:10 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int				vm_init_parser(int ac, char **av, t_game *game)
+static int			vm_init_parser(int ac, char **av, t_game *game)
 {
-	int			index;
-	int			er_flag;
+	int				index;
+	int				er_flag;
 
 	index = 1;
 	er_flag = 0;
@@ -31,9 +31,10 @@ static int				vm_init_parser(int ac, char **av, t_game *game)
 	return (1);
 }
 
-static void		init_clr_map(t_game *game, int c_id, int dif, unsigned int size)
+static void			init_clr_map(t_game *game, int c_id
+					, int dif, unsigned int size)
 {
-	unsigned int 	i;
+	unsigned int	i;
 	short			*map;
 
 	i = 0;
@@ -45,15 +46,15 @@ static void		init_clr_map(t_game *game, int c_id, int dif, unsigned int size)
 	}
 }
 
-static int		vm_store_instr(t_game *game, int fd
-		, int pos, unsigned int size)
+static int			vm_store_instr(t_game *game, int fd
+					, int pos, unsigned int size)
 {
-	int			dif;
-	int			id;
-	int			nbr_champs;
+	int				dif;
+	int				id;
+	int				nbr_champs;
 
 	nbr_champs = game->nbr_champs;
-	id = (int) game->champs[pos]->id;
+	id = (int)game->champs[pos]->id;
 	dif = -(id + 1) * (MEM_SIZE / nbr_champs);
 	if (lseek(fd, 2192, SEEK_SET) < 0
 		|| read(fd, &(game->memdump[0]) + dif, size) < 0)
@@ -65,18 +66,19 @@ static int		vm_store_instr(t_game *game, int fd
 	return (1);
 }
 
-static int		read_champs(t_game *game)
+static int			read_champs(t_game *game)
 {
-	int		i;
-	int		nbr_champs;
+	int				i;
+	int				nbr_champs;
 
 	i = 0;
-	nbr_champs = game->nbr_champs;;
-	if (!game->visu)
+	nbr_champs = game->nbr_champs;
+	if (!game->visu && nbr_champs)
 		ft_printf("Introducing contestants...\n");
 	while (i < nbr_champs)
 	{
-		if (!vm_store_instr(game, game->champs[i]->fd, i, game->champs[i]->prog_size))
+		if (!vm_store_instr(game, game->champs[i]->fd
+					, i, game->champs[i]->prog_size))
 			return (0);
 		if (!game->visu)
 			ft_printf("* Player %i, weighing %u bytes, \"%s\" (\"%s\") !\n",
@@ -87,19 +89,7 @@ static int		read_champs(t_game *game)
 	return (1);
 }
 
-// void		vm_print_champs(t_game *game)
-// {
-// 	int		index;
-
-// 	index = 0;
-// 	while (index < game->nbr_champs)
-// 	{
-// 		ft_printf("name: %s, id: %d, pos: %d\n", game->champs[index]->name, game->champs[index]->id, index);
-// 		index++;
-// 	}
-// }
-
-int			init_corewar(t_game *game, int ac, char **av)
+int					init_corewar(t_game *game, int ac, char **av)
 {
 	vm_init_flags(game);
 	if (!vm_init_parser(ac, av, game))

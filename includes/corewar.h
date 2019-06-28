@@ -174,9 +174,11 @@ t_uc						*decode(t_uc *dump, t_uc *pc, t_inst *inst);
 t_op						*decode_op(t_uc pc);
 
 int							decode_ocp(t_uc *addr, t_inst *inst);
-
+void						deb_32_util(t_game *game, char **tmp
+							, t_process *caller, int *l);
 void						free_game(t_game *game);
-
+int							deb_ld_util(t_process *caller
+							, t_inst *inst, char **tmp, int val);
 t_op						*get_op(t_inst *inst);
 void						update_logs(t_game *game, char **new, size_t l);
 void						memcpy_inv(void *dst, void *src, size_t size);

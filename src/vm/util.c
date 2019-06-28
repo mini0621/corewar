@@ -6,18 +6,18 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 17:21:10 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/20 14:15:21 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/28 11:03:08 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_op	*get_op(t_inst *inst)
+t_op			*get_op(t_inst *inst)
 {
 	return ((t_op *)(inst->op));
 }
 
-void	memcpy_inv(void *dst, void *src, size_t size)
+void			memcpy_inv(void *dst, void *src, size_t size)
 {
 	if (!dst || !src)
 		return ;
@@ -25,9 +25,9 @@ void	memcpy_inv(void *dst, void *src, size_t size)
 	endian_conv(dst, size);
 }
 
-void	update_logs(t_game *game, char **new, size_t l)
+void			update_logs(t_game *game, char **new, size_t l)
 {
-	char	*tmp;
+	char		*tmp;
 
 	if (!(tmp = ft_strjoinfree(&(game->logs), new, 3)))
 		return ;
@@ -35,9 +35,9 @@ void	update_logs(t_game *game, char **new, size_t l)
 	game->logs_len += l;
 }
 
-void	reset_prcs_c(t_game *game)
+void			reset_prcs_c(t_game *game)
 {
-	int	i;
+	int			i;
 
 	i = 0;
 	while (i < game->nbr_champs)
@@ -47,10 +47,10 @@ void	reset_prcs_c(t_game *game)
 	}
 }
 
-void	ft_hexdump(t_uc *dump)
+void			ft_hexdump(t_uc *dump)
 {
-	t_uc	*ptr;
-	int		i;
+	t_uc		*ptr;
+	int			i;
 
 	ptr = dump;
 	i = 0;
@@ -65,23 +65,3 @@ void	ft_hexdump(t_uc *dump)
 	}
 	ft_printf("\n");
 }
-/*
-void	ft_hexdump(t_uc *dump)
-{
-	t_uc	*ptr;
-	int		i;
-
-	ptr = dump;
-	i = 0;
-	ft_printf("\n0x0000 :");
-	while (i < MEM_SIZE)
-	{
-		if (i && !(i % 64))
-			ft_printf("\n%#06x :", ptr - dump);
-		ft_printf(" %.2hhx", *ptr);
-		ptr++;
-		i++;
-	}
-	ft_printf("\n");
-}
-*/
