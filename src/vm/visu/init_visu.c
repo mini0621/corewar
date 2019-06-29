@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:29:51 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 11:16:27 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 11:37:55 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static void	color_conv(short c, short r, short g, short b)
 {
 	init_color(COLORS - c, (int)(r * 1000 / 255), (int)(g * 1000 / 255),
-			(int)(b * 1000 / 255));
+		(int)(b * 1000 / 255));
 }
 
 static void	get_colors(void)
 {
 	start_color();
-	color_conv(11, 255 , 184, 184);
+	color_conv(11, 255, 184, 184);
 	color_conv(12, 249, 255, 155);
 	color_conv(13, 68, 219, 223);
 	color_conv(14, 181, 255, 159);
@@ -62,7 +62,7 @@ static void	get_pairs(void)
 	init_pair(18, COLORS - 3, COLOR_BLACK);
 }
 
-void			init_visu(t_game *game, t_visu *visu)
+void		init_visu(t_game *game, t_visu *visu)
 {
 	initscr();
 	cbreak();
