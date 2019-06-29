@@ -6,14 +6,14 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 10:08:01 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/27 19:36:00 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/06/29 11:59:06 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 #include <limits.h>
 
-int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
+int			tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
 	int		i;
 	char	nbr_char;
@@ -36,7 +36,7 @@ int	tkn_register(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	return (1);
 }
 
-int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
+int			tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
 	int		i;
 	char	*name;
@@ -65,7 +65,7 @@ int	tkn_op(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 }
 
 static void	value_tkn_fill(char *buff, t_tkn **tkn,
-			long int long_nbr)
+			long int long_nbr, int start)
 {
 	int				neg_nb;
 	unsigned int	pos_nb;
@@ -74,40 +74,41 @@ static void	value_tkn_fill(char *buff, t_tkn **tkn,
 
 	if ((*tkn)->mem_size == 4 && long_nbr >= 0)
 	{
-		pos_nb = ft_atoui(buff + (*tkn)->buff_start + 1);
+		pos_nb = ft_atoui(buff + start);
 		ft_memcpy((*tkn)->value, &pos_nb, (*tkn)->mem_size);
 	}
 	else if ((*tkn)->mem_size == 4 && long_nbr < 0)
 	{
-		neg_nb = ft_atoi(buff + (*tkn)->buff_start + 1);
+		neg_nb = ft_atoi(buff + start);
 		ft_memcpy((*tkn)->value, &neg_nb, (*tkn)->mem_size);
 	}
 	else if ((*tkn)->mem_size == 2 && long_nbr >= 0)
 	{
-		pos_sh_nb = ft_atous(buff + (*tkn)->buff_start + 1);
+		pos_sh_nb = ft_atous(buff + start);
 		ft_memcpy((*tkn)->value, &pos_sh_nb, (*tkn)->mem_size);
 	}
 	else if ((*tkn)->mem_size == 2 && long_nbr < 0)
 	{
-		neg_sh_nb = ft_atos(buff + (*tkn)->buff_start + 1);
+		neg_sh_nb = ft_atos(buff + start);
 		ft_memcpy((*tkn)->value, &neg_sh_nb, (*tkn)->mem_size);
 	}
 }
 
-int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
+int			tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
 	int			i;
 	long int	long_nbr;
 
 	(void)lbls;
 	i = (*tkn)->buff_start + 1;
+	(*tkn)->type = e_dir_value;
+	(*tkn)->mem_size = pos->dir_bytes;
 	(pos->tmp_buf[i] == '-') ? (i = i + 1) : (0);
 	while (buff[i] == '0')
 		i++;
 	if ((*tkn)->buff_end - (i - 1) > 10)
 		return (ft_error(pos, e_dir_int_error, tkn));
 	long_nbr = ft_atolong(buff + (*tkn)->buff_start + 1);
-	(*tkn)->mem_size = pos->dir_bytes;
 	if ((*tkn)->mem_size == 4 && (long_nbr > UINT32_MAX || long_nbr < INT_MIN))
 		return (ft_error(pos, e_dir_int_error, tkn));
 	else if ((*tkn)->mem_size == 2
@@ -115,18 +116,19 @@ int	tkn_dir_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 		return (ft_error(pos, e_dir_short_error, tkn));
 	if (!((*tkn)->value = ft_memalloc((*tkn)->mem_size)))
 		return (ft_error(pos, e_malloc_error, tkn));
-	value_tkn_fill(buff, tkn, long_nbr);
-	(*tkn)->type = e_dir_value;
+	value_tkn_fill(buff, tkn, long_nbr, (*tkn)->buff_start + 1);
 	return (1);
 }
 
-int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
+int			tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 {
 	int				i;
 	long int		long_nbr;
 
 	(void)lbls;
 	i = (*tkn)->buff_start;
+	(*tkn)->mem_size = 2;
+	(*tkn)->type = e_ind_value;
 	(pos->tmp_buf[(*tkn)->buff_start] == '-') ? (i = i + 1) : (0);
 	while (buff[i] == '0' && buff[i + 1] != '\n')
 		i++;
@@ -135,10 +137,8 @@ int	tkn_ind_value(char *buff, t_pos *pos, t_list **lbls, t_tkn **tkn)
 	long_nbr = ft_atolong(buff + (*tkn)->buff_start);
 	if (long_nbr > USHRT_MAX || long_nbr < SHRT_MIN)
 		return (ft_error(pos, e_ind_error, tkn));
-	(*tkn)->mem_size = 2;
 	if (!((*tkn)->value = ft_memalloc((*tkn)->mem_size)))
 		return (ft_error(pos, e_malloc_error, tkn));
-	value_tkn_fill(buff, tkn, long_nbr);
-	(*tkn)->type = e_ind_value;
+	value_tkn_fill(buff, tkn, long_nbr, (*tkn)->buff_start);
 	return (1);
 }
