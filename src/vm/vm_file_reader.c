@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:43:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/28 12:54:15 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 14:01:01 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int					vm_is_player(char *str)
 {
 	if (str != NULL)
 	{
-		if ((ft_strlen(str)) < 4)
+		if ((ft_strlen(str)) < 5)
 			return (0);
 		if (!(ft_strcmp(".cor", ft_strrchr(str, '.'))))
 			return (1);

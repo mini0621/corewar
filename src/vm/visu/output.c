@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:05:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/29 11:14:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 14:25:15 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void			update_all(t_game *game, t_visu *visu)
 		wborder(visu->logs_win, '*', '*', '*', '*', '*', '*', '*', '*');
 		wattroff(visu->logs_win, COLOR_PAIR(17));
 	}
+	wattron(visu->dump_win, COLOR_PAIR(17));
+	wattron(visu->menu_win, COLOR_PAIR(17));
 	wborder(visu->dump_win, '*', '*', '*', '*', '*', '*', '*', '*');
 	wborder(visu->menu_win, '*', '*', '*', '*', '*', '*', '*', '*');
 	wattroff(visu->dump_win, COLOR_PAIR(17));
