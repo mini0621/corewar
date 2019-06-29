@@ -6,14 +6,13 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:05:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/19 14:35:20 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:56:46 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-
-static int	change_timeout(t_game *game, int delay)
+static int		change_timeout(t_game *game, int delay)
 {
 	game->visu->sp = delay;
 	timeout(VISU_SPEED * game->visu->sp);
@@ -29,7 +28,7 @@ static int		restart_all(t_game *game)
 	return (0);
 }
 
-void	update_all(t_game *game, t_visu *visu)
+static void		update_all_util(t_game *game, t_visu *visu)
 {
 	werase(visu->menu_win);
 	werase(visu->dump_win);
@@ -37,6 +36,11 @@ void	update_all(t_game *game, t_visu *visu)
 		werase(visu->logs_win);
 	draw_menu(game, visu);
 	draw_dump(game, visu);
+}
+
+void			update_all(t_game *game, t_visu *visu)
+{
+	update_all_util(game, visu);
 	if (game->deb_state)
 		draw_debug(game, visu);
 	wattron(visu->dump_win, COLOR_PAIR(10));
@@ -59,7 +63,7 @@ void	update_all(t_game *game, t_visu *visu)
 	doupdate();
 }
 
-int			output(t_game *game)
+int				output(t_game *game)
 {
 	int			c;
 
@@ -68,9 +72,11 @@ int			output(t_game *game)
 		change_timeout(game, -1 * game->visu->sp);
 	else if (c == 'n' && game->deb_state)
 		change_timeout(game, -1);
-	else if (c == KEY_RIGHT && (game->visu->sp <= 1000 && game->visu->sp >= -1000))
+	else if (c == KEY_RIGHT
+			&& (game->visu->sp <= 1000 && game->visu->sp >= -1000))
 		return (change_timeout(game, 2 * game->visu->sp));
-	else if (c == KEY_LEFT && (game->visu->sp > 1 || game->visu->sp < -1))
+	else if (c == KEY_LEFT
+			&& (game->visu->sp > 1 || game->visu->sp < -1))
 		return (change_timeout(game, game->visu->sp / 2));
 	else if (c == KEY_RESIZE)
 		return (restart_all(game));

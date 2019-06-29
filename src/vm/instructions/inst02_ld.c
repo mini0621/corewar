@@ -6,13 +6,13 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 16:57:49 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:11:30 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	inst_ld(t_game *game, t_process *caller, t_inst *inst)
+void			inst_ld(t_game *game, t_process *caller, t_inst *inst)
 {
 	t_dir_type	*i;
 	t_dir_type	*dst;
@@ -28,5 +28,5 @@ void	inst_ld(t_game *game, t_process *caller, t_inst *inst)
 	caller->carry = (!(*i)) ? 1 : 0;
 	ft_memcpy(dst, i, REG_SIZE);
 	if (game->deb_state & 8)
-		deb_8_log(game, inst, caller, (int)*i);	
+		deb_8_log(game, inst, caller, (int)*i);
 }

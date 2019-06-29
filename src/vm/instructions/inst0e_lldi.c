@@ -6,13 +6,13 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 16:07:38 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:40:21 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	inst_lldi(t_game *game, t_process *caller, t_inst *inst)
+void			inst_lldi(t_game *game, t_process *caller, t_inst *inst)
 {
 	short		res;
 	t_uc		*ind;

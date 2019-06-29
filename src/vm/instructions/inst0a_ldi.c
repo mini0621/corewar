@@ -6,18 +6,18 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 16:06:32 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:31:25 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	inst_ldi(t_game *game, t_process *caller, t_inst *inst)
+void			inst_ldi(t_game *game, t_process *caller, t_inst *inst)
 {
 	short		res;
 	t_dir_type	*i;
 	t_uc		*ind;
-	
+
 	if (!game || !caller || !inst)
 		return ;
 	if (!(i = get_arg(caller, game->memdump, &(inst->args[0]), 1)))

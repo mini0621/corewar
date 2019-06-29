@@ -6,13 +6,13 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:28 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/25 18:16:38 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/28 23:43:05 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_option		 g_options[] = {
+t_option			g_options[] = {
 	{"-n", vm_opt_n},
 	{"-dump", vm_opt_dump},
 	{"-p", vm_opt_print},
@@ -20,10 +20,9 @@ t_option		 g_options[] = {
 	{"-v", vm_opt_visu}
 };
 
-int                     vm_opt_dump(int *pos
-				, char **av, t_game *game)
+int					vm_opt_dump(int *pos, char **av, t_game *game)
 {
-	t_ull               value;
+	t_ull			value;
 
 	if (av[*pos + 1] && !game->d_state)
 	{
@@ -34,17 +33,16 @@ int                     vm_opt_dump(int *pos
 		*pos = *pos + 2;
 		return (1);
 	}
-	else if(game->d_state && av[*pos + 1])
+	else if (game->d_state && av[*pos + 1])
 		return (vm_catch_error(-5, av[*pos]));
 	else if (!game->d_state && !av[*pos + 1])
 		return (vm_catch_error(OPT_ERROR, av[*pos]));
 	return (vm_catch_error(OPT_ERROR, av[*pos]));
 }
 
-int                     vm_opt_print(int *pos
-				, char **av, t_game *game)
+int					vm_opt_print(int *pos, char **av, t_game *game)
 {
-	t_ull               value;
+	t_ull			value;
 
 	if (av[*pos + 1] && !game->print_off && !game->visu)
 	{
@@ -54,15 +52,14 @@ int                     vm_opt_print(int *pos
 		*pos = *pos + 2;
 		return (1);
 	}
-	else if(game->print_off && av[*pos + 1])
+	else if (game->print_off && av[*pos + 1])
 		return (vm_catch_error(-5, av[*pos]));
 	else if (!game->print_off && !av[*pos + 1])
 		return (vm_catch_error(OPT_ERROR, av[*pos]));
 	return (vm_catch_error(OPT_ERROR, av[*pos]));
 }
 
-int                     vm_opt_visu(int *pos
-				, char **av, t_game *game)
+int					vm_opt_visu(int *pos, char **av, t_game *game)
 {
 	if (game && av && *pos)
 	{
@@ -76,14 +73,12 @@ int                     vm_opt_visu(int *pos
 	return (vm_catch_error(OPT_ERROR, av[*pos]));
 }
 
-
-int                     vm_opt_n(int *pos
-				, char **av, t_game *game)
+int					vm_opt_n(int *pos, char **av, t_game *game)
 {
-	t_ull               value;
+	t_ull			value;
 
 	if (!game->n_state && av[*pos + 1]
-		&& vm_is_player(av[*pos + 2]))
+			&& vm_is_player(av[*pos + 2]))
 	{
 		if (!(value = vm_get_value(av[*pos + 1])))
 			return (vm_catch_error(OPT_ERROR, av[*pos]));
@@ -92,17 +87,17 @@ int                     vm_opt_n(int *pos
 		*pos = *pos + 2;
 		return (1);
 	}
-	else if(game->n_state && av[*pos + 1])
+	else if (game->n_state && av[*pos + 1])
 		return (vm_catch_error(-5, av[*pos]));
 	else if (!game->n_state && !av[*pos + 1])
 		return (vm_catch_error(OPT_ERROR, av[*pos]));
 	return (vm_catch_error(OPT_ERROR, av[*pos]));
 }
 
-int                     vm_opt_reader(int *pos, char **av
-				, t_game *game, int *flag)
+int					vm_opt_reader(int *pos, char **av
+					, t_game *game, int *flag)
 {
-	int                 index;
+	int				index;
 
 	index = 0;
 	while (index < (int)(sizeof(g_options) / sizeof(g_options[0])))

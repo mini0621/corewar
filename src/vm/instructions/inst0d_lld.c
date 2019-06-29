@@ -6,13 +6,13 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 16:05:17 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:37:09 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	inst_lld(t_game *game, t_process *caller, t_inst *inst)
+void			inst_lld(t_game *game, t_process *caller, t_inst *inst)
 {
 	t_dir_type	*i;
 	t_dir_type	*dst;

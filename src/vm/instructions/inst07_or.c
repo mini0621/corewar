@@ -6,13 +6,13 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 12:40:15 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:27:21 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	inst_or(t_game *game, t_process *caller, t_inst *inst)
+void			inst_or(t_game *game, t_process *caller, t_inst *inst)
 {
 	t_dir_type	res;
 	t_dir_type	*i;
@@ -26,7 +26,8 @@ void	inst_or(t_game *game, t_process *caller, t_inst *inst)
 		return ;
 	res = res | *i;
 	caller->carry = (!res) ? 1 : 0;
-	ft_memcpy(get_arg(caller, game->memdump, &(inst->args[2]), 0), &res, REG_SIZE);
+	ft_memcpy(get_arg(caller, game->memdump
+				, &(inst->args[2]), 0), &res, REG_SIZE);
 	if (game->deb_state & 32)
 		deb_32_log(game, inst, caller, res);
 }

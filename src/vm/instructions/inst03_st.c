@@ -6,30 +6,30 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 19:24:43 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:16:03 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	inst_st(t_game *game, t_process *caller, t_inst *inst)
+void			inst_st(t_game *game, t_process *caller, t_inst *inst)
 {
 	t_dir_type	*i;
 	t_dir_type	*j;
 	t_uc		*addr;
 
 	if (!game || !caller || !inst
-		|| !(i = get_arg(caller, game->memdump, &(inst->args[0]), 1)))
+			|| !(i = get_arg(caller, game->memdump, &(inst->args[0]), 1)))
 		return ;
 	if (inst->args[1].type == e_reg
-		&& !(j = get_arg(caller, game->memdump, &(inst->args[1]), 1)))
-			return ;
+			&& !(j = get_arg(caller, game->memdump, &(inst->args[1]), 1)))
+		return ;
 	if (inst->args[1].type == e_reg)
 		ft_memcpy(j, i, REG_SIZE);
 	else
 	{
 		addr = access_ptr(game->memdump, caller->pc,
-					(int)(signed short)(inst->args[1].value.u_ind_val) % IDX_MOD);
+				(int)(signed short)(inst->args[1].value.u_ind_val) % IDX_MOD);
 		write_dump(game->memdump, i, addr, REG_SIZE);
 		if (game->visu)
 			update_clr(game, addr - game->memdump, REG_SIZE, caller->c_id);

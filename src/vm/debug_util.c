@@ -31,7 +31,7 @@ int			deb_ld_util(t_process *caller, t_inst *inst, char **tmp, int val)
 
 void		deb_32_util(t_game *game, char **tmp, t_process *caller, int *l)
 {
-	add_head(&tmp, caller->p_id, caller->c_id, l);
+	add_head(tmp, caller->p_id, caller->c_id, l);
 	update_logs(game, tmp, *l);
 	debug_carry(game, caller->p_id, caller->c_id, caller->carry);
 }

@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:05:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/25 16:30:05 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 05:21:23 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void			end_visu(t_visu *visu)
 	endwin();
 }
 
-void	update_clr(t_game *game, int dst, size_t size, int id)
+void			update_clr(t_game *game, int dst, size_t size, int id)
 {
-	size_t	rd;
-	t_uc	*dump;
-	short	*map;
-	int		i;
+	size_t		rd;
+	t_uc		*dump;
+	short		*map;
+	int			i;
 
 	i = -1;
 	map = &(game->visu->clr_map[0]);

@@ -6,20 +6,20 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/26 16:41:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:05:23 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int 			free_then_error(t_champ *champ, int flag, int fd)
+static int			free_then_error(t_champ *champ, int flag, int fd)
 {
 	free(champ);
 	close(fd);
 	return (flag);
 }
 
-static int          vm_verify_magic(int fd, unsigned int *magic)
+static int			vm_verify_magic(int fd, unsigned int *magic)
 {
 	if ((read(fd, magic, sizeof(unsigned int))) < 0)
 		return (0);
@@ -29,7 +29,7 @@ static int          vm_verify_magic(int fd, unsigned int *magic)
 	return (0);
 }
 
-static int          vm_verify_size(int fd, unsigned int *prog_size)
+static int			vm_verify_size(int fd, unsigned int *prog_size)
 {
 	if (((lseek(fd, 136, SEEK_SET)) < 0)
 			|| (read(fd, prog_size, sizeof(unsigned int))) < 0)
@@ -40,8 +40,8 @@ static int          vm_verify_size(int fd, unsigned int *prog_size)
 	return (0);
 }
 
-static int          vm_pri_processor(int pv_number, t_champ *champ
-		, t_game *game)
+static int			vm_pri_processor(int pv_number, t_champ *champ
+					, t_game *game)
 {
 	if (game->n_state)
 	{
@@ -70,12 +70,12 @@ static int          vm_pri_processor(int pv_number, t_champ *champ
 	return (0);
 }
 
-int                 vm_primary_parser(int fd, t_game *game)
+int					vm_primary_parser(int fd, t_game *game)
 {
-	unsigned int    magic;
+	unsigned int	magic;
 	unsigned int	prog_size;
-	int             play_num;
-	t_champ         *new;
+	int				play_num;
+	t_champ			*new;
 
 	play_num = game->pv_number;
 	if (play_num >= MAX_PLAYERS)

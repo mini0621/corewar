@@ -6,13 +6,13 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:14:12 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 18:47:33 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:59:26 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	draw_debug(t_game *game, t_visu *visu)
+void		draw_debug(t_game *game, t_visu *visu)
 {
 	int		l;
 	char	*start;

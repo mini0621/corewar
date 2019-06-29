@@ -6,20 +6,20 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/25 13:04:52 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 00:43:37 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void	inst_lfork(t_game *game, t_process *caller, t_inst *inst)
+void		inst_lfork(t_game *game, t_process *caller, t_inst *inst)
 {
 	t_uc	*addr;
 
 	if (!game || !caller || !inst)
 		return ;
-	addr = access_ptr(game->memdump, caller->pc,
-			(int)(short)(inst->args[0].value.u_dir_val));
+	addr = access_ptr(game->memdump, caller->pc
+			, (int)(short)(inst->args[0].value.u_dir_val));
 	if (prcs_new(game, caller->c_id, addr, game->prcs) < 0)
 		return ;
 	prcs_cpy((t_process *)ft_arrget(game->prcs, game->prcs->last), caller);
