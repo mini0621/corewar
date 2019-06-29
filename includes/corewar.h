@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 11:21:44 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 12:04:50 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,6 +463,8 @@ void						free_tkn(t_tkn **tkn);
 void						del_tkn(void *content, size_t size);
 void						free_bytebf_pos(t_bytebf *bytebf, t_pos *pos);
 
+unsigned int				ft_atoui(char *str);
+unsigned short				ft_atous(char *str);
 char						ft_atochar(char *str);
 long						ft_atolong(char *str);
 short						ft_atos(char *str);
