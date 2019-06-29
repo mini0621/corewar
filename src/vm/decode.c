@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/28 10:45:08 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 11:19:49 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ t_uc			*decode(t_uc *dump, t_uc *pc, t_inst *inst)
 	addr = access_ptr(dump, addr, 1);
 	if ((get_op(inst))->ocp)
 	{
-		if ((newpc = decode_ocp(addr, inst)))
+		if ((newpc = decode_ocp(addr, inst)) || !inst->op)
 		{
 			inst->op = NULL;
-			return (access_ptr(dump, addr, newpc));
+			return (access_ptr(dump, addr, newpc + 1));
 		}
 		addr = access_ptr(dump, addr, 1);
 	}

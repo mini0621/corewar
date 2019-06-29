@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 09:49:23 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/29 05:24:35 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 11:22:14 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ static void			draw_header(WINDOW *win)
 
 	count = 0;
 	wprintw(win, "\n");
-	wattron(win, (COLOR_PAIR(5) | A_BOLD));
+	wattron(win, (COLOR_PAIR(18) | A_BOLD));
 	while (count < (int)(sizeof(g_header) / sizeof(g_header[0])))
 		wprintw(win, "%84s\n", g_header[count++]);
-	wattroff(win, (COLOR_PAIR(5) | A_BOLD));
+	wattroff(win, (COLOR_PAIR(18) | A_BOLD));
 }
 
 static int			draw_champs(t_game *game, WINDOW *win)
@@ -40,9 +40,9 @@ static int			draw_champs(t_game *game, WINDOW *win)
 
 	index = -1;
 	l = 10;
-	wattron(win, (COLOR_PAIR(1) | A_BOLD | A_UNDERLINE));
+	wattron(win, (COLOR_PAIR(15) | A_BOLD | A_UNDERLINE));
 	mvwprintw(win, 8, 35, "Introducing contestants...\n");
-	wattroff(win, (COLOR_PAIR(1) | A_BOLD | A_UNDERLINE));
+	wattroff(win, (COLOR_PAIR(15) | A_BOLD | A_UNDERLINE));
 	while (++index < game->nbr_champs)
 	{
 		wattron(win, (COLOR_PAIR(index + 1)));
@@ -60,16 +60,16 @@ static int			draw_champs(t_game *game, WINDOW *win)
 
 static void			draw_debug_menu(WINDOW *win, int index)
 {
-	wattron(win, (COLOR_PAIR(1) | A_BOLD));
+	wattron(win, (COLOR_PAIR(15) | A_BOLD));
 	mvwprintw(win, index++, 35, "debug mode: on   n: next cycle");
-	wattroff(win, (COLOR_PAIR(1) | A_BOLD));
+	wattroff(win, (COLOR_PAIR(15) | A_BOLD));
 }
 
 static void			draw_menu_util(t_game *game, t_visu *wind, int *index)
 {
 	draw_header(wind->menu_win);
 	*index = draw_champs(game, wind->menu_win);
-	wattron(wind->menu_win, (COLOR_PAIR(1)));
+	wattron(wind->menu_win, (COLOR_PAIR(18)));
 	mvwprintw(wind->menu_win, *index++, 2, "Cycle: %d", game->cycle);
 	mvwprintw(wind->menu_win, *index++, 2,
 			"Total Number of lives: %d Alive Calls: %d",
@@ -84,8 +84,8 @@ void				draw_menu(t_game *game, t_visu *wind)
 	mvwprintw(wind->menu_win, index++, 2,
 			"Cycle to die: %d, decreasing with: %d"
 			, game->cycle_to_die, CYCLE_DELTA);
-	wattroff(wind->menu_win, (COLOR_PAIR(1)));
-	wattron(wind->menu_win, (COLOR_PAIR(1) | A_BOLD));
+	wattroff(wind->menu_win, (COLOR_PAIR(18)));
+	wattron(wind->menu_win, (COLOR_PAIR(15) | A_BOLD));
 	if (wind->sp < 0)
 		mvwprintw(wind->menu_win, index++
 				, 35, "GAME PAUSED!! PRESS SPACE BAR TO CONTINUE\n");
@@ -98,7 +98,7 @@ void				draw_menu(t_game *game, t_visu *wind)
 	else
 		mvwprintw(wind->menu_win, index++
 				, 35, "Play interval: %i milliseconds", wind->sp * (-10));
-	wattroff(wind->menu_win, (COLOR_PAIR(1) | A_BOLD));
+	wattroff(wind->menu_win, (COLOR_PAIR(15) | A_BOLD));
 	if (game->deb_state)
 		draw_debug_menu(wind->menu_win, index);
 }

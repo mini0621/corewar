@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/27 17:28:23 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/06/29 11:21:44 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,7 @@ void						update_clr(t_game *game, int dst, size_t size,
 							int id);
 void						draw_debug(t_game *game, t_visu *visu);
 
-void						get_debug(t_game *game, t_champ *champ);
+void						get_debug(t_game *game, t_champ *champ, int id);
 void						reset_debug(t_game *game);
 void						print_debug(t_game *game);
 void						debug_hex(void *dst, size_t size);

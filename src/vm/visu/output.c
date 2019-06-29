@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:05:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/29 00:56:46 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 11:14:03 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static void		update_all_util(t_game *game, t_visu *visu)
 {
 	werase(visu->menu_win);
 	werase(visu->dump_win);
-	if (game->deb_state)
-		werase(visu->logs_win);
 	draw_menu(game, visu);
 	draw_dump(game, visu);
 }
@@ -42,19 +40,17 @@ void			update_all(t_game *game, t_visu *visu)
 {
 	update_all_util(game, visu);
 	if (game->deb_state)
+	{
+		werase(visu->logs_win);
 		draw_debug(game, visu);
-	wattron(visu->dump_win, COLOR_PAIR(10));
-	wattron(visu->menu_win, COLOR_PAIR(10));
-	if (game->deb_state)
-		wattron(visu->logs_win, COLOR_PAIR(10));
+		wattron(visu->logs_win, COLOR_PAIR(17));
+		wborder(visu->logs_win, '*', '*', '*', '*', '*', '*', '*', '*');
+		wattroff(visu->logs_win, COLOR_PAIR(17));
+	}
 	wborder(visu->dump_win, '*', '*', '*', '*', '*', '*', '*', '*');
 	wborder(visu->menu_win, '*', '*', '*', '*', '*', '*', '*', '*');
-	if (game->deb_state)
-		wborder(visu->logs_win, '*', '*', '*', '*', '*', '*', '*', '*');
-	wattroff(visu->dump_win, COLOR_PAIR(10));
-	wattroff(visu->menu_win, COLOR_PAIR(10));
-	if (game->deb_state)
-		wattroff(visu->logs_win, COLOR_PAIR(10));
+	wattroff(visu->dump_win, COLOR_PAIR(17));
+	wattroff(visu->menu_win, COLOR_PAIR(17));
 	refresh();
 	wnoutrefresh(visu->menu_win);
 	wnoutrefresh(visu->dump_win);
