@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 13:50:40 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:15:19 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ static int			read_champs(t_game *game)
 int					init_corewar(t_game *game, int ac, char **av)
 {
 	vm_init_flags(game);
-	if (!vm_init_parser(ac, av, game))
+	if (!vm_init_parser(ac, av, game) || !game->nbr_champs)
 	{
 		free_game(game);
-		return (0);
+		return ((!game->nbr_champs) ? vm_catch_error(US_ERROR, NULL) : 0);
 	}
 	vm_sort_champ_id(game);
 	if (!(game->prcs = ft_arrnew(sizeof(t_process), game->nbr_champs * 10)))

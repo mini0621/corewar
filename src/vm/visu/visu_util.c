@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 08:05:17 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/29 11:05:59 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:02:07 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void			end_visu(t_visu *visu)
 	if (visu->logs_win)
 		delwin(visu->logs_win);
 	endwin();
-	use_default_colors();
 }
 
 void			update_clr(t_game *game, int dst, size_t size, int id)

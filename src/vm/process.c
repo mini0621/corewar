@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 11:30:03 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 14:58:54 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,14 @@ static int	is_end(t_game *game, t_champ **champs)
 	{
 		p = (t_process *)ft_arrget(game->prcs, i);
 		if (p && p->is_alive)
-		{
 			game->champs[-1 * p->c_id - 1]->prcs_c += 1;
-			p->is_alive = 0;
-			i--;
-			continue;
+		else
+		{
+			get_debug(game, NULL, p->p_id);
+			game->prcs_count -= 1;
+			ft_arrsub(game->prcs, i);
 		}
-		get_debug(game, NULL, p->p_id);
-		game->prcs_count -= 1;
-		ft_arrsub(game->prcs, i);
+		p->is_alive = 0;
 		i--;
 	}
 	update_cycles(game);
