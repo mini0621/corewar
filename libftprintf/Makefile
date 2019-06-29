@@ -6,7 +6,7 @@
 #    By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/26 16:25:12 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/26 16:25:15 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/06/29 17:06:36 by mnishimo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ NAME = libftprintf.a
 CC = gcc 
 
 CFLAGS = -Wall -Werror -Wextra -g
-#CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 
 INCLUDES = includes
 HEADER = $(addprefix includes/, libftprintf.h ft_avl.h)
