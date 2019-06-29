@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:33:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/29 00:05:23 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:44:53 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int			vm_pri_processor(int pv_number, t_champ *champ
 	if (!game->n_state)
 	{
 		champ->id = (short)(-1 * pv_number - 1);
-		champ->n_id = (short)(pv_number - 1);
+		champ->n_id = (short)(pv_number + 1);
 		champ->prcs_c = 0;
 		champ->live_c = 0;
 		game->champs[pv_number] = champ;

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 11:19:04 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:45:12 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			print_result(t_game *game, int win)
 		ft_hexdump(game->memdump);
 	else if (win < 0 && win >= -game->nbr_champs)
 		ft_printf("Contestant %i, \"%s\", has won\n",
-		game->champs[-win - 1]->n_id, game->champs[-win - 1]->name);
+			game->champs[-win - 1]->n_id, game->champs[-win - 1]->name);
 }
 
 int				main(int argc, char **argv)
