@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:18:54 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/28 10:51:10 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 13:50:40 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void			init_clr_map(t_game *game, int c_id
 static int			vm_store_instr(t_game *game, int fd
 					, int pos, unsigned int size)
 {
-	int				dif;
-	int				id;
-	int				nbr_champs;
+	int	dif;
+	int	id;
+	int	nbr_champs;
 
 	nbr_champs = game->nbr_champs;
 	id = (int)game->champs[pos]->id;

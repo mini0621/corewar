@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 15:36:55 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/29 13:37:16 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 13:47:55 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void			vm_init_flags(t_game *game)
 	game->print_off = 0;
 	game->winner = -1;
 	game->nbr_prcs = 1;
+	ft_bzero(game->memdump, sizeof(t_uc) * MEM_SIZE);
 }
 
 void			endian_conv(void *value, size_t size)
