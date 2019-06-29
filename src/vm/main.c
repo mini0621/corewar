@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 16:45:12 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 17:43:35 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@ int				main(int argc, char **argv)
 		return (vm_catch_error(US_ERROR, NULL));
 	}
 	end = (!game.nbr_cycle) ? 1 : 0;
-	while (!end)
+	while (!end || game.visu)
 	{
 		if (game.visu && !output(&game))
 			continue ;
-		end = process(&game);
+		if (!end)
+			end = process(&game);
 	}
 	print_result(&game, end);
 	free_game(&game);

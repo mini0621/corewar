@@ -6,38 +6,11 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 17:03:46 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/06/29 18:15:36 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-static int	count_alivechamps(t_game *game, t_champ **champs)
-{
-	int	i;
-	int	end;
-
-	end = 0;
-	i = game->nbr_champs - 1;
-	while (i < game->nbr_champs)
-	{
-		if (champs[i]->prcs_c && champs[i]->live_c)
-		{
-			end++;
-			if (champs[i]->prcs_c > champs[game->winner * -1 - 1]->prcs_c)
-				game->winner = champs[i]->id;
-		}
-		else
-		{
-			champs[i]->live_c = 0;
-			get_debug(game, *champs + i, 0);
-		}
-		i++;
-	}
-	if (!end)
-		return (game->winner);
-	return (0);
-}
 
 static void	update_cycles(t_game *game)
 {
@@ -53,7 +26,7 @@ static void	update_cycles(t_game *game)
 		ft_printf("  cycle_d: %i\n", game->cycle_d);
 }
 
-static int	is_end(t_game *game, t_champ **champs)
+static int	is_end(t_game *game)
 {
 	int			i;
 	t_process	*p;
@@ -75,7 +48,7 @@ static int	is_end(t_game *game, t_champ **champs)
 		i--;
 	}
 	update_cycles(game);
-	return (count_alivechamps(game, champs));
+	return ((game->prcs_count < 1) ? game->winner : 0);
 }
 
 static void	update_visu_clrmap(t_visu *visu)
@@ -103,7 +76,7 @@ int			process(t_game *game)
 	game->cycle += 1;
 	game->cycle_d -= 1;
 	get_debug(game, NULL, 0);
-	if (!game->cycle_d && (win = is_end(game, &(game->champs[0]))))
+	if (!game->cycle_d && (win = is_end(game)))
 		return (win);
 	i = game->prcs->last;
 	while (i >= 0)

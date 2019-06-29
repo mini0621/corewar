@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 00:09:50 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 17:31:05 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void				inst_live(t_game *game, t_process *caller, t_inst *inst)
 	{
 		if (game->champs[i]->id == id)
 		{
+			game->winner = id;
 			n_id = game->champs[i]->n_id;
 			if (!game->print_off || game->print_off == 2)
 				ft_printf("A process shows that player %i (%s) is alive\n",
