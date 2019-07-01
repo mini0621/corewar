@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initializations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 11:16:16 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/25 14:42:10 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/07/01 16:19:03 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,25 @@
 
 int			bytebuf_realloc(t_bytebf *bytebf, t_pos *pos, t_tkn **tkn)
 {
-	char *tmp;
+	char	*tmp;
+	int		i;
 
-	if (bytebf->inst_remain < (*tkn)->mem_size || ((*tkn)->type == e_op
-		&& (*tkn)->op->ocp == 1 && bytebf->inst_remain < 2))
+	i = 0;
+	if ((*tkn)->type == e_op && (*tkn)->op->ocp == 1 && bytebf->inst_remain < 2)
+		i = 1;
+	if (bytebf->inst_remain < (*tkn)->mem_size || (((*tkn)->type == e_op
+		&& (*tkn)->op->ocp == 1 && bytebf->inst_remain < 2)))
 	{
 		tmp = bytebf->inst;
 		if (!(bytebf->inst = realloc(bytebf->inst,
-			bytebf->inst_size + BUFF_SIZE_COR)))
+			bytebf->inst_size + (*tkn)->mem_size + i)))
 		{
 			ft_strdel(&tmp);
 			return (ft_error(pos, e_malloc_error, tkn));
 		}
-		ft_bzero(bytebf->inst + bytebf->inst_size, BUFF_SIZE_COR);
-		bytebf->inst_size = bytebf->inst_size + BUFF_SIZE_COR;
-		bytebf->inst_remain = bytebf->inst_remain + BUFF_SIZE_COR;
+		ft_bzero(bytebf->inst + bytebf->inst_size, (*tkn)->mem_size + i);
+		bytebf->inst_size = bytebf->inst_size + (*tkn)->mem_size + i;
+		bytebf->inst_remain = bytebf->inst_remain + (*tkn)->mem_size + i;
 	}
 	return (1);
 }
