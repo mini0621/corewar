@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/09 21:12:15 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 11:27:22 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/01 17:37:42 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	get_debug(t_game *game, t_champ *champ, int id)
 	tmp = NULL;
 	if (!(game->deb_state))
 		return ;
-	if (!champ && !id && game->deb_state & 1)
+	else if (!champ && !id && game->deb_state & 1)
 		l = ft_asprintf(&tmp, "    cycle: %i\n", game->cycle);
+	else if (!champ && id < 0 && game->deb_state & 2)
+		l = ft_asprintf(&tmp, "  cycle_d: %u\n", game->cycle_to_die);
 	else if (champ && !id && game->deb_state & 2)
 		l = ft_asprintf(&tmp, "    death: champ(%hhd) \"%s\"\n",
 				champ->id, champ->name);
