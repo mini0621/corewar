@@ -22,6 +22,8 @@ typedef struct	s_visu
 	WINDOW	*dump_win;
 	WINDOW	*menu_win;
 	WINDOW	*logs_win;
+	WINDOW	*raw_win;
+	WINDOW	*out_win;
 	int		sp;
 	short	clr_map[MEM_SIZE];
 }				t_visu;
