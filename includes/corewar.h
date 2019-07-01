@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/01 17:39:18 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/01 17:54:25 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 typedef	unsigned long long	t_ull;
 typedef	unsigned char		t_uc;
 typedef	uint32_t			t_ucc;
-typedef uint8_t 			t_din;
+typedef uint8_t				t_din;
 typedef	uint8_t				t_reg_type;
 typedef uint16_t			t_ind_type;
 typedef uint32_t			t_dir_type;
@@ -157,17 +157,17 @@ typedef struct				s_file
 	int						col;
 	t_instr_node			*instr_nodes;
 	unsigned char			*raw_dump;
-	int 					fd;
+	int						fd;
 	unsigned int			prog_size;
 	char					*file_name;
 	char					*output_file;
 }							t_file;
 
-typedef struct 				s_inst_store
+typedef struct				s_inst_store
 {
-	int 					size;
-	char 					*instr;
-	struct s_inst_store		*next;	
+	int						size;
+	char					*instr;
+	struct s_inst_store		*next;
 }							t_inst_store;
 
 typedef struct				s_game
@@ -175,30 +175,30 @@ typedef struct				s_game
 	t_champ					*champs[MAX_PLAYERS + 1];
 	t_file					*file[MAX_PLAYERS + 1];
 	t_inst_store			*store;
-	t_arr		*prcs;
-	t_ull		nbr_prcs;
-	t_ull		nbr_cycle;
-	int			nbr_champs;
-	int			d_state;
-	int			n_state;
-	t_ull		pl_number;
-	int			deb_state;
-	int			print_off;
-	char		*logs;
-	size_t		logs_len;
-	int			pv_number;
-	t_ull		live_count;
-	t_ull		prcs_count;
-	t_ull		cycle;
-	t_ull		cycle_d;
-	t_ull		check_c;
-	t_ull		cycle_to_die;
-	int			winner;
-	t_visu		*visu;
-	int 		length;
-	int 		visu_state;
-	t_uc		dismemdump[CHAMP_MAX_SIZE];
-	t_uc		memdump[MEM_SIZE];
+	t_arr					*prcs;
+	t_ull					nbr_prcs;
+	t_ull					nbr_cycle;
+	int						nbr_champs;
+	int						d_state;
+	int						n_state;
+	t_ull					pl_number;
+	int						deb_state;
+	int						print_off;
+	char					*logs;
+	size_t					logs_len;
+	int						pv_number;
+	t_ull					live_count;
+	t_ull					prcs_count;
+	t_ull					cycle;
+	t_ull					cycle_d;
+	t_ull					check_c;
+	t_ull					cycle_to_die;
+	int						winner;
+	t_visu					*visu;
+	int						length;
+	int						visu_state;
+	t_uc					dismemdump[CHAMP_MAX_SIZE];
+	t_uc					memdump[MEM_SIZE];
 }							t_game;
 
 typedef struct				s_inst
@@ -338,26 +338,28 @@ void						deb_32_log(t_game *game, t_inst *inst,
 void						deb_64_log(t_game *game, t_inst *inst,
 							t_process *caller, int p_id);
 
-int                 		dis_source_parser(int fd, char *file, t_game *game);
-int                     	dis_catch_error(int flag, char *av);
+int							dis_source_parser(int fd, char *file, t_game *game);
+int							dis_catch_error(int flag, char *av);
 int							dis_multi_util(t_game *game, int p_num);
-int16_t                 	dis_endian_convert_16(int16_t val);
-int32_t                 	dis_endian_convert_32(int32_t val);
-int                     	dis_check_endianness(int value);
-void                    	dis_print_node(t_visu *win, t_game *game);
+int16_t						dis_endian_convert_16(int16_t val);
+int32_t						dis_endian_convert_32(int32_t val);
+int							dis_check_endianness(int value);
+void						dis_print_node(t_visu *win, t_game *game);
 t_single_instr				*dis_decode_handler(t_ocp *pc);
-void                    	dis_sub_handler(t_game *game, int p_num);
-int			            	dis_write_output(t_game *game, int p_num);
-int                     	vm_load_player(t_game *game);
-void                    	dis_debug(t_game *game, int p_num);
-int                     	dis_file_reader(char *file, t_game *game
+void						dis_sub_handler(t_game *game, int p_num);
+int							dis_write_output(t_game *game, int p_num);
+int							vm_load_player(t_game *game);
+void						dis_debug(t_game *game, int p_num);
+int							dis_file_reader(char *file, t_game *game
 							, int *flag, int *index);
-int	    					dis_get_instr(t_game *game, t_instr_node *node);
+int							dis_get_instr(t_game *game, t_instr_node *node);
 unsigned int				dis_endian_conversion(unsigned int val);
 void						dis_end_visu(t_visu *visu);
 int							dis_output(t_game *game, int p_num, int *flag);
-void						dis_visu_launcher(t_game *game, t_visu *visu, int p_num);
-void						dis_init_visu(t_game *game, t_visu *visu, int pl_num);
+void						dis_visu_launcher(t_game *game
+							, t_visu *visu, int p_num);
+void						dis_init_visu(t_game *game
+							, t_visu *visu, int pl_num);
 
 typedef enum				e_errors
 {
