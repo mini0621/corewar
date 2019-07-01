@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 14:42:46 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/27 11:30:08 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/07/01 11:54:46 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ static void	print_line_or_msg(t_pos *pos, t_tkn *tkn, char *msg, char type)
 
 	if (type == 'L')
 	{
+		if (msg && ft_strstr(msg, "too"))
+		{
+				ft_printf("\e[0m\n");
+			return ;
+		}
 		i = -1;
 		ft_printf("\e[0m\n");
 		while (++i < pos->size_buf)
@@ -59,7 +64,7 @@ static void	print_line_or_msg(t_pos *pos, t_tkn *tkn, char *msg, char type)
 	else if (type == 'M')
 	{
 		if (msg)
-			ft_printf("\e[037m%s", msg);
+			ft_printf("\e[037m%s\e[0m", msg);
 		else if (pos->state_s == -1)
 			print_expected_tkn(pos, tkn);
 	}
@@ -95,7 +100,8 @@ void		display(t_pos *pos, t_tkn *tkn, char *error, char *msg)
 	print_file_name(pos, tkn, error, msg);
 	print_line_or_msg(pos, tkn, msg, 'M');
 	print_line_or_msg(pos, tkn, msg, 'L');
-	if ((msg && !ft_strstr(msg, "missing")) || pos->state_s == -1)
+	if ((msg && !ft_strstr(msg, "missing") && !ft_strstr(msg, "too"))
+		|| pos->state_s == -1)
 	{
 		print_arrow(pos, tkn);
 		ft_printf("\n");
