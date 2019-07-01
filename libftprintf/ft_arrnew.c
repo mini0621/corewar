@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_arrnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 14:07:26 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/24 16:41:48 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/01 12:13:44 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-t_arr *ft_arrnew(size_t size, size_t nbr_elem)
+t_arr	*ft_arrnew(size_t size, size_t nbr_elem)
 {
 	t_arr	*ret;
 

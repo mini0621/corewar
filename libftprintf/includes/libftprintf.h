@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:55:20 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/01 11:21:49 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/07/01 12:17:53 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int					ft_strncmp(const char *s1, const char *s2, size_t n);
 int					ft_atoi(const char *str);
 size_t				ft_atozu(const char *str);
 unsigned long long	ft_atollu(const char *str);
-unsigned long long int    ft_atoill(const char *str);
+unsigned long long	ft_atoill(const char *str);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -166,7 +166,8 @@ short				ft_atos(char *str);
 unsigned int		ft_atoui(char *str);
 unsigned short		ft_atous(char *str);
 int					ft_isspace(char c);
-void				*ft_memjoin(void *s1, void *s2, size_t len_s1, size_t len_s2);
+void				*ft_memjoin(void *s1, void *s2, size_t len_s1,
+					size_t len_s2);
 void				ft_memrev(void *str, size_t len);
 
 #endif
