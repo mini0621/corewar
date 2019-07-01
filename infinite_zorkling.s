@@ -1,6 +1,5 @@
-.name	"Leeloo"
-.comment "Multipass"
-
+.name	"infinite_zorkling"
+.comment "zorking, zorking again, zorkzinging, zorklingly zorky"
 
 ld %4, r5
 ld %300, r3 				#7bytes
