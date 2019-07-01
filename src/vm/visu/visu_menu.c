@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 09:49:23 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/29 14:23:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/01 17:43:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static void			draw_menu_util(t_game *game, t_visu *wind, int *index)
 	*index = draw_champs(game, wind->menu_win);
 	wattron(wind->menu_win, (COLOR_PAIR(18)));
 	mvwprintw(wind->menu_win, (*index)++, 2, "Cycle: %d", game->cycle);
+	mvwprintw(wind->menu_win, (*index)++, 2, "Last alive call by %s",
+			game->champs[-1 * game->winner - 1]->name);
 	mvwprintw(wind->menu_win, (*index)++, 2,
 			"Total Number of lives: %d Alive Calls: %d",
 			game->prcs_count, game->live_count);
