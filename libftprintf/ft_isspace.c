@@ -6,9 +6,11 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/14 09:47:08 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 20:34:56 by sunakim          ###   ########.fr       */
+/*   Updated: 2019/07/01 11:13:50 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libftprintf.h"
 
 int	ft_isspace(char c)
 {

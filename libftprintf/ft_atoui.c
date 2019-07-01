@@ -1,39 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atos.c                                          :+:      :+:    :+:   */
+/*   ft_atoui.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/05 21:16:24 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/20 20:32:55 by sunakim          ###   ########.fr       */
+/*   Created: 2019/06/27 19:25:41 by allefebv          #+#    #+#             */
+/*   Updated: 2019/07/01 11:12:52 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#include "libftprintf.h"
 
-short	ft_atos(char *str)
+unsigned int	ft_atoui(char *str)
 {
-	int		i;
-	short	ret;
-	short	neg;
+	int				i;
+	unsigned int	ret;
 
 	i = 0;
-	neg = 1;
 	while (str[i] != '\0' && (str[i] == '\t' || str[i] == '\n' || str[i] == ' '
 			|| str[i] == '\r' || str[i] == '\v' || str[i] == '\f'))
 		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			neg = -1;
+	if (str[i] == '+')
 		i++;
-	}
 	ret = 0;
 	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
 	{
 		ret = ret * 10 + str[i] - '0';
 		i++;
 	}
-	return (ret * neg);
+	return (ret);
 }

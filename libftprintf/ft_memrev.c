@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_arrnew.c                                        :+:      :+:    :+:   */
+/*   ft_memrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/24 14:07:26 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/01 12:13:44 by sunakim          ###   ########.fr       */
+/*   Created: 2019/06/13 15:03:52 by allefebv          #+#    #+#             */
+/*   Updated: 2019/07/01 11:21:50 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-t_arr	*ft_arrnew(size_t size, size_t nbr_elem)
+void	ft_memrev(void *str, size_t len)
 {
-	t_arr	*ret;
+	size_t	i;
+	char	temp;
 
-	if (!(ret = (t_arr *)malloc(sizeof(t_arr))))
-		return (NULL);
-	ret->nbr_elem = nbr_elem;
-	ret->size = size;
-	ret->last = -1;
-	if (!(ret->head = (unsigned char *)malloc(size * nbr_elem)))
+	temp = 0;
+	i = 0;
+	while (i < len)
 	{
-		free(ret);
-		return (NULL);
+		temp = *(char*)(str + (len - 1));
+		*(char*)(str + (len - 1)) = *(char*)(str + i);
+		*(char*)(str + i) = temp;
+		i++;
+		len--;
 	}
-	ft_bzero(ret->head, size * nbr_elem);
-	return (ret);
 }

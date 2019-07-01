@@ -3,19 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+         #
+#    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/26 16:25:12 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/26 16:25:15 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/07/01 11:26:07 by sunakim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-CC = gcc 
+CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra -g
-#CFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 
 INCLUDES = includes
 HEADER = $(addprefix includes/, libftprintf.h ft_avl.h)
@@ -38,7 +37,9 @@ FTSRC = ft_lstiter.c    ft_putchar.c    ft_strdel.c     ft_strnew.c  ft_lstlast.
 		ft_isnumeric.c 	ft_atoill.c \
 		ft_atollu.c ft_qappend.c ft_qnew.c ft_qpop.c ft_qdel.c  \
 		ft_qpush.c ft_lstsub.c ft_lstinsert.c ft_qclear.c ft_lstnomallocnew.c\
-		ft_arrnew.c ft_arradd.c ft_arrdel.c ft_arrget.c ft_arrresize.c ft_arrsub.c
+		ft_arrnew.c ft_arradd.c ft_arrdel.c ft_arrget.c ft_arrresize.c ft_arrsub.c \
+		ft_atochar.c ft_atolong.c ft_atos.c ft_atoui.c ft_atous.c ft_isspace.c \
+		ft_memjoin.c ft_memrev.c
 
 FTIOSRC=$(addprefix ft_printf/, ft_printf.c convertion.c setting.c process_csp.c \
 		fraction.c process_ld.c \
@@ -51,7 +52,7 @@ FTAVLSRC=$(addprefix avlsrc/,	ft_avladd.c	ft_avlfind.c	ft_avlnomallocnew.c	\
 
 FTIOOBJ=$(FTIOSRC:.c=.o)
 FTAVLOBJ=$(FTAVLSRC:.c=.o)
-OBJ = $(FTSRC:.c=.o) 
+OBJ = $(FTSRC:.c=.o)
 
 
 %.o:%.c $(HEADER)
@@ -59,7 +60,7 @@ OBJ = $(FTSRC:.c=.o)
 
 .PHONY: all fclean clean
 
-RM = rm -f 
+RM = rm -f
 
 $(NAME): $(OBJ) $(FTIOOBJ) $(FTAVLOBJ)
 	ar rcs $(NAME) $(OBJ) $(FTIOOBJ) $(FTAVLOBJ)

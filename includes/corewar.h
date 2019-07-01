@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 12:04:50 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/07/01 11:31:43 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,8 @@ t_ull						vm_get_value(char *sval);
 int							vm_catch_error(int flag, char *av);
 int							vm_file_reader(char *file, t_game *game,
 							int *flag, int *index);
-void                		vm_sort_champ_id(t_game *game);
-int	                    	vm_is_player(char *str);
+void						vm_sort_champ_id(t_game *game);
+int							vm_is_player(char *str);
 void						vm_debug(int flag, int ac, char **av, t_game *game);
 unsigned int				vm_endian_conversion(unsigned int val);
 int							vm_opt_reader(int *ac, char **av, t_game *game,
@@ -462,16 +462,6 @@ void						del_lbls(void *content, size_t size);
 void						free_tkn(t_tkn **tkn);
 void						del_tkn(void *content, size_t size);
 void						free_bytebf_pos(t_bytebf *bytebf, t_pos *pos);
-
-unsigned int				ft_atoui(char *str);
-unsigned short				ft_atous(char *str);
-char						ft_atochar(char *str);
-long						ft_atolong(char *str);
-short						ft_atos(char *str);
-void						*ft_memjoin(void *s1, void *s2, size_t len_s1,
-							size_t len_s2);
-int							ft_isspace(char c);
-void						ft_memrev(void *buf, size_t len);
 int							read_bytes(char **line, int error, const int fd);
 
 #endif

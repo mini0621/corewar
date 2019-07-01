@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 13:34:26 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/06/29 00:01:53 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/06/29 16:20:33 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,12 @@ void				vm_sort_champ_id(t_game *game)
 	index = -1;
 	id = 0;
 	nbr_champs = game->nbr_champs;
-	if (!(champ = (t_champ *)malloc(sizeof(t_champ))))
-		return ;
 	while (++index < (nbr_champs - 1))
 	{
 		id = 0;
 		while (id < (nbr_champs - index - 1))
 		{
-			if (game->champs[id]->id > game->champs[id + 1]->id)
+			if (game->champs[id]->id < game->champs[id + 1]->id)
 			{
 				champ = game->champs[id];
 				game->champs[id] = game->champs[id + 1];
