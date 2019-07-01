@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atochar.c                                       :+:      :+:    :+:   */
+/*   ft_atos.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/07 15:34:09 by sunakim           #+#    #+#             */
-/*   Updated: 2019/06/25 15:49:44 by sunakim          ###   ########.fr       */
+/*   Created: 2019/06/05 21:16:24 by sunakim           #+#    #+#             */
+/*   Updated: 2019/07/01 11:12:18 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#include "libftprintf.h"
 
-char	ft_atochar(char *str)
+short	ft_atos(char *str)
 {
 	int		i;
-	char	ret;
-	char	neg;
+	short	ret;
+	short	neg;
 
 	i = 0;
 	neg = 1;

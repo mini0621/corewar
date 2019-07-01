@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+         #
+#    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/29 17:06:28 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/07/01 11:32:24 by sunakim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,11 @@ VM_INST_SRC = $(addprefix src/vm/instructions/, inst01_live.c inst02_ld.c \
 		inst0d_lld.c inst0e_lldi.c inst0f_lfork.c inst10_aff.c)
 
 ASM_SRC =	$(addprefix src/asm/, asm_main.c finished_state_machines.c			\
-			read_asm.c ft_memrev.c ft_isspace.c ft_memjoin.c ocp_management.c	\
-			ft_atochar.c ft_atolong.c ft_atos.c utils.c bytecode_management.c	\
+			read_asm.c ocp_management.c	utils.c bytecode_management.c			\
 			tkn_create_1.c tkn_create_2.c tkn_create_3.c tkn_create_4.c			\
 			end_functions.c	initializations.c free_fncs.c tkn_creations.c		\
 			lexical_analysis.c syntactic_analysis.c error.c error_types.c		\
-			error_display.c ft_atoui.c ft_atous.c)
+			error_display.c)
 
 ASM_OBJ	=	$(ASM_SRC:src/asm/%.c=obj/asm/%.o)
 OBJ		=	$(SRC:src/%.c=obj/%.o)

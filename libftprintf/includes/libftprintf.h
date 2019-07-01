@@ -6,7 +6,7 @@
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:55:20 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/26 16:19:07 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/01 11:21:49 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int					ft_power(int base, int power);
 t_list				*ft_lstlast(t_list *alst);
 int					ft_lstlen(t_list *alst);
 t_list				*ft_lstat(t_list *alst, unsigned int nbr);
-int				ft_lstpushback(t_list **alst, t_list *new);
+int					ft_lstpushback(t_list **alst, t_list *new);
 void				ft_lstinsert(t_list **alst, t_list *new,
 		int (*cmp)(void *, void *));
 void				ft_lstdelof(t_list **alst, void *content,
@@ -153,10 +153,20 @@ t_list				*ft_qpop(t_queue *q);
 void				ft_qdel(t_queue **q, void (*del)(void *, size_t));
 void				ft_qclear(t_queue **q, void (*del)(void *, size_t));
 
-void	ft_arrdel(t_arr **arr);
-unsigned char	*ft_arrget(t_arr *arr, size_t index);
-t_arr *ft_arrnew(size_t size, size_t nbr_elem);
-int	ft_arrresize(t_arr *arr, size_t nbr_elem);
-int	ft_arradd(t_arr *arr, void *new, size_t size, int index);
-void	ft_arrsub(t_arr *arr, size_t index);
+void				ft_arrdel(t_arr **arr);
+unsigned char		*ft_arrget(t_arr *arr, size_t index);
+t_arr				*ft_arrnew(size_t size, size_t nbr_elem);
+int					ft_arrresize(t_arr *arr, size_t nbr_elem);
+int					ft_arradd(t_arr *arr, void *new, size_t size, int index);
+void				ft_arrsub(t_arr *arr, size_t index);
+
+char				ft_atochar(char *str);
+long				ft_atolong(char *str);
+short				ft_atos(char *str);
+unsigned int		ft_atoui(char *str);
+unsigned short		ft_atous(char *str);
+int					ft_isspace(char c);
+void				*ft_memjoin(void *s1, void *s2, size_t len_s1, size_t len_s2);
+void				ft_memrev(void *str, size_t len);
+
 #endif

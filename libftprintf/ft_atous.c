@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memrev.c                                        :+:      :+:    :+:   */
+/*   ft_atous.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/13 15:03:52 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/20 20:35:05 by sunakim          ###   ########.fr       */
+/*   Created: 2019/06/27 19:27:44 by allefebv          #+#    #+#             */
+/*   Updated: 2019/07/01 11:13:27 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#include "libftprintf.h"
 
-void	ft_memrev(void *str, size_t len)
+unsigned short	ft_atous(char *str)
 {
-	size_t	i;
-	char	temp;
+	int				i;
+	unsigned short	ret;
 
-	temp = 0;
 	i = 0;
-	while (i < len)
-	{
-		temp = *(char*)(str + (len - 1));
-		*(char*)(str + (len - 1)) = *(char*)(str + i);
-		*(char*)(str + i) = temp;
+	while (str[i] != '\0' && (str[i] == '\t' || str[i] == '\n' || str[i] == ' '
+			|| str[i] == '\r' || str[i] == '\v' || str[i] == '\f'))
 		i++;
-		len--;
+	if (str[i] == '+')
+		i++;
+	ret = 0;
+	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
+	{
+		ret = ret * 10 + str[i] - '0';
+		i++;
 	}
+	return (ret);
 }

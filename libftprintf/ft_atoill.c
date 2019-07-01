@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoill.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/30 14:13:23 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/05/30 14:13:42 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/01 11:26:12 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-static int				ft_isspace(int c)
+static int				ft_is_space(int c)
 {
 	if (c == '\f' || c == '\t' || c == '\n' || c == ' ' || c == '\v' || c
 			== '\r')
@@ -28,7 +28,7 @@ unsigned long long int    ft_atoill(const char *str)
 
     i = 0;
     neg = 1;
-    while (ft_isspace(str[i]))
+    while (ft_is_space(str[i]))
         i++;
     if (str[i] == '+' || str[i] == '-')
     {
