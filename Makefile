@@ -6,12 +6,13 @@
 #    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/07/01 13:22:49 by allefebv         ###   ########.fr        #
+#    Updated: 2019/07/01 17:32:13 by mndhlovu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 VM_NAME		=	corewar
 ASM_NAME	=	asm
+DIS_NAME	=	disassembler
 LIBFT		=	libftprintf.a
 OBJ_DIR		=	obj
 
@@ -31,6 +32,11 @@ VM_SRC		=	$(addprefix src/vm/, main.c init_corewar.c process.c instructions.c	\
 		 	debug.c debug_inst.c) $(addprefix src/vm/visu/, output.c visu_util.c	\
 		 	visu_dump.c visu_menu.c init_visu.c visu_debug.c)
 
+DIS_SRC		=	$(addprefix src/dis/, main.c decode.c dis_decode_utils.c			\
+		 	dis_gen_utils.c dis_error_utils.c dis_multi_utils.c vm_visu_utils.c		\
+		 	dis_parser_util_sub.c dis_parser_utils.c dis_source_parser.c			\
+		 	dis_visu_extr.c vm_visu_output.c)
+
 VM_INST_SRC	=	$(addprefix src/vm/instructions/, inst01_live.c inst02_ld.c			\
 			inst03_st.c inst04_add.c inst05_sub.c inst06_and.c inst07_or.c			\
 			inst08_xor.c inst09_zjmp.c inst0a_ldi.c inst0b_sti.c inst0c_fork.c		\
@@ -46,11 +52,12 @@ ASM_SRC		=	$(addprefix src/asm/, asm_main.c finished_state_machines.c			\
 ASM_OBJ		=	$(ASM_SRC:src/asm/%.c=obj/asm/%.o)
 
 VM_OBJ		=	$(VM_SRC:src/%.c=obj/%.o)
+DIS_OBJ		=	$(DIS_SRC:src/%.c=obj/%.o)
 VM_INST_OBJ	=	$(VM_INST_SRC:src/vm/instruction/%.c=obj/%.o)
 
 .PHONY: all fclean clean re
 
-all: libft $(VM_NAME) $(ASM_NAME)
+all: libft $(VM_NAME) $(ASM_NAME) $(DIS_NAME)
 
 libft:
 	make -C libftprintf/
@@ -60,8 +67,12 @@ $(OBJ_DIR):
 	mkdir $(OBJ_DIR)/vm/
 	mkdir $(OBJ_DIR)/vm/visu
 	mkdir $(OBJ_DIR)/asm/
+	mkdir $(OBJ_DIR)/dis/
 
 obj/vm/%.o: src/vm/%.c $(HEADER) $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+
+obj/dis/%.o: src/dis/%.c $(HEADER) $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 obj/asm/%.o: src/asm/%.c $(HEADER) $(OBJ_DIR)
@@ -75,12 +86,16 @@ $(VM_NAME): $(VM_OBJ) $(VM_INST_OBJ)
 	make -C libftprintf/
 	$(CC) $(CFLAGS)  -o $(VM_NAME) $(VM_OBJ) $(VM_INST_OBJ) $(LDIR) $(INCLUDES) -lncurses
 
+$(DIS_NAME): $(DIS_OBJ)
+	make -C libftprintf/
+	$(CC) $(CFLAGS)  -o $(DIS_NAME) $(DIS_OBJ) $(LDIR) $(INCLUDES) -lncurses
+
 clean:
 	$(RM) $(OBJ_DIR)
 	make -C libftprintf/ clean
 
 fclean: clean
-	$(RM) $(VM_NAME) $(ASM_NAME)
+	$(RM) $(VM_NAME) $(ASM_NAME) $(DIS_NAME)
 	make -C libftprintf/ fclean
 
 re: fclean all
