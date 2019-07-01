@@ -6,7 +6,7 @@
 #    By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/06/29 12:05:02 by allefebv         ###   ########.fr        #
+#    Updated: 2019/07/01 10:48:49 by allefebv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,15 +47,15 @@ ASM_SRC =	$(addprefix src/asm/, asm_main.c finished_state_machines.c			\
 			error_display.c ft_atoui.c ft_atous.c)
 
 ASM_OBJ	=	$(ASM_SRC:src/asm/%.c=obj/asm/%.o)
-OBJ		=	$(SRC:src/%.c=obj/%.o)
 
 VM_OBJ = $(VM_SRC:src/%.c=obj/%.o)
 VM_INST_OBJ = $(VM_INST_SRC:src/vm/instruction/%.c=obj/%.o)
 
 .PHONY: all fclean clean re
 
-all: $(VM_NAME) $(ASM_NAME)
-$(LIBFT):
+all: libft $(VM_NAME) $(ASM_NAME)
+
+libft:
 	make -C libftprintf/
 
 $(OBJ_DIR):
@@ -70,10 +70,12 @@ obj/vm/%.o: src/vm/%.c $(HEADER) $(OBJ_DIR)
 obj/asm/%.o: src/asm/%.c $(HEADER) $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
-$(ASM_NAME):  $(LIBFT) $(ASM_OBJ) $(OBJ)
-	$(CC) $(CFLAGS)  -o $(ASM_NAME) $(ASM_OBJ) $(OBJ) $(LDIR) $(INCLUDES)
+$(ASM_NAME): $(ASM_OBJ)
+	make -C libftprintf/
+	$(CC) $(CFLAGS)  -o $(ASM_NAME) $(ASM_OBJ) $(LDIR) $(INCLUDES)
 
-$(VM_NAME): $(LIBFT) $(VM_OBJ) $(VM_INST_OBJ)
+$(VM_NAME): $(VM_OBJ) $(VM_INST_OBJ)
+	make -C libftprintf/
 	$(CC) $(CFLAGS)  -o $(VM_NAME) $(VM_OBJ) $(VM_INST_OBJ) $(LDIR) $(INCLUDES) -lncurses
 
 clean:
