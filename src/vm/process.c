@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 19:17:05 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/06/29 18:15:36 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/01 16:31:39 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static void	update_cycles(t_game *game)
 	game->live_count = 0;
 	game->check_c = (game->check_c == MAX_CHECKS) ? 0 : game->check_c + 1;
 	game->cycle_d = game->cycle_to_die;
-	if (game->deb_state & 2)
-		ft_printf("  cycle_d: %i\n", game->cycle_d);
 }
 
 static int	is_end(t_game *game)
