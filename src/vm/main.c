@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 18:14:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/01 18:04:21 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:17:01 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int				main(int argc, char **argv)
 	if (!game.nbr_champs)
 	{
 		free_game(&game);
-		return (vm_catch_error(US_ERROR, NULL));
+		return (0);
 	}
 	end = (!game.nbr_cycle) ? 1 : 0;
 	while (!end || game.visu)

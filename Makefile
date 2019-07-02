@@ -6,7 +6,7 @@
 #    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/07/02 13:27:32 by allefebv         ###   ########.fr        #
+#    Updated: 2019/07/02 16:26:01 by allefebv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ VM_SRC		=	$(addprefix src/vm/, main.c init_corewar.c process.c instructions.c	\
 DIS_SRC		=	$(addprefix src/dis/, main.c decode.c dis_decode_utils.c			\
 		 	dis_gen_utils.c dis_error_utils.c dis_multi_utils.c vm_visu_utils.c		\
 		 	dis_parser_util_sub.c dis_parser_utils.c dis_source_parser.c			\
-		 	dis_visu_extr.c vm_visu_output.c dis_free.c)
+		 	dis_visu_extr.c vm_visu_output.c dis_free.c util.c)
 
 VM_INST_SRC	=	$(addprefix src/vm/instructions/, inst01_live.c inst02_ld.c			\
 			inst03_st.c inst04_add.c inst05_sub.c inst06_and.c inst07_or.c			\

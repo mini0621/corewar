@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 13:23:27 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:24:06 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # define CLR_GREEN  "\x1b[32m"
 # define CLR_YEL  "\x1b[33m"
 # define KWTH	"\x1B[0m"
-# define OPCODE_IS_VALID(x)	(16 > (uint32_t)((x) - 1))
-# define REG_IS_VALID(x) (REG_NUMBER > (uint32_t)((x) - 1))
 
 # include "libftprintf.h"
 # include "op.h"
@@ -370,6 +368,8 @@ void						dis_init_visu(t_dis_game *game
 							, t_visu *visu, int pl_num);
 int							free_all(t_dis_game *game);
 void						del_store(void *content, size_t size);
+int							opcode_is_valid(t_uc x);
+int							reg_is_valid(int x);
 
 typedef enum				e_errors
 {

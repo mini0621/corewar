@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 12:45:04 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/02 16:25:37 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int			dis_extract_instr_data(t_single_instr *instr
 	instr->args[index].data_dump = dis_sub_extract(instr->args[index].size
 			, instr->new_pc, 1);
 	if (REG_CODE == instr->args[index].type
-			&& !REG_IS_VALID(instr->args[index].data_dump))
+			&& !reg_is_valid(instr->args[index].data_dump))
 		return (0);
 	return (1);
 }
@@ -119,7 +119,7 @@ t_single_instr		*dis_decode_handler(t_ocp *pc)
 	t_din			bcode;
 	t_single_instr	*instr;
 
-	if (!OPCODE_IS_VALID(*pc))
+	if (!opcode_is_valid(*pc))
 		return (0);
 	if (!(instr = (t_single_instr *)malloc(sizeof(*instr))))
 		return (0);
