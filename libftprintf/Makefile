@@ -6,7 +6,7 @@
 #    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/26 16:25:12 by mnishimo          #+#    #+#              #
-#    Updated: 2019/07/01 11:26:07 by sunakim          ###   ########.fr        #
+#    Updated: 2019/07/02 13:27:52 by allefebv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libftprintf.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
 
 INCLUDES = includes
 HEADER = $(addprefix includes/, libftprintf.h ft_avl.h)

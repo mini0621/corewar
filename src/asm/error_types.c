@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:58:29 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/26 17:57:59 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/07/02 13:37:02 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	command_error(t_pos *pos, t_tkn *tkn, t_errors error)
 void	input_error(t_pos *pos, t_errors error)
 {
 	if (error == e_usage)
-		ft_printf("\e[037musage : ./asm 'sourcefile.s'\n\e[0m");
+		ft_printf("\e[1m\e[037musage : ./asm 'sourcefile.s'\n\e[0m");
 	else if (error == e_empty_file)
 		ft_printf("\e[1m\e[031merror: \e[037mfile is empty\n\e[0m");
 	else

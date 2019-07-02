@@ -6,7 +6,7 @@
 #    By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/30 13:41:26 by mnishimo          #+#    #+#              #
-#    Updated: 2019/07/02 10:38:11 by mnishimo         ###   ########.fr        #
+#    Updated: 2019/07/02 13:27:32 by allefebv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ DIS_NAME	=	disassembler
 LIBFT		=	libftprintf.a
 OBJ_DIR		=	obj
 
-CC			=	gcc -g
+CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
 
 RM			=	rm -rf
