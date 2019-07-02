@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 08:07:05 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/02 10:49:59 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define CLR_RED  "\x1b[31m"
 # define CLR_GREEN  "\x1b[32m"
 # define CLR_YEL  "\x1b[33m"
+# define KWTH	"\x1B[0m"
 # define OPCODE_IS_VALID(x)	(16 > (uint32_t)((x) - 1))
 # define REG_IS_VALID(x) (REG_NUMBER > (uint32_t)((x) - 1))
 

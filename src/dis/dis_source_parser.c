@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 04:18:40 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 09:41:03 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/02 10:36:28 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,14 @@ static unsigned int		dis_save_prog_size(int *fd)
 	return (prog_size);
 }
 
-static void				dis_pri_processor(char *file, int pv_number
+static int				dis_free_error(t_file *file, int flag, int fd)
+{
+	free(file);
+	close(fd);
+	return (flag);
+}
+
+static int				dis_pri_processor(char *file, int pv_number
 						, t_file *champ, t_dis_game *game)
 {
 	char				*tmp;
@@ -44,7 +51,7 @@ static void				dis_pri_processor(char *file, int pv_number
 	if (!(str = ft_strjoin(tmp, ".s")))
 	{
 		ft_strdel(&tmp);
-		return ;
+		return (0);
 	}
 	ft_strdel(&tmp);
 	champ->output_file = str;
@@ -55,6 +62,7 @@ static void				dis_pri_processor(char *file, int pv_number
 	game->file[pv_number] = champ;
 	(game->pv_number)++;
 	(game->nbr_champs)++;
+	return (1);
 }
 
 int						dis_source_parser(int fd, char *file
@@ -62,25 +70,24 @@ int						dis_source_parser(int fd, char *file
 {
 	t_file			*new;
 
-	if (game->pv_number < MAX_PLAYERS)
-	{
-		if (!(new = (t_file *)malloc(sizeof(t_file))))
-			return (-2);
-		if (!(fd = dis_verify_magic(fd)))
-			return (-1);
-		if ((read(fd, new->name
-						, sizeof(unsigned char) * PROG_NAME_LENGTH)) < 0)
-			return (-2);
-		if ((lseek(fd, 136, SEEK_SET)) < 0)
-			return (-2);
-		if (!(new->prog_size = dis_save_prog_size(&fd)))
-			return (-2);
-		if ((read(fd, new->comment
-						, sizeof(unsigned char) * COMMENT_LENGTH)) < 0)
-			return (-2);
-		new->fd = fd;
-		dis_pri_processor(file, game->pv_number, new, game);
-		return (1);
-	}
-	return (-4);
+	if (game->pv_number >= MAX_PLAYERS)
+		return (-4);
+	if (!(new = (t_file *)malloc(sizeof(t_file))))
+		return (-2);
+	if (!(fd = dis_verify_magic(fd)))
+		return (-1);
+	if ((read(fd, new->name
+					, sizeof(unsigned char) * PROG_NAME_LENGTH)) < 0)
+		return (dis_free_error(new, -2, fd));
+	if ((lseek(fd, 136, SEEK_SET)) < 0)
+		return (dis_free_error(new, -2, fd));
+	if (!(new->prog_size = dis_save_prog_size(&fd)))
+		return (dis_free_error(new, -2, fd));
+	if ((read(fd, new->comment
+					, sizeof(unsigned char) * COMMENT_LENGTH)) < 0)
+		return (dis_free_error(new, -2, fd));
+	new->fd = fd;
+	if (!dis_pri_processor(file, game->pv_number, new, game))
+		return (dis_free_error(new, -2, fd));
+	return (1);
 }
