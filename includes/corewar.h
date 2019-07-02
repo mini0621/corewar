@@ -3,17 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   corewar.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2019/07/01 17:34:49 by allefebv         ###   ########.fr       */
+=======
 /*   Updated: 2019/07/01 17:54:25 by mndhlovu         ###   ########.fr       */
+>>>>>>> 69336650ba779cff703047d02402068bed53c832
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COREWAR_H
 # define COREWAR_H
 
-# define BUFF_SIZE_COR 10
+# define BUFF_SIZE_COR 2048
 # define OP_TAB_ASM_SIZE 16
 # define NB_TKN_TYPES 11
 # define SPACE_CHAR " \t\v\f\r"
@@ -442,7 +446,6 @@ typedef struct				s_pos
 	int			buf_pos;
 	int			size_buf;
 	int			tab_counter;
-	int			nb_tab;
 	int			lc_inst;
 	int			lc_tkn;
 	int			dir_bytes;

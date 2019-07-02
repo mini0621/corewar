@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/13 13:48:45 by allefebv          #+#    #+#             */
-/*   Updated: 2019/06/25 16:12:16 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/07/01 17:29:37 by allefebv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	ft_move_positions(t_pos *pos, t_tkn *tkn)
 	if (pos->tmp_buf[pos->buf_pos] == '\t')
 	{
 		pos->file_col = pos->file_col + 8 - pos->tab_counter;
-		pos->nb_tab++;
 		pos->tab_counter = 0;
 	}
 	else
