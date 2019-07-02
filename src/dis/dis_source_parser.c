@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 04:18:40 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 12:50:11 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/02 13:35:18 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int						dis_source_parser(int fd, char *file
 	if (!(new = (t_file *)malloc(sizeof(t_file))))
 		return (-2);
 	if (!(fd = dis_verify_magic(fd)))
-		return (-1);
+		return (dis_free_error(new, -1, fd));
 	if ((read(fd, new->name
 					, sizeof(unsigned char) * PROG_NAME_LENGTH)) < 0)
 		return (dis_free_error(new, -2, fd));
