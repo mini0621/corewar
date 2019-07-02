@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_display.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sunakim <sunakim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 14:42:46 by allefebv          #+#    #+#             */
-/*   Updated: 2019/07/01 11:54:46 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/07/02 11:27:38 by sunakim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	print_line_or_msg(t_pos *pos, t_tkn *tkn, char *msg, char type)
 	{
 		if (msg && ft_strstr(msg, "too"))
 		{
-				ft_printf("\e[0m\n");
+			ft_printf("\e[0m\n");
 			return ;
 		}
 		i = -1;
