@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 10:12:45 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 12:09:51 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:16:27 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ int		free_all(t_dis_game *game)
 		free(game->file[i]);
 		i++;
 	}
+	ft_lstdel(&(game->store), &del_store);
 	return (0);
 }
