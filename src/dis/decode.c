@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 18:06:40 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 12:01:35 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:45:04 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_opdis				g_opa_tab[17] =
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0}
 };
 
-static int32_t		dis_sub_extract(size_t bytes, t_ocp *pc, int endian_mode)
+static int32_t		dis_sub_extract(size_t bytes
+					, t_ocp *pc, int endian_mode)
 {
 	t_ocp			value[4];
 	size_t			index;

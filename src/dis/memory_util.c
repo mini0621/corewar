@@ -6,11 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/31 21:13:21 by mnishimo          #+#    #+#             */
-<<<<<<< HEAD:srcs/memory_util.c
-/*   Updated: 2019/06/20 07:08:10 by mndhlovu         ###   ########.fr       */
-=======
 /*   Updated: 2019/07/01 12:04:56 by mndhlovu         ###   ########.fr       */
->>>>>>> master:src/vm/memory_util.c
 /*                                                                            */
 /* ************************************************************************** */
 

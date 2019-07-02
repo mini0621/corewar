@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 04:18:40 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 12:11:18 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:50:11 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int						dis_source_parser(int fd, char *file
 {
 	t_file			*new;
 
-	if (game->pv_number >= MAX_PLAYERS)
+	if (game->pv_number != 0)
 		return (-4);
 	if (!(new = (t_file *)malloc(sizeof(t_file))))
 		return (-2);

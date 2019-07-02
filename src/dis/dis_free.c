@@ -6,13 +6,13 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 10:12:45 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 12:16:27 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:47:40 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void	del_inst(void *content, size_t size)
+static void			del_inst(void *content, size_t size)
 {
 	t_instr_node	*nd;
 
@@ -23,7 +23,7 @@ static void	del_inst(void *content, size_t size)
 	free(nd);
 }
 
-void	del_store(void *content, size_t size)
+void				del_store(void *content, size_t size)
 {
 	t_inst_store	*nd;
 
@@ -34,9 +34,9 @@ void	del_store(void *content, size_t size)
 	free(nd);
 }
 
-int		free_all(t_dis_game *game)
+int					free_all(t_dis_game *game)
 {
-	int		i;
+	int				i;
 
 	free(game->visu);
 	i = 0;

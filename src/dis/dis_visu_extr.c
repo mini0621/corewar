@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 14:15:14 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 11:35:08 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:51:32 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void					dis_print_node(t_visu *win, t_dis_game *game)
 	wattron(win->out_win, (COLOR_PAIR(9) | A_BOLD));
 	while (inst)
 	{
-		mvwprintw(win->out_win, 5 + index, 2, "%s",((t_inst_store *)(inst->content))->instr);
+		mvwprintw(win->out_win, 5 + index, 2, "%s"
+				, ((t_inst_store *)(inst->content))->instr);
 		inst = inst->next;
 		index++;
 	}
@@ -48,6 +49,6 @@ void					dis_debug(t_dis_game *game, int p_num)
 		inst = inst->next;
 		index++;
 	}
-	ft_printf("%sEND OF PLAYER FILE: %s\n"
-			, CLR_RED, game->file[p_num]->file_name);
+	ft_printf("%sEND OF PLAYER FILE: %s%s\n"
+			, CLR_RED, game->file[p_num]->file_name, KWTH);
 }

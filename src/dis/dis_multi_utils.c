@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/20 07:06:46 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 12:01:37 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:49:11 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int						dis_multi_util(t_dis_game *game, int p_num)
 		if (!(new_node.instr = dis_decode_handler(cp_dump)))
 			return (0);
 		cp_dump = new_node.instr->new_pc;
-		ft_lstpushback(&(game->file[p_num]->instr_nodes), ft_lstnew(&new_node, sizeof(t_instr_node)));
+		ft_lstpushback(&(game->file[p_num]->instr_nodes)
+				, ft_lstnew(&new_node, sizeof(t_instr_node)));
 	}
 	free(raw_dump);
 	return (1);

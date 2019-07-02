@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 12:11:40 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 13:18:30 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,7 +345,8 @@ void						deb_32_log(t_game *game, t_inst *inst,
 void						deb_64_log(t_game *game, t_inst *inst,
 							t_process *caller, int p_id);
 
-int							dis_source_parser(int fd, char *file, t_dis_game *game);
+int							dis_source_parser(int fd, char *file
+							, t_dis_game *game);
 int							dis_catch_error(int flag, char *av);
 int							dis_multi_util(t_dis_game *game, int p_num);
 int16_t						dis_endian_convert_16(int16_t val);

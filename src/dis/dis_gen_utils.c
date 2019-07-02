@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 08:29:22 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 12:09:36 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:48:37 by mndhlovu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,5 @@ int						dis_write_output(t_dis_game *game, int p_num)
 		return (dis_catch_error(IO_ERROR, game->file[p_num]->output_file));
 	ft_printf("%s File successfully created\n"
 			, game->file[p_num]->output_file);
-	//ft_lstdel(&(game->store), &del_store);
-	//game->store = NULL;
 	return (1);
 }
