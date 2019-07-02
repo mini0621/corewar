@@ -6,7 +6,7 @@
 /*   By: allefebv <allefebv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/27 17:51:52 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 08:07:05 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:08:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ typedef struct				s_instr_node
 {
 	t_uc					pos;
 	t_single_instr			*instr;
-	struct s_instr_node		*next;
 }							t_instr_node;
 
 typedef struct				s_file
@@ -155,7 +154,7 @@ typedef struct				s_file
 	char					comment[COMMENT_LENGTH + 1];
 	int						dis_state;
 	int						col;
-	t_instr_node			*instr_nodes;
+	t_list					*instr_nodes;
 	unsigned char			*raw_dump;
 	int						fd;
 	unsigned int			prog_size;
@@ -167,13 +166,12 @@ typedef struct				s_inst_store
 {
 	int						size;
 	char					*instr;
-	struct s_inst_store		*next;
 }							t_inst_store;
 
 typedef	struct				s_dis_game
 {
 	t_file					*file[MAX_PLAYERS + 1];
-	t_inst_store			*store;
+	t_list					*store;
 	t_visu					*visu;
 	t_ucc					dismemdump[CHAMP_MAX_SIZE];
 	int						nbr_champs;
@@ -368,6 +366,8 @@ void						dis_visu_launcher(t_dis_game *game
 							, t_visu *visu, int p_num);
 void						dis_init_visu(t_dis_game *game
 							, t_visu *visu, int pl_num);
+int							free_all(t_dis_game *game);
+void						del_store(void *content, size_t size);
 
 typedef enum				e_errors
 {

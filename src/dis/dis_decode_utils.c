@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 13:04:30 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 10:57:13 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/07/02 11:36:10 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,13 @@
 
 static int				dis_append_str_instr(t_dis_game *game, char *instr)
 {
-	t_inst_store		*new;
-	t_inst_store		*cur;
+	t_inst_store		new;
 
-	if (!(new = (t_inst_store *)malloc(sizeof(t_inst_store))))
+	ft_bzero(&new, sizeof(t_inst_store));
+	new.size = ft_strlen(instr);
+	new.instr = instr;
+	if (!ft_lstpushback(&(game->store), ft_lstnew(&new, sizeof(t_inst_store))))
 		return (0);
-	new->size = ft_strlen(instr);
-	new->instr = instr;
-	new->next = NULL;
-	if (game->store == NULL)
-		game->store = new;
-	else
-	{
-		cur = game->store;
-		while (cur->next)
-			cur = cur->next;
-		cur->next = new;
-	}
 	(game->length)++;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 08:29:22 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 08:48:13 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/02 12:09:36 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void					dis_sub_handler(t_dis_game *game, int p_num)
 {
-	t_instr_node		*node;
-	int					index;
+	t_list		*node;
+	int			index;
 
 	node = game->file[p_num]->instr_nodes;
 	index = 0;
@@ -23,7 +23,7 @@ void					dis_sub_handler(t_dis_game *game, int p_num)
 	{
 		while (node)
 		{
-			dis_get_instr(game, node);
+			dis_get_instr(game, (t_instr_node *)(node->content));
 			node = node->next;
 			index++;
 		}
@@ -34,7 +34,7 @@ void					dis_sub_handler(t_dis_game *game, int p_num)
 int						dis_write_output(t_dis_game *game, int p_num)
 {
 	int					fd;
-	t_inst_store		*inst;
+	t_list				*inst;
 
 	if (!(inst = game->store))
 		return (0);
@@ -45,12 +45,14 @@ int						dis_write_output(t_dis_game *game, int p_num)
 	ft_dprintf(fd, ".comment\t\"%s\"\n\n", game->file[p_num]->comment);
 	while (inst)
 	{
-		ft_dprintf(fd, "%s", inst->instr);
+		ft_dprintf(fd, "%s", ((t_inst_store *)(inst->content))->instr);
 		inst = inst->next;
 	}
 	if ((fd = close(fd)) < 0)
 		return (dis_catch_error(IO_ERROR, game->file[p_num]->output_file));
 	ft_printf("%s File successfully created\n"
 			, game->file[p_num]->output_file);
+	//ft_lstdel(&(game->store), &del_store);
+	//game->store = NULL;
 	return (1);
 }
