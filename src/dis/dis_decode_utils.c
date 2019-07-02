@@ -6,7 +6,7 @@
 /*   By: mndhlovu <mndhlovu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 13:04:30 by mndhlovu          #+#    #+#             */
-/*   Updated: 2019/07/02 08:43:36 by mndhlovu         ###   ########.fr       */
+/*   Updated: 2019/07/02 10:57:13 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,21 @@ static int				dis_append_str_instr(t_dis_game *game, char *instr)
 static void				dis_get_inst_util(t_instr_node *node
 						, char **str, int index)
 {
+	char	*tmp;
+
+	tmp = ft_itoa(node->instr->args[index].data_dump);
 	if (T_REG == node->instr->args[index].type)
 	{
 		*str = ft_strcat(*str, "r");
-		*str = ft_strcat(*str, ft_itoa(node->instr->args[index].data_dump));
+		*str = ft_strcat(*str, tmp);
 	}
 	else if (T_DIR == node->instr->args[index].type)
 	{
 		*str = ft_strcat(*str, "%");
-		*str = ft_strcat(*str, ft_itoa(node->instr->args[index].data_dump));
+		*str = ft_strcat(*str, tmp);
 	}
 	else
-		*str = ft_strcat(*str, ft_itoa(node->instr->args[index].data_dump));
+		*str = ft_strcat(*str, tmp);
 	if (index + 1 == node->instr->op->nb_args)
 	{
 		*str = ft_strcat(*str, "\t\t#");
@@ -58,6 +61,7 @@ static void				dis_get_inst_util(t_instr_node *node
 	}
 	else
 		*str = ft_strcat(*str, ", ");
+	free(tmp);
 }
 
 int						dis_get_instr(t_dis_game *game, t_instr_node *node)
