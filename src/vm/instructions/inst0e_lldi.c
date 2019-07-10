@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 20:44:18 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/07/02 15:28:11 by allefebv         ###   ########.fr       */
+/*   Updated: 2019/07/10 15:30:37 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void			inst_lldi(t_game *game, t_process *caller, t_inst *inst)
 	if (!(i = get_arg(caller, game->memdump, &(inst->args[1]), 0)))
 		return ;
 	res += (short)*i;
-	ind = access_ptr(game->memdump, caller->pc, (int)res % IDX_MOD);
+	ind = access_ptr(game->memdump, caller->pc, (int)res);
 	if (!(i = get_arg(caller, game->memdump, &(inst->args[2]), 1)))
 		return ;
 	read_dump(game->memdump, ind, i, REG_SIZE);
