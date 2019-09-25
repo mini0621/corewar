@@ -18,3 +18,28 @@ corewar is an arena vm, where .cor binary files fights against each other inside
 #### champion
 our champion, infinite_zorkling.
 
+
+##### bornus
+assembler error messages
+vm debug mode
+vm visualizer
+disassembler 
+disassembler visualizer
+
+## requirements
+ncurses for visualizer
+
+## usage
+```
+make
+./asm .s
+./corewar 
+```
+
+
+
+## author
+[Alblfbv](https://github.com/Alblfbv)
+[Mthandazo42](https://github.com/Mthandazo42)
+[sunca7](https://github.com/sunca7)
+[mini0621](https://github.com/mini0621)
