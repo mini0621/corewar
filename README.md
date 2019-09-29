@@ -15,12 +15,12 @@ asm is an assembly compiler which compiles a champion from .s file to .cor file.
 
 #### corewar
 corewar is an arena vm, where .cor binary files fights against each other inside the memory of 4096 bytes.
-
+  
 #### champion
 our champion, infinite_zorkling.
 
 
-##### bornus
+#### bornus
 assembler error messages  
 vm debug mode  
 vm visualizer  
@@ -28,7 +28,7 @@ disassembler
 disassembler visualizer  
 
 ## Requirements
-ncurses for visualizer  
+ncurses for visualizer   
 
 ## Usage
 ```
