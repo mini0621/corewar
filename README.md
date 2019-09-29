@@ -1,12 +1,12 @@
-# corewar
+# Corewar
 42 project corewar
 
-"Core War is a 1984 programming game created by D. G. Jones and A. K. Dewdney in which two or more battle programs (called "warriors") compete for control of a virtual computer. These battle programs are written in an abstract assembly language called Redcode."
+"Core War is a 1984 programming game created by D. G. Jones and A. K. Dewdney in which two or more battle programs (called "warriors") compete for control of a virtual computer. These battle programs are written in an abstract assembly language called Redcode."  
 [wikipedia](https://en.wikipedia.org/wiki/Core_War)
 
 <img src="https://github.com/mini0621/corewar/blob/master/media/corewar.gif" width="80%">
 
-## description
+## Description
 the 42 corewar project includes assembly compiler, arena vm, and a champion.
 
 #### asm
@@ -21,16 +21,16 @@ our champion, infinite_zorkling.
 
 
 ##### bornus
-assembler error messages
-vm debug mode
-vm visualizer
-disassembler 
-disassembler visualizer
+assembler error messages  
+vm debug mode  
+vm visualizer  
+disassembler   
+disassembler visualizer  
 
-## requirements
-ncurses for visualizer
+## Requirements
+ncurses for visualizer  
 
-## usage
+## Usage
 ```
 make
 usage: ./asm 'sourcefile.s
@@ -60,8 +60,8 @@ your_champion.cor: Champion compiled with the asm
 
 
 
-## author
-[Alblfbv](https://github.com/Alblfbv)
-[Mthandazo42](https://github.com/Mthandazo42)
-[sunca7](https://github.com/sunca7)
-[mini0621](https://github.com/mini0621)
+## Author
+[Alblfbv](https://github.com/Alblfbv)  
+[Mthandazo42](https://github.com/Mthandazo42)  
+[sunca7](https://github.com/sunca7)  
+[mini0621](https://github.com/mini0621)  
