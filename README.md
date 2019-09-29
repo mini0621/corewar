@@ -5,7 +5,7 @@
 [wikipedia](https://en.wikipedia.org/wiki/Core_War)
 
 
-![corewar_infinite_zorkling_vs_car](https://github.com/mini0621/corewar/media/corewar.gif)
+![corewar_infinite_zorkling_vs_car](https://github.com/mini0621/corewar/blob/master/media/corewar.gif)
 
 ## description
 the 42 corewar project includes assembly compiler, arena vm, and a champion.
