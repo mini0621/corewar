@@ -4,8 +4,7 @@
 "Core War is a 1984 programming game created by D. G. Jones and A. K. Dewdney in which two or more battle programs (called "warriors") compete for control of a virtual computer. These battle programs are written in an abstract assembly language called Redcode."
 [wikipedia](https://en.wikipedia.org/wiki/Core_War)
 
-
-![corewar_infinite_zorkling_vs_car](https://github.com/mini0621/corewar/blob/master/media/corewar.gif)
+<img src="https://github.com/mini0621/corewar/blob/master/media/corewar.gif" width="80%">
 
 ## description
 the 42 corewar project includes assembly compiler, arena vm, and a champion.
