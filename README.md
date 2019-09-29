@@ -5,6 +5,8 @@
 [wikipedia](https://en.wikipedia.org/wiki/Core_War)
 
 
+![corewar_infinite_zorkling_vs_car](https://github.com/mini0621/corewar/media/corewar.gif)
+
 ## description
 the 42 corewar project includes assembly compiler, arena vm, and a champion.
 
@@ -32,8 +34,29 @@ ncurses for visualizer
 ## usage
 ```
 make
-./asm .s
-./corewar 
+usage: ./asm 'sourcefile.s
+
+Usage:./corewar [-d N]  [-v] [-de N] [-n N] <champion1.cor> <...>
+### CONTESTANT ######################################################
+your_champion.cor: Champion compiled with the asm
+-n (0 < N < INTMAX)    :  Set champion number for the next champion
+### DUMP ############################################################
+-dump (0 < N < ULLMAX) :  Dumps memory after N cycles then exits
+### DEBUG OUTPUT MODE ###############################################
+-de (0 < N < INTMAX)  1:  cycle number
+                      2:  death logs
+                      4:  live logs
+                      8:  load logs
+                     16:  store logs
+                     32:  logical op logs
+                     64:  jump, fork logs
+### PRINT OFF MODE ##################################################
+-p                   1 :  live comment off
+                     2 :  aff comment off
+                     3 :  all comment off
+### VISUAL MODE #####################################################
+-v                   Ncurses visualizer mode
+#####################################################################
 ```
 
 
